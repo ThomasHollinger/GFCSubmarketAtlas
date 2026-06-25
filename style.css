@@ -1,0 +1,61 @@
+:root {
+  --navy: #1f3145;
+  --blue: #2f6f9f;
+  --light: #f4f6f8;
+  --border: #d9dee5;
+  --text: #17202a;
+  --muted: #65717f;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; margin: 0; }
+body { font-family: Arial, Helvetica, sans-serif; color: var(--text); background: var(--light); }
+
+#app { display: flex; width: 100%; }
+#sidebar {
+  width: 360px;
+  min-width: 320px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 18px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+#mapWrap { flex: 1; position: relative; }
+#map { width: 100%; height: 100%; }
+
+.brand { border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 16px; }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--blue); font-weight: bold; }
+h1 { font-size: 26px; line-height: 1.05; margin: 6px 0; color: var(--navy); }
+.version { font-size: 13px; color: var(--muted); }
+
+.panel { border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fff; }
+.panel h2 { font-size: 15px; margin: 0 0 10px; color: var(--navy); }
+.search-row { display: flex; gap: 8px; }
+input { flex: 1; padding: 9px; border: 1px solid var(--border); border-radius: 7px; }
+button { padding: 9px 12px; border: 0; border-radius: 7px; background: var(--blue); color: white; cursor: pointer; }
+button:hover { filter: brightness(.95); }
+.check { display: block; margin: 8px 0; color: var(--text); }
+.details { font-size: 14px; line-height: 1.5; }
+.muted { color: var(--muted); }
+.metric { display: flex; justify-content: space-between; border-bottom: 1px solid #eef1f4; padding: 6px 0; gap: 10px; }
+.metric span:first-child { color: var(--muted); }
+.metric span:last-child { font-weight: bold; text-align: right; }
+.pill { display: inline-block; margin: 3px; padding: 5px 8px; border-radius: 999px; background: #eef5fa; color: var(--blue); font-size: 12px; }
+
+.leaflet-tooltip.submarket-label {
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(0,0,0,.15);
+  color: #1f3145;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 3px 5px;
+  box-shadow: none;
+}
+
+@media (max-width: 800px) {
+  #app { flex-direction: column; }
+  #sidebar { width: 100%; height: 42%; border-right: 0; border-bottom: 1px solid var(--border); }
+  #mapWrap { height: 58%; }
+}

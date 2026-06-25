@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enterprise Web GIS v1</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="brand">
+        <div class="eyebrow">Enterprise Market Intelligence</div>
+        <h1>Submarket Atlas</h1>
+        <div class="version">Web GIS v1.0</div>
+      </div>
+
+      <section class="panel">
+        <h2>Search</h2>
+        <div class="search-row">
+          <input id="searchInput" type="text" placeholder="Search name or SM-##" />
+          <button id="searchButton">Go</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Layers</h2>
+        <label class="check"><input type="checkbox" id="toggleSubmarkets" checked /> Enterprise Submarkets</label>
+        <label class="check"><input type="checkbox" id="toggleLabels" checked /> Submarket Labels</label>
+        <label class="check"><input type="checkbox" id="toggleSchools" checked /> Schools Placeholder</label>
+      </section>
+
+      <section class="panel" id="detailPanel">
+        <h2>Selected Submarket</h2>
+        <div id="details" class="details muted">Click a submarket to view details.</div>
+      </section>
+
+      <section class="panel">
+        <h2>Next Layers</h2>
+        <div class="pill">Schools</div>
+        <div class="pill">Demographics</div>
+        <div class="pill">Builders</div>
+        <div class="pill">Retail</div>
+      </section>
+    </aside>
+
+    <main id="mapWrap">
+      <div id="map"></div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
