@@ -1,0 +1,14 @@
+{
+  "appName": "Enterprise Submarket Atlas",
+  "version": "2.0.0",
+  "releaseDate": "2026-06-25",
+  "source": "Enterprise Active Boundaries-26.06.25.kml",
+  "sourcePlacemarkPolygonFeatures": 33,
+  "sourcePolygonElements": 33,
+  "uniqueSubmarketsLoaded": 32,
+  "corrections": [
+    "Display name corrected from Egland AFB to Eglin AFB",
+    "Duplicate Bay County Submarket 1 placemarks merged into one MultiPolygon feature"
+  ],
+  "notes": "The latest source KML contains 32 unique cleaned submarket names after merging duplicate placemarks."
+}

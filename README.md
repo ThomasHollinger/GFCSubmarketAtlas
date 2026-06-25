@@ -1,35 +1,18 @@
-# Enterprise Web GIS v1.0
+# Enterprise Submarket Atlas
 
-This is a lightweight custom web GIS for the Enterprise Submarket Atlas.
+Release v2.0.0 foundation build for the GFCSubmarketAtlas GitHub Pages site.
 
-## What is included
+## Upload instructions
 
-- Interactive browser map
-- 31 Enterprise submarkets
-- Clickable submarket popups
-- Search by submarket ID or name
-- Submarket details side panel
-- Layer toggles
-- Basemap choices
-- Placeholder structure for future school, demographic, builder, retail, and environmental layers
+1. Delete or replace the current files in the GitHub repository root.
+2. Upload everything from this release folder, preserving the folder structure.
+3. Commit changes.
+4. GitHub Pages will refresh automatically.
 
-## How to view locally
+## Release highlights
 
-Open `index.html` in a browser. If your browser blocks local GeoJSON loading, host the folder on GitHub Pages, Netlify, or Vercel.
-
-## Recommended hosting
-
-1. Create a free GitHub account.
-2. Create a repository named `enterprise-web-gis`.
-3. Upload all files in this folder.
-4. Turn on GitHub Pages for the repository.
-5. Share the resulting web URL with your team.
-
-## Data structure
-
-- `data/submarkets.geojson` is the authoritative submarket layer for the app.
-- `data/schools.geojson` is a placeholder and will be populated in the School Intelligence phase.
-
-## Version
-
-Enterprise Web GIS v1.0
+- Rebuilt as a modular web application.
+- Corrected display name: Egland AFB -> Eglin AFB.
+- Merged duplicate Bay County Submarket 1 placemarks into one MultiPolygon feature.
+- Added validation report and metadata.
+- Added professional sidebar, search, dashboard panel, layer toggles, and basemap selector.

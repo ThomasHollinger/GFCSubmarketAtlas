@@ -1,56 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enterprise Web GIS v1</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enterprise Submarket Atlas</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="app">
-    <aside id="sidebar">
+  <div class="app-shell">
+    <aside class="sidebar">
       <div class="brand">
-        <div class="eyebrow">Enterprise Market Intelligence</div>
-        <h1>Submarket Atlas</h1>
-        <div class="version">Web GIS v1.0</div>
-      </div>
-
-      <section class="panel">
-        <h2>Search</h2>
-        <div class="search-row">
-          <input id="searchInput" type="text" placeholder="Search name or SM-##" />
-          <button id="searchButton">Go</button>
+        <div class="brand-mark">ESA</div>
+        <div>
+          <h1>Enterprise Submarket Atlas</h1>
+          <p>Market intelligence foundation</p>
         </div>
-      </section>
-
-      <section class="panel">
+      </div>
+      <div class="control-block">
+        <label for="searchInput">Search submarket</label>
+        <div class="search-row">
+          <input id="searchInput" type="search" placeholder="Name or SM-##">
+          <button id="searchBtn">Go</button>
+        </div>
+      </div>
+      <div class="control-block">
         <h2>Layers</h2>
-        <label class="check"><input type="checkbox" id="toggleSubmarkets" checked /> Enterprise Submarkets</label>
-        <label class="check"><input type="checkbox" id="toggleLabels" checked /> Submarket Labels</label>
-        <label class="check"><input type="checkbox" id="toggleSchools" checked /> Schools Placeholder</label>
-      </section>
-
-      <section class="panel" id="detailPanel">
+        <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
+        <label class="check disabled"><input type="checkbox" disabled> Schools <span>coming soon</span></label>
+        <label class="check disabled"><input type="checkbox" disabled> Demographics <span>coming soon</span></label>
+        <label class="check disabled"><input type="checkbox" disabled> Builders <span>coming soon</span></label>
+      </div>
+      <div class="control-block">
         <h2>Selected Submarket</h2>
-        <div id="details" class="details muted">Click a submarket to view details.</div>
-      </section>
-
-      <section class="panel">
-        <h2>Next Layers</h2>
-        <div class="pill">Schools</div>
-        <div class="pill">Demographics</div>
-        <div class="pill">Builders</div>
-        <div class="pill">Retail</div>
-      </section>
+        <div id="selectedPanel" class="selected-panel empty">
+          <p>Click a submarket on the map or use search.</p>
+        </div>
+      </div>
+      <div class="control-block small">
+        <h2>Release</h2>
+        <div id="releasePanel">Loading validation...</div>
+      </div>
     </aside>
-
-    <main id="mapWrap">
+    <main class="map-area">
+      <header class="topbar">
+        <div>
+          <strong>Foundation Release v2.0</strong>
+          <span id="statusText">Loading atlas...</span>
+        </div>
+        <div class="top-actions">
+          <select id="basemapSelect" aria-label="Basemap">
+            <option value="light">Light</option>
+            <option value="streets">Streets</option>
+            <option value="topo">Topo</option>
+          </select>
+          <button id="resetBtn">Reset View</button>
+        </div>
+      </header>
       <div id="map"></div>
     </main>
   </div>
-
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
