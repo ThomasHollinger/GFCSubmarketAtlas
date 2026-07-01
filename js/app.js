@@ -263,7 +263,7 @@ function renderSchoolCountCard(counts, scoreSummary = null) {
     return `<div class="school-count-card"><b>Public Schools</b><br>${counts.total} total • ${counts.Elementary} elem • ${counts.Middle} middle • ${counts.High} high</div>`;
   }
   return `<div class="school-score-card">
-    <div class="score-head"><b>School Intelligence</b><span class="score-grade grade-${gradeForScore(scoreSummary.overall)}">${gradeForScore(scoreSummary.overall)}</span></div>
+    <div class="score-head"><b>School Rating</b><span class="score-grade grade-${gradeForScore(scoreSummary.overall)}">${gradeForScore(scoreSummary.overall)}</span></div>
     <div class="overall-score"><span>${fmtScore(scoreSummary.overall)}</span><small>/10 Overall • ${scoreSummary.count} schools</small></div>
     <div class="score-breakdown">
       <div><span>Elementary</span><b>${fmtScore(scoreSummary.elementary)}</b><small>${scoreSummary.elementaryCount}</small></div>
@@ -383,7 +383,7 @@ function renderSelected(p) {
     ${renderSchoolCountCard(counts, scoreSummary)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
-      <div class="focus-row"><span>School Intelligence</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
+      <div class="focus-row"><span>School Rating</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Demographics</span><b>Pending</b></div>
       <div class="focus-row"><span>Builder Competition</span><b>Pending</b></div>
     </div>
@@ -600,6 +600,9 @@ function bindUI() {
         setMapTheme('schools');
       } else if (state.schoolLayer) {
         state.map.removeLayer(state.schoolLayer);
+        // When the school layer is turned off, return the map to the standard Hub View.
+        document.getElementById('mapThemeSelect').value = 'hub';
+        setMapTheme('hub');
       }
     } catch (err) {
       console.error(err);

@@ -2,7 +2,7 @@
 
 ## Upcoming releases
 
-### v2.1 School Intelligence
+### v2.1 School Rating
 - Public school locations
 - School ratings/grades
 - School filters

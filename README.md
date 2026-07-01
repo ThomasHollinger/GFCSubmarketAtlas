@@ -1,12 +1,11 @@
-# Enterprise Submarket Atlas
+# Gulf Coast Submarket Atlas
 
-Custom web GIS and market intelligence platform.
+Market Intelligence Platform for Gulf Coast submarket analysis.
 
-## v2.2.2
-Adds Baldwin County school rating scorecards and a School Score Heat Map theme.
+## v2.2.4
+Branding polish release.
 
-Upload all contents of this release to the root of the GitHub repository.
-
-
-## v2.2.2 Patch
-This patch fixes the map load issue introduced in v2.2.1.
+### Changes
+- Application title updated to Gulf Coast Submarket Atlas.
+- School Intelligence renamed to School Rating.
+- No functional changes from v2.2.3.

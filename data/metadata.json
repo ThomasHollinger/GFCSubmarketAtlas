@@ -1,5 +1,5 @@
 {
-  "version": "2.2.2",
+  "version": "2.2.4",
   "releaseDate": "2026-07-01",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 45,
@@ -7,6 +7,6 @@
   "schools": "Live NCES layer enabled",
   "demographics": "Pending",
   "builders": "Pending",
-  "notes": "Patch release: fixes School Intelligence aggregate score rendering so the base map loads correctly.",
+  "notes": "Patch release: turning off the Schools layer now restores Hub View and the Hub legend.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered"
 }
