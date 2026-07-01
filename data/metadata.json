@@ -7,6 +7,6 @@
   "schools": "Live NCES layer enabled",
   "demographics": "Pending",
   "builders": "Pending",
-  "notes": "Patch release: turning off the Schools layer now restores Hub View and the Hub legend.",
+  "notes": "Branding patch: renamed atlas title and School Rating labels. Schools toggle restores Hub View and Hub legend when turned off.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered"
 }
