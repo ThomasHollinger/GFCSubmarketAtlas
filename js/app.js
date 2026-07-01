@@ -69,8 +69,34 @@ function colorForSchoolScore(score) {
   return '#d64545';
 }
 
-function scoreSummaryForSubmarket(name) {
-  const rows = schoolRatingRecords.filter(r => r.Submarket === name);
+function ratedSchoolsLocatedInSubmarket(name) {
+  if (!state.schoolsLoaded) return [];
+  return state.schools
+    .filter(s => s.properties.SubmarketName === name)
+    .filter(s => typeof s.properties.GreatSchoolsRating === 'number' && !Number.isNaN(s.properties.GreatSchoolsRating))
+    .map(s => ({
+      SchoolName: s.properties.NAME,
+      SchoolType: s.properties.RatingSchoolType || s.properties.SchoolType,
+      Rating: s.properties.GreatSchoolsRating,
+      Submarket: s.properties.SubmarketName
+    }));
+}
+
+function ratedSchoolsLocatedInFeatures(features) {
+  if (!state.schoolsLoaded) return [];
+  const ids = new Set(features.map(f => f.properties.SubmarketID));
+  return state.schools
+    .filter(s => ids.has(s.properties.SubmarketID))
+    .filter(s => typeof s.properties.GreatSchoolsRating === 'number' && !Number.isNaN(s.properties.GreatSchoolsRating))
+    .map(s => ({
+      SchoolName: s.properties.NAME,
+      SchoolType: s.properties.RatingSchoolType || s.properties.SchoolType,
+      Rating: s.properties.GreatSchoolsRating,
+      Submarket: s.properties.SubmarketName
+    }));
+}
+
+function buildScoreSummary(rows) {
   const typeRows = type => rows.filter(r => r.SchoolType === type || (type === 'Elementary' && r.SchoolType === 'K-6'));
   return {
     overall: avg(rows.map(r => r.Rating)),
@@ -85,21 +111,14 @@ function scoreSummaryForSubmarket(name) {
   };
 }
 
+function scoreSummaryForSubmarket(name) {
+  // Ratings are based on Option A: rated schools physically located inside the selected submarket polygon.
+  // Unrated schools are ignored; they are never counted as zero.
+  return buildScoreSummary(ratedSchoolsLocatedInSubmarket(name));
+}
+
 function scoreSummaryForFeatures(features) {
-  const names = new Set(features.map(f => f.properties.DisplayName));
-  const rows = schoolRatingRecords.filter(r => names.has(r.Submarket));
-  const typeRows = type => rows.filter(r => r.SchoolType === type || (type === 'Elementary' && r.SchoolType === 'K-6'));
-  return {
-    overall: avg(rows.map(r => r.Rating)),
-    elementary: avg(typeRows('Elementary').map(r => r.Rating)),
-    middle: avg(typeRows('Middle').map(r => r.Rating)),
-    high: avg(typeRows('High').map(r => r.Rating)),
-    count: rows.length,
-    elementaryCount: typeRows('Elementary').length,
-    middleCount: typeRows('Middle').length,
-    highCount: typeRows('High').length,
-    rows
-  };
+  return buildScoreSummary(ratedSchoolsLocatedInFeatures(features));
 }
 
 function fmtScore(v) {
@@ -262,14 +281,21 @@ function renderSchoolCountCard(counts, scoreSummary = null) {
     if (!state.schoolsLoaded) return `<div class="school-count-card"><b>Schools</b><br>Turn on the Schools layer to load public school points.</div>`;
     return `<div class="school-count-card"><b>Public Schools</b><br>${counts.total} total • ${counts.Elementary} elem • ${counts.Middle} middle • ${counts.High} high</div>`;
   }
+  const usedList = scoreSummary.rows && scoreSummary.rows.length ? `
+    <details class="school-used">
+      <summary>Schools used in calculation</summary>
+      ${scoreSummary.rows.slice().sort((a,b)=>a.SchoolName.localeCompare(b.SchoolName)).map(r => `<div class="school-used-row"><span>${r.SchoolName}</span><b>${r.Rating}/10</b></div>`).join('')}
+    </details>` : `
+    <div class="school-used-note">Turn on Schools to calculate ratings from school locations. Unrated schools are ignored.</div>`;
   return `<div class="school-score-card">
     <div class="score-head"><b>School Rating</b><span class="score-grade grade-${gradeForScore(scoreSummary.overall)}">${gradeForScore(scoreSummary.overall)}</span></div>
-    <div class="overall-score"><span>${fmtScore(scoreSummary.overall)}</span><small>/10 Overall • ${scoreSummary.count} schools</small></div>
+    <div class="overall-score"><span>${fmtScore(scoreSummary.overall)}</span><small>/10 Overall • ${scoreSummary.count} rated schools</small></div>
     <div class="score-breakdown">
       <div><span>Elementary</span><b>${fmtScore(scoreSummary.elementary)}</b><small>${scoreSummary.elementaryCount}</small></div>
       <div><span>Middle</span><b>${fmtScore(scoreSummary.middle)}</b><small>${scoreSummary.middleCount}</small></div>
       <div><span>High</span><b>${fmtScore(scoreSummary.high)}</b><small>${scoreSummary.highCount}</small></div>
     </div>
+    ${usedList}
   </div>`;
 }
 
