@@ -28,7 +28,7 @@ function normalizeName(name) {
   return String(name || '')
     .toLowerCase()
     .replace(/&/g, 'and')
-    .replace(/school/g, '')
+    .replace(/\bschool\b/g, '')
     .replace(/\./g, '')
     .replace(/[^a-z0-9]+/g, ' ')
     .replace(/\s+/g, ' ')
@@ -71,6 +71,23 @@ function colorForSchoolScore(score) {
 
 function scoreSummaryForSubmarket(name) {
   const rows = schoolRatingRecords.filter(r => r.Submarket === name);
+  const typeRows = type => rows.filter(r => r.SchoolType === type || (type === 'Elementary' && r.SchoolType === 'K-6'));
+  return {
+    overall: avg(rows.map(r => r.Rating)),
+    elementary: avg(typeRows('Elementary').map(r => r.Rating)),
+    middle: avg(typeRows('Middle').map(r => r.Rating)),
+    high: avg(typeRows('High').map(r => r.Rating)),
+    count: rows.length,
+    elementaryCount: typeRows('Elementary').length,
+    middleCount: typeRows('Middle').length,
+    highCount: typeRows('High').length,
+    rows
+  };
+}
+
+function scoreSummaryForFeatures(features) {
+  const names = new Set(features.map(f => f.properties.DisplayName));
+  const rows = schoolRatingRecords.filter(r => names.has(r.Submarket));
   const typeRows = type => rows.filter(r => r.SchoolType === type || (type === 'Elementary' && r.SchoolType === 'K-6'));
   return {
     overall: avg(rows.map(r => r.Rating)),
@@ -261,6 +278,7 @@ function renderHubSummary(hub) {
   const acres = items.reduce((sum, f) => sum + Number(f.properties.Acres || 0), 0);
   const sqmi = items.reduce((sum, f) => sum + Number(f.properties.AreaSqMi || 0), 0);
   const counts = schoolCountsFor(items);
+  const scoreSummary = scoreSummaryForFeatures(items);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
     <h3 class="selected-title">${hub}</h3>
@@ -281,6 +299,7 @@ function renderHubSummary(hub) {
 function renderHomeSummary() {
   const total = state.features.length;
   const counts = schoolCountsFor(state.features);
+  const scoreSummary = scoreSummaryForFeatures(state.features);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
     <h3 class="selected-title">Enterprise Snapshot</h3>
@@ -601,5 +620,5 @@ initMap();
 bindUI();
 loadData().catch(err => {
   console.error(err);
-  document.getElementById('statusText').textContent = 'Error loading atlas data';
+  document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
 });

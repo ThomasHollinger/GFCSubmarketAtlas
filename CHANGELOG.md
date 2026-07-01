@@ -1,11 +1,6 @@
 # Changelog
 
-## v2.2.1
-- Added Baldwin County GreatSchools proof-of-concept ratings.
-- Added school score heat map theme.
-- Added overall, elementary, middle, and high school score cards by submarket.
-- Changed school icon behavior: single-click opens info only; double-click zooms.
-- Added school ratings CSV source file.
-
-## v2.2.0
-- Added school layer framework using NCES public school points.
+## v2.2.2
+- Fixes blank-map error caused by missing aggregate score variable in Enterprise Snapshot/Hub Summary.
+- Keeps Baldwin County school scoring and heat map functionality.
+- Adds clearer load error detail for future debugging.

@@ -1,5 +1,5 @@
 {
-  "version": "2.2.1",
+  "version": "2.2.2",
   "releaseDate": "2026-07-01",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 45,
@@ -7,6 +7,6 @@
   "schools": "Live NCES layer enabled",
   "demographics": "Pending",
   "builders": "Pending",
-  "notes": "Adds School Intelligence foundation using NCES 2024-25 public school locations loaded live from the NCES ArcGIS REST service.",
+  "notes": "Patch release: fixes School Intelligence aggregate score rendering so the base map loads correctly.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered"
 }
