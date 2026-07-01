@@ -14,38 +14,60 @@
         <div class="brand-mark">ESA</div>
         <div>
           <h1>Enterprise Submarket Atlas</h1>
-          <p>Market intelligence foundation</p>
+          <p>Market intelligence platform</p>
         </div>
       </div>
-      <div class="control-block">
-        <label for="searchInput">Search submarket</label>
+
+      <section class="control-block snapshot-block">
+        <h2>Atlas Health</h2>
+        <div id="healthPanel" class="health-card">
+          <div class="health-main">
+            <span class="health-score">25</span><span class="health-total">/100</span>
+          </div>
+          <div class="health-label">Foundation ready</div>
+          <div class="health-list">
+            <div><span class="dot good"></span> Boundaries verified</div>
+            <div><span class="dot pending"></span> Schools pending</div>
+            <div><span class="dot pending"></span> Demographics pending</div>
+            <div><span class="dot pending"></span> Builders pending</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="control-block">
+        <label for="searchInput">Search atlas</label>
         <div class="search-row">
-          <input id="searchInput" type="search" placeholder="Name or SM-##">
+          <input id="searchInput" type="search" placeholder="Submarket, SM-##, school, city...">
           <button id="searchBtn">Go</button>
         </div>
-      </div>
-      <div class="control-block">
-        <h2>Layers</h2>
+        <div id="searchResults" class="search-results"></div>
+      </section>
+
+      <section class="control-block">
+        <h2>Market Data</h2>
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
         <label class="check disabled"><input type="checkbox" disabled> Schools <span>coming soon</span></label>
         <label class="check disabled"><input type="checkbox" disabled> Demographics <span>coming soon</span></label>
         <label class="check disabled"><input type="checkbox" disabled> Builders <span>coming soon</span></label>
-      </div>
-      <div class="control-block">
-        <h2>Selected Submarket</h2>
+      </section>
+
+      <section class="control-block">
+        <h2>Market Summary</h2>
         <div id="selectedPanel" class="selected-panel empty">
           <p>Click a submarket on the map or use search.</p>
         </div>
-      </div>
-      <div class="control-block small">
+      </section>
+
+      <section class="control-block small">
         <h2>Release</h2>
         <div id="releasePanel">Loading validation...</div>
-      </div>
+      </section>
     </aside>
+
     <main class="map-area">
       <header class="topbar">
         <div>
-          <strong>Foundation Release v2.0</strong>
+          <strong>Foundation Release v2.0.2</strong>
           <span id="statusText">Loading atlas...</span>
         </div>
         <div class="top-actions">

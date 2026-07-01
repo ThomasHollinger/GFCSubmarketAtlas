@@ -1,18 +1,24 @@
 # Enterprise Submarket Atlas
 
-Release v2.0.0 foundation build for the GFCSubmarketAtlas GitHub Pages site.
+A custom web GIS and market intelligence platform for Enterprise submarket analysis.
 
-## Upload instructions
+## Current release
 
-1. Delete or replace the current files in the GitHub repository root.
-2. Upload everything from this release folder, preserving the folder structure.
-3. Commit changes.
-4. GitHub Pages will refresh automatically.
+Version 2.0.2 - Foundation release with search framework and health score.
 
-## Release highlights
+## Current capabilities
 
-- Rebuilt as a modular web application.
-- Corrected display name: Egland AFB -> Eglin AFB.
-- Merged duplicate Bay County Submarket 1 placemarks into one MultiPolygon feature.
-- Added validation report and metadata.
-- Added professional sidebar, search, dashboard panel, layer toggles, and basemap selector.
+- Interactive submarket map
+- Search by submarket name or ID
+- Clickable market summary panel
+- Atlas health score
+- Submarket-level data health status
+- Basemap switching
+
+## Data health score
+
+The current score is 25/100 because the foundation boundary layer is verified, while schools, demographics, and builder intelligence are pending.
+
+## Next planned release
+
+v2.1 - School Intelligence
