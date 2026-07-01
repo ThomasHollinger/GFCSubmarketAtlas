@@ -1,24 +1,32 @@
 # Enterprise Submarket Atlas
 
-A custom web GIS and market intelligence platform for Enterprise submarket analysis.
+A custom web GIS and market intelligence platform for Enterprise/GFC submarket analysis.
 
-## Current release
+## Current Release
 
-Version 2.0.2 - Foundation release with search framework and health score.
+**v2.1.0 - Hub-Based UI Release**
 
-## Current capabilities
+## Core Features
 
-- Interactive submarket map
-- Search by submarket name or ID
-- Clickable market summary panel
+- Interactive web map
+- Enterprise custom submarkets
+- Hub-based submarket color model
+- Collapsible sidebar
+- Search framework
+- Market summary panel
 - Atlas health score
-- Submarket-level data health status
-- Basemap switching
+- GitHub Pages deployment
 
-## Data health score
+## Hubs
 
-The current score is 25/100 because the foundation boundary layer is verified, while schools, demographics, and builder intelligence are pending.
+- Alabama Hub
+- Pensacola Hub
+- Panama City Hub
+- Growth Markets
 
-## Next planned release
+## Planned Releases
 
-v2.1 - School Intelligence
+- v2.2 - School Intelligence
+- v2.3 - Demographics
+- v2.4 - Builder Competition
+- v3.0 - Site Evaluation

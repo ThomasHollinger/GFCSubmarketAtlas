@@ -8,8 +8,9 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
+  <div class="app-shell" id="appShell">
+    <button id="sidebarToggle" class="sidebar-toggle" title="Toggle sidebar">☰</button>
+    <aside class="sidebar" id="sidebar">
       <div class="brand">
         <div class="brand-mark">ESA</div>
         <div>
@@ -18,27 +19,24 @@
         </div>
       </div>
 
-      <section class="control-block snapshot-block">
+      <section class="control-block health-block">
         <h2>Atlas Health</h2>
-        <div id="healthPanel" class="health-card">
-          <div class="health-main">
-            <span class="health-score">25</span><span class="health-total">/100</span>
-          </div>
-          <div class="health-label">Foundation ready</div>
+        <div class="health-layout">
+          <div class="health-ring"><span>25</span><small>/100</small></div>
           <div class="health-list">
-            <div><span class="dot good"></span> Boundaries verified</div>
-            <div><span class="dot pending"></span> Schools pending</div>
-            <div><span class="dot pending"></span> Demographics pending</div>
-            <div><span class="dot pending"></span> Builders pending</div>
+            <div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div>
+            <div><span class="dot pending"></span><span>Schools</span><b>Pending</b></div>
+            <div><span class="dot pending"></span><span>Demographics</span><b>Pending</b></div>
+            <div><span class="dot pending"></span><span>Builders</span><b>Pending</b></div>
           </div>
         </div>
       </section>
 
       <section class="control-block">
-        <label for="searchInput">Search atlas</label>
+        <label for="searchInput">Search Atlas</label>
         <div class="search-row">
-          <input id="searchInput" type="search" placeholder="Submarket, SM-##, school, city...">
-          <button id="searchBtn">Go</button>
+          <input id="searchInput" type="search" placeholder="Search submarket, SM-##, school, city...">
+          <button id="searchBtn" aria-label="Search">Go</button>
         </div>
         <div id="searchResults" class="search-results"></div>
       </section>
@@ -46,9 +44,14 @@
       <section class="control-block">
         <h2>Market Data</h2>
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
-        <label class="check disabled"><input type="checkbox" disabled> Schools <span>coming soon</span></label>
-        <label class="check disabled"><input type="checkbox" disabled> Demographics <span>coming soon</span></label>
-        <label class="check disabled"><input type="checkbox" disabled> Builders <span>coming soon</span></label>
+        <label class="check disabled"><input type="checkbox" disabled> Schools <span>Coming Soon</span></label>
+        <label class="check disabled"><input type="checkbox" disabled> Demographics <span>Coming Soon</span></label>
+        <label class="check disabled"><input type="checkbox" disabled> Builders <span>Coming Soon</span></label>
+      </section>
+
+      <section class="control-block hubs-block">
+        <h2>Submarket Hubs</h2>
+        <div id="hubList" class="hub-list"></div>
       </section>
 
       <section class="control-block">
@@ -59,18 +62,19 @@
       </section>
 
       <section class="control-block small">
-        <h2>Release</h2>
+        <h2>About</h2>
         <div id="releasePanel">Loading validation...</div>
       </section>
     </aside>
 
     <main class="map-area">
       <header class="topbar">
-        <div>
-          <strong>Foundation Release v2.0.2</strong>
+        <div class="top-title">
+          <strong>Enterprise Submarket Atlas</strong>
           <span id="statusText">Loading atlas...</span>
         </div>
         <div class="top-actions">
+          <button id="topSearchBtn" class="ghost-btn">Search</button>
           <select id="basemapSelect" aria-label="Basemap">
             <option value="light">Light</option>
             <option value="streets">Streets</option>

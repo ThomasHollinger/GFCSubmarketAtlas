@@ -1,33 +1,33 @@
-SubmarketID,SubmarketName,DisplayName,AreaSqMi,Acres,CentroidLat,CentroidLon,PolygonParts,Version,Active,SourceNames,DataStatus
-SM-01,South Mobile,South Mobile,232.64,148890.0,30.459914,-88.252057,1,2.0,Yes,South Mobile Submarket,Foundation only
-SM-02,Central Mobile,Central Mobile,578.37,370157.0,30.627123,-88.221098,1,2.0,Yes,Central Mobile Submarket,Foundation only
-SM-03,North Mobile / Saraland,North Mobile / Saraland,236.35,151264.0,30.807105,-87.969164,1,2.0,Yes,North Mobile / Saraland Submarket,Foundation only
-SM-04,South Baldwin,South Baldwin,258.03,165139.0,30.351264,-87.622335,1,2.0,Yes,South Baldwin Submarket,Foundation only
-SM-05,North Baldwin,North Baldwin,159.82,102285.0,30.951409,-87.745219,1,2.0,Yes,North Baldwin Submarket,Foundation only
-SM-06,West Baldwin,West Baldwin,143.1,91584.0,30.509302,-87.877756,1,2.0,Yes,West Baldwin Submarket,Foundation only
-SM-07,Pensacola,Pensacola,196.31,125638.0,30.420935,-87.341001,1,2.0,Yes,Pensacola Submarket,Foundation only
-SM-08,Pace,Pace,112.65,72096.0,30.555517,-87.156888,1,2.0,Yes,Pace Submarket,Foundation only
-SM-09,Pensacola Beaches,Pensacola Beaches,107.42,68749.0,30.384401,-87.079741,1,2.0,Yes,Pensacola Beaches Submarket,Foundation only
-SM-10,Milton,Milton,130.02,83213.0,30.565693,-87.010248,1,2.0,Yes,Milton Submarket,Foundation only
-SM-11,Cantonment,Cantonment,139.66,89382.0,30.61326,-87.286228,1,2.0,Yes,Cantonment Submarket,Foundation only
-SM-12,Central Baldwin,Central Baldwin,659.43,422035.0,30.737013,-87.57039,1,2.0,Yes,Central Baldwin Submarket,Foundation only
-SM-13,North Escambia,North Escambia,339.97,217581.0,30.829176,-87.501277,1,2.0,Yes,North Escambia Submarket,Foundation only
-SM-14,Santa Rosa County,Santa Rosa County,663.63,424723.0,30.78993,-87.056843,1,2.0,Yes,Santa Rosa County Submarket,Foundation only
-SM-15,Okaloosa County,Okaloosa County,254.56,162918.0,30.796935,-86.688769,1,2.0,Yes,Okaloosa County Submarket,Foundation only
-SM-16,Laurel Hill,Laurel Hill,125.53,80339.0,30.904216,-86.491658,1,2.0,Yes,Laurel Hill Submarket,Foundation only
-SM-17,Crestview,Crestview,113.41,72582.0,30.751898,-86.493857,1,2.0,Yes,Crestview Submarket,Foundation only
-SM-18,Fort Walton,Fort Walton,95.76,61286.0,30.464088,-86.528099,1,2.0,Yes,Fort Walton Submarket,Foundation only
-SM-19,Defuniak Springs,Defuniak Springs,103.05,65952.0,30.7241,-86.197611,1,2.0,Yes,Defuniak Springs Submarket,Foundation only
-SM-20,Freeport,Freeport,79.44,50842.0,30.49044,-86.15181,1,2.0,Yes,Freeport Submarket,Foundation only
-SM-21,Eglin AFB,Eglin AFB,707.62,452877.0,30.539025,-86.55847,1,2.0,Yes,Egland AFB,Foundation only
-SM-22,Walton and Bay Beaches,Walton and Bay Beaches,363.91,232902.0,30.234798,-85.933356,1,2.0,Yes,Walton and Bay Beaches Submarket,Foundation only
-SM-23,Walton County,Walton County,597.89,382650.0,30.614216,-86.080537,1,2.0,Yes,Walton County Submarket,Foundation only
-SM-24,Holmes County,Holmes County,520.77,333293.0,30.818033,-85.763893,1,2.0,Yes,Holmes County Submarket,Foundation only
-SM-25,Washington County,Washington County,594.96,380774.0,30.599617,-85.717238,1,2.0,Yes,Washington County Submarket,Foundation only
-SM-26,Jackson County,Jackson County,790.7,506048.0,30.823707,-85.17383,1,2.0,Yes,Jackson County Submarket,Foundation only
-SM-27,Marianna,Marianna,220.71,141254.0,30.780252,-85.290053,1,2.0,Yes,Marianna Submarket,Foundation only
-SM-28,Panama City,Panama City,213.39,136570.0,30.277888,-85.630227,1,2.0,Yes,Panama City Submarket,Foundation only
-SM-29,Bay County Submarket 2,Bay County Submarket 2,375.67,240429.0,30.357777,-85.494947,1,2.0,Yes,Bay County Submarket 2,Foundation only
-SM-30,Calhoun County,Calhoun County,505.9,323776.0,30.4028,-85.124814,1,2.0,Yes,Calhoun County Submarket,Foundation only
-SM-31,Gulf County,Gulf County,554.03,354579.0,29.958149,-85.181664,1,2.0,Yes,Gulf County Submarket,Foundation only
-SM-32,Bay County Submarket 1,Bay County Submarket 1,187.36,119910.0,30.35626,-85.843161,1,2.0.1,Yes,Bay County Submarket 1,Foundation only - duplicate geometry deduplicated in v2.0.1
+SubmarketID,DisplayName,Hub,AreaSqMi,Acres,CentroidLat,CentroidLon,PolygonParts,DataHealthScore
+SM-01,South Mobile,Alabama Hub,232.64,148890.0,30.459914,-88.252057,1,25
+SM-02,Central Mobile,Alabama Hub,578.37,370157.0,30.627123,-88.221098,1,25
+SM-03,North Mobile / Saraland,Alabama Hub,236.35,151264.0,30.807105,-87.969164,1,25
+SM-04,South Baldwin,Alabama Hub,258.03,165139.0,30.351264,-87.622335,1,25
+SM-05,North Baldwin,Alabama Hub,159.82,102285.0,30.951409,-87.745219,1,25
+SM-06,West Baldwin,Alabama Hub,143.1,91584.0,30.509302,-87.877756,1,25
+SM-07,Pensacola,Pensacola Hub,196.31,125638.0,30.420935,-87.341001,1,25
+SM-08,Pace,Pensacola Hub,112.65,72096.0,30.555517,-87.156888,1,25
+SM-09,Pensacola Beaches,Pensacola Hub,107.42,68749.0,30.384401,-87.079741,1,25
+SM-10,Milton,Pensacola Hub,130.02,83213.0,30.565693,-87.010248,1,25
+SM-11,Cantonment,Pensacola Hub,139.66,89382.0,30.61326,-87.286228,1,25
+SM-12,Central Baldwin,Alabama Hub,659.43,422035.0,30.737013,-87.57039,1,25
+SM-13,North Escambia,Growth Markets,339.97,217581.0,30.829176,-87.501277,1,25
+SM-14,Santa Rosa County,Growth Markets,663.63,424723.0,30.78993,-87.056843,1,25
+SM-15,Okaloosa County,Growth Markets,254.56,162918.0,30.796935,-86.688769,1,25
+SM-16,Laurel Hill,Pensacola Hub,125.53,80339.0,30.904216,-86.491658,1,25
+SM-17,Crestview,Pensacola Hub,113.41,72582.0,30.751898,-86.493857,1,25
+SM-18,Fort Walton,Pensacola Hub,95.76,61286.0,30.464088,-86.528099,1,25
+SM-19,Defuniak Springs,Panama City Hub,103.05,65952.0,30.7241,-86.197611,1,25
+SM-20,Freeport,Panama City Hub,79.44,50842.0,30.49044,-86.15181,1,25
+SM-21,Eglin AFB,Growth Markets,707.62,452877.0,30.539025,-86.55847,1,25
+SM-22,Walton and Bay Beaches,Growth Markets,363.91,232902.0,30.234798,-85.933356,1,25
+SM-23,Walton County,Growth Markets,597.89,382650.0,30.614216,-86.080537,1,25
+SM-24,Holmes County,Growth Markets,520.77,333293.0,30.818033,-85.763893,1,25
+SM-25,Washington County,Growth Markets,594.96,380774.0,30.599617,-85.717238,1,25
+SM-26,Jackson County,Growth Markets,790.7,506048.0,30.823707,-85.17383,1,25
+SM-27,Marianna,Panama City Hub,220.71,141254.0,30.780252,-85.290053,1,25
+SM-28,Panama City,Panama City Hub,213.39,136570.0,30.277888,-85.630227,1,25
+SM-29,Bay County Submarket 2,Growth Markets,375.67,240429.0,30.357777,-85.494947,1,25
+SM-30,Calhoun County,Growth Markets,505.9,323776.0,30.4028,-85.124814,1,25
+SM-31,Gulf County,Growth Markets,554.03,354579.0,29.958149,-85.181664,1,25
+SM-32,Bay County Submarket 1,Growth Markets,187.36,119910.0,30.35626,-85.843161,1,25

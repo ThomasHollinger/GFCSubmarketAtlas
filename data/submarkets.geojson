@@ -16,7 +16,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "South Mobile Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Alabama Hub",
+        "HubKey": "alabama-hub",
+        "HubColor": "#F07D2F",
+        "HubBaseColor": "#F4A261",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -76,7 +85,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Central Mobile Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Alabama Hub",
+        "HubKey": "alabama-hub",
+        "HubColor": "#F28C3C",
+        "HubBaseColor": "#F4A261",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -144,7 +162,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "North Mobile / Saraland Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Alabama Hub",
+        "HubKey": "alabama-hub",
+        "HubColor": "#F39B4A",
+        "HubBaseColor": "#F4A261",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -208,7 +235,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "South Baldwin Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Alabama Hub",
+        "HubKey": "alabama-hub",
+        "HubColor": "#F5AA58",
+        "HubBaseColor": "#F4A261",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -292,7 +328,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "North Baldwin Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Alabama Hub",
+        "HubKey": "alabama-hub",
+        "HubColor": "#F7B866",
+        "HubBaseColor": "#F4A261",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -352,7 +397,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "West Baldwin Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Alabama Hub",
+        "HubKey": "alabama-hub",
+        "HubColor": "#F8C675",
+        "HubBaseColor": "#F4A261",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -436,7 +490,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Pensacola Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#166AAE",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -528,7 +591,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Pace Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#1D78BD",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -624,7 +696,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Pensacola Beaches Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#2787CB",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -704,7 +785,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Milton Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#3795D5",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -756,7 +846,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Cantonment Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#49A3DD",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -860,7 +959,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Central Baldwin Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Alabama Hub",
+        "HubKey": "alabama-hub",
+        "HubColor": "#FAD384",
+        "HubBaseColor": "#F4A261",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1096,7 +1204,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "North Escambia Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#777777",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1244,7 +1361,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Santa Rosa County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#858585",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1320,7 +1446,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Okaloosa County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#939393",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1384,7 +1519,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Laurel Hill Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#5DB0E4",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1436,7 +1580,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Crestview Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#73BDE9",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1508,7 +1661,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Fort Walton Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Pensacola Hub",
+        "HubKey": "pensacola-hub",
+        "HubColor": "#8AC9EE",
+        "HubBaseColor": "#4EA3D8",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1588,7 +1750,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Defuniak Springs Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Panama City Hub",
+        "HubKey": "panama-city-hub",
+        "HubColor": "#4D9A36",
+        "HubBaseColor": "#8CCB6E",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1660,7 +1831,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Freeport Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Panama City Hub",
+        "HubKey": "panama-city-hub",
+        "HubColor": "#5BAA43",
+        "HubBaseColor": "#8CCB6E",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1776,7 +1956,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Egland AFB",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#A1A1A1",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -1924,7 +2113,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Walton and Bay Beaches Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#AFAFAF",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2056,7 +2254,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Walton County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#BDBDBD",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2188,7 +2395,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Holmes County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#CBCBCB",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2252,7 +2468,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Washington County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#999999",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2372,7 +2597,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Jackson County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#8B8B8B",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2496,7 +2730,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Marianna Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Panama City Hub",
+        "HubKey": "panama-city-hub",
+        "HubColor": "#69B94F",
+        "HubBaseColor": "#8CCB6E",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2548,7 +2791,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Panama City Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Panama City Hub",
+        "HubKey": "panama-city-hub",
+        "HubColor": "#78C75D",
+        "HubBaseColor": "#8CCB6E",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2640,7 +2892,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Bay County Submarket 2",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#B5B5B5",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2720,7 +2981,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Calhoun County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#909090",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2772,7 +3042,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Gulf County Submarket",
-        "DataStatus": "Foundation only"
+        "DataStatus": "Foundation only",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#AAAAAA",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
@@ -2872,7 +3151,16 @@
         "Version": "2.0",
         "Active": "Yes",
         "SourceNames": "Bay County Submarket 1",
-        "DataStatus": "Foundation only - duplicate geometry deduplicated in v2.0.1"
+        "DataStatus": "Foundation only - duplicate geometry deduplicated in v2.0.1",
+        "Hub": "Growth Markets",
+        "HubKey": "growth-markets",
+        "HubColor": "#7F7F7F",
+        "HubBaseColor": "#A7A7A7",
+        "DataHealthScore": 25,
+        "BoundaryStatus": "Verified",
+        "SchoolsStatus": "Pending",
+        "DemographicsStatus": "Pending",
+        "BuildersStatus": "Pending"
       },
       "geometry": {
         "type": "Polygon",
