@@ -1,48 +1,11 @@
 {
-  "version": "2.1.0",
-  "releaseName": "Hub-Based UI Release",
+  "version": "2.2.0",
   "releaseDate": "2026-07-01",
   "uniqueSubmarketsLoaded": 32,
-  "healthScore": 25,
-  "status": "Foundation ready; school, demographics, and builder layers pending.",
-  "hubs": [
-    {
-      "name": "Alabama Hub",
-      "color": "#F4A261",
-      "count": 7
-    },
-    {
-      "name": "Pensacola Hub",
-      "color": "#4EA3D8",
-      "count": 8
-    },
-    {
-      "name": "Panama City Hub",
-      "color": "#8CCB6E",
-      "count": 4
-    },
-    {
-      "name": "Growth Markets",
-      "color": "#A7A7A7",
-      "count": 13
-    }
-  ],
-  "layers": [
-    {
-      "name": "Boundaries",
-      "status": "Verified"
-    },
-    {
-      "name": "Schools",
-      "status": "Pending"
-    },
-    {
-      "name": "Demographics",
-      "status": "Pending"
-    },
-    {
-      "name": "Builders",
-      "status": "Pending"
-    }
-  ]
+  "healthScore": 45,
+  "boundaries": "Verified",
+  "schools": "Live NCES layer enabled",
+  "demographics": "Pending",
+  "builders": "Pending",
+  "notes": "Adds School Intelligence foundation using NCES 2024-25 public school locations loaded live from the NCES ArcGIS REST service."
 }
