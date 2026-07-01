@@ -1,33 +1,33 @@
-SubmarketID,SubmarketName,DisplayName,AreaSqMi,Acres,CentroidLat,CentroidLon,PolygonParts,Version,Active,SourceNames,DataStatus,MinLon,MinLat,MaxLon,MaxLat
-SM-01,South Mobile,South Mobile,232.64,148890.0,30.459914,-88.252057,1,2.0,Yes,South Mobile Submarket,Foundation only,-88.39824961310335,30.29795123513425,-88.08428535228614,30.54371900487193
-SM-02,Central Mobile,Central Mobile,578.37,370157.0,30.627123,-88.221098,1,2.0,Yes,Central Mobile Submarket,Foundation only,-88.42629462444191,30.46661743747282,-88.03144738786298,30.95825603653695
-SM-03,North Mobile / Saraland,North Mobile / Saraland,236.35,151264.0,30.807105,-87.969164,1,2.0,Yes,North Mobile / Saraland Submarket,Foundation only,-88.12630205899305,30.65614990293578,-87.86583422943032,30.9552060532411
-SM-04,South Baldwin,South Baldwin,258.03,165139.0,30.351264,-87.622335,1,2.0,Yes,South Baldwin Submarket,Foundation only,-87.84601601122918,30.227262095008754,-87.38496151431686,30.448893687397984
-SM-05,North Baldwin,North Baldwin,159.82,102285.0,30.951409,-87.745219,1,2.0,Yes,North Baldwin Submarket,Foundation only,-87.89399453933058,30.869605740204236,-87.58770915007682,31.015547776859194
-SM-06,West Baldwin,West Baldwin,143.1,91584.0,30.509302,-87.877756,1,2.0,Yes,West Baldwin Submarket,Foundation only,-87.93785582117427,30.376728589757974,-87.7842873743673,30.672668987822163
-SM-07,Pensacola,Pensacola,196.31,125638.0,30.420935,-87.341001,1,2.0,Yes,Pensacola Submarket,Foundation only,-87.51499627460284,30.279724044284336,-87.14366631432885,30.533177230161982
-SM-08,Pace,Pace,112.65,72096.0,30.555517,-87.156888,1,2.0,Yes,Pace Submarket,Foundation only,-87.27054739026136,30.434824819951658,-87.08003213995056,30.703140107033832
-SM-09,Pensacola Beaches,Pensacola Beaches,107.42,68749.0,30.384401,-87.079741,1,2.0,Yes,Pensacola Beaches Submarket,Foundation only,-87.30655551814014,30.312090892575213,-86.8546885877214,30.453117500793198
-SM-10,Milton,Milton,130.02,83213.0,30.565693,-87.010248,1,2.0,Yes,Milton Submarket,Foundation only,-87.08836544300972,30.443307094503524,-86.90953865793622,30.702949485354225
-SM-11,Cantonment,Cantonment,139.66,89382.0,30.61326,-87.286228,1,2.0,Yes,Cantonment Submarket,Foundation only,-87.43990135439637,30.502549282825242,-87.18115039490776,30.711114808623307
-SM-12,Central Baldwin,Central Baldwin,659.43,422035.0,30.737013,-87.57039,1,2.0,Yes,Central Baldwin Submarket,Foundation only,-87.97964914438771,30.438090278722,-87.40771459275415,30.870990260795367
-SM-13,North Escambia,North Escambia,339.97,217581.0,30.829176,-87.501277,1,2.0,Yes,North Escambia Submarket,Foundation only,-87.63398164070294,30.69707991280444,-87.23807801657134,30.99744356538868
-SM-14,Santa Rosa County,Santa Rosa County,663.63,424723.0,30.78993,-87.056843,1,2.0,Yes,Santa Rosa County Submarket,Foundation only,-87.31459234991357,30.577357179689272,-86.78202794290586,30.997433724840576
-SM-15,Okaloosa County,Okaloosa County,254.56,162918.0,30.796935,-86.688769,1,2.0,Yes,Okaloosa County Submarket,Foundation only,-86.80711338551104,30.64023009919653,-86.58388354334026,30.997438615057703
-SM-16,Laurel Hill,Laurel Hill,125.53,80339.0,30.904216,-86.491658,1,2.0,Yes,Laurel Hill Submarket,Foundation only,-86.5883400595256,30.81063569756033,-86.41298026982966,30.99529359363757
-SM-17,Crestview,Crestview,113.41,72582.0,30.751898,-86.493857,1,2.0,Yes,Crestview Submarket,Foundation only,-86.63020265899335,30.672889245874302,-86.3762210306401,30.817970736913438
-SM-18,Fort Walton,Fort Walton,95.76,61286.0,30.464088,-86.528099,1,2.0,Yes,Fort Walton Submarket,Foundation only,-86.67165113634961,30.38525236889511,-86.37677815424408,30.547402377862866
-SM-19,Defuniak Springs,Defuniak Springs,103.05,65952.0,30.7241,-86.197611,1,2.0,Yes,Defuniak Springs Submarket,Foundation only,-86.4127290576176,30.604351769071357,-86.07210530840692,30.79863683218788
-SM-20,Freeport,Freeport,79.44,50842.0,30.49044,-86.15181,1,2.0,Yes,Freeport Submarket,Foundation only,-86.24837443214398,30.419146933190817,-86.0041366422571,30.61871320992607
-SM-21,Eglin AFB,Eglin AFB,707.62,452877.0,30.539025,-86.55847,1,2.0,Yes,Egland AFB,Foundation only,-87.0203842938166,30.377578083236955,-86.10994092491033,30.732166378786317
-SM-22,Walton and Bay Beaches,Walton and Bay Beaches,363.91,232902.0,30.234798,-85.933356,1,2.0,Yes,Walton and Bay Beaches Submarket,Foundation only,-86.51679367578758,29.941787044468057,-85.37304378968176,30.433938551565447
-SM-23,Walton County,Walton County,597.89,382650.0,30.614216,-86.080537,1,2.0,Yes,Walton County Submarket,Foundation only,-86.4143894283222,30.326998711193895,-85.83879402039177,30.994108538612807
-SM-24,Holmes County,Holmes County,520.77,333293.0,30.818033,-85.763893,1,2.0,Yes,Holmes County Submarket,Foundation only,-86.05217540664653,30.71422587603999,-85.48448957783259,30.996706982033288
-SM-25,Washington County,Washington County,594.96,380774.0,30.599617,-85.717238,1,2.0,Yes,Washington County Submarket,Foundation only,-85.96862192778505,30.364124071076404,-85.44559897843871,30.82236371531674
-SM-26,Jackson County,Jackson County,790.7,506048.0,30.823707,-85.17383,1,2.0,Yes,Jackson County Submarket,Foundation only,-85.57594373716486,30.568169437843878,-84.84837458889146,31.000726175281443
-SM-27,Marianna,Marianna,220.71,141254.0,30.780252,-85.290053,1,2.0,Yes,Marianna Submarket,Foundation only,-85.4858461214126,30.68419953968943,-85.18440911473085,30.8812039407662
-SM-28,Panama City,Panama City,213.39,136570.0,30.277888,-85.630227,1,2.0,Yes,Panama City Submarket,Foundation only,-85.76272622691852,30.117307581238606,-85.42841655625573,30.439736598467206
-SM-29,Bay County Submarket 2,Bay County Submarket 2,375.67,240429.0,30.357777,-85.494947,1,2.0,Yes,Bay County Submarket 2,Foundation only,-85.63074765363923,30.003193150412628,-85.35391954134688,30.568957462000967
-SM-30,Calhoun County,Calhoun County,505.9,323776.0,30.4028,-85.124814,1,2.0,Yes,Calhoun County Submarket,Foundation only,-85.36598430358644,30.207103969182825,-84.90274104883267,30.57283199145114
-SM-31,Gulf County,Gulf County,554.03,354579.0,29.958149,-85.181664,1,2.0,Yes,Gulf County Submarket,Foundation only,-85.38865108156944,29.687634202662593,-85.01677799546817,30.209462673295576
-SM-32,Bay County Submarket 1,Bay County Submarket 1,187.36,119910.0,30.35626,-85.843161,2,2.0,Yes,Bay County Submarket 1,Foundation only,-85.96240104701964,30.270896582991938,-85.73322609632856,30.44182526804059
+SubmarketID,SubmarketName,DisplayName,AreaSqMi,Acres,CentroidLat,CentroidLon,PolygonParts,Version,Active,SourceNames,DataStatus
+SM-01,South Mobile,South Mobile,232.64,148890.0,30.459914,-88.252057,1,2.0,Yes,South Mobile Submarket,Foundation only
+SM-02,Central Mobile,Central Mobile,578.37,370157.0,30.627123,-88.221098,1,2.0,Yes,Central Mobile Submarket,Foundation only
+SM-03,North Mobile / Saraland,North Mobile / Saraland,236.35,151264.0,30.807105,-87.969164,1,2.0,Yes,North Mobile / Saraland Submarket,Foundation only
+SM-04,South Baldwin,South Baldwin,258.03,165139.0,30.351264,-87.622335,1,2.0,Yes,South Baldwin Submarket,Foundation only
+SM-05,North Baldwin,North Baldwin,159.82,102285.0,30.951409,-87.745219,1,2.0,Yes,North Baldwin Submarket,Foundation only
+SM-06,West Baldwin,West Baldwin,143.1,91584.0,30.509302,-87.877756,1,2.0,Yes,West Baldwin Submarket,Foundation only
+SM-07,Pensacola,Pensacola,196.31,125638.0,30.420935,-87.341001,1,2.0,Yes,Pensacola Submarket,Foundation only
+SM-08,Pace,Pace,112.65,72096.0,30.555517,-87.156888,1,2.0,Yes,Pace Submarket,Foundation only
+SM-09,Pensacola Beaches,Pensacola Beaches,107.42,68749.0,30.384401,-87.079741,1,2.0,Yes,Pensacola Beaches Submarket,Foundation only
+SM-10,Milton,Milton,130.02,83213.0,30.565693,-87.010248,1,2.0,Yes,Milton Submarket,Foundation only
+SM-11,Cantonment,Cantonment,139.66,89382.0,30.61326,-87.286228,1,2.0,Yes,Cantonment Submarket,Foundation only
+SM-12,Central Baldwin,Central Baldwin,659.43,422035.0,30.737013,-87.57039,1,2.0,Yes,Central Baldwin Submarket,Foundation only
+SM-13,North Escambia,North Escambia,339.97,217581.0,30.829176,-87.501277,1,2.0,Yes,North Escambia Submarket,Foundation only
+SM-14,Santa Rosa County,Santa Rosa County,663.63,424723.0,30.78993,-87.056843,1,2.0,Yes,Santa Rosa County Submarket,Foundation only
+SM-15,Okaloosa County,Okaloosa County,254.56,162918.0,30.796935,-86.688769,1,2.0,Yes,Okaloosa County Submarket,Foundation only
+SM-16,Laurel Hill,Laurel Hill,125.53,80339.0,30.904216,-86.491658,1,2.0,Yes,Laurel Hill Submarket,Foundation only
+SM-17,Crestview,Crestview,113.41,72582.0,30.751898,-86.493857,1,2.0,Yes,Crestview Submarket,Foundation only
+SM-18,Fort Walton,Fort Walton,95.76,61286.0,30.464088,-86.528099,1,2.0,Yes,Fort Walton Submarket,Foundation only
+SM-19,Defuniak Springs,Defuniak Springs,103.05,65952.0,30.7241,-86.197611,1,2.0,Yes,Defuniak Springs Submarket,Foundation only
+SM-20,Freeport,Freeport,79.44,50842.0,30.49044,-86.15181,1,2.0,Yes,Freeport Submarket,Foundation only
+SM-21,Eglin AFB,Eglin AFB,707.62,452877.0,30.539025,-86.55847,1,2.0,Yes,Egland AFB,Foundation only
+SM-22,Walton and Bay Beaches,Walton and Bay Beaches,363.91,232902.0,30.234798,-85.933356,1,2.0,Yes,Walton and Bay Beaches Submarket,Foundation only
+SM-23,Walton County,Walton County,597.89,382650.0,30.614216,-86.080537,1,2.0,Yes,Walton County Submarket,Foundation only
+SM-24,Holmes County,Holmes County,520.77,333293.0,30.818033,-85.763893,1,2.0,Yes,Holmes County Submarket,Foundation only
+SM-25,Washington County,Washington County,594.96,380774.0,30.599617,-85.717238,1,2.0,Yes,Washington County Submarket,Foundation only
+SM-26,Jackson County,Jackson County,790.7,506048.0,30.823707,-85.17383,1,2.0,Yes,Jackson County Submarket,Foundation only
+SM-27,Marianna,Marianna,220.71,141254.0,30.780252,-85.290053,1,2.0,Yes,Marianna Submarket,Foundation only
+SM-28,Panama City,Panama City,213.39,136570.0,30.277888,-85.630227,1,2.0,Yes,Panama City Submarket,Foundation only
+SM-29,Bay County Submarket 2,Bay County Submarket 2,375.67,240429.0,30.357777,-85.494947,1,2.0,Yes,Bay County Submarket 2,Foundation only
+SM-30,Calhoun County,Calhoun County,505.9,323776.0,30.4028,-85.124814,1,2.0,Yes,Calhoun County Submarket,Foundation only
+SM-31,Gulf County,Gulf County,554.03,354579.0,29.958149,-85.181664,1,2.0,Yes,Gulf County Submarket,Foundation only
+SM-32,Bay County Submarket 1,Bay County Submarket 1,187.36,119910.0,30.35626,-85.843161,1,2.0.1,Yes,Bay County Submarket 1,Foundation only - duplicate geometry deduplicated in v2.0.1

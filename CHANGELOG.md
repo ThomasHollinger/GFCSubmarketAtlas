@@ -1,11 +1,11 @@
 # Changelog
 
-## v2.0.0
+## v2.0.1
+- Fixed Bay County Submarket 1 rendering issue by deduplicating identical polygon geometry.
+- Preserved 32 loaded submarket records from v2.0.
+- Updated validation metadata.
 
-- Rebuilt UI into a professional application layout.
-- Added modular folders for CSS, JS, data, docs, and assets.
-- Added robust KML-to-GeoJSON conversion with duplicate placemark merging.
+## v2.0.0
+- Rebuilt application foundation.
+- Added sidebar, basemap control, release panel, and structured data folder.
 - Corrected Eglin AFB display name.
-- Added Bay County Submarket 1 as a loaded feature with merged geometry.
-- Added validation metadata and catalog export.
-- Added search, selection dashboard, layer toggle, and basemap selector.
