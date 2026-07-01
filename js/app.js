@@ -21,6 +21,74 @@ const hubBaseColors = {
 
 const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
 
+const schoolRatingRecords = [{"Submarket": "North Baldwin", "SchoolName": "Bay Minette Elementary", "SchoolType": "Elementary", "Rating": 4}, {"Submarket": "North Baldwin", "SchoolName": "Bay Minette Middle", "SchoolType": "Middle", "Rating": 8}, {"Submarket": "North Baldwin", "SchoolName": "Baldwin County High", "SchoolType": "High", "Rating": 8}, {"Submarket": "North Baldwin", "SchoolName": "Delta Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "North Baldwin", "SchoolName": "Pine Grove Elementary", "SchoolType": "Elementary", "Rating": 7}, {"Submarket": "North Baldwin", "SchoolName": "Stapleton Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "Central Baldwin", "SchoolName": "Belforest Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne East Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne Middle", "SchoolType": "Middle", "Rating": 6}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne High", "SchoolType": "High", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Rockwell Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Spanish Fort Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Spanish Fort Middle", "SchoolType": "Middle", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Spanish Fort High", "SchoolType": "High", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Stonebridge Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "West Baldwin", "SchoolName": "Central Baldwin Middle", "SchoolType": "Middle", "Rating": 8}, {"Submarket": "West Baldwin", "SchoolName": "Elsanor Elementary", "SchoolType": "Elementary", "Rating": 9}, {"Submarket": "West Baldwin", "SchoolName": "Loxley Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "West Baldwin", "SchoolName": "Robertsdale Elementary", "SchoolType": "Elementary", "Rating": 5}, {"Submarket": "West Baldwin", "SchoolName": "Robertsdale High", "SchoolType": "High", "Rating": 8}, {"Submarket": "West Baldwin", "SchoolName": "Rosinton Elementary", "SchoolType": "Elementary", "Rating": 7}, {"Submarket": "West Baldwin", "SchoolName": "Silverhill Elementary", "SchoolType": "Elementary", "Rating": 5}, {"Submarket": "South Baldwin", "SchoolName": "Elberta Elementary", "SchoolType": "Elementary", "Rating": 7}, {"Submarket": "South Baldwin", "SchoolName": "Elberta Middle", "SchoolType": "Middle", "Rating": 9}, {"Submarket": "South Baldwin", "SchoolName": "Elberta High", "SchoolType": "High", "Rating": 8}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope East Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope West Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope Middle", "SchoolType": "Middle", "Rating": 10}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope High", "SchoolType": "High", "Rating": 9}, {"Submarket": "South Baldwin", "SchoolName": "Florence B. Mathis Elementary", "SchoolType": "Elementary", "Rating": 3}, {"Submarket": "South Baldwin", "SchoolName": "Foley Elementary", "SchoolType": "Elementary", "Rating": 4}, {"Submarket": "South Baldwin", "SchoolName": "Foley Middle", "SchoolType": "Middle", "Rating": 4}, {"Submarket": "South Baldwin", "SchoolName": "Foley High", "SchoolType": "High", "Rating": 7}, {"Submarket": "South Baldwin", "SchoolName": "J. Larry Newton Elementary", "SchoolType": "Elementary", "Rating": 9}, {"Submarket": "South Baldwin", "SchoolName": "Magnolia School", "SchoolType": "K-6", "Rating": 8}];
+state.mapTheme = 'hub';
+
+function normalizeName(name) {
+  return String(name || '')
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/school/g, '')
+    .replace(/\./g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function ratingForSchoolName(name) {
+  const n = normalizeName(name);
+  let rec = schoolRatingRecords.find(r => normalizeName(r.SchoolName) === n);
+  if (!rec) rec = schoolRatingRecords.find(r => {
+    const rn = normalizeName(r.SchoolName);
+    return n.includes(rn) || rn.includes(n);
+  });
+  return rec || null;
+}
+
+function avg(nums) {
+  const clean = nums.filter(n => typeof n === 'number' && !Number.isNaN(n));
+  if (!clean.length) return null;
+  return clean.reduce((a,b)=>a+b,0) / clean.length;
+}
+
+function gradeForScore(score) {
+  if (score === null || score === undefined) return 'Pending';
+  if (score >= 9) return 'A';
+  if (score >= 8) return 'B';
+  if (score >= 7) return 'C';
+  if (score >= 6) return 'D';
+  return 'F';
+}
+
+function colorForSchoolScore(score) {
+  if (score === null || score === undefined) return '#d0d5dd';
+  if (score >= 9) return '#1f8f4d';
+  if (score >= 8) return '#74b816';
+  if (score >= 7) return '#f2c94c';
+  if (score >= 6) return '#f2994a';
+  return '#d64545';
+}
+
+function scoreSummaryForSubmarket(name) {
+  const rows = schoolRatingRecords.filter(r => r.Submarket === name);
+  const typeRows = type => rows.filter(r => r.SchoolType === type || (type === 'Elementary' && r.SchoolType === 'K-6'));
+  return {
+    overall: avg(rows.map(r => r.Rating)),
+    elementary: avg(typeRows('Elementary').map(r => r.Rating)),
+    middle: avg(typeRows('Middle').map(r => r.Rating)),
+    high: avg(typeRows('High').map(r => r.Rating)),
+    count: rows.length,
+    elementaryCount: typeRows('Elementary').length,
+    middleCount: typeRows('Middle').length,
+    highCount: typeRows('High').length,
+    rows
+  };
+}
+
+function fmtScore(v) {
+  return v === null || v === undefined ? 'Pending' : v.toFixed(1);
+}
+
 function fmt(v, suffix = '') {
   if (v === null || v === undefined || v === '') return 'Coming Soon';
   if (typeof v === 'number') return `${v.toLocaleString()}${suffix}`;
@@ -33,9 +101,34 @@ function styleFeature(feature) {
   return {
     color: selected ? '#061827' : '#26384f',
     weight: selected ? 3.5 : 1.4,
-    fillColor: p.HubColor || p.HubBaseColor || '#8ea0ad',
+    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (p.HubColor || p.HubBaseColor || '#8ea0ad'),
     fillOpacity: selected ? 0.72 : 0.48
   };
+}
+
+
+function legendHtml() {
+  if (state.mapTheme === 'schools') {
+    return `<b>School Score</b><div class="legend-subtitle">GreatSchools Average</div>` + [
+      ['#1f8f4d','A','9.0-10.0'], ['#74b816','B','8.0-8.9'], ['#f2c94c','C','7.0-7.9'], ['#f2994a','D','6.0-6.9'], ['#d64545','F','Below 6.0'], ['#d0d5dd','Pending','No rating']
+    ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
+  }
+  return `<b>Hubs</b><div class="legend-subtitle">Count of Submarkets</div>` + hubOrder.map(hub => {
+    const count = state.features.filter(f => f.properties.Hub === hub).length;
+    return `<div class="legend-row"><i class="legend-swatch" style="background:${hubBaseColors[hub]}"></i><span>${hub.replace(' Hub','')}</span><small>${count}</small></div>`;
+  }).join('');
+}
+
+function updateLegend() {
+  const el = document.querySelector('.legend');
+  if (el) el.innerHTML = legendHtml();
+}
+
+function setMapTheme(theme) {
+  state.mapTheme = theme;
+  if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
+  updateLegend();
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
 function initMap() {
@@ -56,10 +149,7 @@ function initMap() {
   const legend = L.control({ position: 'bottomright' });
   legend.onAdd = () => {
     const d = L.DomUtil.create('div', 'legend compact');
-    d.innerHTML = `<b>Hubs</b><div class="legend-subtitle">Count of Submarkets</div>` + hubOrder.map(hub => {
-      const count = state.features.filter(f => f.properties.Hub === hub).length;
-      return `<div class="legend-row"><i class="legend-swatch" style="background:${hubBaseColors[hub]}"></i><span>${hub.replace(' Hub','')}</span><small>${count}</small></div>`;
-    }).join('');
+    d.innerHTML = legendHtml();
     return d;
   };
   state.legend = legend;
@@ -150,9 +240,20 @@ function summarizeSchools(schools) {
   return out;
 }
 
-function renderSchoolCountCard(counts) {
-  if (!state.schoolsLoaded) return `<div class="school-count-card"><b>Schools</b><br>Turn on the Schools layer to load public school points.</div>`;
-  return `<div class="school-count-card"><b>Public Schools</b><br>${counts.total} total • ${counts.Elementary} elem • ${counts.Middle} middle • ${counts.High} high</div>`;
+function renderSchoolCountCard(counts, scoreSummary = null) {
+  if (!scoreSummary) {
+    if (!state.schoolsLoaded) return `<div class="school-count-card"><b>Schools</b><br>Turn on the Schools layer to load public school points.</div>`;
+    return `<div class="school-count-card"><b>Public Schools</b><br>${counts.total} total • ${counts.Elementary} elem • ${counts.Middle} middle • ${counts.High} high</div>`;
+  }
+  return `<div class="school-score-card">
+    <div class="score-head"><b>School Intelligence</b><span class="score-grade grade-${gradeForScore(scoreSummary.overall)}">${gradeForScore(scoreSummary.overall)}</span></div>
+    <div class="overall-score"><span>${fmtScore(scoreSummary.overall)}</span><small>/10 Overall • ${scoreSummary.count} schools</small></div>
+    <div class="score-breakdown">
+      <div><span>Elementary</span><b>${fmtScore(scoreSummary.elementary)}</b><small>${scoreSummary.elementaryCount}</small></div>
+      <div><span>Middle</span><b>${fmtScore(scoreSummary.middle)}</b><small>${scoreSummary.middleCount}</small></div>
+      <div><span>High</span><b>${fmtScore(scoreSummary.high)}</b><small>${scoreSummary.highCount}</small></div>
+    </div>
+  </div>`;
 }
 
 function renderHubSummary(hub) {
@@ -167,10 +268,10 @@ function renderHubSummary(hub) {
     <div class="metric-grid">
       <div class="metric"><div class="label">Area</div><div class="value">${fmt(Math.round(sqmi), ' sq mi')}</div></div>
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(acres))}</div></div>
-      <div class="metric"><div class="label">Schools</div><div class="value">${state.schoolsLoaded ? counts.total : 'Ready'}</div></div>
+      <div class="metric"><div class="label">School Score</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Builders</div><div class="value">Pending</div></div>
     </div>
-    ${renderSchoolCountCard(counts)}
+    ${renderSchoolCountCard(counts, scoreSummary)}
     <div class="focus-list">
       ${items.map(f => `<div class="focus-row"><span>${f.properties.DisplayName}</span><b>${f.properties.SubmarketID}</b></div>`).join('')}
     </div>
@@ -187,10 +288,10 @@ function renderHomeSummary() {
     <div class="metric-grid">
       <div class="metric"><div class="label">Submarkets</div><div class="value">${total}</div></div>
       <div class="metric"><div class="label">Hubs</div><div class="value">4</div></div>
-      <div class="metric"><div class="label">Schools</div><div class="value">${state.schoolsLoaded ? counts.total : 'Ready'}</div></div>
+      <div class="metric"><div class="label">School Score</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Builders</div><div class="value">Pending</div></div>
     </div>
-    ${renderSchoolCountCard(counts)}
+    ${renderSchoolCountCard(counts, scoreSummary)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>Hub color model</span><b>Active</b></div>
@@ -249,6 +350,7 @@ function findLayerForFeature(feature) {
 function renderSelected(p) {
   const schools = state.schools.filter(s => s.properties.SubmarketID === p.SubmarketID);
   const counts = summarizeSchools(schools);
+  const scoreSummary = scoreSummaryForSubmarket(p.DisplayName);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
     <h3 class="selected-title">${p.DisplayName}</h3>
@@ -256,10 +358,10 @@ function renderSelected(p) {
     <div class="metric-grid">
       <div class="metric"><div class="label">Area</div><div class="value">${fmt(p.AreaSqMi, ' sq mi')}</div></div>
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(Number(p.Acres || 0)))}</div></div>
-      <div class="metric"><div class="label">Schools</div><div class="value">${state.schoolsLoaded ? counts.total : 'Ready'}</div></div>
+      <div class="metric"><div class="label">School Score</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Median Income</div><div class="value">Pending</div></div>
     </div>
-    ${renderSchoolCountCard(counts)}
+    ${renderSchoolCountCard(counts, scoreSummary)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>School Intelligence</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
@@ -410,6 +512,12 @@ async function loadSchools() {
   const data = await fetch(url).then(r => r.json());
   state.schools = (data.features || []).filter(f => f.geometry && f.geometry.coordinates).map(f => {
     f.properties.SchoolType = schoolType(f.properties);
+    const ratingRec = ratingForSchoolName(f.properties.NAME);
+    if (ratingRec) {
+      f.properties.GreatSchoolsRating = ratingRec.Rating;
+      f.properties.RatingSubmarket = ratingRec.Submarket;
+      f.properties.RatingSchoolType = ratingRec.SchoolType;
+    }
     assignSchoolToSubmarket(f);
     return f;
   });
@@ -418,8 +526,9 @@ async function loadSchools() {
     pointToLayer: (feature, latlng) => L.marker(latlng, { icon: schoolIcon(feature.properties.SchoolType) }),
     onEachFeature: (feature, layer) => {
       const p = feature.properties;
-      layer.bindPopup(`<div class="school-popup"><h3>${p.NAME}</h3><p><b>Type:</b> ${p.SchoolType}</p><p><b>Location:</b> ${p.CITY}, ${p.STATE}</p><p><b>County:</b> ${p.NMCNTY || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>NCES ID:</b> ${p.NCESSCH || ''}</p></div>`);
-      layer.on('click', () => selectSchool(feature));
+      layer.bindPopup(`<div class="school-popup"><h3>${p.NAME}</h3><p><b>Type:</b> ${p.SchoolType}</p><p><b>GreatSchools:</b> ${p.GreatSchoolsRating ? p.GreatSchoolsRating + '/10' : 'Not loaded'}</p><p><b>Location:</b> ${p.CITY}, ${p.STATE}</p><p><b>County:</b> ${p.NMCNTY || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>NCES ID:</b> ${p.NCESSCH || ''}</p></div>`);
+      layer.on('click', () => selectSchool(feature, false));
+      layer.on('dblclick', () => selectSchool(feature, true));
     }
   }).addTo(state.map);
   state.schoolsLoaded = true;
@@ -430,12 +539,12 @@ async function loadSchools() {
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
-function selectSchool(school) {
+function selectSchool(school, shouldZoom = true) {
   if (!state.schoolsLoaded && !state.schoolLayer) return;
   if (!state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
   document.getElementById('toggleSchools').checked = true;
   const coords = school.geometry.coordinates;
-  state.map.setView([coords[1], coords[0]], 13);
+  if (shouldZoom) state.map.setView([coords[1], coords[0]], 13);
   let target = null;
   state.schoolLayer.eachLayer(layer => {
     if (layer.feature && layer.feature.properties.NCESSCH === school.properties.NCESSCH) target = layer;
@@ -468,6 +577,8 @@ function bindUI() {
       if (e.target.checked) {
         await loadSchools();
         if (state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
+        document.getElementById('mapThemeSelect').value = 'schools';
+        setMapTheme('schools');
       } else if (state.schoolLayer) {
         state.map.removeLayer(state.schoolLayer);
       }
@@ -478,6 +589,7 @@ function bindUI() {
       alert('The school layer could not be loaded from NCES. Try again later.');
     }
   });
+  document.getElementById('mapThemeSelect').addEventListener('change', e => setMapTheme(e.target.value));
   document.getElementById('basemapSelect').addEventListener('change', e => {
     Object.values(state.basemaps).forEach(l => state.map.removeLayer(l));
     state.basemaps[e.target.value].addTo(state.map);

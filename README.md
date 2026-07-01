@@ -1,10 +1,8 @@
 # Enterprise Submarket Atlas
 
-Release v2.2.0 adds the School Intelligence foundation.
+Custom web GIS and market intelligence platform.
 
-## Data Sources
-- Enterprise custom submarket boundaries from the provided KML.
-- Public school points are loaded live from NCES EDGE Public School Locations 2024-25.
+## v2.2.1
+Adds Baldwin County school rating scorecards and a School Score Heat Map theme.
 
-## Notes
-School ratings/grades are not included in this release. This release establishes the public school point layer, map markers, popups, search integration, and submarket school counts.
+Upload all contents of this release to the root of the GitHub repository.
