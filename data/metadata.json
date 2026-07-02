@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0-school-ratings-complete-fix",
+  "version": "2.3.0",
   "releaseDate": "2026-07-02",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 45,
@@ -8,6 +8,5 @@
   "demographics": "Pending",
   "builders": "Pending",
   "notes": "School Rating release: expanded GreatSchools ratings database from completed Gulf Coast school ratings spreadsheet.",
-  "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered",
-  "schoolRatingsLoaded": 261
+  "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered"
 }
