@@ -5,45 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gulf Coast Submarket Atlas</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <div class="app-shell" id="appShell">
-    <button id="sidebarToggle" class="sidebar-toggle" title="Toggle sidebar">☰</button>
-    <aside class="sidebar" id="sidebar">
+    <aside class="market-panel" id="marketPanel">
       <div class="brand">
         <div class="brand-mark">GCSA</div>
-        <div>
-          <h1>Gulf Coast Submarket Atlas</h1>
-          <p>Market intelligence platform</p>
-        </div>
+        <div><h1>Gulf Coast Submarket Atlas</h1><p>Market Intelligence Platform</p></div>
       </div>
 
-      <section class="control-block health-block">
-        <h2>Atlas Health</h2>
-        <div class="health-layout">
-          <div class="health-ring"><span>25</span><small>/100</small></div>
-          <div class="health-list">
-            <div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div>
-            <div><span class="dot partial"></span><span>Schools</span><b>Layer Ready</b></div>
-            <div><span class="dot pending"></span><span>Demographics</span><b>Pending</b></div>
-            <div><span class="dot pending"></span><span>Builders</span><b>Pending</b></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="control-block">
-        <label for="searchInput">Search Atlas</label>
-        <div class="search-row">
-          <input id="searchInput" type="search" placeholder="Search submarket, SM-##, school, city...">
-          <button id="searchBtn" aria-label="Search">Go</button>
-        </div>
-        <div id="searchResults" class="search-results"></div>
-      </section>
-
-      <section class="control-block">
+      <section class="panel-section">
         <h2>Market Data</h2>
-
         <label for="mapThemeSelect">Map Theme</label>
         <select id="mapThemeSelect" class="wide-select">
           <option value="hub">Hub View</option>
@@ -55,51 +28,65 @@
         <label class="check disabled"><input type="checkbox" disabled> Builders <span>Coming Soon</span></label>
       </section>
 
-      <section class="control-block hubs-block">
+      <section class="panel-section">
+        <h2>Market Summary</h2>
+        <div id="selectedPanel" class="selected-panel empty"><p>Click a submarket on the map or use search.</p></div>
+      </section>
+
+      <section class="panel-section">
+        <div id="statusPanel" class="status-list"></div>
+        <button class="primary-action" type="button">View Market Profile</button>
+      </section>
+
+      <section class="panel-section">
+        <label for="searchInput">Search Atlas</label>
+        <div class="search-row"><input id="searchInput" type="search" placeholder="Search submarket, SM-##, school..."><button id="searchBtn">Go</button></div>
+        <div id="searchResults" class="search-results"></div>
+      </section>
+
+      <section class="panel-section">
+        <h2>Quick Search</h2>
+        <div id="quickSearch" class="quick-search"></div>
+      </section>
+
+      <section class="panel-section health-section">
+        <h2>Atlas Health</h2>
+        <div class="health-layout"><div class="health-ring"><span>25</span><small>/100</small></div><div class="health-list"><div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div><div><span class="dot partial"></span><span>Schools</span><b>Layer Ready</b></div><div><span class="dot pending"></span><span>Demographics</span><b>Pending</b></div><div><span class="dot pending"></span><span>Builders</span><b>Pending</b></div></div></div>
+      </section>
+
+      <section class="panel-section hubs-section">
         <h2>Submarket Hubs</h2>
         <div id="hubList" class="hub-list"></div>
       </section>
 
-
-      <section class="control-block school-tools-block">
+      <section class="panel-section school-tools">
         <h2>School Rating Tools</h2>
         <button id="exportMissingRatingsBtn" class="wide-button" type="button">Download Missing Ratings CSV</button>
-        <p class="helper-text">Loads the live school layer and exports schools on the map that do not yet match a GreatSchools rating.</p>
+        <p class="helper-text">Exports schools on the map that do not yet match a rating.</p>
       </section>
 
-      <section class="control-block">
-        <h2>Market Summary</h2>
-        <div id="selectedPanel" class="selected-panel empty">
-          <p>Click a submarket on the map or use search.</p>
-        </div>
-      </section>
-
-      <section class="control-block small">
-        <h2>About</h2>
-        <div id="releasePanel">Loading validation...</div>
-      </section>
+      <section class="panel-section small"><h2>About</h2><div id="releasePanel">Loading...</div></section>
     </aside>
 
     <main class="map-area">
       <header class="topbar">
-        <div class="top-title">
-          <strong>Gulf Coast Submarket Atlas</strong>
-          <span id="statusText">Loading atlas...</span>
-        </div>
-        <div class="top-actions">
-          <button id="topSearchBtn" class="ghost-btn">Search</button>
-          <select id="basemapSelect" aria-label="Basemap">
-            <option value="light">Light</option>
-            <option value="streets">Streets</option>
-            <option value="topo">Topo</option>
-          </select>
-          <button id="resetBtn">Reset View</button>
-        </div>
+        <button id="sidebarToggle" class="sidebar-toggle" title="Toggle panel">☰</button>
+        <div class="top-title"><strong>Gulf Coast Submarket Atlas</strong><span id="statusText">Loading atlas...</span></div>
+        <div class="top-actions"><button id="topSearchBtn" class="ghost-btn">Search</button><select id="basemapSelect"><option value="light">Light</option><option value="streets">Streets</option><option value="topo">Topo</option></select><button id="resetBtn">Reset View</button></div>
       </header>
       <div id="map"></div>
     </main>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/schools.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/search.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
