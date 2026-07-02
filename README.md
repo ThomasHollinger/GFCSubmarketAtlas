@@ -1,5 +1,5 @@
 # Gulf Coast Submarket Atlas
 
-Version 2.2.5.
+Version 2.3.0.
 
-This patch fixes School Rating calculations. Ratings are calculated from rated school points that physically fall within each submarket polygon. Unrated schools are ignored.
+This release imports the expanded GreatSchools ratings database and calculates School Rating scores from rated school points physically located within each submarket polygon.

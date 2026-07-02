@@ -21,7 +21,7 @@ const hubBaseColors = {
 
 const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
 
-const schoolRatingRecords = [{"Submarket": "North Baldwin", "SchoolName": "Bay Minette Elementary", "SchoolType": "Elementary", "Rating": 4}, {"Submarket": "North Baldwin", "SchoolName": "Bay Minette Middle", "SchoolType": "Middle", "Rating": 8}, {"Submarket": "North Baldwin", "SchoolName": "Baldwin County High", "SchoolType": "High", "Rating": 8}, {"Submarket": "North Baldwin", "SchoolName": "Delta Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "North Baldwin", "SchoolName": "Pine Grove Elementary", "SchoolType": "Elementary", "Rating": 7}, {"Submarket": "North Baldwin", "SchoolName": "Stapleton Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "Central Baldwin", "SchoolName": "Belforest Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne East Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne Middle", "SchoolType": "Middle", "Rating": 6}, {"Submarket": "Central Baldwin", "SchoolName": "Daphne High", "SchoolType": "High", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Rockwell Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Spanish Fort Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Spanish Fort Middle", "SchoolType": "Middle", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Spanish Fort High", "SchoolType": "High", "Rating": 10}, {"Submarket": "Central Baldwin", "SchoolName": "Stonebridge Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "West Baldwin", "SchoolName": "Central Baldwin Middle", "SchoolType": "Middle", "Rating": 8}, {"Submarket": "West Baldwin", "SchoolName": "Elsanor Elementary", "SchoolType": "Elementary", "Rating": 9}, {"Submarket": "West Baldwin", "SchoolName": "Loxley Elementary", "SchoolType": "Elementary", "Rating": 8}, {"Submarket": "West Baldwin", "SchoolName": "Robertsdale Elementary", "SchoolType": "Elementary", "Rating": 5}, {"Submarket": "West Baldwin", "SchoolName": "Robertsdale High", "SchoolType": "High", "Rating": 8}, {"Submarket": "West Baldwin", "SchoolName": "Rosinton Elementary", "SchoolType": "Elementary", "Rating": 7}, {"Submarket": "West Baldwin", "SchoolName": "Silverhill Elementary", "SchoolType": "Elementary", "Rating": 5}, {"Submarket": "South Baldwin", "SchoolName": "Elberta Elementary", "SchoolType": "Elementary", "Rating": 7}, {"Submarket": "South Baldwin", "SchoolName": "Elberta Middle", "SchoolType": "Middle", "Rating": 9}, {"Submarket": "South Baldwin", "SchoolName": "Elberta High", "SchoolType": "High", "Rating": 8}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope East Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope West Elementary", "SchoolType": "Elementary", "Rating": 10}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope Middle", "SchoolType": "Middle", "Rating": 10}, {"Submarket": "South Baldwin", "SchoolName": "Fairhope High", "SchoolType": "High", "Rating": 9}, {"Submarket": "South Baldwin", "SchoolName": "Florence B. Mathis Elementary", "SchoolType": "Elementary", "Rating": 3}, {"Submarket": "South Baldwin", "SchoolName": "Foley Elementary", "SchoolType": "Elementary", "Rating": 4}, {"Submarket": "South Baldwin", "SchoolName": "Foley Middle", "SchoolType": "Middle", "Rating": 4}, {"Submarket": "South Baldwin", "SchoolName": "Foley High", "SchoolType": "High", "Rating": 7}, {"Submarket": "South Baldwin", "SchoolName": "J. Larry Newton Elementary", "SchoolType": "Elementary", "Rating": 9}, {"Submarket": "South Baldwin", "SchoolName": "Magnolia School", "SchoolType": "K-6", "Rating": 8}];
+const schoolRatingRecords = [{"County": "Baldwin", "City": "", "SchoolName": "Bay Minette Elementary", "SchoolType": "Elementary", "Rating": 4}, {"County": "Baldwin", "City": "", "SchoolName": "Bay Minette Middle", "SchoolType": "Middle", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Baldwin County High", "SchoolType": "High", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Delta Elementary", "SchoolType": "Elementary", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Pine Grove Elementary", "SchoolType": "Elementary", "Rating": 7}, {"County": "Baldwin", "City": "", "SchoolName": "Stapleton Elementary", "SchoolType": "Elementary", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Belforest Elementary", "SchoolType": "Elementary", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne East Elementary", "SchoolType": "Elementary", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne Elementary", "SchoolType": "Elementary", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne Middle", "SchoolType": "Middle", "Rating": 6}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne High", "SchoolType": "High", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Rockwell Elementary", "SchoolType": "Elementary", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Spanish Fort Elementary", "SchoolType": "Elementary", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Spanish Fort Middle", "SchoolType": "Middle", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Spanish Fort High", "SchoolType": "High", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Stonebridge Elementary", "SchoolType": "Elementary", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Central Baldwin Middle", "SchoolType": "Middle", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Elsanor Elementary", "SchoolType": "Elementary", "Rating": 9}, {"County": "Baldwin", "City": "", "SchoolName": "Loxley Elementary", "SchoolType": "Elementary", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Robertsdale Elementary", "SchoolType": "Elementary", "Rating": 5}, {"County": "Baldwin", "City": "", "SchoolName": "Robertsdale High", "SchoolType": "High", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Rosinton Elementary", "SchoolType": "Elementary", "Rating": 7}, {"County": "Baldwin", "City": "", "SchoolName": "Silverhill Elementary", "SchoolType": "Elementary", "Rating": 5}, {"County": "Baldwin", "City": "", "SchoolName": "Elberta Elementary", "SchoolType": "Elementary", "Rating": 7}, {"County": "Baldwin", "City": "", "SchoolName": "Elberta Middle", "SchoolType": "Middle", "Rating": 9}, {"County": "Baldwin", "City": "", "SchoolName": "Elberta High", "SchoolType": "High", "Rating": 8}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope East Elementary", "SchoolType": "Elementary", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope West Elementary", "SchoolType": "Elementary", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope Middle", "SchoolType": "Middle", "Rating": 10}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope High", "SchoolType": "High", "Rating": 9}, {"County": "Baldwin", "City": "", "SchoolName": "Florence B. Mathis Elementary", "SchoolType": "Elementary", "Rating": 3}, {"County": "Baldwin", "City": "", "SchoolName": "Foley Elementary", "SchoolType": "Elementary", "Rating": 4}, {"County": "Baldwin", "City": "", "SchoolName": "Foley Middle", "SchoolType": "Middle", "Rating": 4}, {"County": "Baldwin", "City": "", "SchoolName": "Foley High", "SchoolType": "High", "Rating": 7}, {"County": "Baldwin", "City": "", "SchoolName": "J. Larry Newton Elementary", "SchoolType": "Elementary", "Rating": 9}, {"County": "Baldwin", "City": "", "SchoolName": "Magnolia School", "SchoolType": "K-6", "Rating": 8}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Alba Middle School", "SchoolType": "", "Rating": 8}, {"County": "Mobile", "City": "Irvington", "SchoolName": "Alma Bryant High School", "SchoolType": "", "Rating": 5}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Baker High School", "SchoolType": "", "Rating": 7}, {"County": "Mobile", "City": "Mobile", "SchoolName": "B.C. Rain High School", "SchoolType": "", "Rating": 2}, {"County": "Mobile", "City": "Eight Mile", "SchoolName": "Blount High School", "SchoolType": "", "Rating": 2}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Burns Middle School", "SchoolType": "", "Rating": 2}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Davidson High School", "SchoolType": "", "Rating": 6}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Dodge Elementary", "SchoolType": "", "Rating": 3}, {"County": "Mobile", "City": "Mobile", "SchoolName": "LeFlore High School", "SchoolType": "", "Rating": 2}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Murphy High School", "SchoolType": "", "Rating": 4}, {"County": "Mobile", "City": "Semmes", "SchoolName": "Semmes Elementary", "SchoolType": "", "Rating": 8}, {"County": "Mobile", "City": "Semmes", "SchoolName": "Semmes Middle School", "SchoolType": "", "Rating": 4}, {"County": "Mobile", "City": "Theodore", "SchoolName": "Theodore High School", "SchoolType": "", "Rating": 2}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Williamson High School", "SchoolType": "", "Rating": 1}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Bellview Elementary", "SchoolType": "", "Rating": 8}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Bellview Middle", "SchoolType": "", "Rating": 2}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Blue Angels Elementary", "SchoolType": "", "Rating": 6}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Brentwood Elementary", "SchoolType": "", "Rating": 3}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Brown Barge Middle", "SchoolType": "", "Rating": 8}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Escambia High", "SchoolType": "", "Rating": 3}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Ferry Pass Elementary", "SchoolType": "", "Rating": 7}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Jim Allen Elementary", "SchoolType": "", "Rating": 7}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Pine Forest High", "SchoolType": "", "Rating": 2}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Ransom Middle", "SchoolType": "", "Rating": 5}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Scenic Heights Elementary", "SchoolType": "", "Rating": 4}, {"County": "Escambia", "City": "Cantonment", "SchoolName": "Tate High", "SchoolType": "", "Rating": 5}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Washington High", "SchoolType": "", "Rating": 3}, {"County": "Santa Rosa", "City": "Pace", "SchoolName": "Pace High", "SchoolType": "", "Rating": 6}, {"County": "Santa Rosa", "City": "Pace", "SchoolName": "Pace Middle", "SchoolType": "", "Rating": 8}, {"County": "Santa Rosa", "City": "Milton", "SchoolName": "Milton High", "SchoolType": "", "Rating": 4}, {"County": "Santa Rosa", "City": "Gulf Breeze", "SchoolName": "Gulf Breeze High", "SchoolType": "", "Rating": 6}, {"County": "Santa Rosa", "City": "Navarre", "SchoolName": "Navarre High", "SchoolType": "", "Rating": 5}, {"County": "Okaloosa", "City": "Niceville", "SchoolName": "Niceville High", "SchoolType": "", "Rating": 7}, {"County": "Okaloosa", "City": "Fort Walton Beach", "SchoolName": "Choctawhatchee High", "SchoolType": "", "Rating": 4}, {"County": "Okaloosa", "City": "Crestview", "SchoolName": "Crestview High", "SchoolType": "", "Rating": 4}, {"County": "Okaloosa", "City": "Destin", "SchoolName": "Destin Elementary", "SchoolType": "", "Rating": 10}, {"County": "Walton", "City": "Freeport", "SchoolName": "Freeport High", "SchoolType": "", "Rating": 8}, {"County": "Walton", "City": "Freeport", "SchoolName": "Freeport Middle", "SchoolType": "", "Rating": 7}, {"County": "Walton", "City": "Santa Rosa Beach", "SchoolName": "South Walton High", "SchoolType": "", "Rating": 8}, {"County": "Walton", "City": "DeFuniak Springs", "SchoolName": "Walton High", "SchoolType": "", "Rating": 7}, {"County": "Bay", "City": "Panama City Beach", "SchoolName": "Arnold High", "SchoolType": "", "Rating": 4}, {"County": "Bay", "City": "Panama City", "SchoolName": "Bay High", "SchoolType": "", "Rating": 3}, {"County": "Bay", "City": "Lynn Haven", "SchoolName": "Mosley High", "SchoolType": "", "Rating": 6}, {"County": "Bay", "City": "Panama City", "SchoolName": "Rutherford High", "SchoolType": "", "Rating": 2}, {"County": "Jackson", "City": "Marianna", "SchoolName": "Marianna High", "SchoolType": "", "Rating": 3}, {"County": "Jackson", "City": "Sneads", "SchoolName": "Sneads High", "SchoolType": "", "Rating": 4}, {"County": "Washington", "City": "Chipley", "SchoolName": "Washington County High", "SchoolType": "", "Rating": 3}, {"County": "Holmes", "City": "Bonifay", "SchoolName": "Holmes County High", "SchoolType": "", "Rating": 3}, {"County": "Calhoun", "City": "Blountstown", "SchoolName": "Blountstown High", "SchoolType": "", "Rating": 6}, {"County": "Gulf", "City": "Port St. Joe", "SchoolName": "Port St. Joe Jr./Sr. High", "SchoolType": "", "Rating": 6}, {"County": "Gulf", "City": "Wewahitchka", "SchoolName": "Wewahitchka High", "SchoolType": "", "Rating": 4}];
 state.mapTheme = 'hub';
 
 function normalizeName(name) {
@@ -35,14 +35,37 @@ function normalizeName(name) {
     .trim();
 }
 
-function ratingForSchoolName(name) {
+function ratingForSchoolName(input) {
+  const props = typeof input === 'object' && input !== null ? input : { NAME: input };
+  const name = props.NAME || '';
+  const city = normalizeName(props.CITY || '');
+  const county = normalizeName(props.NMCNTY || '').replace(/ county$/,'');
   const n = normalizeName(name);
-  let rec = schoolRatingRecords.find(r => normalizeName(r.SchoolName) === n);
-  if (!rec) rec = schoolRatingRecords.find(r => {
-    const rn = normalizeName(r.SchoolName);
-    return n.includes(rn) || rn.includes(n);
-  });
-  return rec || null;
+
+  function tokenSet(str) {
+    const stop = new Set(['school','elementary','middle','high','senior','junior','jr','sr','the','of','academy']);
+    return normalizeName(str).split(' ').filter(t => t && !stop.has(t));
+  }
+
+  let best = null;
+  let bestScore = 0;
+  for (const rec of schoolRatingRecords) {
+    const rn = normalizeName(rec.SchoolName);
+    let score = 0;
+    if (rn === n) score = 100;
+    else if (n.includes(rn) || rn.includes(n)) score = 82;
+    else {
+      const rt = tokenSet(rec.SchoolName);
+      const nt = tokenSet(name);
+      const common = rt.filter(t => nt.includes(t)).length;
+      if (rt.length && common === rt.length) score = 70;
+      else if (rt.length && common / rt.length >= 0.75) score = 58;
+    }
+    if (rec.City && city && normalizeName(rec.City) === city) score += 8;
+    if (rec.County && county && normalizeName(rec.County).replace(/ county$/,'') === county) score += 5;
+    if (score > bestScore) { bestScore = score; best = rec; }
+  }
+  return bestScore >= 58 ? best : null;
 }
 
 function avg(nums) {
@@ -145,7 +168,7 @@ function styleFeature(feature) {
 
 function legendHtml() {
   if (state.mapTheme === 'schools') {
-    return `<b>School Score</b><div class="legend-subtitle">GreatSchools Average</div>` + [
+    return `<b>School Rating</b><div class="legend-subtitle">GreatSchools Average</div>` + [
       ['#1f8f4d','A','9.0-10.0'], ['#74b816','B','8.0-8.9'], ['#f2c94c','C','7.0-7.9'], ['#f2994a','D','6.0-6.9'], ['#d64545','F','Below 6.0'], ['#d0d5dd','Pending','No rating']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
@@ -312,7 +335,7 @@ function renderHubSummary(hub) {
     <div class="metric-grid">
       <div class="metric"><div class="label">Area</div><div class="value">${fmt(Math.round(sqmi), ' sq mi')}</div></div>
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(acres))}</div></div>
-      <div class="metric"><div class="label">School Score</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
+      <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Builders</div><div class="value">Pending</div></div>
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -333,7 +356,7 @@ function renderHomeSummary() {
     <div class="metric-grid">
       <div class="metric"><div class="label">Submarkets</div><div class="value">${total}</div></div>
       <div class="metric"><div class="label">Hubs</div><div class="value">4</div></div>
-      <div class="metric"><div class="label">School Score</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
+      <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Builders</div><div class="value">Pending</div></div>
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -403,7 +426,7 @@ function renderSelected(p) {
     <div class="metric-grid">
       <div class="metric"><div class="label">Area</div><div class="value">${fmt(p.AreaSqMi, ' sq mi')}</div></div>
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(Number(p.Acres || 0)))}</div></div>
-      <div class="metric"><div class="label">School Score</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
+      <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Median Income</div><div class="value">Pending</div></div>
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -557,7 +580,7 @@ async function loadSchools() {
   const data = await fetch(url).then(r => r.json());
   state.schools = (data.features || []).filter(f => f.geometry && f.geometry.coordinates).map(f => {
     f.properties.SchoolType = schoolType(f.properties);
-    const ratingRec = ratingForSchoolName(f.properties.NAME);
+    const ratingRec = ratingForSchoolName(f.properties);
     if (ratingRec) {
       f.properties.GreatSchoolsRating = ratingRec.Rating;
       f.properties.RatingSubmarket = ratingRec.Submarket;

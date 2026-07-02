@@ -1,0 +1,88 @@
+County,City,SchoolName,SchoolType,Rating
+Baldwin,,Bay Minette Elementary,Elementary,4
+Baldwin,,Bay Minette Middle,Middle,8
+Baldwin,,Baldwin County High,High,8
+Baldwin,,Delta Elementary,Elementary,8
+Baldwin,,Pine Grove Elementary,Elementary,7
+Baldwin,,Stapleton Elementary,Elementary,8
+Baldwin,,Belforest Elementary,Elementary,10
+Baldwin,,Daphne East Elementary,Elementary,10
+Baldwin,,Daphne Elementary,Elementary,8
+Baldwin,,Daphne Middle,Middle,6
+Baldwin,,Daphne High,High,10
+Baldwin,,Rockwell Elementary,Elementary,10
+Baldwin,,Spanish Fort Elementary,Elementary,10
+Baldwin,,Spanish Fort Middle,Middle,10
+Baldwin,,Spanish Fort High,High,10
+Baldwin,,Stonebridge Elementary,Elementary,10
+Baldwin,,Central Baldwin Middle,Middle,8
+Baldwin,,Elsanor Elementary,Elementary,9
+Baldwin,,Loxley Elementary,Elementary,8
+Baldwin,,Robertsdale Elementary,Elementary,5
+Baldwin,,Robertsdale High,High,8
+Baldwin,,Rosinton Elementary,Elementary,7
+Baldwin,,Silverhill Elementary,Elementary,5
+Baldwin,,Elberta Elementary,Elementary,7
+Baldwin,,Elberta Middle,Middle,9
+Baldwin,,Elberta High,High,8
+Baldwin,,Fairhope East Elementary,Elementary,10
+Baldwin,,Fairhope West Elementary,Elementary,10
+Baldwin,,Fairhope Middle,Middle,10
+Baldwin,,Fairhope High,High,9
+Baldwin,,Florence B. Mathis Elementary,Elementary,3
+Baldwin,,Foley Elementary,Elementary,4
+Baldwin,,Foley Middle,Middle,4
+Baldwin,,Foley High,High,7
+Baldwin,,J. Larry Newton Elementary,Elementary,9
+Baldwin,,Magnolia School,K-6,8
+Mobile,Mobile,Alba Middle School,,8
+Mobile,Irvington,Alma Bryant High School,,5
+Mobile,Mobile,Baker High School,,7
+Mobile,Mobile,B.C. Rain High School,,2
+Mobile,Eight Mile,Blount High School,,2
+Mobile,Mobile,Burns Middle School,,2
+Mobile,Mobile,Davidson High School,,6
+Mobile,Mobile,Dodge Elementary,,3
+Mobile,Mobile,LeFlore High School,,2
+Mobile,Mobile,Murphy High School,,4
+Mobile,Semmes,Semmes Elementary,,8
+Mobile,Semmes,Semmes Middle School,,4
+Mobile,Theodore,Theodore High School,,2
+Mobile,Mobile,Williamson High School,,1
+Escambia,Pensacola,Bellview Elementary,,8
+Escambia,Pensacola,Bellview Middle,,2
+Escambia,Pensacola,Blue Angels Elementary,,6
+Escambia,Pensacola,Brentwood Elementary,,3
+Escambia,Pensacola,Brown Barge Middle,,8
+Escambia,Pensacola,Escambia High,,3
+Escambia,Pensacola,Ferry Pass Elementary,,7
+Escambia,Pensacola,Jim Allen Elementary,,7
+Escambia,Pensacola,Pine Forest High,,2
+Escambia,Pensacola,Ransom Middle,,5
+Escambia,Pensacola,Scenic Heights Elementary,,4
+Escambia,Cantonment,Tate High,,5
+Escambia,Pensacola,Washington High,,3
+Santa Rosa,Pace,Pace High,,6
+Santa Rosa,Pace,Pace Middle,,8
+Santa Rosa,Milton,Milton High,,4
+Santa Rosa,Gulf Breeze,Gulf Breeze High,,6
+Santa Rosa,Navarre,Navarre High,,5
+Okaloosa,Niceville,Niceville High,,7
+Okaloosa,Fort Walton Beach,Choctawhatchee High,,4
+Okaloosa,Crestview,Crestview High,,4
+Okaloosa,Destin,Destin Elementary,,10
+Walton,Freeport,Freeport High,,8
+Walton,Freeport,Freeport Middle,,7
+Walton,Santa Rosa Beach,South Walton High,,8
+Walton,DeFuniak Springs,Walton High,,7
+Bay,Panama City Beach,Arnold High,,4
+Bay,Panama City,Bay High,,3
+Bay,Lynn Haven,Mosley High,,6
+Bay,Panama City,Rutherford High,,2
+Jackson,Marianna,Marianna High,,3
+Jackson,Sneads,Sneads High,,4
+Washington,Chipley,Washington County High,,3
+Holmes,Bonifay,Holmes County High,,3
+Calhoun,Blountstown,Blountstown High,,6
+Gulf,Port St. Joe,Port St. Joe Jr./Sr. High,,6
+Gulf,Wewahitchka,Wewahitchka High,,4

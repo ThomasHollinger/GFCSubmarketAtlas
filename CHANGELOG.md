@@ -1,11 +1,9 @@
 # Changelog
 
-## v2.2.5
-- Fixed School Rating calculations to use only rated school points physically located inside each submarket polygon.
-- Unrated schools are ignored and are not counted as zero.
-- Added expandable "Schools used in calculation" list under School Rating.
-- Preserved school toggle behavior: Schools on = school heat map + school pins; Schools off = hub view.
+## v2.3.0
+- Imported completed Gulf Coast school ratings spreadsheet.
+- Expanded rating records beyond Baldwin County.
+- Improved school-name matching for NCES school points.
+- School Rating heat map now uses the expanded master ratings database.
+- Unrated schools remain excluded from score calculations.
 
-## v2.2.4
-- Renamed application to Gulf Coast Submarket Atlas.
-- Renamed School Intelligence to School Rating.
