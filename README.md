@@ -1,5 +1,5 @@
-# Gulf Coast Submarket Atlas v2.3.1
+# Gulf Coast Submarket Atlas
 
-Quality-of-life release focused on sidebar layout.
+Version 2.3.0.
 
-Upload all files in this folder to the GitHub repository root to replace the current version.
+This release imports the expanded GreatSchools ratings database and calculates School Rating scores from rated school points physically located within each submarket polygon.
