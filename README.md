@@ -1,3 +1,5 @@
-# Gulf Coast Submarket Atlas v2.3.2
+# Gulf Coast Submarket Atlas
 
-Quality-of-life patch focused on sidebar layout and persistent School Rating calculations.
+Version v2.3.3. Static web GIS for GitHub Pages.
+
+This release adds a missing school ratings export tool to help complete the school ratings database.

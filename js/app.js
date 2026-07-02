@@ -243,6 +243,13 @@ async function loadData() {
 
   state.map.fitBounds(state.submarketLayer.getBounds(), { padding: [24, 24] });
   state.legend.addTo(state.map);
+
+  // Load school points in the background so School Rating summaries can calculate
+  // even when the school pins are not visible.
+  loadSchools({ showLayer: false }).catch(err => {
+    console.warn('School layer background load failed.', err);
+    document.getElementById('schoolCountBadge').textContent = 'Load Layer';
+  });
 }
 
 function renderRelease(meta) {
@@ -561,7 +568,8 @@ function bboxForSubmarkets() {
   return [Math.min(...xs)-0.15, Math.min(...ys)-0.15, Math.max(...xs)+0.15, Math.max(...ys)+0.15];
 }
 
-async function loadSchools(showLayer = false) {
+async function loadSchools(options = {}) {
+  const showLayer = !!options.showLayer;
   if (state.schoolsLoaded) {
     if (showLayer && state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
     return;
@@ -624,6 +632,50 @@ function selectSchool(school, shouldZoom = true) {
   if (target) target.openPopup();
 }
 
+
+function csvEscape(value) {
+  const s = value === null || value === undefined ? '' : String(value);
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+
+function missingRatedSchoolRows() {
+  if (!state.schoolsLoaded) return [];
+  return state.schools
+    .filter(s => !s.properties.GreatSchoolsRating)
+    .map(s => {
+      const p = s.properties || {};
+      return {
+        County: p.NMCNTY || '',
+        City: p.CITY || '',
+        SchoolName: p.NAME || '',
+        SchoolType: p.SchoolType || '',
+        NCESID: p.NCESSCH || '',
+        Submarket: p.SubmarketName || '',
+        GreatSchoolsRating: ''
+      };
+    })
+    .sort((a,b) => (a.County + a.City + a.SchoolName).localeCompare(b.County + b.City + b.SchoolName));
+}
+
+function downloadMissingRatingsCsv() {
+  const rows = missingRatedSchoolRows();
+  if (!rows.length) {
+    alert(state.schoolsLoaded ? 'No missing school ratings found in the current school layer.' : 'Schools are still loading. Try again in a few seconds.');
+    return;
+  }
+  const headers = ['County','City','SchoolName','SchoolType','NCESID','Submarket','GreatSchoolsRating'];
+  const csv = [headers.join(',')].concat(rows.map(row => headers.map(h => csvEscape(row[h])).join(','))).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'gulf_coast_missing_school_ratings.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 function bindUI() {
   document.getElementById('sidebarToggle').addEventListener('click', () => {
     document.getElementById('appShell').classList.toggle('collapsed');
@@ -647,7 +699,7 @@ function bindUI() {
   document.getElementById('toggleSchools').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
-        await loadSchools(true);
+        await loadSchools({ showLayer: true });
         if (state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
         document.getElementById('mapThemeSelect').value = 'schools';
         setMapTheme('schools');
@@ -674,12 +726,7 @@ function bindUI() {
 
 initMap();
 bindUI();
-loadData()
-  .then(() => loadSchools(false).catch(err => {
-    console.warn('School rating preload failed:', err);
-    document.getElementById('schoolCountBadge').textContent = 'Load Layer';
-  }))
-  .catch(err => {
-    console.error(err);
-    document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
-  });
+loadData().catch(err => {
+  console.error(err);
+  document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+});
