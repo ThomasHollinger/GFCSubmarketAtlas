@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.3",
+  "version": "2.3.0",
   "releaseDate": "2026-07-02",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 45,
@@ -7,6 +7,6 @@
   "schools": "Live NCES layer enabled",
   "demographics": "Pending",
   "builders": "Pending",
-  "notes": "School database cleanup: background school loading, missing ratings export, and unified runtime school rating workflow.",
+  "notes": "School Rating release: expanded GreatSchools ratings database from completed Gulf Coast school ratings spreadsheet.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered"
 }
