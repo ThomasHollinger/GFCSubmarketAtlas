@@ -1,9 +1,6 @@
 # Changelog
 
-## v2.3.0
-- Imported completed Gulf Coast school ratings spreadsheet.
-- Expanded rating records beyond Baldwin County.
-- Improved school-name matching for NCES school points.
-- School Rating heat map now uses the expanded master ratings database.
-- Unrated schools remain excluded from score calculations.
-
+## v2.3.2
+- Reordered sidebar: Market Data, Market Summary, Search, Atlas Health, Hubs.
+- School ratings now preload in the background so submarket School Rating shows even when the Schools layer is off.
+- Schools toggle still switches on school pins + School Rating heat map; toggling off returns to Hub View.

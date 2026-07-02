@@ -561,8 +561,11 @@ function bboxForSubmarkets() {
   return [Math.min(...xs)-0.15, Math.min(...ys)-0.15, Math.max(...xs)+0.15, Math.max(...ys)+0.15];
 }
 
-async function loadSchools() {
-  if (state.schoolsLoaded) return;
+async function loadSchools(showLayer = false) {
+  if (state.schoolsLoaded) {
+    if (showLayer && state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
+    return;
+  }
   document.getElementById('schoolCountBadge').textContent = 'Loading...';
   const bbox = bboxForSubmarkets();
   const params = new URLSearchParams({
@@ -598,7 +601,8 @@ async function loadSchools() {
       layer.on('click', () => selectSchool(feature, false));
       layer.on('dblclick', () => selectSchool(feature, true));
     }
-  }).addTo(state.map);
+  });
+  if (showLayer) state.schoolLayer.addTo(state.map);
   state.schoolsLoaded = true;
   buildSearchIndex();
   renderSearchResults(document.getElementById('searchInput').value || '');
@@ -643,7 +647,7 @@ function bindUI() {
   document.getElementById('toggleSchools').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
-        await loadSchools();
+        await loadSchools(true);
         if (state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
         document.getElementById('mapThemeSelect').value = 'schools';
         setMapTheme('schools');
@@ -670,7 +674,12 @@ function bindUI() {
 
 initMap();
 bindUI();
-loadData().catch(err => {
-  console.error(err);
-  document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
-});
+loadData()
+  .then(() => loadSchools(false).catch(err => {
+    console.warn('School rating preload failed:', err);
+    document.getElementById('schoolCountBadge').textContent = 'Load Layer';
+  }))
+  .catch(err => {
+    console.error(err);
+    document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+  });
