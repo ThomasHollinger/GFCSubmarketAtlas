@@ -1,9 +1,6 @@
 # Changelog
 
-## v2.3.0
-- Imported completed Gulf Coast school ratings spreadsheet.
-- Expanded rating records beyond Baldwin County.
-- Improved school-name matching for NCES school points.
-- School Rating heat map now uses the expanded master ratings database.
-- Unrated schools remain excluded from score calculations.
-
+## v2.3.1-school-complete
+- Updated v2.3.0 stable build with complete provided school ratings.
+- Added NCES ID based matching before name matching.
+- Other/unrated schools are excluded from score calculations.

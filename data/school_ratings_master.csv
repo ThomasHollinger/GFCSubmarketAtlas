@@ -1,88 +1,201 @@
-County,City,SchoolName,SchoolType,Rating
-Baldwin,,Bay Minette Elementary,Elementary,4
-Baldwin,,Bay Minette Middle,Middle,8
-Baldwin,,Baldwin County High,High,8
-Baldwin,,Delta Elementary,Elementary,8
-Baldwin,,Pine Grove Elementary,Elementary,7
-Baldwin,,Stapleton Elementary,Elementary,8
-Baldwin,,Belforest Elementary,Elementary,10
-Baldwin,,Daphne East Elementary,Elementary,10
-Baldwin,,Daphne Elementary,Elementary,8
-Baldwin,,Daphne Middle,Middle,6
-Baldwin,,Daphne High,High,10
-Baldwin,,Rockwell Elementary,Elementary,10
-Baldwin,,Spanish Fort Elementary,Elementary,10
-Baldwin,,Spanish Fort Middle,Middle,10
-Baldwin,,Spanish Fort High,High,10
-Baldwin,,Stonebridge Elementary,Elementary,10
-Baldwin,,Central Baldwin Middle,Middle,8
-Baldwin,,Elsanor Elementary,Elementary,9
-Baldwin,,Loxley Elementary,Elementary,8
-Baldwin,,Robertsdale Elementary,Elementary,5
-Baldwin,,Robertsdale High,High,8
-Baldwin,,Rosinton Elementary,Elementary,7
-Baldwin,,Silverhill Elementary,Elementary,5
-Baldwin,,Elberta Elementary,Elementary,7
-Baldwin,,Elberta Middle,Middle,9
-Baldwin,,Elberta High,High,8
-Baldwin,,Fairhope East Elementary,Elementary,10
-Baldwin,,Fairhope West Elementary,Elementary,10
-Baldwin,,Fairhope Middle,Middle,10
-Baldwin,,Fairhope High,High,9
-Baldwin,,Florence B. Mathis Elementary,Elementary,3
-Baldwin,,Foley Elementary,Elementary,4
-Baldwin,,Foley Middle,Middle,4
-Baldwin,,Foley High,High,7
-Baldwin,,J. Larry Newton Elementary,Elementary,9
-Baldwin,,Magnolia School,K-6,8
-Mobile,Mobile,Alba Middle School,,8
-Mobile,Irvington,Alma Bryant High School,,5
-Mobile,Mobile,Baker High School,,7
-Mobile,Mobile,B.C. Rain High School,,2
-Mobile,Eight Mile,Blount High School,,2
-Mobile,Mobile,Burns Middle School,,2
-Mobile,Mobile,Davidson High School,,6
-Mobile,Mobile,Dodge Elementary,,3
-Mobile,Mobile,LeFlore High School,,2
-Mobile,Mobile,Murphy High School,,4
-Mobile,Semmes,Semmes Elementary,,8
-Mobile,Semmes,Semmes Middle School,,4
-Mobile,Theodore,Theodore High School,,2
-Mobile,Mobile,Williamson High School,,1
-Escambia,Pensacola,Bellview Elementary,,8
-Escambia,Pensacola,Bellview Middle,,2
-Escambia,Pensacola,Blue Angels Elementary,,6
-Escambia,Pensacola,Brentwood Elementary,,3
-Escambia,Pensacola,Brown Barge Middle,,8
-Escambia,Pensacola,Escambia High,,3
-Escambia,Pensacola,Ferry Pass Elementary,,7
-Escambia,Pensacola,Jim Allen Elementary,,7
-Escambia,Pensacola,Pine Forest High,,2
-Escambia,Pensacola,Ransom Middle,,5
-Escambia,Pensacola,Scenic Heights Elementary,,4
-Escambia,Cantonment,Tate High,,5
-Escambia,Pensacola,Washington High,,3
-Santa Rosa,Pace,Pace High,,6
-Santa Rosa,Pace,Pace Middle,,8
-Santa Rosa,Milton,Milton High,,4
-Santa Rosa,Gulf Breeze,Gulf Breeze High,,6
-Santa Rosa,Navarre,Navarre High,,5
-Okaloosa,Niceville,Niceville High,,7
-Okaloosa,Fort Walton Beach,Choctawhatchee High,,4
-Okaloosa,Crestview,Crestview High,,4
-Okaloosa,Destin,Destin Elementary,,10
-Walton,Freeport,Freeport High,,8
-Walton,Freeport,Freeport Middle,,7
-Walton,Santa Rosa Beach,South Walton High,,8
-Walton,DeFuniak Springs,Walton High,,7
-Bay,Panama City Beach,Arnold High,,4
-Bay,Panama City,Bay High,,3
-Bay,Lynn Haven,Mosley High,,6
-Bay,Panama City,Rutherford High,,2
-Jackson,Marianna,Marianna High,,3
-Jackson,Sneads,Sneads High,,4
-Washington,Chipley,Washington County High,,3
-Holmes,Bonifay,Holmes County High,,3
-Calhoun,Blountstown,Blountstown High,,6
-Gulf,Port St. Joe,Port St. Joe Jr./Sr. High,,6
-Gulf,Wewahitchka,Wewahitchka High,,4
+County,City,SchoolName,SchoolType,Rating,NCESID,State
+Baldwin,,Baldwin County High,High,8,,
+Baldwin,,Bay Minette Elementary,Elementary,4,,
+Baldwin,,Bay Minette Middle,Middle,8,,
+Baldwin,,Belforest Elementary,Elementary,10,,
+Baldwin,,Central Baldwin Middle,Middle,8,,
+Baldwin,,Daphne East Elementary,Elementary,10,,
+Baldwin,,Daphne Elementary,Elementary,8,,
+Baldwin,,Daphne High,High,10,,
+Baldwin,,Daphne Middle,Middle,6,,
+Baldwin,,Delta Elementary,Elementary,8,,
+Baldwin,,Elberta Elementary,Elementary,7,,
+Baldwin,,Elberta High,High,8,,
+Baldwin,,Elberta Middle,Middle,9,,
+Baldwin,,Elsanor Elementary,Elementary,9,,
+Baldwin,,Fairhope East Elementary,Elementary,10,,
+Baldwin,,Fairhope High,High,9,,
+Baldwin,,Fairhope Middle,Middle,10,,
+Baldwin,,Fairhope West Elementary,Elementary,10,,
+Baldwin,,Florence B. Mathis Elementary,Elementary,3,,
+Baldwin,,Foley Elementary,Elementary,4,,
+Baldwin,,Foley High,High,7,,
+Baldwin,,Foley Middle,Middle,4,,
+Baldwin,,J. Larry Newton Elementary,Elementary,9,,
+Baldwin,,Loxley Elementary,Elementary,8,,
+Baldwin,,Magnolia School,K-6,8,,
+Baldwin,,Pine Grove Elementary,Elementary,7,,
+Baldwin,,Robertsdale Elementary,Elementary,5,,
+Baldwin,,Robertsdale High,High,8,,
+Baldwin,,Rockwell Elementary,Elementary,10,,
+Baldwin,,Rosinton Elementary,Elementary,7,,
+Baldwin,,Silverhill Elementary,Elementary,5,,
+Baldwin,,Spanish Fort Elementary,Elementary,10,,
+Baldwin,,Spanish Fort High,High,10,,
+Baldwin,,Spanish Fort Middle,Middle,10,,
+Baldwin,,Stapleton Elementary,Elementary,8,,
+Baldwin,,Stonebridge Elementary,Elementary,10,,
+Bay,Lynn Haven,Mosley High,,6,,
+Bay,Panama City,Bay High,,3,,
+Bay,Panama City,Rutherford High,,2,,
+Bay,Panama City Beach,Arnold High,,4,,
+Calhoun,Blountstown,Blountstown High,,6,,
+Escambia,Cantonment,Tate High,,5,,
+Escambia,Pensacola,Bellview Elementary,,8,,
+Escambia,Pensacola,Bellview Middle,,2,,
+Escambia,Pensacola,Blue Angels Elementary,,6,,
+Escambia,Pensacola,Brentwood Elementary,,3,,
+Escambia,Pensacola,Brown Barge Middle,,8,,
+Escambia,Pensacola,Escambia High,,3,,
+Escambia,Pensacola,Ferry Pass Elementary,,7,,
+Escambia,Pensacola,Jim Allen Elementary,,7,,
+Escambia,Pensacola,Pine Forest High,,2,,
+Escambia,Pensacola,Ransom Middle,,5,,
+Escambia,Pensacola,Scenic Heights Elementary,,4,,
+Escambia,Pensacola,Washington High,,3,,
+Gulf,Port St. Joe,Port St. Joe Jr./Sr. High,,6,,
+Gulf,Wewahitchka,Wewahitchka High,,4,,
+Holmes,Bonifay,Holmes County High,,3,,
+Jackson,Marianna,Marianna High,,3,,
+Jackson,Sneads,Sneads High,,4,,
+Mobile,Eight Mile,Blount High School,,2,,
+Mobile,Irvington,Alma Bryant High School,,5,,
+Mobile,Mobile,Alba Middle School,,8,,
+Mobile,Mobile,B.C. Rain High School,,2,,
+Mobile,Mobile,Baker High School,,7,,
+Mobile,Mobile,Burns Middle School,,2,,
+Mobile,Mobile,Davidson High School,,6,,
+Mobile,Mobile,Dodge Elementary,,3,,
+Mobile,Mobile,LeFlore High School,,2,,
+Mobile,Mobile,Murphy High School,,4,,
+Mobile,Mobile,Williamson High School,,1,,
+Mobile,Semmes,Semmes Elementary,,8,,
+Mobile,Semmes,Semmes Middle School,,4,,
+Mobile,Theodore,Theodore High School,,2,,
+Okaloosa,Crestview,Crestview High,,4,,
+Okaloosa,Destin,Destin Elementary,,10,,
+Okaloosa,Fort Walton Beach,Choctawhatchee High,,4,,
+Okaloosa,Niceville,Niceville High,,7,,
+Santa Rosa,Gulf Breeze,Gulf Breeze High,,6,,
+Santa Rosa,Milton,Milton High,,4,,
+Santa Rosa,Navarre,Navarre High,,5,,
+Santa Rosa,Pace,Pace High,,6,,
+Santa Rosa,Pace,Pace Middle,,8,,
+Walton,DeFuniak Springs,Walton High,,7,,
+Walton,Freeport,Freeport High,,8,,
+Walton,Freeport,Freeport Middle,,7,,
+Walton,Santa Rosa Beach,South Walton High,,8,,
+Washington,Chipley,Washington County High,,3,,
+Baldwin,Bon Secour,Swift Elementary School,Elementary,7,10027000070,AL
+Baldwin,Gulf Shores,Gulf Shores Elementary School,Elementary,9,10020202469,AL
+Baldwin,Gulf Shores,Gulf Shores High School,High,8,10020202473,AL
+Baldwin,Gulf Shores,Gulf Shores Middle School,Middle,10,10020202471,AL
+Baldwin,Orange Beach,Orange Beach Elementary School,Elementary,7,10358102554,AL
+Baldwin,Orange Beach,Orange Beach MiddleHigh School,Middle,7,10358102555,AL
+Baldwin,Perdido,Perdido Elementary School,Elementary,7,10027000062,AL
+Covington,Florala,Florala High School,High,3,10093000360,AL
+Covington,Lockhart,WS Harlan Elementary School,Elementary,3,10093000364,AL
+Escambia,Atmore,A C Moore Primary School,Elementary,5,10135002667,AL
+Escambia,Atmore,Escambia County High School,High,1,10135000484,AL
+Escambia,Atmore,Escambia County Middle School,Middle,7,10135000485,AL
+Escambia,Atmore,Rachel Patterson Elementary School,Elementary,7,10135001661,AL
+Escambia,Brewton,Brewton Elementary School,Elementary,10,10045000214,AL
+Escambia,Brewton,Brewton Middle School,Middle,10,10045000215,AL
+Escambia,Brewton,PollardMcCall Junior High School,Middle,6,10135000489,AL
+Escambia,Brewton,TR Miller High School,High,10,10045000216,AL
+Escambia,East Brewton,W S Neal Elementary School,Elementary,5,10135001505,AL
+Escambia,East Brewton,W S Neal High School,High,4,10135000492,AL
+Escambia,East Brewton,W S Neal Middle School,Middle,5,10135001506,AL
+Escambia,Flomaton,Flomaton Elementary School,Elementary,9,10135001504,AL
+Escambia,Flomaton,Flomaton High School,High,6,10135000487,AL
+Geneva,Geneva,Geneva High School,High,6,10164000567,AL
+Geneva,Geneva,Geneva Middle School,Middle,10,10164001788,AL
+Geneva,Geneva,Mulkey Elementary School,Elementary,7,10164000568,AL
+Geneva,Hartford,Geneva County Elementary School,Elementary,9,10166001791,AL
+Geneva,Hartford,Geneva County High School,High,6,10166000570,AL
+Geneva,Hartford,Geneva County Middle School,Middle,10,10166001792,AL
+Geneva,Samson,Samson Elementary School,Elementary,4,10166001771,AL
+Geneva,Samson,Samson High School,High,5,10166000571,AL
+Geneva,Samson,Samson Middle School,Middle,8,10166001772,AL
+Geneva,Slocomb,Slocomb Elementary School,Elementary,9,10166001793,AL
+Geneva,Slocomb,Slocomb High School,High,5,10166001519,AL
+Geneva,Slocomb,Slocomb Middle School,Middle,10,10166001794,AL
+Houston,Cottonwood,Cottonwood Elementary School,Elementary,9,10177002508,AL
+Houston,Cottonwood,Cottonwood High School,High,6,10177000612,AL
+Houston,Dothan,Rehobeth High School,High,6,10177000615,AL
+Houston,Dothan,Rehobeth Primary School,Elementary,10,10177002668,AL
+Houston,Rehobeth,Rehobeth Elementary School,Elementary,9,10177002078,AL
+Houston,Rehobeth,Rehobeth Middle School,Middle,7,10177002077,AL
+Mobile,Axis,North Mobile County Middle School,Middle,8,10237002136,AL
+Mobile,Bayou La Batre,Peter F Alba Middle School,Middle,8,10237000895,AL
+Mobile,Chickasaw,Chickasaw City Elementary School,Elementary,4,10018802193,AL
+Mobile,Chickasaw,Chickasaw City High School,High,1,10018802194,AL
+Mobile,Chickasaw,Chickasaw Middle School,Middle,1,10018802428,AL
+Mobile,Citronelle,Citronelle High School,High,4,10237000906,AL
+Mobile,Citronelle,Lott Middle School,Middle,4,10237001438,AL
+Mobile,Citronelle,McDavidJones Elementary School,Elementary,8,10237001437,AL
+Mobile,Dauphin Island,Dauphin Island Elementary School,Elementary,6,10237000911,AL
+Mobile,Eight Mile,CollinsRhodes Elementary School,Elementary,2,10237000919,AL
+Mobile,Eight Mile,Indian Springs Elementary School,Elementary,4,10237000928,AL
+Mobile,Eight Mile,Mattie T Blount High School,High,2,10237000900,AL
+Mobile,Grand Bay,Breitling Elementary School,Elementary,8,10237002083,AL
+Mobile,Grand Bay,Cora Castlen Elementary,Elementary,9,10237000924,AL
+Mobile,Grand Bay,Grand Bay Middle School,Middle,5,10237000938,AL
+Mobile,Irvington,Anna F Booth Elementary School,Elementary,8,10237001559,AL
+Mobile,Irvington,Dixon Elementary School,Elementary,5,10237000914,AL
+Mobile,Irvington,Pearl Haskew Elementary,Elementary,4,10237001620,AL
+Mobile,Irvington,Saint Elmo Elementary School,Elementary,8,10237001732,AL
+Mobile,Mobile,Ben C Rain High School,High,2,10237000898,AL
+Mobile,Mobile,Bernice J Causey Middle School,Middle,9,10237001435,AL
+Mobile,Mobile,Booker T Washington Middle School,Middle,2,10237000901,AL
+Mobile,Mobile,CL Scarborough Model Middle School,Middle,7,10237000954,AL
+Mobile,Mobile,Calloway Smith Middle School,Middle,2,10237000992,AL
+Mobile,Mobile,ChastangFournier Middle School,Middle,2,10237000963,AL
+Mobile,Mobile,Dr Robert W Gilliard Elementary,Elementary,8,10237001595,AL
+Mobile,Mobile,ER Dickson Elementary School,Elementary,4,10237000913,AL
+Mobile,Mobile,Elizabeth Fonde Elementary School,Elementary,7,10237000920,AL
+Mobile,Mobile,Elsie Collier Elementary School,Elementary,8,10237001436,AL
+Mobile,Mobile,Erwin Craighead Elementary School,Elementary,4,10237001775,AL
+Mobile,Mobile,Florence Howard Elementary School,Elementary,7,10237001030,AL
+Mobile,Mobile,Forest Hill Elementary School,Elementary,7,10237000922,AL
+Mobile,Mobile,George Hall Elementary School,Elementary,4,10237001556,AL
+Mobile,Mobile,Hollingers Island Elementary School,Elementary,8,10237000927,AL
+Mobile,Mobile,Holloway Elementary,Elementary,5,10237001617,AL
+Mobile,Mobile,Hutchens Elementary School,Elementary,10,10237001414,AL
+Mobile,Mobile,John Will Elementary School,Elementary,7,10237000930,AL
+Mobile,Mobile,Kate Shepard Elementary School,Elementary,7,10237000956,AL
+Mobile,Mobile,Leinkauf Elementary School,Elementary,7,10237000932,AL
+Mobile,Mobile,Lillie B Williamson High School,High,1,10237000969,AL
+Mobile,Mobile,Mary B Austin Elementary School,Elementary,5,10237000896,AL
+Mobile,Mobile,Maryvale Elementary School,Elementary,4,10237000936,AL
+Mobile,Mobile,Meadowlake Elementary,Elementary,4,10237001619,AL
+Mobile,Mobile,Mobile County Training Middle School,Middle,3,10237000939,AL
+Mobile,Mobile,Morningside Elementary School,Elementary,2,10237000940,AL
+Mobile,Mobile,ORourke Elementary School,Elementary,8,10237001813,AL
+Mobile,Mobile,Olive J Dodge Elementary School,Elementary,3,10237000915,AL
+Mobile,Mobile,Orchard Elementary School,Elementary,3,10237000944,AL
+Mobile,Mobile,Phillips Preparatory Middle School,Middle,8,10237000947,AL
+Mobile,Mobile,Pillans Middle School,Middle,2,10237000946,AL
+Mobile,Mobile,SpencerWestlawn Elementary School,Elementary,6,10237000966,AL
+Mobile,Mobile,Taylor White Elementary School,Elementary,8,10237002202,AL
+Mobile,Mobile,WC Griggs Elementary School,Elementary,4,10237000965,AL
+Mobile,Mobile,WP Davidson High School,High,6,10237000912,AL
+Mobile,Mount Vernon,Calcedeaver Elementary School,Elementary,4,10237000904,AL
+Mobile,Prichard,CF Vigor High School,High,1,10237000964,AL
+Mobile,Prichard,Grant Elementary School,Elementary,4,10237001028,AL
+Mobile,Prichard,WD Robbins Elementary School,Elementary,7,10237000949,AL
+Mobile,Prichard,Whitley Elementary School,Elementary,3,10237000968,AL
+Mobile,Saraland,Saraland Elementary School,Elementary,10,10018500952,AL
+Mobile,Saraland,Saraland High School,High,7,10018502137,AL
+Mobile,Saraland,Saraland Middle SchoolAdams Campus,Middle,10,10018500893,AL
+Mobile,Satsuma,Robert E Lee Elementary,Elementary,10,10018902196,AL
+Mobile,Satsuma,Satsuma High School,High,10,10018902195,AL
+Mobile,Semmes,Allentown Elementary School,Elementary,6,10237000572,AL
+Mobile,Semmes,Mary G Montgomery High School,High,4,10237000934,AL
+Mobile,Theodore,Katherine H Hankins Middle School,Middle,5,10237000961,AL
+Mobile,Theodore,Mary W Burroughs Elementary School,Elementary,3,10237000935,AL
+Mobile,Theodore,Nan Gray Davis Elementary School,Elementary,5,10237000910,AL
+Mobile,Wilmer,J E Turner Elementary,Elementary,8,10237001516,AL
+Mobile,Wilmer,Tanner Williams Elementary School,Elementary,8,10237000960,AL
+Mobile,Wilmer,Wilmer Elementary School,Elementary,5,10237000970,AL
+Bay,LYNN HAVEN,A. CRAWFORD MOSLEY HIGH SCHOOL,High,6,1.20E+11,FL
