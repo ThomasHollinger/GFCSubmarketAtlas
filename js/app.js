@@ -11,6 +11,7 @@ const state = {
   poisLoaded: false,
   demographics: {},
   demographicsLoaded: false,
+  demographicsLoading: false,
   basemaps: {},
   searchIndex: [],
   metadata: null
@@ -26,19 +27,14 @@ const hubBaseColors = {
 
 const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
 const OVERPASS_URLS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
+const ACS_YEAR = '2023';
+const ACS_COMPARE_YEAR = '2018';
+const TIGER_BG_URL = 'https://tigerweb.geo.census.gov/arcgis/rest/services/Generalized_ACS2023/Tracts_Blocks/MapServer/6/query';
+const censusCountyList = [
+  ['01','003'], ['01','097'],
+  ['12','005'], ['12','013'], ['12','033'], ['12','045'], ['12','059'], ['12','063'], ['12','091'], ['12','113'], ['12','131'], ['12','133']
+];
 const tierOneBrands = ['publix','walmart','walmart supercenter','aldi','costco',"sam's club",'target','winn-dixie','rouses','piggly wiggly','whole foods','the fresh market',"trader joe's",'chick-fil-a','starbucks','chipotle','panera','panera bread','texas roadhouse','cracker barrel','home depot','the home depot',"lowe's",'academy sports','academy sports + outdoors','bass pro shops',"kohl's",'tj maxx','marshalls','hobby lobby'];
-const censusCountyMap = {
-  'SM-01':['01','097'], 'SM-02':['01','097'], 'SM-03':['01','097'],
-  'SM-04':['01','003'], 'SM-05':['01','003'], 'SM-06':['01','003'], 'SM-12':['01','003'],
-  'SM-07':['12','033'], 'SM-09':['12','033'], 'SM-11':['12','033'], 'SM-13':['12','033'],
-  'SM-08':['12','113'], 'SM-10':['12','113'], 'SM-14':['12','113'],
-  'SM-15':['12','091'], 'SM-16':['12','091'], 'SM-17':['12','091'], 'SM-18':['12','091'], 'SM-21':['12','091'],
-  'SM-19':['12','131'], 'SM-20':['12','131'], 'SM-23':['12','131'],
-  'SM-22':['12','131'],
-  'SM-24':['12','059'], 'SM-25':['12','133'], 'SM-26':['12','063'], 'SM-27':['12','063'],
-  'SM-28':['12','005'], 'SM-29':['12','005'], 'SM-32':['12','005'],
-  'SM-30':['12','013'], 'SM-31':['12','045']
-};
 
 const schoolRatingRecords = [{"County": "Baldwin", "City": "", "SchoolName": "Baldwin County High", "SchoolType": "High", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Bay Minette Elementary", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Bay Minette Middle", "SchoolType": "Middle", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Belforest Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Central Baldwin Middle", "SchoolType": "Middle", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne East Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne Elementary", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne High", "SchoolType": "High", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Daphne Middle", "SchoolType": "Middle", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Delta Elementary", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Elberta Elementary", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Elberta High", "SchoolType": "High", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Elberta Middle", "SchoolType": "Middle", "Rating": 9, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Elsanor Elementary", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope East Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope High", "SchoolType": "High", "Rating": 9, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope Middle", "SchoolType": "Middle", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Fairhope West Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Florence B. Mathis Elementary", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Foley Elementary", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Foley High", "SchoolType": "High", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Foley Middle", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "J. Larry Newton Elementary", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Loxley Elementary", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Magnolia School", "SchoolType": "K-6", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Pine Grove Elementary", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Robertsdale Elementary", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Robertsdale High", "SchoolType": "High", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Rockwell Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Rosinton Elementary", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Silverhill Elementary", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Spanish Fort Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Spanish Fort High", "SchoolType": "High", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Spanish Fort Middle", "SchoolType": "Middle", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Stapleton Elementary", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "", "SchoolName": "Stonebridge Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Bay", "City": "Lynn Haven", "SchoolName": "Mosley High", "SchoolType": "", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Bay", "City": "Panama City", "SchoolName": "Bay High", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Bay", "City": "Panama City", "SchoolName": "Rutherford High", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Bay", "City": "Panama City Beach", "SchoolName": "Arnold High", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Calhoun", "City": "Blountstown", "SchoolName": "Blountstown High", "SchoolType": "", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Cantonment", "SchoolName": "Tate High", "SchoolType": "", "Rating": 5, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Bellview Elementary", "SchoolType": "", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Bellview Middle", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Blue Angels Elementary", "SchoolType": "", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Brentwood Elementary", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Brown Barge Middle", "SchoolType": "", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Escambia High", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Ferry Pass Elementary", "SchoolType": "", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Jim Allen Elementary", "SchoolType": "", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Pine Forest High", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Ransom Middle", "SchoolType": "", "Rating": 5, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Scenic Heights Elementary", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Escambia", "City": "Pensacola", "SchoolName": "Washington High", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Gulf", "City": "Port St. Joe", "SchoolName": "Port St. Joe Jr./Sr. High", "SchoolType": "", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Gulf", "City": "Wewahitchka", "SchoolName": "Wewahitchka High", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Holmes", "City": "Bonifay", "SchoolName": "Holmes County High", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Jackson", "City": "Marianna", "SchoolName": "Marianna High", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Jackson", "City": "Sneads", "SchoolName": "Sneads High", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Eight Mile", "SchoolName": "Blount High School", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Irvington", "SchoolName": "Alma Bryant High School", "SchoolType": "", "Rating": 5, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Alba Middle School", "SchoolType": "", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "B.C. Rain High School", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Baker High School", "SchoolType": "", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Burns Middle School", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Davidson High School", "SchoolType": "", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Dodge Elementary", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "LeFlore High School", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Murphy High School", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Williamson High School", "SchoolType": "", "Rating": 1, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Semmes", "SchoolName": "Semmes Elementary", "SchoolType": "", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Semmes", "SchoolName": "Semmes Middle School", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Mobile", "City": "Theodore", "SchoolName": "Theodore High School", "SchoolType": "", "Rating": 2, "NCESID": "", "State": ""}, {"County": "Okaloosa", "City": "Crestview", "SchoolName": "Crestview High", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Okaloosa", "City": "Destin", "SchoolName": "Destin Elementary", "SchoolType": "", "Rating": 10, "NCESID": "", "State": ""}, {"County": "Okaloosa", "City": "Fort Walton Beach", "SchoolName": "Choctawhatchee High", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Okaloosa", "City": "Niceville", "SchoolName": "Niceville High", "SchoolType": "", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Santa Rosa", "City": "Gulf Breeze", "SchoolName": "Gulf Breeze High", "SchoolType": "", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Santa Rosa", "City": "Milton", "SchoolName": "Milton High", "SchoolType": "", "Rating": 4, "NCESID": "", "State": ""}, {"County": "Santa Rosa", "City": "Navarre", "SchoolName": "Navarre High", "SchoolType": "", "Rating": 5, "NCESID": "", "State": ""}, {"County": "Santa Rosa", "City": "Pace", "SchoolName": "Pace High", "SchoolType": "", "Rating": 6, "NCESID": "", "State": ""}, {"County": "Santa Rosa", "City": "Pace", "SchoolName": "Pace Middle", "SchoolType": "", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Walton", "City": "DeFuniak Springs", "SchoolName": "Walton High", "SchoolType": "", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Walton", "City": "Freeport", "SchoolName": "Freeport High", "SchoolType": "", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Walton", "City": "Freeport", "SchoolName": "Freeport Middle", "SchoolType": "", "Rating": 7, "NCESID": "", "State": ""}, {"County": "Walton", "City": "Santa Rosa Beach", "SchoolName": "South Walton High", "SchoolType": "", "Rating": 8, "NCESID": "", "State": ""}, {"County": "Washington", "City": "Chipley", "SchoolName": "Washington County High", "SchoolType": "", "Rating": 3, "NCESID": "", "State": ""}, {"County": "Baldwin", "City": "Bon Secour", "SchoolName": "Swift Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10027000070", "State": "AL"}, {"County": "Baldwin", "City": "Gulf Shores", "SchoolName": "Gulf Shores Elementary School", "SchoolType": "Elementary", "Rating": 9, "NCESID": "10020202469", "State": "AL"}, {"County": "Baldwin", "City": "Gulf Shores", "SchoolName": "Gulf Shores High School", "SchoolType": "High", "Rating": 8, "NCESID": "10020202473", "State": "AL"}, {"County": "Baldwin", "City": "Gulf Shores", "SchoolName": "Gulf Shores Middle School", "SchoolType": "Middle", "Rating": 10, "NCESID": "10020202471", "State": "AL"}, {"County": "Baldwin", "City": "Orange Beach", "SchoolName": "Orange Beach Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10358102554", "State": "AL"}, {"County": "Baldwin", "City": "Orange Beach", "SchoolName": "Orange Beach MiddleHigh School", "SchoolType": "Middle", "Rating": 7, "NCESID": "10358102555", "State": "AL"}, {"County": "Baldwin", "City": "Perdido", "SchoolName": "Perdido Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10027000062", "State": "AL"}, {"County": "Covington", "City": "Florala", "SchoolName": "Florala High School", "SchoolType": "High", "Rating": 3, "NCESID": "10093000360", "State": "AL"}, {"County": "Covington", "City": "Lockhart", "SchoolName": "WS Harlan Elementary School", "SchoolType": "Elementary", "Rating": 3, "NCESID": "10093000364", "State": "AL"}, {"County": "Escambia", "City": "Atmore", "SchoolName": "A C Moore Primary School", "SchoolType": "Elementary", "Rating": 5, "NCESID": "10135002667", "State": "AL"}, {"County": "Escambia", "City": "Atmore", "SchoolName": "Escambia County High School", "SchoolType": "High", "Rating": 1, "NCESID": "10135000484", "State": "AL"}, {"County": "Escambia", "City": "Atmore", "SchoolName": "Escambia County Middle School", "SchoolType": "Middle", "Rating": 7, "NCESID": "10135000485", "State": "AL"}, {"County": "Escambia", "City": "Atmore", "SchoolName": "Rachel Patterson Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10135001661", "State": "AL"}, {"County": "Escambia", "City": "Brewton", "SchoolName": "Brewton Elementary School", "SchoolType": "Elementary", "Rating": 10, "NCESID": "10045000214", "State": "AL"}, {"County": "Escambia", "City": "Brewton", "SchoolName": "Brewton Middle School", "SchoolType": "Middle", "Rating": 10, "NCESID": "10045000215", "State": "AL"}, {"County": "Escambia", "City": "Brewton", "SchoolName": "PollardMcCall Junior High School", "SchoolType": "Middle", "Rating": 6, "NCESID": "10135000489", "State": "AL"}, {"County": "Escambia", "City": "Brewton", "SchoolName": "TR Miller High School", "SchoolType": "High", "Rating": 10, "NCESID": "10045000216", "State": "AL"}, {"County": "Escambia", "City": "East Brewton", "SchoolName": "W S Neal Elementary School", "SchoolType": "Elementary", "Rating": 5, "NCESID": "10135001505", "State": "AL"}, {"County": "Escambia", "City": "East Brewton", "SchoolName": "W S Neal High School", "SchoolType": "High", "Rating": 4, "NCESID": "10135000492", "State": "AL"}, {"County": "Escambia", "City": "East Brewton", "SchoolName": "W S Neal Middle School", "SchoolType": "Middle", "Rating": 5, "NCESID": "10135001506", "State": "AL"}, {"County": "Escambia", "City": "Flomaton", "SchoolName": "Flomaton Elementary School", "SchoolType": "Elementary", "Rating": 9, "NCESID": "10135001504", "State": "AL"}, {"County": "Escambia", "City": "Flomaton", "SchoolName": "Flomaton High School", "SchoolType": "High", "Rating": 6, "NCESID": "10135000487", "State": "AL"}, {"County": "Geneva", "City": "Geneva", "SchoolName": "Geneva High School", "SchoolType": "High", "Rating": 6, "NCESID": "10164000567", "State": "AL"}, {"County": "Geneva", "City": "Geneva", "SchoolName": "Geneva Middle School", "SchoolType": "Middle", "Rating": 10, "NCESID": "10164001788", "State": "AL"}, {"County": "Geneva", "City": "Geneva", "SchoolName": "Mulkey Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10164000568", "State": "AL"}, {"County": "Geneva", "City": "Hartford", "SchoolName": "Geneva County Elementary School", "SchoolType": "Elementary", "Rating": 9, "NCESID": "10166001791", "State": "AL"}, {"County": "Geneva", "City": "Hartford", "SchoolName": "Geneva County High School", "SchoolType": "High", "Rating": 6, "NCESID": "10166000570", "State": "AL"}, {"County": "Geneva", "City": "Hartford", "SchoolName": "Geneva County Middle School", "SchoolType": "Middle", "Rating": 10, "NCESID": "10166001792", "State": "AL"}, {"County": "Geneva", "City": "Samson", "SchoolName": "Samson Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10166001771", "State": "AL"}, {"County": "Geneva", "City": "Samson", "SchoolName": "Samson High School", "SchoolType": "High", "Rating": 5, "NCESID": "10166000571", "State": "AL"}, {"County": "Geneva", "City": "Samson", "SchoolName": "Samson Middle School", "SchoolType": "Middle", "Rating": 8, "NCESID": "10166001772", "State": "AL"}, {"County": "Geneva", "City": "Slocomb", "SchoolName": "Slocomb Elementary School", "SchoolType": "Elementary", "Rating": 9, "NCESID": "10166001793", "State": "AL"}, {"County": "Geneva", "City": "Slocomb", "SchoolName": "Slocomb High School", "SchoolType": "High", "Rating": 5, "NCESID": "10166001519", "State": "AL"}, {"County": "Geneva", "City": "Slocomb", "SchoolName": "Slocomb Middle School", "SchoolType": "Middle", "Rating": 10, "NCESID": "10166001794", "State": "AL"}, {"County": "Houston", "City": "Cottonwood", "SchoolName": "Cottonwood Elementary School", "SchoolType": "Elementary", "Rating": 9, "NCESID": "10177002508", "State": "AL"}, {"County": "Houston", "City": "Cottonwood", "SchoolName": "Cottonwood High School", "SchoolType": "High", "Rating": 6, "NCESID": "10177000612", "State": "AL"}, {"County": "Houston", "City": "Dothan", "SchoolName": "Rehobeth High School", "SchoolType": "High", "Rating": 6, "NCESID": "10177000615", "State": "AL"}, {"County": "Houston", "City": "Dothan", "SchoolName": "Rehobeth Primary School", "SchoolType": "Elementary", "Rating": 10, "NCESID": "10177002668", "State": "AL"}, {"County": "Houston", "City": "Rehobeth", "SchoolName": "Rehobeth Elementary School", "SchoolType": "Elementary", "Rating": 9, "NCESID": "10177002078", "State": "AL"}, {"County": "Houston", "City": "Rehobeth", "SchoolName": "Rehobeth Middle School", "SchoolType": "Middle", "Rating": 7, "NCESID": "10177002077", "State": "AL"}, {"County": "Mobile", "City": "Axis", "SchoolName": "North Mobile County Middle School", "SchoolType": "Middle", "Rating": 8, "NCESID": "10237002136", "State": "AL"}, {"County": "Mobile", "City": "Bayou La Batre", "SchoolName": "Peter F Alba Middle School", "SchoolType": "Middle", "Rating": 8, "NCESID": "10237000895", "State": "AL"}, {"County": "Mobile", "City": "Chickasaw", "SchoolName": "Chickasaw City Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10018802193", "State": "AL"}, {"County": "Mobile", "City": "Chickasaw", "SchoolName": "Chickasaw City High School", "SchoolType": "High", "Rating": 1, "NCESID": "10018802194", "State": "AL"}, {"County": "Mobile", "City": "Chickasaw", "SchoolName": "Chickasaw Middle School", "SchoolType": "Middle", "Rating": 1, "NCESID": "10018802428", "State": "AL"}, {"County": "Mobile", "City": "Citronelle", "SchoolName": "Citronelle High School", "SchoolType": "High", "Rating": 4, "NCESID": "10237000906", "State": "AL"}, {"County": "Mobile", "City": "Citronelle", "SchoolName": "Lott Middle School", "SchoolType": "Middle", "Rating": 4, "NCESID": "10237001438", "State": "AL"}, {"County": "Mobile", "City": "Citronelle", "SchoolName": "McDavidJones Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237001437", "State": "AL"}, {"County": "Mobile", "City": "Dauphin Island", "SchoolName": "Dauphin Island Elementary School", "SchoolType": "Elementary", "Rating": 6, "NCESID": "10237000911", "State": "AL"}, {"County": "Mobile", "City": "Eight Mile", "SchoolName": "CollinsRhodes Elementary School", "SchoolType": "Elementary", "Rating": 2, "NCESID": "10237000919", "State": "AL"}, {"County": "Mobile", "City": "Eight Mile", "SchoolName": "Indian Springs Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237000928", "State": "AL"}, {"County": "Mobile", "City": "Eight Mile", "SchoolName": "Mattie T Blount High School", "SchoolType": "High", "Rating": 2, "NCESID": "10237000900", "State": "AL"}, {"County": "Mobile", "City": "Grand Bay", "SchoolName": "Breitling Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237002083", "State": "AL"}, {"County": "Mobile", "City": "Grand Bay", "SchoolName": "Cora Castlen Elementary", "SchoolType": "Elementary", "Rating": 9, "NCESID": "10237000924", "State": "AL"}, {"County": "Mobile", "City": "Grand Bay", "SchoolName": "Grand Bay Middle School", "SchoolType": "Middle", "Rating": 5, "NCESID": "10237000938", "State": "AL"}, {"County": "Mobile", "City": "Irvington", "SchoolName": "Anna F Booth Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237001559", "State": "AL"}, {"County": "Mobile", "City": "Irvington", "SchoolName": "Dixon Elementary School", "SchoolType": "Elementary", "Rating": 5, "NCESID": "10237000914", "State": "AL"}, {"County": "Mobile", "City": "Irvington", "SchoolName": "Pearl Haskew Elementary", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237001620", "State": "AL"}, {"County": "Mobile", "City": "Irvington", "SchoolName": "Saint Elmo Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237001732", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Ben C Rain High School", "SchoolType": "High", "Rating": 2, "NCESID": "10237000898", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Bernice J Causey Middle School", "SchoolType": "Middle", "Rating": 9, "NCESID": "10237001435", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Booker T Washington Middle School", "SchoolType": "Middle", "Rating": 2, "NCESID": "10237000901", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "CL Scarborough Model Middle School", "SchoolType": "Middle", "Rating": 7, "NCESID": "10237000954", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Calloway Smith Middle School", "SchoolType": "Middle", "Rating": 2, "NCESID": "10237000992", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "ChastangFournier Middle School", "SchoolType": "Middle", "Rating": 2, "NCESID": "10237000963", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Dr Robert W Gilliard Elementary", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237001595", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "ER Dickson Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237000913", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Elizabeth Fonde Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10237000920", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Elsie Collier Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237001436", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Erwin Craighead Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237001775", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Florence Howard Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10237001030", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Forest Hill Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10237000922", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "George Hall Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237001556", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Hollingers Island Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237000927", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Holloway Elementary", "SchoolType": "Elementary", "Rating": 5, "NCESID": "10237001617", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Hutchens Elementary School", "SchoolType": "Elementary", "Rating": 10, "NCESID": "10237001414", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "John Will Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10237000930", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Kate Shepard Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10237000956", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Leinkauf Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10237000932", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Lillie B Williamson High School", "SchoolType": "High", "Rating": 1, "NCESID": "10237000969", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Mary B Austin Elementary School", "SchoolType": "Elementary", "Rating": 5, "NCESID": "10237000896", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Maryvale Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237000936", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Meadowlake Elementary", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237001619", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Mobile County Training Middle School", "SchoolType": "Middle", "Rating": 3, "NCESID": "10237000939", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Morningside Elementary School", "SchoolType": "Elementary", "Rating": 2, "NCESID": "10237000940", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "ORourke Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237001813", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Olive J Dodge Elementary School", "SchoolType": "Elementary", "Rating": 3, "NCESID": "10237000915", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Orchard Elementary School", "SchoolType": "Elementary", "Rating": 3, "NCESID": "10237000944", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Phillips Preparatory Middle School", "SchoolType": "Middle", "Rating": 8, "NCESID": "10237000947", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Pillans Middle School", "SchoolType": "Middle", "Rating": 2, "NCESID": "10237000946", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "SpencerWestlawn Elementary School", "SchoolType": "Elementary", "Rating": 6, "NCESID": "10237000966", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "Taylor White Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237002202", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "WC Griggs Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237000965", "State": "AL"}, {"County": "Mobile", "City": "Mobile", "SchoolName": "WP Davidson High School", "SchoolType": "High", "Rating": 6, "NCESID": "10237000912", "State": "AL"}, {"County": "Mobile", "City": "Mount Vernon", "SchoolName": "Calcedeaver Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237000904", "State": "AL"}, {"County": "Mobile", "City": "Prichard", "SchoolName": "CF Vigor High School", "SchoolType": "High", "Rating": 1, "NCESID": "10237000964", "State": "AL"}, {"County": "Mobile", "City": "Prichard", "SchoolName": "Grant Elementary School", "SchoolType": "Elementary", "Rating": 4, "NCESID": "10237001028", "State": "AL"}, {"County": "Mobile", "City": "Prichard", "SchoolName": "WD Robbins Elementary School", "SchoolType": "Elementary", "Rating": 7, "NCESID": "10237000949", "State": "AL"}, {"County": "Mobile", "City": "Prichard", "SchoolName": "Whitley Elementary School", "SchoolType": "Elementary", "Rating": 3, "NCESID": "10237000968", "State": "AL"}, {"County": "Mobile", "City": "Saraland", "SchoolName": "Saraland Elementary School", "SchoolType": "Elementary", "Rating": 10, "NCESID": "10018500952", "State": "AL"}, {"County": "Mobile", "City": "Saraland", "SchoolName": "Saraland High School", "SchoolType": "High", "Rating": 7, "NCESID": "10018502137", "State": "AL"}, {"County": "Mobile", "City": "Saraland", "SchoolName": "Saraland Middle SchoolAdams Campus", "SchoolType": "Middle", "Rating": 10, "NCESID": "10018500893", "State": "AL"}, {"County": "Mobile", "City": "Satsuma", "SchoolName": "Robert E Lee Elementary", "SchoolType": "Elementary", "Rating": 10, "NCESID": "10018902196", "State": "AL"}, {"County": "Mobile", "City": "Satsuma", "SchoolName": "Satsuma High School", "SchoolType": "High", "Rating": 10, "NCESID": "10018902195", "State": "AL"}, {"County": "Mobile", "City": "Semmes", "SchoolName": "Allentown Elementary School", "SchoolType": "Elementary", "Rating": 6, "NCESID": "10237000572", "State": "AL"}, {"County": "Mobile", "City": "Semmes", "SchoolName": "Mary G Montgomery High School", "SchoolType": "High", "Rating": 4, "NCESID": "10237000934", "State": "AL"}, {"County": "Mobile", "City": "Theodore", "SchoolName": "Katherine H Hankins Middle School", "SchoolType": "Middle", "Rating": 5, "NCESID": "10237000961", "State": "AL"}, {"County": "Mobile", "City": "Theodore", "SchoolName": "Mary W Burroughs Elementary School", "SchoolType": "Elementary", "Rating": 3, "NCESID": "10237000935", "State": "AL"}, {"County": "Mobile", "City": "Theodore", "SchoolName": "Nan Gray Davis Elementary School", "SchoolType": "Elementary", "Rating": 5, "NCESID": "10237000910", "State": "AL"}, {"County": "Mobile", "City": "Wilmer", "SchoolName": "J E Turner Elementary", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237001516", "State": "AL"}, {"County": "Mobile", "City": "Wilmer", "SchoolName": "Tanner Williams Elementary School", "SchoolType": "Elementary", "Rating": 8, "NCESID": "10237000960", "State": "AL"}, {"County": "Mobile", "City": "Wilmer", "SchoolName": "Wilmer Elementary School", "SchoolType": "Elementary", "Rating": 5, "NCESID": "10237000970", "State": "AL"}, {"County": "Bay", "City": "LYNN HAVEN", "SchoolName": "A. CRAWFORD MOSLEY HIGH SCHOOL", "SchoolType": "High", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "LYNN HAVEN", "SchoolName": "LYNN HAVEN ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "LYNN HAVEN", "SchoolName": "MOWAT MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "BAY HAVEN CHARTER MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 10, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "CALLAWAY ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "CEDAR GROVE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "CENTRAL HIGH SCHOOL", "SchoolType": "High", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "DEER POINT ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "HILAND PARK ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "JINKS MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "LUCILLE MOORE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "MERRIAM CHERRY STREET ELEMENTARY", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "MERRITT BROWN MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "NORTH BAY HAVEN CHARTER ACADEMY ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "NORTH BAY HAVEN CHARTER ACADEMY MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "NORTHSIDE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "PALM BAY ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "PARKER ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "ROSENWALD HIGH SCHOOL", "SchoolType": "High", "Rating": 1, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY", "SchoolName": "TOMMY SMITH ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY BEACH", "SchoolName": "HUTCHISON BEACH ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY BEACH", "SchoolName": "J.R. ARNOLD HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY BEACH", "SchoolName": "PATRONIS ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY BEACH", "SchoolName": "SURFSIDE MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "PANAMA CITY BEACH", "SchoolName": "WEST BAY ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "SOUTHPORT", "SchoolName": "SOUTHPORT ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Bay", "City": "YOUNGSTOWN", "SchoolName": "WALLER ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Calhoun", "City": "BLOUNTSTOWN", "SchoolName": "BLOUNTSTOWN ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Calhoun", "City": "CLARKSVILLE", "SchoolName": "CARR ELEMENTARY & MIDDLE SCHOOL", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "CANTONMENT", "SchoolName": "J. M. TATE SENIOR HIGH SCHOOL", "SchoolType": "High", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "CANTONMENT", "SchoolName": "KINGSFIELD ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "CENTURY", "SchoolName": "BRATT ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "CENTURY", "SchoolName": "BYRNEVILLE ELEMENTARY SCHOOL INC.", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "CENTURY", "SchoolName": "NORTHVIEW HIGH SCHOOL", "SchoolType": "High", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "MOLINO", "SchoolName": "MOLINO PARK ELEMENTARY", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "A. K. SUTER ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "BEULAH ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "BEULAH MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "C. A. WEIS ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "CORDOVA PARK ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "ENSLEY ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "FERRY PASS MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "HELLEN CARO ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "J. H. WORKMAN MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "JIM C. BAILEY MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "L. D. MCARTHUR ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "LINCOLN PARK ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "LONGLEAF ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "MONTCLAIR ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "MYRTLE GROVE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "N. B. COOK ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "NAVY POINT ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 1, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "O. J. SEMMES ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "OAKCREST ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "PENSACOLA HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "PINE MEADOW ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "PLEASANT GROVE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "R. C. LIPSCOMB ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "REINHARDT HOLM ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "SHERWOOD ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "WARRINGTON ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "WASHINGTON SENIOR HIGH SCHOOL", "SchoolType": "High", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "WEST FLORIDA HIGH SCHOOL/TECHNICAL", "SchoolType": "High", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA", "SchoolName": "WEST PENSACOLA ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "PENSACOLA BEACH", "SchoolName": "PENSACOLA BEACH ELEMENTARY SCHOOL INC", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Escambia", "City": "WALNUT HILL", "SchoolName": "ERNEST WARD MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Gadsden", "City": "CHATTAHOOCHEE", "SchoolName": "CHATTAHOOCHEE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Gadsden", "City": "QUINCY", "SchoolName": "GADSDEN ELEMENTARY MAGNET SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Gadsden", "City": "QUINCY", "SchoolName": "GREENSBORO ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Gadsden", "City": "QUINCY", "SchoolName": "WEST GADSDEN MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Gulf", "City": "PORT ST JOE", "SchoolName": "PORT ST. JOE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Gulf", "City": "PORT ST JOE", "SchoolName": "PORT ST. JOE HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Gulf", "City": "WEWAHITCHKA", "SchoolName": "WEWAHITCHKA ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Holmes", "City": "BONIFAY", "SchoolName": "BETHLEHEM HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Holmes", "City": "GRACEVILLE", "SchoolName": "POPLAR SPRINGS HIGH SCHOOL", "SchoolType": "High", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Holmes", "City": "PONCE DE LEON", "SchoolName": "PONCE DE LEON ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Holmes", "City": "PONCE DE LEON", "SchoolName": "PONCE DE LEON HIGH SCHOOL", "SchoolType": "High", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Jackson", "City": "COTTONDALE", "SchoolName": "COTTONDALE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Jackson", "City": "COTTONDALE", "SchoolName": "COTTONDALE HIGH SCHOOL", "SchoolType": "High", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Jackson", "City": "SNEADS", "SchoolName": "SNEADS ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Liberty", "City": "BRISTOL", "SchoolName": "LIBERTY COUNTY HIGH SCHOOL", "SchoolType": "High", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Liberty", "City": "HOSFORD", "SchoolName": "HOSFORD ELEMENTARY JUNIOR HIGH SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "ANTIOCH ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "BOB SIKES ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "DAVIDSON MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "NORTHWOOD ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "RIVERSIDE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "SHOAL RIVER MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "SOUTHSIDE PRIMARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "CRESTVIEW", "SchoolName": "WALKER ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "DESTIN", "SchoolName": "DESTIN HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "DESTIN", "SchoolName": "DESTIN MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "EGLIN AFB", "SchoolName": "EGLIN ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "ANNETTE P. EDWINS ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "CHOCTAWHATCHEE SENIOR HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "ELLIOTT POINT ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "FORT WALTON BEACH HIGH SCHOOL", "SchoolType": "High", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "KENWOOD ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "MAX BRUNER JUNIOR MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "W. C. PRYOR MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "FORT WALTON BEACH", "SchoolName": "WRIGHT ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "MARY ESTHER", "SchoolName": "FLOROSA ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "MARY ESTHER", "SchoolName": "MARY ESTHER ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "NICEVILLE", "SchoolName": "BLUEWATER ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "NICEVILLE", "SchoolName": "C. W. RUCKEL MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "NICEVILLE", "SchoolName": "COLLEGIATE HIGH SCHOOL AT NORTHWEST FLORIDA STATE COLLEGE", "SchoolType": "High", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "NICEVILLE", "SchoolName": "JAMES E PLEW ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "NICEVILLE", "SchoolName": "LULA J. EDGE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "NICEVILLE", "SchoolName": "NICEVILLE SENIOR HIGH SCHOOL", "SchoolType": "High", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "SHALIMAR", "SchoolName": "CLIFFORD MEIGS MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "SHALIMAR", "SchoolName": "LONGWOOD ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 2, "NCESID": "", "State": "FL"}, {"County": "Okaloosa", "City": "SHALIMAR", "SchoolName": "SHALIMAR ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "GULF BREEZE", "SchoolName": "GULF BREEZE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "GULF BREEZE", "SchoolName": "GULF BREEZE MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "GULF BREEZE", "SchoolName": "ORIOLE BEACH ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "GULF BREEZE", "SchoolName": "WOODLAWN BEACH MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "JAY", "SchoolName": "CHUMUCKLA ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "JAY", "SchoolName": "JAY ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "JAY", "SchoolName": "JAY HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "AVALON MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "BAGDAD ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "BENNETT C RUSSELL ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "BERRYHILL ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "EAST MILTON ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "HIGH ROAD", "SchoolType": "High", "Rating": 1, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "HOBBS MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "MARTIN LUTHER KING MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "SANTA ROSA HIGH SCHOOL", "SchoolType": "High", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "MILTON", "SchoolName": "W. H. RHODES ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "NAVARRE", "SchoolName": "HOLLEY-NAVARRE MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "NAVARRE", "SchoolName": "HOLLEY-NAVARRE PRIMARY", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "NAVARRE", "SchoolName": "WEST NAVARRE PRIMARY SCHOOL", "SchoolType": "Elementary", "Rating": 5, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "PACE", "SchoolName": "PEA RIDGE ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "PACE", "SchoolName": "S. S. DIXON PRIMARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Santa Rosa", "City": "PACE", "SchoolName": "THOMAS L SIMS MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "DEFUNIAK SPRINGS", "SchoolName": "MAUDE SAUNDERS ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "DEFUNIAK SPRINGS", "SchoolName": "WALTON MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "DEFUNIAK SPRINGS", "SchoolName": "WEST DEFUNIAK ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "FREEPORT", "SchoolName": "FREEPORT ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "FREEPORT", "SchoolName": "FREEPORT SENIOR HIGH SCHOOL", "SchoolType": "High", "Rating": 6, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "SANTA ROSA BEACH", "SchoolName": "DUNE LAKES ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 10, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "SANTA ROSA BEACH", "SchoolName": "EMERALD COAST MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 8, "NCESID": "", "State": "FL"}, {"County": "Walton", "City": "SANTA ROSA BEACH", "SchoolName": "VAN R. BUTLER ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 9, "NCESID": "", "State": "FL"}, {"County": "Washington", "City": "CHIPLEY", "SchoolName": "CHIPLEY HIGH SCHOOL", "SchoolType": "High", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Washington", "City": "CHIPLEY", "SchoolName": "KATE M. SMITH ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Washington", "City": "CHIPLEY", "SchoolName": "ROULHAC MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 7, "NCESID": "", "State": "FL"}, {"County": "Washington", "City": "VERNON", "SchoolName": "VERNON ELEMENTARY SCHOOL", "SchoolType": "Elementary", "Rating": 4, "NCESID": "", "State": "FL"}, {"County": "Washington", "City": "VERNON", "SchoolName": "VERNON HIGH SCHOOL", "SchoolType": "High", "Rating": 3, "NCESID": "", "State": "FL"}, {"County": "Washington", "City": "VERNON", "SchoolName": "VERNON MIDDLE SCHOOL", "SchoolType": "Middle", "Rating": 4, "NCESID": "", "State": "FL"}];
 state.mapTheme = 'hub';
@@ -208,114 +204,6 @@ function fmt(v, suffix = '') {
   return `${v}${suffix}`;
 }
 
-
-
-function currency(value) {
-  if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return 'Pending';
-  return '$' + Number(value).toLocaleString(undefined, { maximumFractionDigits: 0 });
-}
-function pct(value) {
-  if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return 'Pending';
-  return Number(value).toFixed(1) + '%';
-}
-function demoForSubmarketID(id) {
-  return state.demographics[id] || null;
-}
-function colorForIncome(income) {
-  const v = Number(income);
-  if (!v) return '#e5e7eb';
-  if (v >= 100000) return '#064e3b';
-  if (v >= 85000) return '#047857';
-  if (v >= 70000) return '#10b981';
-  if (v >= 55000) return '#a7f3d0';
-  return '#d1fae5';
-}
-function colorForGrowth(g) {
-  const v = Number(g);
-  if (Number.isNaN(v)) return '#e5e7eb';
-  if (v >= 15) return '#4c1d95';
-  if (v >= 8) return '#7c3aed';
-  if (v >= 3) return '#a78bfa';
-  if (v >= 0) return '#ddd6fe';
-  return '#f3e8ff';
-}
-function parseCsv(text) {
-  const lines = text.trim().split(/\r?\n/);
-  const headers = lines.shift().split(',');
-  return lines.map(line => {
-    const out = {}; let cur = '', q = false, i = 0;
-    const vals = [];
-    for (const ch of line) {
-      if (ch === '"') q = !q;
-      else if (ch === ',' && !q) { vals.push(cur); cur = ''; }
-      else cur += ch;
-    }
-    vals.push(cur);
-    headers.forEach((h, idx) => out[h] = vals[idx] || '');
-    return out;
-  });
-}
-async function fetchCountyDemographics(stateCode, countyCode) {
-  const vars = 'NAME,DP05_0001E,DP02_0001E,DP03_0062E,DP05_0018E,DP04_0046PE,DP02_0068PE';
-  const url23 = `https://api.census.gov/data/2023/acs/acs5/profile?get=${vars}&for=county:${countyCode}&in=state:${stateCode}`;
-  const url18 = `https://api.census.gov/data/2018/acs/acs5/profile?get=NAME,DP05_0001E&for=county:${countyCode}&in=state:${stateCode}`;
-  const [r23, r18] = await Promise.all([fetch(url23), fetch(url18)]);
-  const j23 = await r23.json();
-  let pop18 = null;
-  try { const j18 = await r18.json(); pop18 = Number(j18[1][1]); } catch(e) {}
-  const row = j23[1];
-  const pop = Number(row[1]);
-  return {
-    Source: 'ACS 2023 5-Year County Proxy',
-    CountyProxy: row[0],
-    Population: pop,
-    Households: Number(row[2]),
-    MedianHouseholdIncome: Number(row[3]),
-    MedianAge: Number(row[4]),
-    OwnerOccupancyPct: Number(row[5]),
-    BachelorsPlusPct: Number(row[6]),
-    PopulationGrowthPct: pop18 ? ((pop - pop18) / pop18 * 100) : null
-  };
-}
-async function loadDemographics() {
-  if (state.demographicsLoaded) return;
-  document.getElementById('demographicsCountBadge').textContent = 'Loading...';
-  const unique = new Map();
-  Object.values(censusCountyMap).forEach(pair => unique.set(pair.join('-'), pair));
-  const countyData = new Map();
-  await Promise.all(Array.from(unique.entries()).map(async ([key, pair]) => {
-    try { countyData.set(key, await fetchCountyDemographics(pair[0], pair[1])); }
-    catch(e) { console.warn('Demographic fetch failed', key, e); }
-  }));
-  state.features.forEach(f => {
-    const p = f.properties;
-    const pair = censusCountyMap[p.SubmarketID];
-    if (pair && countyData.has(pair.join('-'))) state.demographics[p.SubmarketID] = countyData.get(pair.join('-'));
-  });
-  state.demographicsLoaded = Object.keys(state.demographics).length > 0;
-  document.getElementById('demographicsCountBadge').textContent = state.demographicsLoaded ? 'Loaded' : 'Error';
-  document.getElementById('statusText').textContent = `${state.metadata.uniqueSubmarketsLoaded} submarkets • Demographics ${state.demographicsLoaded ? 'loaded' : 'unavailable'}`;
-  if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
-  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
-}
-function renderDemographicsCard(demo) {
-  if (!state.demographicsLoaded) return `<div class="demographics-card"><b>Demographics</b><br>Turn on Demographics to load ACS county-proxy metrics.</div>`;
-  if (!demo) return `<div class="demographics-card"><b>Demographics</b><br>No demographic proxy available.</div>`;
-  return `<div class="demographics-card">
-    <div class="demo-head"><b>Demographics</b><span>ACS County Proxy</span></div>
-    <div class="demo-grid">
-      <div><span>Population</span><b>${Number(demo.Population || 0).toLocaleString()}</b></div>
-      <div><span>Households</span><b>${Number(demo.Households || 0).toLocaleString()}</b></div>
-      <div><span>Median Income</span><b>${currency(demo.MedianHouseholdIncome)}</b></div>
-      <div><span>Median Age</span><b>${demo.MedianAge ? Number(demo.MedianAge).toFixed(1) : 'Pending'}</b></div>
-      <div><span>Owner Occ.</span><b>${pct(demo.OwnerOccupancyPct)}</b></div>
-      <div><span>Bachelor+</span><b>${pct(demo.BachelorsPlusPct)}</b></div>
-      <div><span>Pop. Growth</span><b>${pct(demo.PopulationGrowthPct)}</b></div>
-      <div><span>Source</span><b>County</b></div>
-    </div>
-    <small>${demo.CountyProxy || ''}</small>
-  </div>`;
-}
 
 function colorForRetailDensity(density) {
   if (density === null || density === undefined || Number.isNaN(density) || density <= 0) return '#e5e7eb';
@@ -496,13 +384,203 @@ function selectPOI(poi) {
   if (target) target.openPopup();
 }
 
+
+function demoValue(v) {
+  if (v === null || v === undefined || v === '' || Number.isNaN(Number(v))) return null;
+  const n = Number(v);
+  if (n < 0) return null;
+  return n;
+}
+
+function currency(value) {
+  if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return 'Pending';
+  return '$' + Number(value).toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+function pct(value) {
+  if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return 'Pending';
+  return Number(value).toFixed(1) + '%';
+}
+function demoForSubmarketID(id) { return state.demographics[id] || null; }
+function colorForIncome(income) {
+  const v = Number(income);
+  if (!v) return '#e5e7eb';
+  if (v >= 105000) return '#065f46';
+  if (v >= 90000) return '#047857';
+  if (v >= 75000) return '#10b981';
+  if (v >= 60000) return '#6ee7b7';
+  return '#d1fae5';
+}
+function colorForGrowth(g) {
+  const v = Number(g);
+  if (Number.isNaN(v)) return '#e5e7eb';
+  if (v >= 15) return '#4c1d95';
+  if (v >= 8) return '#7c3aed';
+  if (v >= 3) return '#a78bfa';
+  if (v >= 0) return '#ddd6fe';
+  return '#fee2e2';
+}
+function renderDemographicsCard(demo) {
+  if (!state.demographicsLoaded) return `<div class="retail-card"><b>Demographics</b><br>Turn on Demographics to calculate ACS estimates for your custom submarkets.</div>`;
+  if (!demo) return `<div class="retail-card"><b>Demographics</b><br>No demographic estimate available.</div>`;
+  return `<div class="retail-card">
+    <div class="retail-head"><b>Demographics</b><span>ACS ${ACS_YEAR} 5-Year</span></div>
+    <div class="retail-grid">
+      <div><span>Population</span><b>${Math.round(demo.population || 0).toLocaleString()}</b></div>
+      <div><span>Households</span><b>${Math.round(demo.households || 0).toLocaleString()}</b></div>
+      <div><span>Median Income</span><b>${currency(demo.medianIncome)}</b></div>
+      <div><span>Median Age</span><b>${demo.medianAge ? Number(demo.medianAge).toFixed(1) : 'Pending'}</b></div>
+      <div><span>Owner Occupancy</span><b>${pct(demo.ownerOccupancy)}</b></div>
+      <div><span>Bachelor's+</span><b>${pct(demo.bachelorsPlus)}</b></div>
+    </div>
+    <div class="school-used-note">Area-weighted from Census block groups intersecting this custom submarket.</div>
+  </div>`;
+}
+
+async function fetchACSForCounty(year, stateFips, countyFips) {
+  const vars = ['B01003_001E','B11001_001E','B19013_001E','B01002_001E','B25003_001E','B25003_002E','B15003_001E','B15003_022E','B15003_023E','B15003_024E','B15003_025E','B25077_001E'];
+  const url = `https://api.census.gov/data/${year}/acs/acs5?get=NAME,${vars.join(',')}&for=block%20group:*&in=state:${stateFips}%20county:${countyFips}%20tract:*`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`ACS ${year} request failed for ${stateFips}${countyFips}`);
+  const rows = await res.json();
+  const header = rows[0];
+  const out = new Map();
+  rows.slice(1).forEach(row => {
+    const rec = Object.fromEntries(header.map((h,i)=>[h,row[i]]));
+    const geoid = `${rec.state}${rec.county}${rec.tract}${rec['block group']}`;
+    out.set(geoid, rec);
+  });
+  return out;
+}
+
+async function fetchBlockGroupsForCounty(stateFips, countyFips) {
+  const params = new URLSearchParams({
+    where: `STATE='${stateFips}' AND COUNTY='${countyFips}'`,
+    outFields: 'GEOID,STATE,COUNTY,TRACT,BLKGRP',
+    returnGeometry: 'true',
+    outSR: '4326',
+    f: 'geojson'
+  });
+  const res = await fetch(`${TIGER_BG_URL}?${params.toString()}`);
+  if (!res.ok) throw new Error(`TIGER block group request failed for ${stateFips}${countyFips}`);
+  const geojson = await res.json();
+  return geojson.features || [];
+}
+
+function addWeighted(target, value, weight, field) {
+  const v = demoValue(value);
+  if (v === null || !weight) return;
+  target[field] = (target[field] || 0) + v * weight;
+}
+
+function initDemoAccumulator(feature) {
+  return {
+    SubmarketID: feature.properties.SubmarketID,
+    SubmarketName: feature.properties.DisplayName,
+    population: 0,
+    population2018: 0,
+    households: 0,
+    incomeNumerator: 0,
+    incomeWeight: 0,
+    ageNumerator: 0,
+    ageWeight: 0,
+    occupied: 0,
+    ownerOccupied: 0,
+    adults25Plus: 0,
+    bachelorsPlusCount: 0,
+    homeValueNumerator: 0,
+    homeValueWeight: 0,
+    bgCount: 0
+  };
+}
+
+function finalizeDemo(a) {
+  const populationGrowth = a.population2018 > 0 ? ((a.population - a.population2018) / a.population2018) * 100 : null;
+  return {
+    SubmarketID: a.SubmarketID,
+    SubmarketName: a.SubmarketName,
+    population: Math.round(a.population || 0),
+    households: Math.round(a.households || 0),
+    medianIncome: a.incomeWeight ? Math.round(a.incomeNumerator / a.incomeWeight) : null,
+    medianAge: a.ageWeight ? a.ageNumerator / a.ageWeight : null,
+    ownerOccupancy: a.occupied ? (a.ownerOccupied / a.occupied) * 100 : null,
+    bachelorsPlus: a.adults25Plus ? (a.bachelorsPlusCount / a.adults25Plus) * 100 : null,
+    medianHomeValue: a.homeValueWeight ? Math.round(a.homeValueNumerator / a.homeValueWeight) : null,
+    populationGrowth,
+    blockGroupsUsed: a.bgCount,
+    source: `ACS ${ACS_YEAR} 5-Year block groups; area-weighted to custom submarkets`
+  };
+}
+
+async function loadDemographics() {
+  if (state.demographicsLoaded || state.demographicsLoading) return;
+  state.demographicsLoading = true;
+  const badge = document.getElementById('demoCountBadge');
+  if (badge) badge.textContent = 'Loading...';
+  if (!window.turf) throw new Error('Turf.js failed to load.');
+  const acc = new Map(state.features.map(f => [f.properties.SubmarketID, initDemoAccumulator(f)]));
+  const subFeatures = state.features;
+  for (const [stateFips, countyFips] of censusCountyList) {
+    const [acs2023, acs2018, bgs] = await Promise.all([
+      fetchACSForCounty(ACS_YEAR, stateFips, countyFips),
+      fetchACSForCounty(ACS_COMPARE_YEAR, stateFips, countyFips).catch(()=>new Map()),
+      fetchBlockGroupsForCounty(stateFips, countyFips)
+    ]);
+    for (const bg of bgs) {
+      const geoid = String(bg.properties.GEOID || `${bg.properties.STATE}${bg.properties.COUNTY}${bg.properties.TRACT}${bg.properties.BLKGRP}`);
+      const rec = acs2023.get(geoid);
+      if (!rec || !bg.geometry) continue;
+      let bgArea = 0;
+      try { bgArea = turf.area(bg); } catch(e) { bgArea = 0; }
+      if (!bgArea) continue;
+      for (const sm of subFeatures) {
+        try {
+          if (!turf.booleanIntersects(bg, sm)) continue;
+          let inter = null;
+          try { inter = turf.intersect(bg, sm); } catch(e) { inter = null; }
+          if (!inter) continue;
+          const weight = turf.area(inter) / bgArea;
+          if (!weight || weight < 0.0001) continue;
+          const a = acc.get(sm.properties.SubmarketID);
+          a.bgCount += weight;
+          addWeighted(a, rec.B01003_001E, weight, 'population');
+          addWeighted(a, rec.B11001_001E, weight, 'households');
+          addWeighted(a, rec.B25003_001E, weight, 'occupied');
+          addWeighted(a, rec.B25003_002E, weight, 'ownerOccupied');
+          addWeighted(a, rec.B15003_001E, weight, 'adults25Plus');
+          const bachelors = [rec.B15003_022E,rec.B15003_023E,rec.B15003_024E,rec.B15003_025E].map(demoValue).filter(v=>v!==null).reduce((x,y)=>x+y,0);
+          a.bachelorsPlusCount += bachelors * weight;
+          const hh = demoValue(rec.B11001_001E) || 0;
+          const pop = demoValue(rec.B01003_001E) || 0;
+          const inc = demoValue(rec.B19013_001E);
+          const age = demoValue(rec.B01002_001E);
+          const homeVal = demoValue(rec.B25077_001E);
+          if (inc !== null && hh) { a.incomeNumerator += inc * hh * weight; a.incomeWeight += hh * weight; }
+          if (age !== null && pop) { a.ageNumerator += age * pop * weight; a.ageWeight += pop * weight; }
+          if (homeVal !== null && hh) { a.homeValueNumerator += homeVal * hh * weight; a.homeValueWeight += hh * weight; }
+          const rec2018 = acs2018.get(geoid);
+          if (rec2018) addWeighted(a, rec2018.B01003_001E, weight, 'population2018');
+        } catch(e) {
+          // Skip individual geometry failures; generalized Census geometries can occasionally be invalid.
+        }
+      }
+    }
+  }
+  state.demographics = {};
+  Array.from(acc.values()).forEach(a => { state.demographics[a.SubmarketID] = finalizeDemo(a); });
+  state.demographicsLoaded = true;
+  state.demographicsLoading = false;
+  if (badge) badge.textContent = 'Loaded';
+  if (state.mapTheme === 'income' || state.mapTheme === 'growth') setMapTheme(state.mapTheme);
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
 function styleFeature(feature) {
   const p = feature.properties;
   const selected = state.selected && state.selected.properties.SubmarketID === p.SubmarketID;
   return {
     color: selected ? '#061827' : '#26384f',
     weight: selected ? 3.5 : 1.4,
-    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (state.mapTheme === 'retail' ? colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'income' ? colorForIncome((demoForSubmarketID(p.SubmarketID)||{}).MedianHouseholdIncome) : (state.mapTheme === 'growth' ? colorForGrowth((demoForSubmarketID(p.SubmarketID)||{}).PopulationGrowthPct) : (p.HubColor || p.HubBaseColor || '#8ea0ad')))),
+    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (state.mapTheme === 'retail' ? colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'income' ? colorForIncome((demoForSubmarketID(p.SubmarketID)||{}).medianIncome) : (state.mapTheme === 'growth' ? colorForGrowth((demoForSubmarketID(p.SubmarketID)||{}).populationGrowth) : (p.HubColor || p.HubBaseColor || '#8ea0ad')))),
     fillOpacity: selected ? 0.72 : 0.48
   };
 }
@@ -520,13 +598,13 @@ function legendHtml() {
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'income') {
-    return `<b>Median Income</b><div class="legend-subtitle">ACS county proxy</div>` + [
-      ['#064e3b','$100k+','Very High'], ['#047857','$85k-$99k','High'], ['#10b981','$70k-$84k','Strong'], ['#a7f3d0','$55k-$69k','Moderate'], ['#d1fae5','Under $55k','Lower'], ['#e5e7eb','Pending','No data']
+    return `<b>Median Income</b><div class="legend-subtitle">ACS 2023 estimate</div>` + [
+      ['#065f46','$105k+','Highest'], ['#047857','$90k-$105k','High'], ['#10b981','$75k-$90k','Moderate'], ['#6ee7b7','$60k-$75k','Lower'], ['#d1fae5','<$60k','Lowest'], ['#e5e7eb','Pending','No data']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'growth') {
-    return `<b>Population Growth</b><div class="legend-subtitle">2018-2023 ACS proxy</div>` + [
-      ['#4c1d95','15%+','Very High'], ['#7c3aed','8%-14.9%','High'], ['#a78bfa','3%-7.9%','Moderate'], ['#ddd6fe','0%-2.9%','Low'], ['#f3e8ff','Negative','Decline'], ['#e5e7eb','Pending','No data']
+    return `<b>Population Growth</b><div class="legend-subtitle">ACS estimate</div>` + [
+      ['#4c1d95','15%+','Very High'], ['#7c3aed','8%-15%','High'], ['#a78bfa','3%-8%','Moderate'], ['#ddd6fe','0%-3%','Low'], ['#fee2e2','Negative','Decline'], ['#e5e7eb','Pending','No data']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   return `<b>Hubs</b><div class="legend-subtitle">Count of Submarkets</div>` + hubOrder.map(hub => {
@@ -608,10 +686,9 @@ function renderRelease(meta) {
     Submarkets loaded: <b>${meta.uniqueSubmarketsLoaded}</b><br>
     Health score: <b>${meta.healthScore}/100</b><br>
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
-    Demographics: <b>${state.demographicsLoaded ? 'Loaded' : 'Layer ready'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
   `;
-  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • Demographics layer ready`;
+  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School layer ready`;
 }
 
 function renderHubList(meta) {
@@ -687,7 +764,6 @@ function renderHubSummary(hub) {
   const counts = schoolCountsFor(items);
   const scoreSummary = scoreSummaryForFeatures(items);
   const retail = retailSummaryForFeatures(items);
-  const demo = demoForSubmarketID(items[0]?.properties.SubmarketID);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
     <h3 class="selected-title">${hub}</h3>
@@ -699,8 +775,8 @@ function renderHubSummary(hub) {
       <div class="metric"><div class="label">Builders</div><div class="value">Pending</div></div>
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
-    ${renderDemographicsCard(demo)}
     ${renderRetailCard(retail)}
+    ${renderDemographicsCard(demo)}
     <div class="focus-list">
       ${items.map(f => `<div class="focus-row"><span>${f.properties.DisplayName}</span><b>${f.properties.SubmarketID}</b></div>`).join('')}
     </div>
@@ -712,7 +788,6 @@ function renderHomeSummary() {
   const counts = schoolCountsFor(state.features);
   const scoreSummary = scoreSummaryForFeatures(state.features);
   const retail = retailSummaryForFeatures(state.features);
-  const demo = null;
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
     <h3 class="selected-title">Enterprise Snapshot</h3>
@@ -724,13 +799,12 @@ function renderHomeSummary() {
       <div class="metric"><div class="label">Builders</div><div class="value">Pending</div></div>
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
-    ${renderDemographicsCard(demo)}
     ${renderRetailCard(retail)}
+    ${renderDemographicsCard(demo)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>Hub color model</span><b>Active</b></div>
       <div class="focus-row"><span>School layer</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
-      <div class="focus-row"><span>Demographics</span><b>${state.demographicsLoaded ? 'Loaded' : 'Ready'}</b></div>
     </div>
   `;
 }
@@ -808,16 +882,16 @@ function renderSelected(p) {
       <div class="metric"><div class="label">Area</div><div class="value">${fmt(p.AreaSqMi, ' sq mi')}</div></div>
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(Number(p.Acres || 0)))}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
-      <div class="metric"><div class="label">Median Income</div><div class="value">Pending</div></div>
+      <div class="metric"><div class="label">Median Income</div><div class="value">${currency(demo && demo.medianIncome)}</div></div>
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
-    ${renderDemographicsCard(demo)}
     ${renderRetailCard(retail)}
+    ${renderDemographicsCard(demo)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>School Rating</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Retail & Dining</span><b>${state.poisLoaded ? 'Loaded' : 'Ready'}</b></div>
-      <div class="focus-row"><span>Demographics</span><b>Pending</b></div>
+      <div class="focus-row"><span>Demographics</span><b>${state.demographicsLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Builder Competition</span><b>Pending</b></div>
     </div>
     <button class="profile-btn" type="button">View Market Profile <span>›</span></button>
@@ -1046,16 +1120,6 @@ function bindUI() {
       alert('The school layer could not be loaded from NCES. Try again later.');
     }
   });
-  document.getElementById('toggleDemographics').addEventListener('change', async e => {
-    if (e.target.checked) {
-      await loadDemographics();
-      document.getElementById('mapThemeSelect').value = 'income';
-      setMapTheme('income');
-    } else {
-      document.getElementById('mapThemeSelect').value = 'hub';
-      setMapTheme('hub');
-    }
-  });
   document.getElementById('toggleRetail').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
@@ -1073,6 +1137,23 @@ function bindUI() {
       e.target.checked = false;
       document.getElementById('retailCountBadge').textContent = 'Error';
       alert('Retail & Dining could not be loaded from OpenStreetMap right now. Try again later.');
+    }
+  });
+  document.getElementById('toggleDemographics').addEventListener('change', async e => {
+    try {
+      if (e.target.checked) {
+        await loadDemographics();
+        document.getElementById('mapThemeSelect').value = 'income';
+        setMapTheme('income');
+      } else {
+        document.getElementById('mapThemeSelect').value = 'hub';
+        setMapTheme('hub');
+      }
+    } catch (err) {
+      console.error(err);
+      e.target.checked = false;
+      document.getElementById('demoCountBadge').textContent = 'Error';
+      alert('Demographics could not be loaded from Census right now. Check the browser console or try again later.');
     }
   });
   document.getElementById('mapThemeSelect').addEventListener('change', async e => {
