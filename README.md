@@ -1,3 +1,5 @@
-# Gulf Coast Submarket Atlas
+# Gulf Coast Submarket Atlas v2.4.0
 
-Stable v2.3.0 base with corrected complete school ratings.
+Adds the first Retail & Dining intelligence module to the stable v2.3.0 school ratings base.
+
+Retail & Dining data loads from OpenStreetMap through Overpass when the layer is turned on.
