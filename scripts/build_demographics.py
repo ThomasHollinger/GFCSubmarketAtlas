@@ -218,6 +218,8 @@ def census_get_json(url: str, params: Dict[str, str], retries: int = 5) -> list:
                     log("Census rejected the API key parameter. Retrying without a key.")
                     request_params.pop("key", None)
                     r = requests.get(url, params=request_params, timeout=90)
+                if "missing_key" in str(r.url).lower() or "<title>missing key</title>" in r.text.lower():
+                    raise RuntimeError("Census API requires a valid API key for this request. Add a repo secret named CENSUS_API_KEY and rerun the workflow.")
             if r.status_code != 200:
                 raise RuntimeError(f"HTTP {r.status_code}. URL: {r.url}. Response: {r.text[:800]}")
             try:
