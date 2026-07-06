@@ -776,7 +776,7 @@ function renderHubSummary(hub) {
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderRetailCard(retail)}
-    ${renderDemographicsCard(demo)}
+    ${renderDemographicsCard(null)}
     <div class="focus-list">
       ${items.map(f => `<div class="focus-row"><span>${f.properties.DisplayName}</span><b>${f.properties.SubmarketID}</b></div>`).join('')}
     </div>
@@ -800,7 +800,7 @@ function renderHomeSummary() {
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderRetailCard(retail)}
-    ${renderDemographicsCard(demo)}
+    ${renderDemographicsCard(null)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>Hub color model</span><b>Active</b></div>
@@ -886,7 +886,7 @@ function renderSelected(p) {
     </div>
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderRetailCard(retail)}
-    ${renderDemographicsCard(demo)}
+    ${renderDemographicsCard(null)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>School Rating</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>

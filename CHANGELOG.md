@@ -1,6 +1,8 @@
-# Gulf Coast Submarket Atlas v2.5.1
+# Changelog
 
-- Adds live Census ACS/TIGERweb demographic engine.
-- Demographics are area-weighted from Census block groups into custom submarket polygons.
-- Adds Median Income and Population Growth themes.
-- Adds demographics cards in Market Summary.
+## v2.5.2
+- Hotfix: restored map load by fixing undefined demographics reference in home and hub summaries.
+- Demographics now remains optional until loaded; selected submarkets show demographics after the Census engine finishes.
+
+## v2.5.1
+- Added Census-based demographics engine.
