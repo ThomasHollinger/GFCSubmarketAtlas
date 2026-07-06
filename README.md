@@ -1,5 +1,5 @@
-# Gulf Coast Submarket Atlas v2.4.0
+# Gulf Coast Submarket Atlas v2.5.0
 
-Adds the first Retail & Dining intelligence module to the stable v2.3.0 school ratings base.
+Adds Demographics module to the stable v2.4.0 base.
 
-Retail & Dining data loads from OpenStreetMap through Overpass when the layer is turned on.
+Demographic metrics are loaded from the U.S. Census ACS 5-Year Profile API at the county level and assigned as first-pass proxies to submarkets.

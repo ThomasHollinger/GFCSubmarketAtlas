@@ -1,12 +1,9 @@
-# Gulf Coast Submarket Atlas v2.4.0
+# Changelog
 
-## Added
-- Retail & Dining layer powered by OpenStreetMap / Overpass.
-- Restaurant, grocery, convenience, shopping center, and retail POI categories.
-- Retail & Dining counts in the Market Summary panel.
-- Retail Density map theme.
-- POI search integration after the layer is loaded.
+## v2.5.0 - Demographics
+- Added Demographics module.
+- Added live ACS county-proxy demographic loader.
+- Added Median Income and Population Growth themes.
+- Added demographics summary card for selected submarkets.
 
-## Preserved
-- Stable v2.3.0 school ratings base.
-- Hub View and School Rating heat map behavior.
+Note: v2.5.0 uses county-level ACS proxy values. A future release can replace these with block-group weighted custom submarket estimates.
