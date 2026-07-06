@@ -200,16 +200,31 @@ def load_tiger_block_groups(year: int, states: Iterable[str], cache_dir: Path) -
 
 
 def census_get_json(url: str, params: Dict[str, str], retries: int = 5) -> list:
+    """Fetch JSON from Census.
+
+    The Census API redirects to /data/missing_key.html when a blank/invalid key
+    is passed. This function detects that case, removes the key parameter, and
+    retries keyless before failing.
+    """
+    request_params = dict(params)
+    if request_params.get("key", "").strip() == "":
+        request_params.pop("key", None)
     last_err = None
     for attempt in range(1, retries + 1):
         try:
-            r = requests.get(url, params=params, timeout=90)
+            r = requests.get(url, params=request_params, timeout=90)
+            if "missing_key" in str(r.url).lower() or "<title>missing key</title>" in r.text.lower():
+                if "key" in request_params:
+                    log("Census rejected the API key parameter. Retrying without a key.")
+                    request_params.pop("key", None)
+                    r = requests.get(url, params=request_params, timeout=90)
             if r.status_code != 200:
                 raise RuntimeError(f"HTTP {r.status_code}. URL: {r.url}. Response: {r.text[:800]}")
             try:
                 return r.json()
             except Exception as exc:
-                raise RuntimeError(f"Non-JSON Census response. URL: {r.url}. Response: {r.text[:1000]}") from exc
+                preview = r.text[:1000]
+                raise RuntimeError(f"Non-JSON Census response. URL: {r.url}. Response: {preview}") from exc
         except Exception as exc:
             last_err = exc
             log(f"Census request failed attempt {attempt}/{retries}: {exc}")
@@ -223,6 +238,10 @@ def fetch_acs_for_counties(year: int, counties: pd.DataFrame) -> pd.DataFrame:
     variables = list(ACS_VARS.values())
     get_clause = "NAME," + ",".join(variables)
     api_key = os.getenv("CENSUS_API_KEY", "").strip()
+    # GitHub Actions may pass an empty or placeholder secret. Do not send a blank key.
+    if not api_key or api_key.startswith("${{") or api_key.lower() in {"none", "null", "changeme", "your_key_here"}:
+        api_key = ""
+        log("No valid Census API key detected; using keyless Census API requests.")
     rows = []
     for _, row in counties.iterrows():
         state = str(row["STATEFP"]).zfill(2)

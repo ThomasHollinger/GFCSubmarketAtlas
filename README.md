@@ -64,3 +64,8 @@ CENSUS_API_KEY
 ## Method note
 
 Current values are ACS-derived. Future values are labeled as **5-Year Forecast** and are model-based forecasts calculated from the observed ACS trend between 2018 ACS 5-Year and 2023 ACS 5-Year. They are not official Census projections.
+
+
+## v2 fix
+
+This version does not pass a blank Census API key from GitHub Actions. If Census returns the missing_key HTML page, the script retries without the key parameter.
