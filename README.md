@@ -1,13 +1,19 @@
-# Gulf Coast Submarket Atlas v2.6.3
+# Gulf Coast Demographics Builder - GitHub Action v7
 
-This release reorders the sidebar: Market Summary, Market Data, Atlas Health with Search, then About. It keeps the v2.6.2 school sidebar behavior and current ACS demographics.
+This version updates the current demographic source to **2024 ACS 5-Year** / **ACS 2020-2024 current estimates**.
 
-# Gulf Coast Submarket Atlas v2.6.2
+It keeps the same GitHub Actions workflow/output structure as v6. Replace the workflow and script files in the repo, rerun the Build Demographics Dataset workflow, then download the generated artifact.
 
-This release keeps current ACS demographics and updates School Rating behavior so ratings appear in the sidebar without requiring the Schools map layer to be enabled.
+# Gulf Coast Demographics GitHub Action v6
 
-# Gulf Coast Submarket Atlas v2.6.1
+This patch fixes the false API-key failure in v5.
 
-Static GitHub Pages atlas with Enterprise submarkets, schools, retail/dining, and current ACS demographics.
+The v5 workflow validated the key using a single tract/block group request:
+`state:01 county:003 tract:010700`. Census returned HTTP 204 because that test geography may not exist in the selected ACS release. V6 validates using a broad Baldwin County request instead.
 
-Demographics are precomputed from Census ACS block-group data area-weighted to the custom KML submarket boundaries. Experimental 5-year forecasts are retained in the data export for review but are not displayed in the atlas until a calibrated forecast model is approved.
+Replace these files in the repository:
+
+- `.github/workflows/build-demographics.yml`
+- `scripts/build_demographics.py`
+
+Then run **Actions > Build Demographics Dataset > Run workflow**.

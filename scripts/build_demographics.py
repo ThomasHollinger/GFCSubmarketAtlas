@@ -33,8 +33,8 @@ import requests
 from shapely.geometry import Polygon, MultiPolygon
 from shapely.ops import unary_union
 
-CURRENT_YEAR = 2023
-PRIOR_YEAR = 2018
+CURRENT_YEAR = 2024
+PRIOR_YEAR = 2019
 STATES = {"01": "Alabama", "12": "Florida"}
 EA_CRS = "EPSG:5070"  # NAD83 / Conus Albers - appropriate for area weighting
 
