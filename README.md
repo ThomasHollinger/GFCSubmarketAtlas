@@ -1,26 +1,10 @@
-# Gulf Coast Healthcare Builder v2.7.1 Fix
+# Healthcare Builder v2.7.2 Fix
 
-This patch fixes the healthcare builder so it does not silently produce a hospital-only dataset.
+Fixes Overpass API HTTP 429 errors by adding a meaningful User-Agent / From header and a third Overpass mirror. This keeps the same workflow and output files.
 
-Replace these files in the root of the GFCSubmarketAtlas repository:
+Replace these files in the repository:
 
 - `.github/workflows/build-healthcare.yml`
 - `scripts/build_healthcare.py`
 
-Then run:
-
-`Actions > Build Healthcare Dataset > Run workflow`
-
-What changed:
-
-- Queries OpenStreetMap/Overpass by category: pharmacies, clinics/offices, urgent care.
-- Falls back to smaller tiled queries if the full atlas bounding box fails.
-- Fails loudly if Overpass returns zero non-hospital facilities, instead of committing a hospital-only dataset.
-- Keeps HIFLD hospitals as the hospital source.
-
-Expected outputs committed to `data/`:
-
-- `healthcare_facilities.geojson`
-- `submarket_healthcare_summary.json`
-- `healthcare_facility_audit.csv`
-- `healthcare_metadata.json`
+Then rerun: Actions > Build Healthcare Dataset > Run workflow.

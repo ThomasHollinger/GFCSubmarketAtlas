@@ -32,7 +32,13 @@ HIFLD_HOSPITALS_URL = "https://services.arcgis.com/XG15cJAlne2vxtgt/ArcGIS/rest/
 OVERPASS_URLS = [
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
+    "https://overpass.openstreetmap.ru/api/interpreter",
 ]
+
+HTTP_HEADERS = {
+    "User-Agent": "GFCSubmarketAtlasHealthcareBuilder/2.7.2 (https://github.com/ThomasHollinger/GFCSubmarketAtlas)",
+    "From": "ThomasHollinger/GFCSubmarketAtlas GitHub Action",
+}
 
 
 def log(msg: str) -> None:
@@ -126,7 +132,7 @@ def query_arcgis_geojson(url: str, bbox: Tuple[float, float, float, float]) -> L
             "resultOffset": offset,
             "resultRecordCount": page_size,
         }
-        r = requests.get(url, params=params, timeout=60)
+        r = requests.get(url, params=params, headers=HTTP_HEADERS, timeout=60)
         if not r.ok:
             raise RuntimeError(f"ArcGIS request failed {r.status_code}: {r.text[:500]}")
         data = r.json()
@@ -230,14 +236,16 @@ def fetch_overpass(query: str) -> Dict[str, Any]:
     for url in OVERPASS_URLS:
         try:
             log(f"Querying Overpass: {url}")
-            r = requests.post(url, data=query.encode("utf-8"), headers={"Content-Type": "text/plain;charset=UTF-8"}, timeout=240)
+            headers = dict(HTTP_HEADERS)
+            headers["Content-Type"] = "text/plain;charset=UTF-8"
+            r = requests.post(url, data=query.encode("utf-8"), headers=headers, timeout=240)
             if not r.ok:
                 raise RuntimeError(f"{r.status_code}: {r.text[:500]}")
             return r.json()
         except Exception as exc:  # noqa: BLE001
             last_error = exc
             log(f"Overpass source failed: {exc}")
-            time.sleep(4)
+            time.sleep(8)
     raise RuntimeError(f"All Overpass sources failed: {last_error}")
 
 
@@ -268,7 +276,7 @@ def fetch_overpass_healthcare(bbox: Tuple[float, float, float, float]) -> Dict[s
                     batch = data.get("elements", [])
                     log(f"Overpass {cat} tile {idx}: {len(batch)} elements")
                     elements.extend(batch)
-                    time.sleep(1)
+                    time.sleep(2)
                 except Exception as tile_exc:  # noqa: BLE001
                     failures.append(f"{cat} tile {idx} failed: {tile_exc}")
                     log(f"WARNING: Overpass {cat} tile {idx} failed: {tile_exc}")
