@@ -1,7 +1,7 @@
 {
   "metadata": {
     "status": "built",
-    "created_utc": "2026-07-07T16:41:42+00:00",
+    "created_utc": "2026-07-07T17:42:48+00:00",
     "sources": [
       "HIFLD Hospitals",
       "OpenStreetMap Overpass"
@@ -22,16 +22,184 @@
       "facilities": []
     },
     "SM-02": {
-      "total": 3,
+      "total": 49,
       "hospitals": 3,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
-      "other": 0,
-      "density": 0.0051869910265055245,
+      "urgent_care": 5,
+      "clinics": 28,
+      "pharmacies": 11,
+      "other": 2,
+      "density": 0.08472085343292356,
       "nearest_hospital_name": "PROVIDENCE HOSPITAL",
       "nearest_hospital_mi": 5.01,
       "facilities": [
+        {
+          "id": "osm_a8c038e66b8bf98f",
+          "name": "5ive Star Diagnostic Solutions",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b336d453ea1dfd4c",
+          "name": "Alabama Smile Design",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5c312ce2b8773fa6",
+          "name": "American Family Care Festival Centre",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_92a2206407ae91db",
+          "name": "American Family Care Tillmans Corner",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_68be9a4a68f32f45",
+          "name": "Ascension Medical Group Providence",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9438ea05dd56ad78",
+          "name": "Aspen Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_46f2b9597585558d",
+          "name": "Aspen Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f45fbea397552ccc",
+          "name": "Charles R. Walton, D.M.D. Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_00d66667d43f0b42",
+          "name": "Family Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_87d49e977642722c",
+          "name": "Family Practice Associates",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a7a62a1936b1d5ea",
+          "name": "Fresenius Kidney Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6054fd600c8e806e",
+          "name": "Fresenius Kidney Care USA",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_166dc72f666a19ba",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6475c8d2c0a1d123",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2c956df956421670",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_61fd9a166296f292",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b706b40cbc2717b4",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_97ec9e3acfe0ab8f",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9f57aca96b003bb4",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e5b3546d3928aaa6",
+          "name": "Hillcrest Dental Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_20d8663452e47400",
+          "name": "Island Orthodontics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_341f387a38bbf50f",
+          "name": "MainStreet Family Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b5340a26ca8cfc21",
+          "name": "Park & Rebowe Clinic for Plastic Surgery",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a63e59591fba54f5",
+          "name": "Planned Parenthood",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f9edf978b7be829d",
+          "name": "Rabbit Creek Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2a1f1d9cc672d0c3",
+          "name": "Skyline Family Dental Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_d24bc28b16a2588a",
+          "name": "The Orthopedic Group",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a120721aaa16d3cd",
+          "name": "VA Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_9eeb1e9bb5834c2e",
           "name": "BAYPOINTE BEHAVIORAL HEALTH",
@@ -49,20 +217,296 @@
           "name": "SPRINGHILL MEMORIAL HOSPITAL",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_3326f290fb4f214e",
+          "name": "Highpoint Walking Trail",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_7c8ea5bf6a8b246c",
+          "name": "Walking Horse Court",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8b5df1dccbf5a8e5",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_05a690c62c51bd68",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8d9b4476449c1b58",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_26631c9fc0ea873d",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_99ad0f331a675cde",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_efaa079f5466facc",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e78a69f30eb9c7e3",
+          "name": "Rite Aid",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_94483581e76bcb21",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_15aeeca3798fc8cc",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_63c9c7f94aaf48f4",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6ef3c4b5a5426bba",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_afa31f987a751ca3",
+          "name": "Compass Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c293618d086e4e64",
+          "name": "Compass Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2c4900d2b52e5a8a",
+          "name": "Greater Mobile Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0a2ba28d54a42805",
+          "name": "Immediate Care of the South",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2fac8523f7486b4f",
+          "name": "KidsStreet Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-03": {
-      "total": 4,
+      "total": 39,
       "hospitals": 4,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
+      "urgent_care": 2,
+      "clinics": 28,
+      "pharmacies": 5,
       "other": 0,
-      "density": 0.01692405331076793,
+      "density": 0.16500951977998732,
       "nearest_hospital_name": "UNIVERSITY OF SOUTH ALABAMA CHILDREN'S AND WOMEN'S HOSPITAL",
       "nearest_hospital_mi": 9.19,
       "facilities": [
+        {
+          "id": "osm_bcb0244878e9888c",
+          "name": "Adult Outpatient Services \u2013 Mobile",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c1a8adb17ef7e7ea",
+          "name": "Aiello/Buskey Medical Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_272ec9d55c4e5a57",
+          "name": "American Family Care Saraland",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_753e9e03d95497a2",
+          "name": "Ann Payne-Johnson MD MS",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f126580fdb46e2c1",
+          "name": "Bennett Orthodontics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_cdb573570933bc14",
+          "name": "Cardio-Thoracic & Vascular Surgical Associates",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a8b5f33b5c1ed8f7",
+          "name": "Cardiovascular Associates, P.C.",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_217b870a9573895a",
+          "name": "David C. Hall DMD",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e3d4a692a352fbdd",
+          "name": "Dr. Albert Thomas Medical Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_d8fa3414ed76cdb1",
+          "name": "Franklin Primary Health Center Medical Mall",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5034016c46d85be3",
+          "name": "Fresenius Kidney Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_56efc1299e7f99a4",
+          "name": "Fresenius Kidney Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_42fb6919a184921f",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_10f64ddaf98d6a3e",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c8755618249c3605",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e175d38b08deb3a0",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4ff05858e93ddcd9",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_036f052d1ac25bb0",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_429cf43cf344bb77",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3ff7cda6c6a6ed46",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0f8e4ed8e804a31c",
+          "name": "Infirmary Medical Plaza",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_09d3910eedf3fb05",
+          "name": "MainStreet Family Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_886d09fd275203ed",
+          "name": "Major General William C. Gorgas Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_ebedb81f67821fc6",
+          "name": "Midtown Medical",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3b351b2892332658",
+          "name": "Mobile Pediatric Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_830624384fc9eaaf",
+          "name": "Pulminary Associates of Mobile",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b8ab53d393434dbe",
+          "name": "Soaring Smiles Pediatric Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_48df3861e6b88817",
+          "name": "Surgicare of Mobile",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_f33d8a181749ff1c",
           "name": "INFIRMARY LTAC HOSPITAL",
@@ -86,36 +530,246 @@
           "name": "UNIVERSITY OF SOUTH ALABAMA MEDICAL CENTER",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_c939271e663d71cb",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8a44f011dee0437e",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_116d9fe94db32d1e",
+          "name": "Midtown Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3ab6a7f231fea5a2",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_7c9f62451526ada8",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_abe912bdf4991a9b",
+          "name": "KidsStreet Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0e552ee78b753f81",
+          "name": "Southern Family Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-04": {
-      "total": 1,
+      "total": 29,
       "hospitals": 1,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
-      "other": 0,
-      "density": 0.0038755183505793903,
+      "urgent_care": 3,
+      "clinics": 20,
+      "pharmacies": 4,
+      "other": 1,
+      "density": 0.11239003216680232,
       "nearest_hospital_name": "SOUTH BALDWIN REGIONAL MEDICAL CENTER",
       "nearest_hospital_mi": 5.33,
       "facilities": [
+        {
+          "id": "osm_7653159dc8e31915",
+          "name": "Aspen Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f6a1b261b8322111",
+          "name": "Coastal Family Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b5367924b94fa481",
+          "name": "Cove Dental Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4b132821265306ee",
+          "name": "DaVita Dialysis",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_733ae766286e01c2",
+          "name": "Dentistry of Foley, Alan M. Allgood, DMD, Pc",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8ffc470e156e3454",
+          "name": "Dr Birkenhauer",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c25b7a314f95e249",
+          "name": "Dr. Funk",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_454f4002dae7c55b",
+          "name": "Dr. Thomas Davidson",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_d0749918c1771529",
+          "name": "Encore Rehabilitation",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0529a301a1a75b31",
+          "name": "Encore Rehabilitation",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_532e89be48c2ab2e",
+          "name": "Gulf Coast Cancer Centers",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0e5b3f5f645c0e05",
+          "name": "Gulf Shores Family Medicine",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6703e2a7778c3b50",
+          "name": "Gulf Shores Pediatrics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_39e1646fab82e723",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_21254bc7cd565389",
+          "name": "Island Orthodontics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_08f55463876a1af4",
+          "name": "Labcorp",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_1e0d06444ca7566e",
+          "name": "McCollough Plastic Surgery Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_14ad0260a4c85cdf",
+          "name": "Riviera Dental Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b21c3aee571c6509",
+          "name": "Sacred Heart Medical Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b77c58f7d603904d",
+          "name": "Wayne Martin DDS",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_ce6da40de245b8ea",
           "name": "SOUTH BALDWIN REGIONAL MEDICAL CENTER",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_6e470885ad7b9d2b",
+          "name": "Walking Path",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_734c5312e0d7b833",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_21f00e3db438ca4d",
+          "name": "Gulf Shores Family Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b494b829440efce0",
+          "name": "Stacey's Old Tyme Soda Fountain",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4a1cdb8596951b38",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f23e003dd2f7dbe9",
+          "name": "Immediate Care Foley",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c27883230fa94acf",
+          "name": "South Baldwin Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_37e32d7c9fcb3a7f",
+          "name": "Walk In Med Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-05": {
-      "total": 1,
+      "total": 2,
       "hospitals": 1,
       "urgent_care": 0,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 1,
       "other": 0,
-      "density": 0.006257039169065198,
+      "density": 0.012514078338130397,
       "nearest_hospital_name": "NORTH BALDWIN INFIRMARY",
       "nearest_hospital_mi": 3.71,
       "facilities": [
@@ -124,20 +778,80 @@
           "name": "NORTH BALDWIN INFIRMARY",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_fd149ff23248bb18",
+          "name": "Walmart Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-06": {
-      "total": 2,
-      "hospitals": 2,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
+      "total": 21,
+      "hospitals": 3,
+      "urgent_care": 4,
+      "clinics": 9,
+      "pharmacies": 5,
       "other": 0,
-      "density": 0.013976240391334731,
+      "density": 0.14675052410901468,
       "nearest_hospital_name": "THOMAS HOSPITAL",
       "nearest_hospital_mi": 2.58,
       "facilities": [
+        {
+          "id": "osm_bddd2e9f67f02f75",
+          "name": "Advanced Dental Comfort",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_11fd1a0ec7713e70",
+          "name": "Advanced Dermatology and Skin Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_7b6e3c6c8342610c",
+          "name": "American Family Care Fairhope",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f7b5115d42184f9f",
+          "name": "Aspen Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3ee934cc9da8668f",
+          "name": "Bay Medical Family Practice",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_ac6d62a21e493f9b",
+          "name": "Fairhope Health and Rehab",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6cd34b9b53fd7959",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_20bc9b1fa9adcf02",
+          "name": "Infirmary Health Daphne",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_510a1191144d5e11",
+          "name": "Northcutt Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_3389ef5186766a2b",
           "name": "EASTPOINTE HOSPITAL",
@@ -149,17 +863,77 @@
           "name": "THOMAS HOSPITAL",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_d8fd0d4891e93c34",
+          "name": "Thomas Hospital Emergency - Malbis",
+          "type": "Hospital",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_493975b8b99a390c",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b54ed8f42ef699ea",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_adf65b8618ea95c7",
+          "name": "Fairhope Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_1824047e1b333cb7",
+          "name": "Healthcare Facility",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2cd9e098af4cdff1",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e5b199cbdad8c915",
+          "name": "AFC Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9ca4324172fd8a58",
+          "name": "Eastern Shore Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_56af49d755104781",
+          "name": "Urgent Care Drive",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9d8ab51fcb96ac69",
+          "name": "Urgent Care Drive",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-07": {
-      "total": 8,
+      "total": 19,
       "hospitals": 8,
-      "urgent_care": 0,
+      "urgent_care": 2,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 9,
       "other": 0,
-      "density": 0.0407518720391218,
+      "density": 0.09678569609291426,
       "nearest_hospital_name": "NAVAL HOSPITAL PENSACOLA",
       "nearest_hospital_mi": 1.93,
       "facilities": [
@@ -210,29 +984,102 @@
           "name": "WEST FLORIDA REHABILITATION INSTITUTE",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_87cb4d7b881d90f2",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9424a43acb07e186",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_76471a17ebb6c2d7",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_55f27781b6bd3978",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_483a0501ab0a957f",
+          "name": "Publix",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c6352411bef89832",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2e65a48fbfdf1552",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8725d0bc612e2df1",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_bf5182cab71a5677",
+          "name": "Walmart Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e87497162464d6f6",
+          "name": "Community Health Northwest Florida Walk-in Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_48002025f536822b",
+          "name": "Quality Urgent Care & Wellness at Pensacola",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-08": {
-      "total": 0,
+      "total": 1,
       "hospitals": 0,
       "urgent_care": 0,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 1,
       "other": 0,
-      "density": 0.0,
+      "density": 0.00887705281846427,
       "nearest_hospital_name": "SANTA ROSA MEDICAL CENTER",
       "nearest_hospital_mi": 5.68,
-      "facilities": []
+      "facilities": [
+        {
+          "id": "osm_7a7ba4037906d39f",
+          "name": "Publix",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        }
+      ]
     },
     "SM-09": {
-      "total": 2,
+      "total": 6,
       "hospitals": 2,
       "urgent_care": 0,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 4,
       "other": 0,
-      "density": 0.01861850679575498,
+      "density": 0.05585552038726494,
       "nearest_hospital_name": "THE FRIARY OF LAKEVIEW CENTER",
       "nearest_hospital_mi": 1.37,
       "facilities": [
@@ -247,17 +1094,41 @@
           "name": "THE FRIARY OF LAKEVIEW CENTER",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_e0d3fc5673101dbe",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6b6b040b4df55c4b",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_fd6c58d4c09822f4",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5536d2f85a8e83f5",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-10": {
-      "total": 2,
+      "total": 5,
       "hospitals": 2,
       "urgent_care": 0,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 3,
       "other": 0,
-      "density": 0.015382248884786955,
+      "density": 0.03845562221196739,
       "nearest_hospital_name": "WEST FLORIDA COMMUNITY CARE CENTER",
       "nearest_hospital_mi": 2.84,
       "facilities": [
@@ -272,41 +1143,103 @@
           "name": "WEST FLORIDA COMMUNITY CARE CENTER",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_9d1ca1daff37ceca",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b5c7f728eee749e2",
+          "name": "Stephen's Landing",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6d2f4625e77b2ee8",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-11": {
-      "total": 0,
+      "total": 4,
       "hospitals": 0,
-      "urgent_care": 0,
+      "urgent_care": 1,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 3,
       "other": 0,
-      "density": 0.0,
+      "density": 0.028640985249892597,
       "nearest_hospital_name": "WEST FLORIDA HOSPITAL",
       "nearest_hospital_mi": 8.76,
-      "facilities": []
+      "facilities": [
+        {
+          "id": "osm_06e5acbc234c95f6",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_66ee14fafa815518",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_7fb1e008094ff1a6",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8ead5bfad2c73237",
+          "name": "West Florida Immediate Care at Kingsfield",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        }
+      ]
     },
     "SM-12": {
-      "total": 0,
+      "total": 3,
       "hospitals": 0,
       "urgent_care": 0,
-      "clinics": 0,
+      "clinics": 2,
       "pharmacies": 0,
-      "other": 0,
-      "density": 0.0,
-      "nearest_hospital_name": "EASTPOINTE HOSPITAL",
-      "nearest_hospital_mi": 13.86,
-      "facilities": []
+      "other": 1,
+      "density": 0.00454938355852782,
+      "nearest_hospital_name": "Thomas Hospital Emergency - Malbis",
+      "nearest_hospital_mi": 11.3,
+      "facilities": [
+        {
+          "id": "osm_5d7ef4ed61f418a2",
+          "name": "Central Baldwin Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_755c03acc6ca13fb",
+          "name": "Premier Family Care Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_cc078f05ea690a0b",
+          "name": "Walking Horse Lane",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        }
+      ]
     },
     "SM-13": {
-      "total": 1,
+      "total": 2,
       "hospitals": 1,
       "urgent_care": 0,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 1,
       "other": 0,
-      "density": 0.002941436009059623,
+      "density": 0.005882872018119246,
       "nearest_hospital_name": "CENTURY HOSPITAL MEDICAL CENTER",
       "nearest_hospital_mi": 13.21,
       "facilities": [
@@ -315,17 +1248,23 @@
           "name": "CENTURY HOSPITAL MEDICAL CENTER",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_e02cb3f70cb795db",
+          "name": "CSV",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-14": {
-      "total": 1,
+      "total": 2,
       "hospitals": 1,
       "urgent_care": 0,
       "clinics": 0,
       "pharmacies": 0,
-      "other": 0,
-      "density": 0.0015068637644470564,
+      "other": 1,
+      "density": 0.003013727528894113,
       "nearest_hospital_name": "JAY HOSPITAL",
       "nearest_hospital_mi": 10.78,
       "facilities": [
@@ -334,6 +1273,12 @@
           "name": "JAY HOSPITAL",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_ae34590c02b337a4",
+          "name": "Walking Horse Lane",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
         }
       ]
     },
@@ -362,35 +1307,185 @@
       "facilities": []
     },
     "SM-17": {
-      "total": 1,
+      "total": 12,
       "hospitals": 1,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
+      "urgent_care": 1,
+      "clinics": 9,
+      "pharmacies": 1,
       "other": 0,
-      "density": 0.008817564588660612,
+      "density": 0.10581077506392735,
       "nearest_hospital_name": "NORTH OKALOOSA MEDICAL CENTER",
       "nearest_hospital_mi": 3.36,
       "facilities": [
+        {
+          "id": "osm_acbc53e72dc366a6",
+          "name": "All Seasons Allergy & Asthma",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_24cc54a08e950f7d",
+          "name": "Aspen Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_66c1203a7a888e98",
+          "name": "Bridgeway Center Inc.",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_90ac10e7104239e5",
+          "name": "Comfort Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8d7e5ea1e800de78",
+          "name": "Dr. Richard Thomas - Family Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b5210fe0c095b4f2",
+          "name": "Main Street Medical Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5eb86d18293563b0",
+          "name": "North Okaloosa Medical Outpatient Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3d22283933173bc4",
+          "name": "Rawson & Braxton Oral",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2ae209b7e3013355",
+          "name": "Rigsby Orthodontics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_796c45ed6ec8cf93",
           "name": "NORTH OKALOOSA MEDICAL CENTER",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_f2a5ed30f76e720e",
+          "name": "Crestview Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b1b61a0e65e46c3b",
+          "name": "Crestview Urgent Care / Walk-In-Clinic",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-18": {
-      "total": 2,
+      "total": 23,
       "hospitals": 2,
       "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
+      "clinics": 14,
+      "pharmacies": 7,
       "other": 0,
-      "density": 0.020885547201336674,
+      "density": 0.24018379281537175,
       "nearest_hospital_name": "REHABILITATION INSTITUTE OF NORTHWEST FLORIDA",
       "nearest_hospital_mi": 5.28,
       "facilities": [
+        {
+          "id": "osm_bce02e36ccb84ea9",
+          "name": "Bluewater Bay Medical Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6e895fcdf246716e",
+          "name": "Easycare Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_28e269b2a3a6fc71",
+          "name": "Eglin VA Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e7438ef437171288",
+          "name": "Fresenius Dialysis Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f2803292141a744e",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_6e5ef02f0b883041",
+          "name": "Jeffrey Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a74c5ee9a9209c53",
+          "name": "Niceville Family Dental Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8092d14aab6b108d",
+          "name": "Okaloosa Family Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_1e66c33badb1e786",
+          "name": "Okaloosa Heart & Vascular",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e0faf846fb3be456",
+          "name": "Sharon Chen DDS",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_15f93bbf4f4ffcb5",
+          "name": "Smileology Bluewater Bay",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5418b71b565ce5f1",
+          "name": "Stubbs Orthodontics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_d10a9dbceb27b120",
+          "name": "White Wilson Medical Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2e6325573a84e6fd",
+          "name": "White-Wilson Medical Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_7224c0fa92e9825e",
           "name": "FORT WALTON BEACH MEDICAL CENTER",
@@ -402,6 +1497,48 @@
           "name": "GULF COAST TREATMENT CENTER",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_1f3098d52644dca9",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_387d69c8d7568188",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_d183b38260553aaa",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2ea8dd5a466e4dad",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0722173a7bebda21",
+          "name": "The Prescription Place",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e6805e6e6313918d",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9ba5fe8c84a5ebe7",
+          "name": "Walgreens",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
         }
       ]
     },
@@ -437,13 +1574,13 @@
       "facilities": []
     },
     "SM-21": {
-      "total": 1,
+      "total": 2,
       "hospitals": 1,
       "urgent_care": 0,
       "clinics": 0,
-      "pharmacies": 0,
+      "pharmacies": 1,
       "other": 0,
-      "density": 0.0014131878691953307,
+      "density": 0.0028263757383906614,
       "nearest_hospital_name": "TWIN CITIES HOSPITAL",
       "nearest_hospital_mi": 3.84,
       "facilities": [
@@ -452,20 +1589,110 @@
           "name": "TWIN CITIES HOSPITAL",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_f03d5b532d3a7ae7",
+          "name": "Satelite Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-22": {
-      "total": 2,
+      "total": 25,
       "hospitals": 2,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
+      "urgent_care": 3,
+      "clinics": 14,
+      "pharmacies": 6,
       "other": 0,
-      "density": 0.005495864362067544,
+      "density": 0.0686983045258443,
       "nearest_hospital_name": "HEALTHSOUTH EMERALD COAST REHABILITATION",
       "nearest_hospital_mi": 11.88,
       "facilities": [
+        {
+          "id": "osm_74d8c18988e72db1",
+          "name": "Aspen Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_50f2997e7bdad2da",
+          "name": "Aspen Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_bcf08c8e2d33c103",
+          "name": "Bay Medical On The Beach",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b5b6ceeb347f1a4b",
+          "name": "Bay Medical Sacred Heart Family Medicine",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8f778da863219583",
+          "name": "Cook Family Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e00c58cb27dc044e",
+          "name": "Destin Hearing Associates",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_983bee0659f7694c",
+          "name": "Destin Vein Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5acb0fbafd976e5b",
+          "name": "Grand Boulevard Health and Rehabilitation Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8cf8c1c2d1a0d604",
+          "name": "HCA Florida Destin Emergency",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_403cde7813a3ad73",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_fbd0fde7e27d3731",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_dd458cebb44bceee",
+          "name": "Smileology Miramar Beach",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9a8b465c53686635",
+          "name": "Smileology Santa Rosa Beach",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_7f8e2e35a3a2d635",
+          "name": "Welch Family Medicine",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_6b552629caab3945",
           "name": "REHABILITATION INSTITUTE OF NORTHWEST FLORIDA",
@@ -477,20 +1704,81 @@
           "name": "SACRED HEART HOSPITAL ON EMERALD COAST",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_247ccfdbb0e11906",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_cee5a09919042331",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_58db8f60c1206d23",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3e693589a3ff61ca",
+          "name": "Santa Rosa Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_deee510d6bb44341",
+          "name": "Walmart Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0e599de5f14fc029",
+          "name": "Walmart Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_77b6174e4bb9bc3f",
+          "name": "AFC Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b32304de2dd3f2f3",
+          "name": "Emerald Coast Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_7fb53aea9412bde1",
+          "name": "Emerald Coast Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-23": {
-      "total": 0,
+      "total": 1,
       "hospitals": 0,
       "urgent_care": 0,
-      "clinics": 0,
+      "clinics": 1,
       "pharmacies": 0,
       "other": 0,
-      "density": 0.0,
+      "density": 0.0016725484620916892,
       "nearest_hospital_name": "HEALTHMARK REGIONAL MEDICAL CENTER",
       "nearest_hospital_mi": 5.52,
-      "facilities": []
+      "facilities": [
+        {
+          "id": "osm_51bc7c4186f3e2bc",
+          "name": "Florida Department of Health in Walton County - Paxton Branch",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        }
+      ]
     },
     "SM-24": {
       "total": 1,
@@ -550,35 +1838,461 @@
       ]
     },
     "SM-27": {
-      "total": 1,
+      "total": 8,
       "hospitals": 1,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
-      "other": 0,
-      "density": 0.004530832313896062,
+      "urgent_care": 1,
+      "clinics": 4,
+      "pharmacies": 1,
+      "other": 1,
+      "density": 0.0362466585111685,
       "nearest_hospital_name": "JACKSON HOSPITAL",
       "nearest_hospital_mi": 5.98,
       "facilities": [
+        {
+          "id": "osm_41338937e1ecb440",
+          "name": "Chipola Health and Rehabilitation Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9d7b4f9cf9cc577e",
+          "name": "Fresenius Kidney Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_03adab8285abfec8",
+          "name": "Marianna Health and Rehab Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4470dbf1edb026ac",
+          "name": "Southeast Cardiology Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_915d1e3bee8c6872",
           "name": "JACKSON HOSPITAL",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_46f6767eb420c598",
+          "name": "Pregnancy Center of Marianna",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f9255cee50a45ef2",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_ef1d546db0124733",
+          "name": "Walk In Tent Camp",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
     "SM-28": {
-      "total": 5,
+      "total": 85,
       "hospitals": 5,
-      "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
-      "other": 0,
-      "density": 0.023431276067294626,
+      "urgent_care": 2,
+      "clinics": 64,
+      "pharmacies": 8,
+      "other": 6,
+      "density": 0.3983316931440086,
       "nearest_hospital_name": "GULF COAST MEDICAL CENTER",
       "nearest_hospital_mi": 6.0,
       "facilities": [
+        {
+          "id": "osm_ba287b39efe36e0a",
+          "name": "Accident Orthopedics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3b0840741ea09850",
+          "name": "Affordable Dentures & Implants",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_63a2ac485b187d18",
+          "name": "Amir Manzoor Endocrinologist",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f05024a9c75d113d",
+          "name": "Apria Healthcare",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_94cb807f181fd0e1",
+          "name": "Ascension Sacred Heart Bay Rehabilitation",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a4854ed88305922a",
+          "name": "Ascension Sacred Heart Primary Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e0b28832b89d266c",
+          "name": "Baldwin Pediatrics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_77cde7ef36673590",
+          "name": "Baldwin Pediatrics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f1d0a98a1ec17094",
+          "name": "Bay Arthritis Institute",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_ca144ca0932f2c1a",
+          "name": "Bay Smile Docs",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3e285baee96dae20",
+          "name": "Baytown Dental Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2604adc9af779971",
+          "name": "Buttram Orthodontics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_2839f718070952e0",
+          "name": "Callaway Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_821dc15ecfeeca28",
+          "name": "Children's Dentistry Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_3af25f601c1dc49b",
+          "name": "Consult Care Pain Medicine",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_227c75ed8b57a4d7",
+          "name": "Cove Dental",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_be08b0fcffce8951",
+          "name": "Cove Dental Care",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_460c05dc54c474a4",
+          "name": "DaVita Dialysis",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_af0e52743f2cc354",
+          "name": "Dermatology Specialists of Florida",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_7045e009fe2355b2",
+          "name": "Digestive Diseases Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a0ac7dde8594dd95",
+          "name": "Emerald Coast OBGYN",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e4563a47ce0584b9",
+          "name": "Emerald Coast Pediatrics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_bc1ed17d072241b3",
+          "name": "Emerald Coast Rheumatology and Infusion Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_00dea5cb3e884c01",
+          "name": "Florida Cancer Affiliates",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8b0bd23799479379",
+          "name": "Fresenius Kidney Care Panama City",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_df425479c85216d9",
+          "name": "Gerlecz Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_e510f30c9e3476f9",
+          "name": "HCA Florida Panama City Emergency",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4c860654857b4f0a",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_ce14d5614aef096e",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4ad0a6d602610d69",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0748aa536394b078",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_1a2a118baed8e205",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4ebfb7bf09359c19",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a3d2909e02f4980b",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_1acffa778fdddb35",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_0c24408355798bcb",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c72e788caffc372b",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_fee0f7594012cc3e",
+          "name": "Healthcare Facility",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_196a25b1c56994b9",
+          "name": "Hope Regional Cancer Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_63fcbb3ee6faf164",
+          "name": "Ideal Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8ba2104a63f7c864",
+          "name": "Jenna Pascoli, DMD",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a112c45df45e4e1e",
+          "name": "Life Management Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_056be9078d58be89",
+          "name": "Lotus Healthcare and Aesthetics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_99df830074d76270",
+          "name": "Magnolia Pediatric Therapy",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_02317a13ab077d88",
+          "name": "Northwest Florida Spine",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_121649ffaae0038b",
+          "name": "Oral Surgery and Dental Implant Center of Panama City",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_21f0f3b2066d3588",
+          "name": "Panama City Open MRI and Imaging",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f35d5ba1e21cd2f4",
+          "name": "Panama City Smiles",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_36c6f5a99b3c7d94",
+          "name": "Panhandle Pediatric Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_bbb7d2432cc5f5bf",
+          "name": "Personal Attention Dental Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f19d0d9c2660263b",
+          "name": "Practice of Family Medicine",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_34310c83fc17258a",
+          "name": "Primary Care Center of Lynn Haven",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_02f6a608de7bc994",
+          "name": "Quest Diagnostics",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f659cee922c89a62",
+          "name": "Sickbay Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_661c35787aeaa728",
+          "name": "Skin and Vein Clinic",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_657c66f98b0bed9f",
+          "name": "Sleep Disorder Center of Panama City",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_10120a6d3926d25e",
+          "name": "St. Andrews Bay Skilled Nursing and Rehabilitation Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_32110fe251bee49f",
+          "name": "SunCoast Diagnostic Imaging",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f1de7ddfedb85d22",
+          "name": "Surgical Center For Excellence",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_b6f34dda5b949043",
+          "name": "The Hormone & Wellness Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_4925e5b431e33ad8",
+          "name": "The Institute of Endocrinology",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_35a2fefc8d335817",
+          "name": "VITAS\u00ae Healthcare",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_8715e8ec7b7234a1",
+          "name": "WSI Learning Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5590127adf36f4b6",
+          "name": "William H Hargraves Family Dentistry",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_6e105119ac243fea",
           "name": "BAY MEDICAL CENTER SACRED HEART",
@@ -608,6 +2322,102 @@
           "name": "SELECT SPECIALTY HOSPITAL - PANAMA CITY",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_805ecd7dc39ba2c2",
+          "name": "Harvey De Mathis Park Walking Path",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_12421c493cb02f24",
+          "name": "Henry Brooks Memorial Walking Park",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_16e8e0b823370c02",
+          "name": "Spring Valley Walking Park",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_94ddeb8504c40fef",
+          "name": "Springfield Gardens Walking Park",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_96ad5b8fce0e8306",
+          "name": "Walking Path",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_5a667e0ee4769125",
+          "name": "Walking Path",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_d6d3b937b2cd06be",
+          "name": "Adam's Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a7401a52958afeba",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_c2dc948babb2890c",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a4f686d7ac91e6dc",
+          "name": "Coopers Drugs",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_47caa5ed7cb8db9d",
+          "name": "Gulf Coast Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_9c8382de7c5f358e",
+          "name": "Gulf Coast Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f1a30ca23a1faa3a",
+          "name": "Publix",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_1923fc43b849f8e0",
+          "name": "Walmart Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_847bbe338f27d41f",
+          "name": "Coastal Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_925ef8b1ae1524bc",
+          "name": "Go Now Doctors Urgent Care",
+          "type": "Urgent Care",
+          "source": "OpenStreetMap"
         }
       ]
     },
@@ -643,21 +2453,57 @@
       ]
     },
     "SM-31": {
-      "total": 1,
+      "total": 7,
       "hospitals": 1,
       "urgent_care": 0,
-      "clinics": 0,
-      "pharmacies": 0,
-      "other": 0,
-      "density": 0.0018049564103026913,
+      "clinics": 2,
+      "pharmacies": 1,
+      "other": 3,
+      "density": 0.012634694872118839,
       "nearest_hospital_name": "SACRED HEART HOSPITAL ON THE GULF",
       "nearest_hospital_mi": 13.04,
       "facilities": [
+        {
+          "id": "osm_0aad25bdd1dec762",
+          "name": "Sacred Heart Medical Group at Wewahitchka",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_28a307404b47b518",
+          "name": "Wewahitchka Medical Center",
+          "type": "Clinic / Medical Office",
+          "source": "OpenStreetMap"
+        },
         {
           "id": "hifld_baad9d5edb4b1dc9",
           "name": "SACRED HEART HOSPITAL ON THE GULF",
           "type": "Hospital",
           "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "osm_de36241122d982c0",
+          "name": "Walking Trail",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_f0eff24d9f016c24",
+          "name": "Walking Trail",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_a49cac2481d57802",
+          "name": "walking loop",
+          "type": "Other Healthcare",
+          "source": "OpenStreetMap"
+        },
+        {
+          "id": "osm_fe1098651b24205b",
+          "name": "CVS Pharmacy",
+          "type": "Pharmacy",
+          "source": "OpenStreetMap"
         }
       ]
     },

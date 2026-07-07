@@ -1032,6 +1032,7374 @@
         "SubmarketName": "Walton and Bay Beaches",
         "Hub": "Growth Markets"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6376679,
+          30.4552727
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_1f3098d52644dca9",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/475277214",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.2302143,
+          30.3478929
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3e693589a3ff61ca",
+        "Name": "Santa Rosa Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/1107818262",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6848093,
+          30.4062795
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b494b829440efce0",
+        "Name": "Stacey's Old Tyme Soda Fountain",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/1910825638",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2792572,
+          30.388083
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_87cb4d7b881d90f2",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/3040195008",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.424869,
+          30.319409
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9424a43acb07e186",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/3581135393",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2581908,
+          30.9814323
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e02cb3f70cb795db",
+        "Name": "CSV",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/4731556621",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-13",
+        "SubmarketName": "North Escambia",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8706713,
+          30.4023597
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e0d3fc5673101dbe",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/4736673145",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-09",
+        "SubmarketName": "Pensacola Beaches",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0920932,
+          30.6766279
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_116d9fe94db32d1e",
+        "Name": "Midtown Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5556867603",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.0404896,
+          30.6217416
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b5c7f728eee749e2",
+        "Name": "Stephen's Landing",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5704302529",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-10",
+        "SubmarketName": "Milton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.0520894,
+          30.6174431
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6d2f4625e77b2ee8",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5748698569",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-10",
+        "SubmarketName": "Milton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.1240474,
+          30.6010705
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7a7ba4037906d39f",
+        "Name": "Publix",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5749936599",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-08",
+        "SubmarketName": "Pace",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4646495,
+          30.51703
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0722173a7bebda21",
+        "Name": "The Prescription Place",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5835027332",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.5907236,
+          30.1556666
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_47caa5ed7cb8db9d",
+        "Name": "Gulf Coast Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "420 North Tyndall Parkway",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6011539886",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.225995,
+          30.6823855
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_94483581e76bcb21",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6540376798",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1901826,
+          30.6774641
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_15aeeca3798fc8cc",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6606134552",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.3043132,
+          29.816214
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_fe1098651b24205b",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6833696828",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-31",
+        "SubmarketName": "Gulf County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.7895611,
+          30.8858749
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_fd149ff23248bb18",
+        "Name": "Walmart Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6938671611",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-05",
+        "SubmarketName": "North Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.8052002,
+          30.1798274
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_deee510d6bb44341",
+        "Name": "Walmart Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6943358416",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6894635,
+          30.263688
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4a1cdb8596951b38",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6955159599",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2760873,
+          30.4336681
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c6352411bef89832",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "4497 Mobile Highway",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/7731798048",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.1934006,
+          30.4976345
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_bf5182cab71a5677",
+        "Name": "Walmart Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9257294641",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8848064,
+          30.522648
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_493975b8b99a390c",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9819442105",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6501747,
+          30.1569377
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a4f686d7ac91e6dc",
+        "Name": "Coopers Drugs",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10015273307",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1181987,
+          30.6891912
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3ab6a7f231fea5a2",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10102270338",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1448482,
+          30.6960225
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8b5df1dccbf5a8e5",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10202825478",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0820553,
+          30.7174156
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c939271e663d71cb",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10202903184",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1009127,
+          30.6882607
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8a44f011dee0437e",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10202940514",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1897921,
+          30.6604921
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_05a690c62c51bd68",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10202944934",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2085932,
+          30.6390065
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8d9b4476449c1b58",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10202946182",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2217987,
+          30.5099716
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2e65a48fbfdf1552",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "1841 East Olive Road",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10761843850",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.5853408,
+          30.2318879
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f1a30ca23a1faa3a",
+        "Name": "Publix",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/11984039555",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6660166,
+          30.1903906
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9c8382de7c5f358e",
+        "Name": "Gulf Coast Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/12623540592",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.207858,
+          30.4236249
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8725d0bc612e2df1",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/12966949031",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5317412,
+          30.4658968
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f03d5b532d3a7ae7",
+        "Name": "Satelite Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "1758 Memorial Trail",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13134837201",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-21",
+        "SubmarketName": "Eglin AFB",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.0717937,
+          30.3449574
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0e599de5f14fc029",
+        "Name": "Walmart Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13371908920",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6466444,
+          30.2258419
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_1923fc43b849f8e0",
+        "Name": "Walmart Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "2101 S Highway 77",
+        "City": "Lynn Haven",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13701253890",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5984292,
+          30.4419583
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_387d69c8d7568188",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "434 Racetrack Road Northeast",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13715913502",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.1711352,
+          30.3657787
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6b6b040b4df55c4b",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "225 Gulf Breeze Parkway",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/145384958",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-09",
+        "SubmarketName": "Pensacola Beaches",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.4265201,
+          30.3181452
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_483a0501ab0a957f",
+        "Name": "Publix",
+        "FacilityType": "Pharmacy",
+        "Address": "13390 Perdido Key Drive",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/230855784",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.590289,
+          30.1534043
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a7401a52958afeba",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "302 North Tyndall Parkway",
+        "City": "Callaway",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/254448915",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6426183,
+          30.4251189
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e6805e6e6313918d",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "414C Mary Esther Cut Off",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/322778189",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1874483,
+          30.6393367
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e78a69f30eb9c7e3",
+        "Name": "Rite Aid",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/342120564",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1884036,
+          30.6623856
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_26631c9fc0ea873d",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/342123229",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2194279,
+          30.510922
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_76471a17ebb6c2d7",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "8100 North Davis Highway",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/354176724",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.3143579,
+          30.5335922
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_66ee14fafa815518",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "2237 West Nine Mile Road",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/355850642",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-11",
+        "SubmarketName": "Cantonment",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2746428,
+          30.533914
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7fb1e008094ff1a6",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "20 West Nine Mile Road",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/361477687",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-11",
+        "SubmarketName": "Cantonment",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2727984,
+          30.53263
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_06e5acbc234c95f6",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "1 East Nine Mile Road",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/361477814",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-11",
+        "SubmarketName": "Cantonment",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2263803,
+          30.6763271
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_99ad0f331a675cde",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/361978275",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0806104,
+          30.6914213
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7c9f62451526ada8",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "1731 Springhill Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/362635982",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2486707,
+          30.6404042
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_63c9c7f94aaf48f4",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/407737658",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2253853,
+          30.640587
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6ef3c4b5a5426bba",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/407737690",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9031294,
+          30.5228441
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_adf65b8618ea95c7",
+        "Name": "Fairhope Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/479310342",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8791453,
+          30.4022855
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5536d2f85a8e83f5",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "8220 Navarre Parkway",
+        "City": "Navarre",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/481472924",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-09",
+        "SubmarketName": "Pensacola Beaches",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4678302,
+          30.5169673
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_d183b38260553aaa",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "1096 John Sims Parkway",
+        "City": "Niceville",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/546638378",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4162252,
+          30.4841771
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2ea8dd5a466e4dad",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "4562 John Sims Parkway",
+        "City": "Niceville",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/547135391",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6911257,
+          30.2705997
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_21f00e3db438ca4d",
+        "Name": "Gulf Shores Family Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "251 Clubhouse Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503935",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.207015,
+          30.6851123
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_efaa079f5466facc",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "7081 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/574571346",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.5883444,
+          30.2696915
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_734c5312e0d7b833",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "25761 Perdido Beach Boulevard",
+        "City": "Orange Beach",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/616082817",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3507915,
+          30.3769809
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_247ccfdbb0e11906",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "10517 US Highway 98 West",
+        "City": "Miramar Beach",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/624961085",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.9743292,
+          30.2639293
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_cee5a09919042331",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "23208 Front Beach Road",
+        "City": "Panama City Beach",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/634320096",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6752351,
+          30.1892318
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c2dc948babb2890c",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "955 West 23rd Street",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637647247",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4128262,
+          30.4815296
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9ba5fe8c84a5ebe7",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "4582 E Hwy 20, Niceville, FL 32578",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/655767281",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6490362,
+          30.2445218
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_d6d3b937b2cd06be",
+        "Name": "Adam's Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "922 Ohio Ave",
+        "City": "Lynn Haven",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/665916675",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2041085,
+          30.7690951
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f9255cee50a45ef2",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/704870220",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5607442,
+          30.7827169
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f2a5ed30f76e720e",
+        "Name": "Crestview Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "1116 North Ferdon Boulevard",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/710588825",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.050928,
+          30.6166915
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9d1ca1daff37ceca",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/805404042",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-10",
+        "SubmarketName": "Milton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.3181561,
+          30.4208316
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_55f27781b6bd3978",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/821259700",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9117721,
+          30.6436086
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_1824047e1b333cb7",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Pharmacy",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/831925376",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3809083,
+          30.3842562
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_58db8f60c1206d23",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "60 South Holiday Road",
+        "City": "Miramar Beach",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/929204162",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.0833714,
+          30.3867084
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_fd6c58d4c09822f4",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "3359 Gulf Breeze Pky",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1070332118",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-09",
+        "SubmarketName": "Pensacola Beaches",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.904528,
+          30.6188972
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b54ed8f42ef699ea",
+        "Name": "CVS Pharmacy",
+        "FacilityType": "Pharmacy",
+        "Address": "27040 US Highway 98",
+        "City": "Daphne",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1234843775",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9064949,
+          30.6188905
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2cd9e098af4cdff1",
+        "Name": "Walgreens",
+        "FacilityType": "Pharmacy",
+        "Address": "3025 US Highway 98",
+        "City": "Daphne",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1382981320",
+        "RawType": "pharmacy",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6858871,
+          30.2686094
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_08f55463876a1af4",
+        "Name": "Labcorp",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5469243966",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6857945,
+          30.2688519
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8ffc470e156e3454",
+        "Name": "Dr Birkenhauer",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5469243967",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6899128,
+          30.2703997
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_d0749918c1771529",
+        "Name": "Encore Rehabilitation",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "208 Office Park Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5469244145",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6838803,
+          30.3058904
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c25b7a314f95e249",
+        "Name": "Dr. Funk",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "3849 Gulf Shores Pkwy",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5779248578",
+        "RawType": "doctor",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6840511,
+          30.3093848
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4b132821265306ee",
+        "Name": "DaVita Dialysis",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "3947 Gulf Shores Parkway",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5779270952",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6072529,
+          30.2906653
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0529a301a1a75b31",
+        "Name": "Encore Rehabilitation",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4528 Easy Street",
+        "City": "Orange Beach",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5850974526",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6894992,
+          30.2728215
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f6a1b261b8322111",
+        "Name": "Coastal Family Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "208 West 19th Avenue",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13065680285",
+        "RawType": "dentist",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8762201,
+          30.6039436
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_11fd1a0ec7713e70",
+        "Name": "Advanced Dermatology and Skin Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "County Road 64",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13087194401",
+        "RawType": "doctors",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1639689,
+          30.5999484
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f9edf978b7be829d",
+        "Name": "Rabbit Creek Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "5000 Rangeline Crossing Drive",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13316292102",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.7154481,
+          30.5452724
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5d7ef4ed61f418a2",
+        "Name": "Central Baldwin Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "18100 AL-104",
+        "City": "Robertsdale",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13322805487",
+        "RawType": "dentist",
+        "SubmarketID": "SM-12",
+        "SubmarketName": "Central Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8516707,
+          30.5231732
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7b6e3c6c8342610c",
+        "Name": "American Family Care Fairhope",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "10040 County Road 48",
+        "City": "Fairhope",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13587285954",
+        "RawType": "clinic",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1632731,
+          30.5956524
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_92a2206407ae91db",
+        "Name": "American Family Care Tillmans Corner",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "5235 Rangeline Service Road",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13587314924",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.851643,
+          30.519871
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_bddd2e9f67f02f75",
+        "Name": "Advanced Dental Comfort",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "20252 State Highway 181",
+        "City": "Fairhope",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13623856398",
+        "RawType": "dentist",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6838683,
+          30.3838536
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7653159dc8e31915",
+        "Name": "Aspen Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2130 South McKenzie Street",
+        "City": "Foley",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13822987736",
+        "RawType": "dentist",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1627656,
+          30.5977677
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_166dc72f666a19ba",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/338493828",
+        "RawType": "doctor",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6827189,
+          30.3925343
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f23e003dd2f7dbe9",
+        "Name": "Immediate Care Foley",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/528476829",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6878696,
+          30.2678334
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c27883230fa94acf",
+        "Name": "South Baldwin Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "101 East 15th Avenue",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/565169131",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6907801,
+          30.2688406
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b5367924b94fa481",
+        "Name": "Cove Dental Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "137 Cove Av",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/565471596",
+        "RawType": "dentist",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6715891,
+          30.3070081
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_1e0d06444ca7566e",
+        "Name": "McCollough Plastic Surgery Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "350 Cypress Bend Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/566730215",
+        "RawType": "doctor",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6899675,
+          30.2705072
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_454f4002dae7c55b",
+        "Name": "Dr. Thomas Davidson",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "200 Office Park Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503932",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6903817,
+          30.2705739
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_21254bc7cd565389",
+        "Name": "Island Orthodontics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "241 Clubhouse Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503933",
+        "RawType": "dentist",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6907748,
+          30.2705913
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b77c58f7d603904d",
+        "Name": "Wayne Martin DDS",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "245 Clubhouse Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503934",
+        "RawType": "dentist",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6912827,
+          30.2700856
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b21c3aee571c6509",
+        "Name": "Sacred Heart Medical Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1700 W 2nd St",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503937",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6907876,
+          30.2699888
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_532e89be48c2ab2e",
+        "Name": "Gulf Coast Cancer Centers",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "253 Professional Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503938",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6904447,
+          30.2700655
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_39e1646fab82e723",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "223 Office Park Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503939",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6900523,
+          30.2696709
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6703e2a7778c3b50",
+        "Name": "Gulf Shores Pediatrics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "232 Office Park Dr",
+        "City": "Gulf Shores",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/568503942",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9054881,
+          30.5202971
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_ac6d62a21e493f9b",
+        "Name": "Fairhope Health and Rehab",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/639800449",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6891991,
+          30.2735886
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0e5b3f5f645c0e05",
+        "Name": "Gulf Shores Family Medicine",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/727071774",
+        "RawType": "doctor",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6804457,
+          30.4060328
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_733ae766286e01c2",
+        "Name": "Dentistry of Foley, Alan M. Allgood, DMD, Pc",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "300 East Laurel Avenue",
+        "City": "Foley",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/964724501",
+        "RawType": "dentist",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1582878,
+          30.5995478
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a120721aaa16d3cd",
+        "Name": "VA Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1290550080",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8943264,
+          30.5701242
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_510a1191144d5e11",
+        "Name": "Northcutt Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "23678 US Highway 98",
+        "City": "Fairhope",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1394174852",
+        "RawType": "dentist",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6878856,
+          30.3706944
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_14ad0260a4c85cdf",
+        "Name": "Riviera Dental Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "198 County Road 20 West",
+        "City": "Foley",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1430922694",
+        "RawType": "dentist",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9018087,
+          30.533115
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3ee934cc9da8668f",
+        "Name": "Bay Medical Family Practice",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "405 North Section Street",
+        "City": "Fairhope",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1443594577",
+        "RawType": "doctor",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0830397,
+          30.6228691
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a7a62a1936b1d5ea",
+        "Name": "Fresenius Kidney Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1531301694",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.09806,
+          30.70575
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_bcb0244878e9888c",
+        "Name": "Adult Outpatient Services \u2013 Mobile",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2400 Gordon Smith Drive",
+        "City": "Mobile",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/358961462",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8514577,
+          30.6576777
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9ca4324172fd8a58",
+        "Name": "Eastern Shore Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "29710 Urgent Care Drive",
+        "City": "Daphne",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/8066949247",
+        "RawType": "clinic",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1110639,
+          30.6897077
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_48df3861e6b88817",
+        "Name": "Surgicare of Mobile",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2890 Dauphin Street",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9656751636",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1000555,
+          30.6922145
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_abe912bdf4991a9b",
+        "Name": "KidsStreet Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "153 N Florida St",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9985898765",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1000627,
+          30.6921247
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_09d3910eedf3fb05",
+        "Name": "MainStreet Family Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "153 N Florida St, Suite B",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9985935508",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1881074,
+          30.6616192
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_341f387a38bbf50f",
+        "Name": "MainStreet Family Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "6280 Grelot Road, Suite 200",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9994477006",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1881905,
+          30.6616131
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2fac8523f7486b4f",
+        "Name": "KidsStreet Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "6280 Grelot Road",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9994498289",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1308815,
+          30.6874085
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b5340a26ca8cfc21",
+        "Name": "Park & Rebowe Clinic for Plastic Surgery",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "3700 Dauphin Street",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/11818280905",
+        "RawType": "doctor",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0969224,
+          30.7046533
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_753e9e03d95497a2",
+        "Name": "Ann Payne-Johnson MD MS",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2419 Gordon Smith Drive",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/11927039551",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1434955,
+          30.6977437
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2c4900d2b52e5a8a",
+        "Name": "Greater Mobile Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/11954384199",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1740376,
+          30.6878044
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6475c8d2c0a1d123",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/11954780233",
+        "RawType": "doctor",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1199344,
+          30.6979952
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f126580fdb46e2c1",
+        "Name": "Bennett Orthodontics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "3210 Old Shell Rd",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13178375401",
+        "RawType": "dentist",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1351373,
+          30.6727877
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5c312ce2b8773fa6",
+        "Name": "American Family Care Festival Centre",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "900 Montlimar Drive",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13574511835",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0983951,
+          30.801462
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_272ec9d55c4e5a57",
+        "Name": "American Family Care Saraland",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1097 Industrial Parkway",
+        "City": "Saraland",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13587276079",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1329813,
+          30.6702828
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a8c038e66b8bf98f",
+        "Name": "5ive Star Diagnostic Solutions",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1015 Montlimar Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13759117436",
+        "RawType": "laboratory",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9032937,
+          30.6555824
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f7b5115d42184f9f",
+        "Name": "Aspen Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "6935 US 90",
+        "City": "Daphne",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13822984038",
+        "RawType": "dentist",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1368122,
+          30.6768451
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9438ea05dd56ad78",
+        "Name": "Aspen Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "3716 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13822989326",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2250679,
+          30.6825992
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_46f2b9597585558d",
+        "Name": "Aspen Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "7765 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13823002650",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1797653,
+          30.7037106
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6054fd600c8e806e",
+        "Name": "Fresenius Kidney Care USA",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "700 Clinic Drive",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/297369461",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0830961,
+          30.7300147
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e3d4a692a352fbdd",
+        "Name": "Dr. Albert Thomas Medical Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/338325782",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0829931,
+          30.7307819
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c1a8adb17ef7e7ea",
+        "Name": "Aiello/Buskey Medical Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/338325784",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1914454,
+          30.643122
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_87d49e977642722c",
+        "Name": "Family Practice Associates",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2270 Hillcrest Road",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/342121393",
+        "RawType": "doctor",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.191401,
+          30.6615022
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f45fbea397552ccc",
+        "Name": "Charles R. Walton, D.M.D. Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "6410 Grelot Road",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/347308751",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1911937,
+          30.6665293
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e5b3546d3928aaa6",
+        "Name": "Hillcrest Dental Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1100 Hillcrest Road",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/348735139",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0657541,
+          30.6993872
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_d8fa3414ed76cdb1",
+        "Name": "Franklin Primary Health Center Medical Mall",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1303 Dr Martin L King Jr Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/353287037",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0548429,
+          30.69185
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_886d09fd275203ed",
+        "Name": "Major General William C. Gorgas Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "800 Saint Anthony Street",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/354668006",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1560125,
+          30.6505541
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0a2ba28d54a42805",
+        "Name": "Immediate Care of the South",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/361590329",
+        "RawType": "doctors",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1567803,
+          30.6510884
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_00d66667d43f0b42",
+        "Name": "Family Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/361590332",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1410131,
+          30.6399965
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2a1f1d9cc672d0c3",
+        "Name": "Skyline Family Dental Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/364381629",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2024985,
+          30.6810111
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2c956df956421670",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/364945957",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.073617,
+          30.6898751
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_42fb6919a184921f",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1551 Old Shell Road",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/464259435",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0736347,
+          30.6893529
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_10f64ddaf98d6a3e",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "65 North Catherine Street",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/464259436",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0886527,
+          30.6910063
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5034016c46d85be3",
+        "Name": "Fresenius Kidney Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/481615738",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2785222,
+          30.6701583
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_afa31f987a751ca3",
+        "Name": "Compass Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "9985 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/572776715",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2780854,
+          30.6701443
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_68be9a4a68f32f45",
+        "Name": "Ascension Medical Group Providence",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "9971 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/572776716",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2026327,
+          30.6830479
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c293618d086e4e64",
+        "Name": "Compass Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "6901 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/574571350",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1839731,
+          30.6782387
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_d24bc28b16a2588a",
+        "Name": "The Orthopedic Group",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "6144 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/574905726",
+        "RawType": "doctor",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1440506,
+          30.6744975
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a63e59591fba54f5",
+        "Name": "Planned Parenthood",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "717 Downtowner Loop West",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/574905727",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1748707,
+          30.6764277
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b336d453ea1dfd4c",
+        "Name": "Alabama Smile Design",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4720 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/642058121",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1750191,
+          30.6766824
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_20d8663452e47400",
+        "Name": "Island Orthodontics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/642058122",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0739328,
+          30.6920127
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c8755618249c3605",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1557 Springhill Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/730108454",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1445441,
+          30.6772003
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_61fd9a166296f292",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/906705934",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.06478,
+          30.682375
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_56efc1299e7f99a4",
+        "Name": "Fresenius Kidney Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1013727138",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.081338,
+          30.678144
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e175d38b08deb3a0",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1059228031",
+        "RawType": "dentist",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8585461,
+          30.6545331
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6cd34b9b53fd7959",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1110135278",
+        "RawType": "doctor",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8528103,
+          30.6552618
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_d8fd0d4891e93c34",
+        "Name": "Thomas Hospital Emergency - Malbis",
+        "FacilityType": "Hospital",
+        "Address": "29487 AL 181",
+        "City": "Daphne",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1110136000",
+        "RawType": "clinic",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1058257,
+          30.8086364
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0f8e4ed8e804a31c",
+        "Name": "Infirmary Medical Plaza",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1205297611",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1058267,
+          30.8080961
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4ff05858e93ddcd9",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1205297612",
+        "RawType": "clinic",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0787892,
+          30.6919896
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_036f052d1ac25bb0",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1701 Springhill Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1262977807",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.079989,
+          30.6917234
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_429cf43cf344bb77",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1725 Springhill Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1262983373",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2065913,
+          30.6777291
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b706b40cbc2717b4",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1289660122",
+        "RawType": "dentist",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.13077,
+          30.6597841
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_97ec9e3acfe0ab8f",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1290547117",
+        "RawType": "doctor",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0880206,
+          30.6910604
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_830624384fc9eaaf",
+        "Name": "Pulminary Associates of Mobile",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1290572505",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0859674,
+          30.6911733
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a8b5f33b5c1ed8f7",
+        "Name": "Cardiovascular Associates, P.C.",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1901 Spring Hill Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1290572514",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0926716,
+          30.6761947
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_217b870a9573895a",
+        "Name": "David C. Hall DMD",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2157 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1336866690",
+        "RawType": "dentist",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0905219,
+          30.6762423
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_ebedb81f67821fc6",
+        "Name": "Midtown Medical",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2055 Airport Boulevard",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1336866697",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0803231,
+          30.7323977
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b8ab53d393434dbe",
+        "Name": "Soaring Smiles Pediatric Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1368825928",
+        "RawType": "dentist",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.084131,
+          30.6873827
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3b351b2892332658",
+        "Name": "Mobile Pediatric Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1835 Old Shell Road",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1368848671",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0875782,
+          30.6919749
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0e552ee78b753f81",
+        "Name": "Southern Family Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "1962 Spring Hill Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1369212737",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0854026,
+          30.6914345
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_cdb573570933bc14",
+        "Name": "Cardio-Thoracic & Vascular Surgical Associates",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1855 Spring Hill Avenue",
+        "City": "Mobile",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1369212748",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8084047,
+          30.6929119
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_755c03acc6ca13fb",
+        "Name": "Premier Family Care Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "32128 Broken Branch Circle",
+        "City": "Spanish Fort",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1391573677",
+        "RawType": "doctor",
+        "SubmarketID": "SM-12",
+        "SubmarketName": "Central Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0629134,
+          30.687259
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3ff7cda6c6a6ed46",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1423923014",
+        "RawType": "doctor",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9093527,
+          30.6307326
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e5b199cbdad8c915",
+        "Name": "AFC Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1499463225",
+        "RawType": "clinic",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.2024948,
+          30.67892
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9f57aca96b003bb4",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "relation/5425745",
+        "RawType": "clinic",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8584705,
+          30.6546476
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_20bc9b1fa9adcf02",
+        "Name": "Infirmary Health Daphne",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "relation/19292091",
+        "RawType": "doctor",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6331985,
+          30.4563924
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2e6325573a84e6fd",
+        "Name": "White-Wilson Medical Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/387491115",
+        "RawType": "clinic",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.2189169,
+          30.373101
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8f778da863219583",
+        "Name": "Cook Family Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/1107952893",
+        "RawType": "dentist",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3025531,
+          30.3780693
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e00c58cb27dc044e",
+        "Name": "Destin Hearing Associates",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "141 Mack Bayou Loop",
+        "City": "Santa Rosa",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/3080067029",
+        "RawType": "doctor",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.8110373,
+          30.1951463
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b32304de2dd3f2f3",
+        "Name": "Emerald Coast Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/4264807678",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.7523588,
+          30.1599528
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b5b6ceeb347f1a4b",
+        "Name": "Bay Medical Sacred Heart Family Medicine",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2421 Pine Drive",
+        "City": "Panama City Beach",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/4267518390",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4181152,
+          30.4854582
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_bce02e36ccb84ea9",
+        "Name": "Bluewater Bay Medical Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4554 John Sims Parkway",
+        "City": "Niceville",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5283008682",
+        "RawType": "doctor",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4742171,
+          30.516932
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a74c5ee9a9209c53",
+        "Name": "Niceville Family Dental Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "908 Palm Boulevard South",
+        "City": "Niceville",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5286822934",
+        "RawType": "dentist",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4218244,
+          30.4886318
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_15f93bbf4f4ffcb5",
+        "Name": "Smileology Bluewater Bay",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4400 E Hwy 20",
+        "City": "Niceville",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5570291904",
+        "RawType": "dentist",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3776064,
+          30.3845454
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_dd458cebb44bceee",
+        "Name": "Smileology Miramar Beach",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "12273 US-98",
+        "City": "Miramar Beach",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5596391869",
+        "RawType": "dentist",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.2612257,
+          30.3755266
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9a8b465c53686635",
+        "Name": "Smileology Santa Rosa Beach",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4942 US Highway 98 W",
+        "City": "Santa Rosa Beach",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5640939801",
+        "RawType": "dentist",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6707891,
+          30.1881913
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3b0840741ea09850",
+        "Name": "Affordable Dentures & Implants",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "617 West 23rd Street",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6011172507",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4707985,
+          30.5164808
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6e895fcdf246716e",
+        "Name": "Easycare Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1049 John Sims Parkway",
+        "City": "Niceville",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9611032530",
+        "RawType": "clinic",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6361219,
+          30.4543407
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_1e66c33badb1e786",
+        "Name": "Okaloosa Heart & Vascular",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/11151917705",
+        "RawType": "doctors",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4721989,
+          30.3865934
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_74d8c18988e72db1",
+        "Name": "Aspen Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/11897071942",
+        "RawType": "dentist",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6709768,
+          30.1885341
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4c860654857b4f0a",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "631 West 23rd Street",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/12031794342",
+        "RawType": "laboratory",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3056493,
+          30.378256
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_403cde7813a3ad73",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/258037584",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.8650206,
+          30.2210969
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_50f2997e7bdad2da",
+        "Name": "Aspen Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "15450 Panama City Beach Parkway",
+        "City": "Panama City Beach",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/363343870",
+        "RawType": "dentist",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.8108132,
+          30.1949224
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_bcf08c8e2d33c103",
+        "Name": "Bay Medical On The Beach",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "11111 Panama City Beach Parkway",
+        "City": "Panama City Beach",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/427242646",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5586855,
+          30.4621636
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_28e269b2a3a6fc71",
+        "Name": "Eglin VA Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/491089554",
+        "RawType": "clinic",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4368517,
+          30.4970919
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e7438ef437171288",
+        "Name": "Fresenius Dialysis Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/546440333",
+        "RawType": "clinic",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4355281,
+          30.4961937
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_d10a9dbceb27b120",
+        "Name": "White Wilson Medical Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2001 John Sims Parkway",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/546440334",
+        "RawType": "clinic",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4581323,
+          30.5149241
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8092d14aab6b108d",
+        "Name": "Okaloosa Family Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/550340784",
+        "RawType": "dentist",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3093915,
+          30.3792558
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5acb0fbafd976e5b",
+        "Name": "Grand Boulevard Health and Rehabilitation Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/551314071",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4783554,
+          30.5216799
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e0faf846fb3be456",
+        "Name": "Sharon Chen DDS",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "136 North Partin Drive",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/617248074",
+        "RawType": "dentist",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.702001,
+          30.1892574
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_36c6f5a99b3c7d94",
+        "Name": "Panhandle Pediatric Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "West 23rd Street",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/634477810",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.8643725,
+          30.219037
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_77b6174e4bb9bc3f",
+        "Name": "AFC Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "15415 Panama City Beach Parkway",
+        "City": "Panama City Beach",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/636621800",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6914477,
+          30.1909186
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3e285baee96dae20",
+        "Name": "Baytown Dental Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2326 Frankford Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/638031738",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6699114,
+          30.2048162
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e0b28832b89d266c",
+        "Name": "Baldwin Pediatrics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "528 West Baldwin Road",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/639220387",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.494314,
+          30.5054876
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6e5ef02f0b883041",
+        "Name": "Jeffrey Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/648975592",
+        "RawType": "dentist",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4084041,
+          30.4781502
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5418b71b565ce5f1",
+        "Name": "Stubbs Orthodontics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/656619707",
+        "RawType": "dentist",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4057343,
+          30.387747
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_983bee0659f7694c",
+        "Name": "Destin Vein Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/683022811",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6140311,
+          30.4476552
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f2803292141a744e",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/692695044",
+        "RawType": "dentist",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4027632,
+          30.3871307
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8cf8c1c2d1a0d604",
+        "Name": "HCA Florida Destin Emergency",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "200 Tequesta Drive",
+        "City": "Destin",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/776867275",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.7529609,
+          30.1571172
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7f8e2e35a3a2d635",
+        "Name": "Welch Family Medicine",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1096443060",
+        "RawType": "doctor",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.7519093,
+          30.1552492
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7fb53aea9412bde1",
+        "Name": "Emerald Coast Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1096801222",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.7436172,
+          30.1596088
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_fbd0fde7e27d3731",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1136084209",
+        "RawType": "clinic",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5710993,
+          30.7601203
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b5210fe0c095b4f2",
+        "Name": "Main Street Medical Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "369 Main Street",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5788618523",
+        "RawType": "clinic",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5710524,
+          30.7602713
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_acbc53e72dc366a6",
+        "Name": "All Seasons Allergy & Asthma",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "115 East Beech Avenue",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5788618524",
+        "RawType": "doctor",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5690015,
+          30.76024
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3d22283933173bc4",
+        "Name": "Rawson & Braxton Oral",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "261 Oakdale Avenue East",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5793228285",
+        "RawType": "dentist",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5672037,
+          30.7336819
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_24cc54a08e950f7d",
+        "Name": "Aspen Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6625234007",
+        "RawType": "dentist",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3021036,
+          30.9679823
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_51bc7c4186f3e2bc",
+        "Name": "Florida Department of Health in Walton County - Paxton Branch",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "21505 US Highway 331 North",
+        "City": "Laurel Hill",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/8616164369",
+        "RawType": "clinic",
+        "SubmarketID": "SM-23",
+        "SubmarketName": "Walton County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5674393,
+          30.7352675
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5eb86d18293563b0",
+        "Name": "North Okaloosa Medical Outpatient Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/170281613",
+        "RawType": "clinic",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.569282,
+          30.7598997
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2ae209b7e3013355",
+        "Name": "Rigsby Orthodontics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "285 South Ferdon Boulevard",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/611931731",
+        "RawType": "dentist",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5706015,
+          30.7562865
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_66c1203a7a888e98",
+        "Name": "Bridgeway Center Inc.",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "299 Railroad Avenue West",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/647882003",
+        "RawType": "doctor",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5663091,
+          30.7362157
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b1b61a0e65e46c3b",
+        "Name": "Crestview Urgent Care / Walk-In-Clinic",
+        "FacilityType": "Urgent Care",
+        "Address": "2400 South Ferdon Boulevard",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/705297931",
+        "RawType": "clinic",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.568935,
+          30.7661423
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8d7e5ea1e800de78",
+        "Name": "Dr. Richard Thomas - Family Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "102 Alabama Street",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/711881657",
+        "RawType": "dentist",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5703561,
+          30.7153732
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_90ac10e7104239e5",
+        "Name": "Comfort Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "10 Riverwood Drive",
+        "City": "Crestview",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/761144019",
+        "RawType": "dentist",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2097,
+          30.1189972
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0aad25bdd1dec762",
+        "Name": "Sacred Heart Medical Group at Wewahitchka",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "807 FL 22",
+        "City": "Wewahitchka",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/4726411748",
+        "RawType": "doctors",
+        "SubmarketID": "SM-31",
+        "SubmarketName": "Gulf County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2025992,
+          30.1063464
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_28a307404b47b518",
+        "Name": "Wewahitchka Medical Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "255 West River Road",
+        "City": "Wewahitchka",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/4726411762",
+        "RawType": "doctors",
+        "SubmarketID": "SM-31",
+        "SubmarketName": "Gulf County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.5901577,
+          30.1636564
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8715e8ec7b7234a1",
+        "Name": "WSI Learning Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "854 North Tyndall Parkway",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6011539254",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6588344,
+          30.1933995
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_af0e52743f2cc354",
+        "Name": "Dermatology Specialists of Florida",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2505 Harrison Avenue",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/6371962193",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.666535,
+          30.1818382
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_b6f34dda5b949043",
+        "Name": "The Hormone & Wellness Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "508 Airport Road, #G",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9791534461",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6500566,
+          30.1553814
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_be08b0fcffce8951",
+        "Name": "Cove Dental Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "406 North Cove Boulevard",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9830031122",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6505058,
+          30.2036565
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_02f6a608de7bc994",
+        "Name": "Quest Diagnostics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9941370983",
+        "RawType": "laboratory",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6505455,
+          30.1928208
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_94cb807f181fd0e1",
+        "Name": "Ascension Sacred Heart Bay Rehabilitation",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/9948788147",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6068647,
+          30.1744589
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_821dc15ecfeeca28",
+        "Name": "Children's Dentistry Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10014252967",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6618868,
+          30.2104119
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f05024a9c75d113d",
+        "Name": "Apria Healthcare",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "3416 Jenks Avenue",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/10181443191",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6659662,
+          30.1902226
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_99df830074d76270",
+        "Name": "Magnolia Pediatric Therapy",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/12623516332",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6662919,
+          30.1903942
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_056be9078d58be89",
+        "Name": "Lotus Healthcare and Aesthetics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/12623540593",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6500496,
+          30.1554365
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_227c75ed8b57a4d7",
+        "Name": "Cove Dental",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/636654346",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6601278,
+          30.1617396
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_661c35787aeaa728",
+        "Name": "Skin and Vein Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "738 Harrison Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637029456",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.5656529,
+          30.1495621
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_ce14d5614aef096e",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "200 North Star Avenue",
+        "City": "Callaway",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637070226",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.589951,
+          30.1386882
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_bbb7d2432cc5f5bf",
+        "Name": "Personal Attention Dental Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "5701 Hickory Street",
+        "City": "Callaway",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637662781",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.5915563,
+          30.1566523
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2839f718070952e0",
+        "Name": "Callaway Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "489 North Tyndall Parkway",
+        "City": "Callaway",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637717231",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6488907,
+          30.1570238
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_657c66f98b0bed9f",
+        "Name": "Sleep Disorder Center of Panama City",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "502 North Mac Arthur Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637933059",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6659162,
+          30.1886517
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f1de7ddfedb85d22",
+        "Name": "Surgical Center For Excellence",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "202 Doctors Drive",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637973882",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6638033,
+          30.1865686
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4ad0a6d602610d69",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "25 Doctors Drive",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637973910",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6654951,
+          30.1819369
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0748aa536394b078",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "425 West 19th Street",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637973923",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6662127,
+          30.1806162
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3af25f601c1dc49b",
+        "Name": "Consult Care Pain Medicine",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "501 Airport Road",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637973937",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6612282,
+          30.1857219
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_10120a6d3926d25e",
+        "Name": "St. Andrews Bay Skilled Nursing and Rehabilitation Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2100 Jenks Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637974173",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6617114,
+          30.1827355
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e4563a47ce0584b9",
+        "Name": "Emerald Coast Pediatrics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "200 West 19th Street",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637974216",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.661996,
+          30.1779104
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_1a2a118baed8e205",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1560 Jenks Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637974220",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6577343,
+          30.1863318
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8b0bd23799479379",
+        "Name": "Fresenius Kidney Care Panama City",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2100 Harrison Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637974276",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6505417,
+          30.1842337
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4ebfb7bf09359c19",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "1931 Martin Luther King Jr Boulevard",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/637974283",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6670711,
+          30.1917751
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f1d0a98a1ec17094",
+        "Name": "Bay Arthritis Institute",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2401 State Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/638030625",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6483324,
+          30.2464153
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_63fcbb3ee6faf164",
+        "Name": "Ideal Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/645017009",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6494282,
+          30.2456667
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_34310c83fc17258a",
+        "Name": "Primary Care Center of Lynn Haven",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/665917232",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6618391,
+          30.1952209
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_00dea5cb3e884c01",
+        "Name": "Florida Cancer Affiliates",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "2614 Jenks Avenue",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/745444725",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6615586,
+          30.218082
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_bc1ed17d072241b3",
+        "Name": "Emerald Coast Rheumatology and Infusion Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "3890 Jenks Avenue",
+        "City": "Lynn Haven",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/776742050",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6573508,
+          30.1903133
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a0ac7dde8594dd95",
+        "Name": "Emerald Coast OBGYN",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/776744796",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6522383,
+          30.1900042
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_32110fe251bee49f",
+        "Name": "SunCoast Diagnostic Imaging",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/776744806",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6502543,
+          30.2020455
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_2604adc9af779971",
+        "Name": "Buttram Orthodontics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/776769821",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6504985,
+          30.1948152
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_21f0f3b2066d3588",
+        "Name": "Panama City Open MRI and Imaging",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/776769874",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6545487,
+          30.2037196
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a3d2909e02f4980b",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/962979548",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6541845,
+          30.2040486
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_1acffa778fdddb35",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/962979549",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6545489,
+          30.2034684
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_63a2ac485b187d18",
+        "Name": "Amir Manzoor Endocrinologist",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/962979551",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6516122,
+          30.2029189
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4925e5b431e33ad8",
+        "Name": "The Institute of Endocrinology",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/962979558",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6495422,
+          30.189882
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_925ef8b1ae1524bc",
+        "Name": "Go Now Doctors Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1062747177",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.649524,
+          30.2326061
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_847bbe338f27d41f",
+        "Name": "Coastal Urgent Care",
+        "FacilityType": "Urgent Care",
+        "Address": "1702 Ohio Avenue",
+        "City": "Lynn Haven",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1063189127",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6072389,
+          30.2140601
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_ba287b39efe36e0a",
+        "Name": "Accident Orthopedics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1064765382",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6088898,
+          30.2141087
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_35a2fefc8d335817",
+        "Name": "VITAS\u00ae Healthcare",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1064765383",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6458202,
+          30.2225173
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_460c05dc54c474a4",
+        "Name": "DaVita Dialysis",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1065377024",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6499814,
+          30.214597
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_196a25b1c56994b9",
+        "Name": "Hope Regional Cancer Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1065381155",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.629089,
+          30.212953
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_0c24408355798bcb",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1073692857",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6616281,
+          30.2190904
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_df425479c85216d9",
+        "Name": "Gerlecz Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1084373644",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.650288,
+          30.2099387
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f659cee922c89a62",
+        "Name": "Sickbay Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1084959165",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6483076,
+          30.2468477
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a4854ed88305922a",
+        "Name": "Ascension Sacred Heart Primary Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1086875190",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.648922,
+          30.2483861
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5590127adf36f4b6",
+        "Name": "William H Hargraves Family Dentistry",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1087139825",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6501205,
+          30.2493312
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_ca144ca0932f2c1a",
+        "Name": "Bay Smile Docs",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1087139828",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6598898,
+          30.1668921
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f35d5ba1e21cd2f4",
+        "Name": "Panama City Smiles",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1093523907",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6618688,
+          30.1949296
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_77cde7ef36673590",
+        "Name": "Baldwin Pediatrics",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1102720893",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.662099,
+          30.196136
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8ba2104a63f7c864",
+        "Name": "Jenna Pascoli, DMD",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1102720906",
+        "RawType": "dentist",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6610591,
+          30.1968279
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_02317a13ab077d88",
+        "Name": "Northwest Florida Spine",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1102720913",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6614613,
+          30.1961795
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f19d0d9c2660263b",
+        "Name": "Practice of Family Medicine",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1102720916",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6610568,
+          30.1961246
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_121649ffaae0038b",
+        "Name": "Oral Surgery and Dental Implant Center of Panama City",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1102720920",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6047924,
+          30.2158224
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e510f30c9e3476f9",
+        "Name": "HCA Florida Panama City Emergency",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1105948703",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6615885,
+          30.1858643
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_c72e788caffc372b",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1136084192",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6591937,
+          30.1828885
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_fee0f7594012cc3e",
+        "Name": "Healthcare Facility",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1136084196",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6536128,
+          30.1769302
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a112c45df45e4e1e",
+        "Name": "Life Management Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1136084203",
+        "RawType": "clinic",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6581239,
+          30.1818498
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7045e009fe2355b2",
+        "Name": "Digestive Diseases Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "204 East 19th Street",
+        "City": "Panama City",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "relation/8848798",
+        "RawType": "doctor",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2171201,
+          30.7747855
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_46f6767eb420c598",
+        "Name": "Pregnancy Center of Marianna",
+        "FacilityType": "Other Healthcare",
+        "Address": "4540H Lafayette Street",
+        "City": "Marianna",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/13254671306",
+        "RawType": "centre",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2363643,
+          30.7766579
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9d7b4f9cf9cc577e",
+        "Name": "Fresenius Kidney Care",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4319 Lafayette Street",
+        "City": "Marianna",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/739690842",
+        "RawType": "dialysis",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2412465,
+          30.7801497
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_4470dbf1edb026ac",
+        "Name": "Southeast Cardiology Clinic",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4257 Lafayette Street",
+        "City": "Marianna",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1117547980",
+        "RawType": "doctor",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2376177,
+          30.7866555
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_03adab8285abfec8",
+        "Name": "Marianna Health and Rehab Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4925 5th Avenue",
+        "City": "Marianna",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1117702564",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2378993,
+          30.785844
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_41338937e1ecb440",
+        "Name": "Chipola Health and Rehabilitation Center",
+        "FacilityType": "Clinic / Medical Office",
+        "Address": "4294 3rd Avenue",
+        "City": "Marianna",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1117702565",
+        "RawType": "rehabilitation",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.5913086,
+          30.2695097
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_37e32d7c9fcb3a7f",
+        "Name": "Walk In Med Care",
+        "FacilityType": "Urgent Care",
+        "Address": "25405 Perdido Beach Boulevard",
+        "City": "Orange Beach",
+        "State": "AL",
+        "Source": "OpenStreetMap",
+        "SourceID": "node/5837702205",
+        "RawType": "clinic",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.5724319,
+          30.5792787
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_cc078f05ea690a0b",
+        "Name": "Walking Horse Lane",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/6234872",
+        "RawType": "",
+        "SubmarketID": "SM-12",
+        "SubmarketName": "Central Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1931008,
+          30.6352164
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_7c8ea5bf6a8b246c",
+        "Name": "Walking Horse Court",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/7907027",
+        "RawType": "",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.1103895,
+          30.919579
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_ae34590c02b337a4",
+        "Name": "Walking Horse Lane",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/11314011",
+        "RawType": "",
+        "SubmarketID": "SM-14",
+        "SubmarketName": "Santa Rosa County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6647965,
+          30.1532418
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_96ad5b8fce0e8306",
+        "Name": "Walking Path",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/151523046",
+        "RawType": "",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6696206,
+          30.2082093
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_805ecd7dc39ba2c2",
+        "Name": "Harvey De Mathis Park Walking Path",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/340322582",
+        "RawType": "",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8511607,
+          30.6578588
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_56af49d755104781",
+        "Name": "Urgent Care Drive",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/353289604",
+        "RawType": "",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8516077,
+          30.6578576
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_9d8ab51fcb96ac69",
+        "Name": "Urgent Care Drive",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/353289606",
+        "RawType": "",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2469155,
+          30.820449
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_ef1d546db0124733",
+        "Name": "Walk In Tent Camp",
+        "FacilityType": "Urgent Care",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/404317365",
+        "RawType": "",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6142912,
+          30.154021
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_12421c493cb02f24",
+        "Name": "Henry Brooks Memorial Walking Park",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/477217587",
+        "RawType": "",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2007254,
+          30.1147152
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_a49cac2481d57802",
+        "Name": "walking loop",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/480225439",
+        "RawType": "",
+        "SubmarketID": "SM-31",
+        "SubmarketName": "Gulf County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.1924262,
+          30.0620636
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_de36241122d982c0",
+        "Name": "Walking Trail",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/480225440",
+        "RawType": "",
+        "SubmarketID": "SM-31",
+        "SubmarketName": "Gulf County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6071987,
+          30.1584572
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_94ddeb8504c40fef",
+        "Name": "Springfield Gardens Walking Park",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/484605303",
+        "RawType": "",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6903699,
+          30.3160388
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_6e470885ad7b9d2b",
+        "Name": "Walking Path",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/673404143",
+        "RawType": "",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2425647,
+          30.4657275
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_48002025f536822b",
+        "Name": "Quality Urgent Care & Wellness at Pensacola",
+        "FacilityType": "Urgent Care",
+        "Address": "5115 North Palafox Street",
+        "City": "Pensacola",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/827660277",
+        "RawType": "clinic",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1625876,
+          30.7574641
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_3326f290fb4f214e",
+        "Name": "Highpoint Walking Trail",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/832955058",
+        "RawType": "",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2884165,
+          30.5665845
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_8ead5bfad2c73237",
+        "Name": "West Florida Immediate Care at Kingsfield",
+        "FacilityType": "Urgent Care",
+        "Address": "2360 South Highway 29",
+        "City": "Cantonment",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/836370554",
+        "RawType": "doctor",
+        "SubmarketID": "SM-11",
+        "SubmarketName": "Cantonment",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6604488,
+          30.1539404
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_5a667e0ee4769125",
+        "Name": "Walking Path",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/947165021",
+        "RawType": "",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6280656,
+          30.1776098
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_16e8e0b823370c02",
+        "Name": "Spring Valley Walking Park",
+        "FacilityType": "Other Healthcare",
+        "Address": "1605 Spring Avenue",
+        "City": "Panama City",
+        "State": "FL",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1093459004",
+        "RawType": "",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.1927018,
+          30.0622446
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_f0eff24d9f016c24",
+        "Name": "Walking Trail",
+        "FacilityType": "Other Healthcare",
+        "Address": "",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1135249473",
+        "RawType": "",
+        "SubmarketID": "SM-31",
+        "SubmarketName": "Gulf County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2181114,
+          30.4273775
+        ]
+      },
+      "properties": {
+        "HealthcareID": "osm_e87497162464d6f6",
+        "Name": "Community Health Northwest Florida Walk-in Care",
+        "FacilityType": "Urgent Care",
+        "Address": "1400 North Palafox Street",
+        "City": "",
+        "State": "",
+        "Source": "OpenStreetMap",
+        "SourceID": "way/1157324924",
+        "RawType": "clinic",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
     }
   ]
 }

@@ -42,3 +42,310 @@ hifld_ed60e3206183c30c,DOCTORS MEMORIAL HOSPITAL,Hospital,HIFLD Hospitals,000813
 hifld_7224c0fa92e9825e,FORT WALTON BEACH MEDICAL CENTER,Hospital,HIFLD Hospitals,0013932547,FORT WALTON BEACH MEDICAL CENTER,FORT WALTON BEACH,FL,SM-18,Fort Walton,Pensacola Hub,-86.633210019227,30.4544387311626
 hifld_2646f162776cd983,SELECT SPECIALTY HOSPITAL - PANAMA CITY,Hospital,HIFLD Hospitals,0034532401,SELECT SPECIALTY HOSPITAL - PANAMA CITY,PANAMA CITY,FL,SM-28,Panama City,Panama City Hub,-85.647789359891,30.1597127951094
 hifld_3a46864c317ec915,SACRED HEART HOSPITAL ON EMERALD COAST,Hospital,HIFLD Hospitals,0033132550,SACRED HEART HOSPITAL ON EMERALD COAST,MIRAMAR BEACH,FL,SM-22,Walton and Bay Beaches,Growth Markets,-86.3068563117693,30.3785746707845
+osm_1f3098d52644dca9,CVS Pharmacy,Pharmacy,OpenStreetMap,node/475277214,,,,SM-18,Fort Walton,Pensacola Hub,-86.6376679,30.4552727
+osm_3e693589a3ff61ca,Santa Rosa Pharmacy,Pharmacy,OpenStreetMap,node/1107818262,,,,SM-22,Walton and Bay Beaches,Growth Markets,-86.2302143,30.3478929
+osm_b494b829440efce0,Stacey's Old Tyme Soda Fountain,Pharmacy,OpenStreetMap,node/1910825638,,,,SM-04,South Baldwin,Alabama Hub,-87.6848093,30.4062795
+osm_87cb4d7b881d90f2,CVS Pharmacy,Pharmacy,OpenStreetMap,node/3040195008,,,,SM-07,Pensacola,Pensacola Hub,-87.2792572,30.388083
+osm_9424a43acb07e186,CVS Pharmacy,Pharmacy,OpenStreetMap,node/3581135393,,,,SM-07,Pensacola,Pensacola Hub,-87.424869,30.319409
+osm_e02cb3f70cb795db,CSV,Pharmacy,OpenStreetMap,node/4731556621,,,,SM-13,North Escambia,Growth Markets,-87.2581908,30.9814323
+osm_e0d3fc5673101dbe,CVS Pharmacy,Pharmacy,OpenStreetMap,node/4736673145,,,,SM-09,Pensacola Beaches,Pensacola Hub,-86.8706713,30.4023597
+osm_116d9fe94db32d1e,Midtown Pharmacy,Pharmacy,OpenStreetMap,node/5556867603,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0920932,30.6766279
+osm_b5c7f728eee749e2,Stephen's Landing,Pharmacy,OpenStreetMap,node/5704302529,,,,SM-10,Milton,Pensacola Hub,-87.0404896,30.6217416
+osm_6d2f4625e77b2ee8,Walgreens,Pharmacy,OpenStreetMap,node/5748698569,,,,SM-10,Milton,Pensacola Hub,-87.0520894,30.6174431
+osm_7a7ba4037906d39f,Publix,Pharmacy,OpenStreetMap,node/5749936599,,,,SM-08,Pace,Pensacola Hub,-87.1240474,30.6010705
+osm_0722173a7bebda21,The Prescription Place,Pharmacy,OpenStreetMap,node/5835027332,,,,SM-18,Fort Walton,Pensacola Hub,-86.4646495,30.51703
+osm_47caa5ed7cb8db9d,Gulf Coast Pharmacy,Pharmacy,OpenStreetMap,node/6011539886,420 North Tyndall Parkway,,,SM-28,Panama City,Panama City Hub,-85.5907236,30.1556666
+osm_94483581e76bcb21,Walgreens,Pharmacy,OpenStreetMap,node/6540376798,,,,SM-02,Central Mobile,Alabama Hub,-88.225995,30.6823855
+osm_15aeeca3798fc8cc,Walgreens,Pharmacy,OpenStreetMap,node/6606134552,,,,SM-02,Central Mobile,Alabama Hub,-88.1901826,30.6774641
+osm_fe1098651b24205b,CVS Pharmacy,Pharmacy,OpenStreetMap,node/6833696828,,,,SM-31,Gulf County,Growth Markets,-85.3043132,29.816214
+osm_fd149ff23248bb18,Walmart Pharmacy,Pharmacy,OpenStreetMap,node/6938671611,,,,SM-05,North Baldwin,Alabama Hub,-87.7895611,30.8858749
+osm_deee510d6bb44341,Walmart Pharmacy,Pharmacy,OpenStreetMap,node/6943358416,,,,SM-22,Walton and Bay Beaches,Growth Markets,-85.8052002,30.1798274
+osm_4a1cdb8596951b38,Walgreens,Pharmacy,OpenStreetMap,node/6955159599,,,,SM-04,South Baldwin,Alabama Hub,-87.6894635,30.263688
+osm_c6352411bef89832,Walgreens,Pharmacy,OpenStreetMap,node/7731798048,4497 Mobile Highway,Pensacola,FL,SM-07,Pensacola,Pensacola Hub,-87.2760873,30.4336681
+osm_bf5182cab71a5677,Walmart Pharmacy,Pharmacy,OpenStreetMap,node/9257294641,,,,SM-07,Pensacola,Pensacola Hub,-87.1934006,30.4976345
+osm_493975b8b99a390c,CVS Pharmacy,Pharmacy,OpenStreetMap,node/9819442105,,,,SM-06,West Baldwin,Alabama Hub,-87.8848064,30.522648
+osm_a4f686d7ac91e6dc,Coopers Drugs,Pharmacy,OpenStreetMap,node/10015273307,,,,SM-28,Panama City,Panama City Hub,-85.6501747,30.1569377
+osm_3ab6a7f231fea5a2,Walgreens,Pharmacy,OpenStreetMap,node/10102270338,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.1181987,30.6891912
+osm_8b5df1dccbf5a8e5,CVS Pharmacy,Pharmacy,OpenStreetMap,node/10202825478,,,,SM-02,Central Mobile,Alabama Hub,-88.1448482,30.6960225
+osm_c939271e663d71cb,CVS Pharmacy,Pharmacy,OpenStreetMap,node/10202903184,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0820553,30.7174156
+osm_8a44f011dee0437e,CVS Pharmacy,Pharmacy,OpenStreetMap,node/10202940514,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.1009127,30.6882607
+osm_05a690c62c51bd68,CVS Pharmacy,Pharmacy,OpenStreetMap,node/10202944934,,,,SM-02,Central Mobile,Alabama Hub,-88.1897921,30.6604921
+osm_8d9b4476449c1b58,CVS Pharmacy,Pharmacy,OpenStreetMap,node/10202946182,,,,SM-02,Central Mobile,Alabama Hub,-88.2085932,30.6390065
+osm_2e65a48fbfdf1552,Walgreens,Pharmacy,OpenStreetMap,node/10761843850,1841 East Olive Road,Pensacola,FL,SM-07,Pensacola,Pensacola Hub,-87.2217987,30.5099716
+osm_f1a30ca23a1faa3a,Publix,Pharmacy,OpenStreetMap,node/11984039555,,,,SM-28,Panama City,Panama City Hub,-85.5853408,30.2318879
+osm_9c8382de7c5f358e,Gulf Coast Pharmacy,Pharmacy,OpenStreetMap,node/12623540592,,,,SM-28,Panama City,Panama City Hub,-85.6660166,30.1903906
+osm_8725d0bc612e2df1,Walgreens,Pharmacy,OpenStreetMap,node/12966949031,,,,SM-07,Pensacola,Pensacola Hub,-87.207858,30.4236249
+osm_f03d5b532d3a7ae7,Satelite Pharmacy,Pharmacy,OpenStreetMap,node/13134837201,1758 Memorial Trail,,,SM-21,Eglin AFB,Growth Markets,-86.5317412,30.4658968
+osm_0e599de5f14fc029,Walmart Pharmacy,Pharmacy,OpenStreetMap,node/13371908920,,,,SM-22,Walton and Bay Beaches,Growth Markets,-86.0717937,30.3449574
+osm_1923fc43b849f8e0,Walmart Pharmacy,Pharmacy,OpenStreetMap,node/13701253890,2101 S Highway 77,Lynn Haven,FL,SM-28,Panama City,Panama City Hub,-85.6466444,30.2258419
+osm_387d69c8d7568188,CVS Pharmacy,Pharmacy,OpenStreetMap,node/13715913502,434 Racetrack Road Northeast,,,SM-18,Fort Walton,Pensacola Hub,-86.5984292,30.4419583
+osm_6b6b040b4df55c4b,CVS Pharmacy,Pharmacy,OpenStreetMap,way/145384958,225 Gulf Breeze Parkway,,,SM-09,Pensacola Beaches,Pensacola Hub,-87.1711352,30.3657787
+osm_483a0501ab0a957f,Publix,Pharmacy,OpenStreetMap,way/230855784,13390 Perdido Key Drive,Pensacola,FL,SM-07,Pensacola,Pensacola Hub,-87.4265201,30.3181452
+osm_a7401a52958afeba,CVS Pharmacy,Pharmacy,OpenStreetMap,way/254448915,302 North Tyndall Parkway,Callaway,,SM-28,Panama City,Panama City Hub,-85.590289,30.1534043
+osm_e6805e6e6313918d,Walgreens,Pharmacy,OpenStreetMap,way/322778189,414C Mary Esther Cut Off,,,SM-18,Fort Walton,Pensacola Hub,-86.6426183,30.4251189
+osm_e78a69f30eb9c7e3,Rite Aid,Pharmacy,OpenStreetMap,way/342120564,,,,SM-02,Central Mobile,Alabama Hub,-88.1874483,30.6393367
+osm_26631c9fc0ea873d,CVS Pharmacy,Pharmacy,OpenStreetMap,way/342123229,,,,SM-02,Central Mobile,Alabama Hub,-88.1884036,30.6623856
+osm_76471a17ebb6c2d7,CVS Pharmacy,Pharmacy,OpenStreetMap,way/354176724,8100 North Davis Highway,Pensacola,FL,SM-07,Pensacola,Pensacola Hub,-87.2194279,30.510922
+osm_66ee14fafa815518,Walgreens,Pharmacy,OpenStreetMap,way/355850642,2237 West Nine Mile Road,Pensacola,FL,SM-11,Cantonment,Pensacola Hub,-87.3143579,30.5335922
+osm_7fb1e008094ff1a6,Walgreens,Pharmacy,OpenStreetMap,way/361477687,20 West Nine Mile Road,Pensacola,FL,SM-11,Cantonment,Pensacola Hub,-87.2746428,30.533914
+osm_06e5acbc234c95f6,CVS Pharmacy,Pharmacy,OpenStreetMap,way/361477814,1 East Nine Mile Road,Pensacola,FL,SM-11,Cantonment,Pensacola Hub,-87.2727984,30.53263
+osm_99ad0f331a675cde,CVS Pharmacy,Pharmacy,OpenStreetMap,way/361978275,,,,SM-02,Central Mobile,Alabama Hub,-88.2263803,30.6763271
+osm_7c9f62451526ada8,Walgreens,Pharmacy,OpenStreetMap,way/362635982,1731 Springhill Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0806104,30.6914213
+osm_63c9c7f94aaf48f4,Walgreens,Pharmacy,OpenStreetMap,way/407737658,,,,SM-02,Central Mobile,Alabama Hub,-88.2486707,30.6404042
+osm_6ef3c4b5a5426bba,Walgreens,Pharmacy,OpenStreetMap,way/407737690,,,,SM-02,Central Mobile,Alabama Hub,-88.2253853,30.640587
+osm_adf65b8618ea95c7,Fairhope Pharmacy,Pharmacy,OpenStreetMap,way/479310342,,,,SM-06,West Baldwin,Alabama Hub,-87.9031294,30.5228441
+osm_5536d2f85a8e83f5,Walgreens,Pharmacy,OpenStreetMap,way/481472924,8220 Navarre Parkway,Navarre,FL,SM-09,Pensacola Beaches,Pensacola Hub,-86.8791453,30.4022855
+osm_d183b38260553aaa,CVS Pharmacy,Pharmacy,OpenStreetMap,way/546638378,1096 John Sims Parkway,Niceville,FL,SM-18,Fort Walton,Pensacola Hub,-86.4678302,30.5169673
+osm_2ea8dd5a466e4dad,CVS Pharmacy,Pharmacy,OpenStreetMap,way/547135391,4562 John Sims Parkway,Niceville,FL,SM-18,Fort Walton,Pensacola Hub,-86.4162252,30.4841771
+osm_21f00e3db438ca4d,Gulf Shores Family Pharmacy,Pharmacy,OpenStreetMap,way/568503935,251 Clubhouse Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6911257,30.2705997
+osm_efaa079f5466facc,CVS Pharmacy,Pharmacy,OpenStreetMap,way/574571346,7081 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.207015,30.6851123
+osm_734c5312e0d7b833,CVS Pharmacy,Pharmacy,OpenStreetMap,way/616082817,25761 Perdido Beach Boulevard,Orange Beach,AL,SM-04,South Baldwin,Alabama Hub,-87.5883444,30.2696915
+osm_247ccfdbb0e11906,CVS Pharmacy,Pharmacy,OpenStreetMap,way/624961085,10517 US Highway 98 West,Miramar Beach,FL,SM-22,Walton and Bay Beaches,Growth Markets,-86.3507915,30.3769809
+osm_cee5a09919042331,CVS Pharmacy,Pharmacy,OpenStreetMap,way/634320096,23208 Front Beach Road,Panama City Beach,,SM-22,Walton and Bay Beaches,Growth Markets,-85.9743292,30.2639293
+osm_c2dc948babb2890c,CVS Pharmacy,Pharmacy,OpenStreetMap,way/637647247,955 West 23rd Street,Panama City,FL,SM-28,Panama City,Panama City Hub,-85.6752351,30.1892318
+osm_9ba5fe8c84a5ebe7,Walgreens,Pharmacy,OpenStreetMap,way/655767281,"4582 E Hwy 20, Niceville, FL 32578",,,SM-18,Fort Walton,Pensacola Hub,-86.4128262,30.4815296
+osm_d6d3b937b2cd06be,Adam's Pharmacy,Pharmacy,OpenStreetMap,way/665916675,922 Ohio Ave,Lynn Haven,FL,SM-28,Panama City,Panama City Hub,-85.6490362,30.2445218
+osm_f9255cee50a45ef2,CVS Pharmacy,Pharmacy,OpenStreetMap,way/704870220,,,,SM-27,Marianna,Panama City Hub,-85.2041085,30.7690951
+osm_f2a5ed30f76e720e,Crestview Pharmacy,Pharmacy,OpenStreetMap,way/710588825,1116 North Ferdon Boulevard,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.5607442,30.7827169
+osm_9d1ca1daff37ceca,CVS Pharmacy,Pharmacy,OpenStreetMap,way/805404042,,,,SM-10,Milton,Pensacola Hub,-87.050928,30.6166915
+osm_55f27781b6bd3978,CVS Pharmacy,Pharmacy,OpenStreetMap,way/821259700,,,,SM-07,Pensacola,Pensacola Hub,-87.3181561,30.4208316
+osm_1824047e1b333cb7,Healthcare Facility,Pharmacy,OpenStreetMap,way/831925376,,,,SM-06,West Baldwin,Alabama Hub,-87.9117721,30.6436086
+osm_58db8f60c1206d23,CVS Pharmacy,Pharmacy,OpenStreetMap,way/929204162,60 South Holiday Road,Miramar Beach,FL,SM-22,Walton and Bay Beaches,Growth Markets,-86.3809083,30.3842562
+osm_fd6c58d4c09822f4,CVS Pharmacy,Pharmacy,OpenStreetMap,way/1070332118,3359 Gulf Breeze Pky,,,SM-09,Pensacola Beaches,Pensacola Hub,-87.0833714,30.3867084
+osm_b54ed8f42ef699ea,CVS Pharmacy,Pharmacy,OpenStreetMap,way/1234843775,27040 US Highway 98,Daphne,AL,SM-06,West Baldwin,Alabama Hub,-87.904528,30.6188972
+osm_2cd9e098af4cdff1,Walgreens,Pharmacy,OpenStreetMap,way/1382981320,3025 US Highway 98,Daphne,AL,SM-06,West Baldwin,Alabama Hub,-87.9064949,30.6188905
+osm_08f55463876a1af4,Labcorp,Clinic / Medical Office,OpenStreetMap,node/5469243966,,,,SM-04,South Baldwin,Alabama Hub,-87.6858871,30.2686094
+osm_8ffc470e156e3454,Dr Birkenhauer,Clinic / Medical Office,OpenStreetMap,node/5469243967,,,,SM-04,South Baldwin,Alabama Hub,-87.6857945,30.2688519
+osm_d0749918c1771529,Encore Rehabilitation,Clinic / Medical Office,OpenStreetMap,node/5469244145,208 Office Park Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6899128,30.2703997
+osm_c25b7a314f95e249,Dr. Funk,Clinic / Medical Office,OpenStreetMap,node/5779248578,3849 Gulf Shores Pkwy,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6838803,30.3058904
+osm_4b132821265306ee,DaVita Dialysis,Clinic / Medical Office,OpenStreetMap,node/5779270952,3947 Gulf Shores Parkway,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6840511,30.3093848
+osm_0529a301a1a75b31,Encore Rehabilitation,Clinic / Medical Office,OpenStreetMap,node/5850974526,4528 Easy Street,Orange Beach,AL,SM-04,South Baldwin,Alabama Hub,-87.6072529,30.2906653
+osm_f6a1b261b8322111,Coastal Family Dentistry,Clinic / Medical Office,OpenStreetMap,node/13065680285,208 West 19th Avenue,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6894992,30.2728215
+osm_11fd1a0ec7713e70,Advanced Dermatology and Skin Care,Clinic / Medical Office,OpenStreetMap,node/13087194401,County Road 64,,,SM-06,West Baldwin,Alabama Hub,-87.8762201,30.6039436
+osm_f9edf978b7be829d,Rabbit Creek Dental,Clinic / Medical Office,OpenStreetMap,node/13316292102,5000 Rangeline Crossing Drive,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1639689,30.5999484
+osm_5d7ef4ed61f418a2,Central Baldwin Dental,Clinic / Medical Office,OpenStreetMap,node/13322805487,18100 AL-104,Robertsdale,AL,SM-12,Central Baldwin,Alabama Hub,-87.7154481,30.5452724
+osm_7b6e3c6c8342610c,American Family Care Fairhope,Clinic / Medical Office,OpenStreetMap,node/13587285954,10040 County Road 48,Fairhope,AL,SM-06,West Baldwin,Alabama Hub,-87.8516707,30.5231732
+osm_92a2206407ae91db,American Family Care Tillmans Corner,Clinic / Medical Office,OpenStreetMap,node/13587314924,5235 Rangeline Service Road,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1632731,30.5956524
+osm_bddd2e9f67f02f75,Advanced Dental Comfort,Clinic / Medical Office,OpenStreetMap,node/13623856398,20252 State Highway 181,Fairhope,AL,SM-06,West Baldwin,Alabama Hub,-87.851643,30.519871
+osm_7653159dc8e31915,Aspen Dental,Clinic / Medical Office,OpenStreetMap,node/13822987736,2130 South McKenzie Street,Foley,AL,SM-04,South Baldwin,Alabama Hub,-87.6838683,30.3838536
+osm_166dc72f666a19ba,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/338493828,,,,SM-02,Central Mobile,Alabama Hub,-88.1627656,30.5977677
+osm_f23e003dd2f7dbe9,Immediate Care Foley,Urgent Care,OpenStreetMap,way/528476829,,,,SM-04,South Baldwin,Alabama Hub,-87.6827189,30.3925343
+osm_c27883230fa94acf,South Baldwin Urgent Care,Urgent Care,OpenStreetMap,way/565169131,101 East 15th Avenue,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6878696,30.2678334
+osm_b5367924b94fa481,Cove Dental Center,Clinic / Medical Office,OpenStreetMap,way/565471596,137 Cove Av,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6907801,30.2688406
+osm_1e0d06444ca7566e,McCollough Plastic Surgery Clinic,Clinic / Medical Office,OpenStreetMap,way/566730215,350 Cypress Bend Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6715891,30.3070081
+osm_454f4002dae7c55b,Dr. Thomas Davidson,Clinic / Medical Office,OpenStreetMap,way/568503932,200 Office Park Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6899675,30.2705072
+osm_21254bc7cd565389,Island Orthodontics,Clinic / Medical Office,OpenStreetMap,way/568503933,241 Clubhouse Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6903817,30.2705739
+osm_b77c58f7d603904d,Wayne Martin DDS,Clinic / Medical Office,OpenStreetMap,way/568503934,245 Clubhouse Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6907748,30.2705913
+osm_b21c3aee571c6509,Sacred Heart Medical Center,Clinic / Medical Office,OpenStreetMap,way/568503937,1700 W 2nd St,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6912827,30.2700856
+osm_532e89be48c2ab2e,Gulf Coast Cancer Centers,Clinic / Medical Office,OpenStreetMap,way/568503938,253 Professional Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6907876,30.2699888
+osm_39e1646fab82e723,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/568503939,223 Office Park Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6904447,30.2700655
+osm_6703e2a7778c3b50,Gulf Shores Pediatrics,Clinic / Medical Office,OpenStreetMap,way/568503942,232 Office Park Dr,Gulf Shores,AL,SM-04,South Baldwin,Alabama Hub,-87.6900523,30.2696709
+osm_ac6d62a21e493f9b,Fairhope Health and Rehab,Clinic / Medical Office,OpenStreetMap,way/639800449,,,,SM-06,West Baldwin,Alabama Hub,-87.9054881,30.5202971
+osm_0e5b3f5f645c0e05,Gulf Shores Family Medicine,Clinic / Medical Office,OpenStreetMap,way/727071774,,,,SM-04,South Baldwin,Alabama Hub,-87.6891991,30.2735886
+osm_733ae766286e01c2,"Dentistry of Foley, Alan M. Allgood, DMD, Pc",Clinic / Medical Office,OpenStreetMap,way/964724501,300 East Laurel Avenue,Foley,AL,SM-04,South Baldwin,Alabama Hub,-87.6804457,30.4060328
+osm_a120721aaa16d3cd,VA Clinic,Clinic / Medical Office,OpenStreetMap,way/1290550080,,,,SM-02,Central Mobile,Alabama Hub,-88.1582878,30.5995478
+osm_510a1191144d5e11,Northcutt Dental,Clinic / Medical Office,OpenStreetMap,way/1394174852,23678 US Highway 98,Fairhope,AL,SM-06,West Baldwin,Alabama Hub,-87.8943264,30.5701242
+osm_14ad0260a4c85cdf,Riviera Dental Care,Clinic / Medical Office,OpenStreetMap,way/1430922694,198 County Road 20 West,Foley,AL,SM-04,South Baldwin,Alabama Hub,-87.6878856,30.3706944
+osm_3ee934cc9da8668f,Bay Medical Family Practice,Clinic / Medical Office,OpenStreetMap,way/1443594577,405 North Section Street,Fairhope,AL,SM-06,West Baldwin,Alabama Hub,-87.9018087,30.533115
+osm_a7a62a1936b1d5ea,Fresenius Kidney Care,Clinic / Medical Office,OpenStreetMap,way/1531301694,,,,SM-02,Central Mobile,Alabama Hub,-88.0830397,30.6228691
+osm_bcb0244878e9888c,Adult Outpatient Services – Mobile,Clinic / Medical Office,OpenStreetMap,node/358961462,2400 Gordon Smith Drive,Mobile,,SM-03,North Mobile / Saraland,Alabama Hub,-88.09806,30.70575
+osm_9ca4324172fd8a58,Eastern Shore Urgent Care,Urgent Care,OpenStreetMap,node/8066949247,29710 Urgent Care Drive,Daphne,AL,SM-06,West Baldwin,Alabama Hub,-87.8514577,30.6576777
+osm_48df3861e6b88817,Surgicare of Mobile,Clinic / Medical Office,OpenStreetMap,node/9656751636,2890 Dauphin Street,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.1110639,30.6897077
+osm_abe912bdf4991a9b,KidsStreet Urgent Care,Urgent Care,OpenStreetMap,node/9985898765,153 N Florida St,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.1000555,30.6922145
+osm_09d3910eedf3fb05,MainStreet Family Care,Clinic / Medical Office,OpenStreetMap,node/9985935508,"153 N Florida St, Suite B",Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.1000627,30.6921247
+osm_341f387a38bbf50f,MainStreet Family Care,Clinic / Medical Office,OpenStreetMap,node/9994477006,"6280 Grelot Road, Suite 200",Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1881074,30.6616192
+osm_2fac8523f7486b4f,KidsStreet Urgent Care,Urgent Care,OpenStreetMap,node/9994498289,6280 Grelot Road,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1881905,30.6616131
+osm_b5340a26ca8cfc21,Park & Rebowe Clinic for Plastic Surgery,Clinic / Medical Office,OpenStreetMap,node/11818280905,3700 Dauphin Street,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1308815,30.6874085
+osm_753e9e03d95497a2,Ann Payne-Johnson MD MS,Clinic / Medical Office,OpenStreetMap,node/11927039551,2419 Gordon Smith Drive,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0969224,30.7046533
+osm_2c4900d2b52e5a8a,Greater Mobile Urgent Care,Urgent Care,OpenStreetMap,node/11954384199,,,,SM-02,Central Mobile,Alabama Hub,-88.1434955,30.6977437
+osm_6475c8d2c0a1d123,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,node/11954780233,,,,SM-02,Central Mobile,Alabama Hub,-88.1740376,30.6878044
+osm_f126580fdb46e2c1,Bennett Orthodontics,Clinic / Medical Office,OpenStreetMap,node/13178375401,3210 Old Shell Rd,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.1199344,30.6979952
+osm_5c312ce2b8773fa6,American Family Care Festival Centre,Clinic / Medical Office,OpenStreetMap,node/13574511835,900 Montlimar Drive,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1351373,30.6727877
+osm_272ec9d55c4e5a57,American Family Care Saraland,Clinic / Medical Office,OpenStreetMap,node/13587276079,1097 Industrial Parkway,Saraland,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0983951,30.801462
+osm_a8c038e66b8bf98f,5ive Star Diagnostic Solutions,Clinic / Medical Office,OpenStreetMap,node/13759117436,1015 Montlimar Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1329813,30.6702828
+osm_f7b5115d42184f9f,Aspen Dental,Clinic / Medical Office,OpenStreetMap,node/13822984038,6935 US 90,Daphne,AL,SM-06,West Baldwin,Alabama Hub,-87.9032937,30.6555824
+osm_9438ea05dd56ad78,Aspen Dental,Clinic / Medical Office,OpenStreetMap,node/13822989326,3716 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1368122,30.6768451
+osm_46f2b9597585558d,Aspen Dental,Clinic / Medical Office,OpenStreetMap,node/13823002650,7765 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.2250679,30.6825992
+osm_6054fd600c8e806e,Fresenius Kidney Care USA,Clinic / Medical Office,OpenStreetMap,way/297369461,700 Clinic Drive,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1797653,30.7037106
+osm_e3d4a692a352fbdd,Dr. Albert Thomas Medical Center,Clinic / Medical Office,OpenStreetMap,way/338325782,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0830961,30.7300147
+osm_c1a8adb17ef7e7ea,Aiello/Buskey Medical Center,Clinic / Medical Office,OpenStreetMap,way/338325784,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0829931,30.7307819
+osm_87d49e977642722c,Family Practice Associates,Clinic / Medical Office,OpenStreetMap,way/342121393,2270 Hillcrest Road,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1914454,30.643122
+osm_f45fbea397552ccc,"Charles R. Walton, D.M.D. Dentistry",Clinic / Medical Office,OpenStreetMap,way/347308751,6410 Grelot Road,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.191401,30.6615022
+osm_e5b3546d3928aaa6,Hillcrest Dental Center,Clinic / Medical Office,OpenStreetMap,way/348735139,1100 Hillcrest Road,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1911937,30.6665293
+osm_d8fa3414ed76cdb1,Franklin Primary Health Center Medical Mall,Clinic / Medical Office,OpenStreetMap,way/353287037,1303 Dr Martin L King Jr Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0657541,30.6993872
+osm_886d09fd275203ed,Major General William C. Gorgas Clinic,Clinic / Medical Office,OpenStreetMap,way/354668006,800 Saint Anthony Street,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0548429,30.69185
+osm_0a2ba28d54a42805,Immediate Care of the South,Urgent Care,OpenStreetMap,way/361590329,,,,SM-02,Central Mobile,Alabama Hub,-88.1560125,30.6505541
+osm_00d66667d43f0b42,Family Dentistry,Clinic / Medical Office,OpenStreetMap,way/361590332,,,,SM-02,Central Mobile,Alabama Hub,-88.1567803,30.6510884
+osm_2a1f1d9cc672d0c3,Skyline Family Dental Care,Clinic / Medical Office,OpenStreetMap,way/364381629,,,,SM-02,Central Mobile,Alabama Hub,-88.1410131,30.6399965
+osm_2c956df956421670,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/364945957,,,,SM-02,Central Mobile,Alabama Hub,-88.2024985,30.6810111
+osm_42fb6919a184921f,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/464259435,1551 Old Shell Road,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.073617,30.6898751
+osm_10f64ddaf98d6a3e,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/464259436,65 North Catherine Street,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0736347,30.6893529
+osm_5034016c46d85be3,Fresenius Kidney Care,Clinic / Medical Office,OpenStreetMap,way/481615738,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0886527,30.6910063
+osm_afa31f987a751ca3,Compass Urgent Care,Urgent Care,OpenStreetMap,way/572776715,9985 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.2785222,30.6701583
+osm_68be9a4a68f32f45,Ascension Medical Group Providence,Clinic / Medical Office,OpenStreetMap,way/572776716,9971 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.2780854,30.6701443
+osm_c293618d086e4e64,Compass Urgent Care,Urgent Care,OpenStreetMap,way/574571350,6901 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.2026327,30.6830479
+osm_d24bc28b16a2588a,The Orthopedic Group,Clinic / Medical Office,OpenStreetMap,way/574905726,6144 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1839731,30.6782387
+osm_a63e59591fba54f5,Planned Parenthood,Clinic / Medical Office,OpenStreetMap,way/574905727,717 Downtowner Loop West,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1440506,30.6744975
+osm_b336d453ea1dfd4c,Alabama Smile Design,Clinic / Medical Office,OpenStreetMap,way/642058121,4720 Airport Boulevard,Mobile,AL,SM-02,Central Mobile,Alabama Hub,-88.1748707,30.6764277
+osm_20d8663452e47400,Island Orthodontics,Clinic / Medical Office,OpenStreetMap,way/642058122,,,,SM-02,Central Mobile,Alabama Hub,-88.1750191,30.6766824
+osm_c8755618249c3605,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/730108454,1557 Springhill Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0739328,30.6920127
+osm_61fd9a166296f292,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/906705934,,,,SM-02,Central Mobile,Alabama Hub,-88.1445441,30.6772003
+osm_56efc1299e7f99a4,Fresenius Kidney Care,Clinic / Medical Office,OpenStreetMap,way/1013727138,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.06478,30.682375
+osm_e175d38b08deb3a0,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1059228031,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.081338,30.678144
+osm_6cd34b9b53fd7959,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1110135278,,,,SM-06,West Baldwin,Alabama Hub,-87.8585461,30.6545331
+osm_d8fd0d4891e93c34,Thomas Hospital Emergency - Malbis,Hospital,OpenStreetMap,way/1110136000,29487 AL 181,Daphne,AL,SM-06,West Baldwin,Alabama Hub,-87.8528103,30.6552618
+osm_0f8e4ed8e804a31c,Infirmary Medical Plaza,Clinic / Medical Office,OpenStreetMap,way/1205297611,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.1058257,30.8086364
+osm_4ff05858e93ddcd9,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1205297612,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.1058267,30.8080961
+osm_036f052d1ac25bb0,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1262977807,1701 Springhill Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0787892,30.6919896
+osm_429cf43cf344bb77,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1262983373,1725 Springhill Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.079989,30.6917234
+osm_b706b40cbc2717b4,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1289660122,,,,SM-02,Central Mobile,Alabama Hub,-88.2065913,30.6777291
+osm_97ec9e3acfe0ab8f,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1290547117,,,,SM-02,Central Mobile,Alabama Hub,-88.13077,30.6597841
+osm_830624384fc9eaaf,Pulminary Associates of Mobile,Clinic / Medical Office,OpenStreetMap,way/1290572505,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0880206,30.6910604
+osm_a8b5f33b5c1ed8f7,"Cardiovascular Associates, P.C.",Clinic / Medical Office,OpenStreetMap,way/1290572514,1901 Spring Hill Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0859674,30.6911733
+osm_217b870a9573895a,David C. Hall DMD,Clinic / Medical Office,OpenStreetMap,way/1336866690,2157 Airport Boulevard,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0926716,30.6761947
+osm_ebedb81f67821fc6,Midtown Medical,Clinic / Medical Office,OpenStreetMap,way/1336866697,2055 Airport Boulevard,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0905219,30.6762423
+osm_b8ab53d393434dbe,Soaring Smiles Pediatric Dentistry,Clinic / Medical Office,OpenStreetMap,way/1368825928,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0803231,30.7323977
+osm_3b351b2892332658,Mobile Pediatric Clinic,Clinic / Medical Office,OpenStreetMap,way/1368848671,1835 Old Shell Road,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.084131,30.6873827
+osm_0e552ee78b753f81,Southern Family Urgent Care,Urgent Care,OpenStreetMap,way/1369212737,1962 Spring Hill Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0875782,30.6919749
+osm_cdb573570933bc14,Cardio-Thoracic & Vascular Surgical Associates,Clinic / Medical Office,OpenStreetMap,way/1369212748,1855 Spring Hill Avenue,Mobile,AL,SM-03,North Mobile / Saraland,Alabama Hub,-88.0854026,30.6914345
+osm_755c03acc6ca13fb,Premier Family Care Clinic,Clinic / Medical Office,OpenStreetMap,way/1391573677,32128 Broken Branch Circle,Spanish Fort,AL,SM-12,Central Baldwin,Alabama Hub,-87.8084047,30.6929119
+osm_3ff7cda6c6a6ed46,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1423923014,,,,SM-03,North Mobile / Saraland,Alabama Hub,-88.0629134,30.687259
+osm_e5b199cbdad8c915,AFC Urgent Care,Urgent Care,OpenStreetMap,way/1499463225,,,,SM-06,West Baldwin,Alabama Hub,-87.9093527,30.6307326
+osm_9f57aca96b003bb4,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,relation/5425745,,,,SM-02,Central Mobile,Alabama Hub,-88.2024948,30.67892
+osm_20bc9b1fa9adcf02,Infirmary Health Daphne,Clinic / Medical Office,OpenStreetMap,relation/19292091,,,,SM-06,West Baldwin,Alabama Hub,-87.8584705,30.6546476
+osm_2e6325573a84e6fd,White-Wilson Medical Clinic,Clinic / Medical Office,OpenStreetMap,node/387491115,,,,SM-18,Fort Walton,Pensacola Hub,-86.6331985,30.4563924
+osm_8f778da863219583,Cook Family Dentistry,Clinic / Medical Office,OpenStreetMap,node/1107952893,,,,SM-22,Walton and Bay Beaches,Growth Markets,-86.2189169,30.373101
+osm_e00c58cb27dc044e,Destin Hearing Associates,Clinic / Medical Office,OpenStreetMap,node/3080067029,141 Mack Bayou Loop,Santa Rosa,,SM-22,Walton and Bay Beaches,Growth Markets,-86.3025531,30.3780693
+osm_b32304de2dd3f2f3,Emerald Coast Urgent Care,Urgent Care,OpenStreetMap,node/4264807678,,,,SM-22,Walton and Bay Beaches,Growth Markets,-85.8110373,30.1951463
+osm_b5b6ceeb347f1a4b,Bay Medical Sacred Heart Family Medicine,Clinic / Medical Office,OpenStreetMap,node/4267518390,2421 Pine Drive,Panama City Beach,FL,SM-22,Walton and Bay Beaches,Growth Markets,-85.7523588,30.1599528
+osm_bce02e36ccb84ea9,Bluewater Bay Medical Center,Clinic / Medical Office,OpenStreetMap,node/5283008682,4554 John Sims Parkway,Niceville,FL,SM-18,Fort Walton,Pensacola Hub,-86.4181152,30.4854582
+osm_a74c5ee9a9209c53,Niceville Family Dental Center,Clinic / Medical Office,OpenStreetMap,node/5286822934,908 Palm Boulevard South,Niceville,FL,SM-18,Fort Walton,Pensacola Hub,-86.4742171,30.516932
+osm_15f93bbf4f4ffcb5,Smileology Bluewater Bay,Clinic / Medical Office,OpenStreetMap,node/5570291904,4400 E Hwy 20,Niceville,FL,SM-18,Fort Walton,Pensacola Hub,-86.4218244,30.4886318
+osm_dd458cebb44bceee,Smileology Miramar Beach,Clinic / Medical Office,OpenStreetMap,node/5596391869,12273 US-98,Miramar Beach,FL,SM-22,Walton and Bay Beaches,Growth Markets,-86.3776064,30.3845454
+osm_9a8b465c53686635,Smileology Santa Rosa Beach,Clinic / Medical Office,OpenStreetMap,node/5640939801,4942 US Highway 98 W,Santa Rosa Beach,FL,SM-22,Walton and Bay Beaches,Growth Markets,-86.2612257,30.3755266
+osm_3b0840741ea09850,Affordable Dentures & Implants,Clinic / Medical Office,OpenStreetMap,node/6011172507,617 West 23rd Street,Panama City,FL,SM-28,Panama City,Panama City Hub,-85.6707891,30.1881913
+osm_6e895fcdf246716e,Easycare Clinic,Clinic / Medical Office,OpenStreetMap,node/9611032530,1049 John Sims Parkway,Niceville,FL,SM-18,Fort Walton,Pensacola Hub,-86.4707985,30.5164808
+osm_1e66c33badb1e786,Okaloosa Heart & Vascular,Clinic / Medical Office,OpenStreetMap,node/11151917705,,,,SM-18,Fort Walton,Pensacola Hub,-86.6361219,30.4543407
+osm_74d8c18988e72db1,Aspen Dental,Clinic / Medical Office,OpenStreetMap,node/11897071942,,,,SM-22,Walton and Bay Beaches,Growth Markets,-86.4721989,30.3865934
+osm_4c860654857b4f0a,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,node/12031794342,631 West 23rd Street,Panama City,FL,SM-28,Panama City,Panama City Hub,-85.6709768,30.1885341
+osm_403cde7813a3ad73,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/258037584,,,,SM-22,Walton and Bay Beaches,Growth Markets,-86.3056493,30.378256
+osm_50f2997e7bdad2da,Aspen Dental,Clinic / Medical Office,OpenStreetMap,way/363343870,15450 Panama City Beach Parkway,Panama City Beach,,SM-22,Walton and Bay Beaches,Growth Markets,-85.8650206,30.2210969
+osm_bcf08c8e2d33c103,Bay Medical On The Beach,Clinic / Medical Office,OpenStreetMap,way/427242646,11111 Panama City Beach Parkway,Panama City Beach,,SM-22,Walton and Bay Beaches,Growth Markets,-85.8108132,30.1949224
+osm_28e269b2a3a6fc71,Eglin VA Clinic,Clinic / Medical Office,OpenStreetMap,way/491089554,,,,SM-18,Fort Walton,Pensacola Hub,-86.5586855,30.4621636
+osm_e7438ef437171288,Fresenius Dialysis Care,Clinic / Medical Office,OpenStreetMap,way/546440333,,,,SM-18,Fort Walton,Pensacola Hub,-86.4368517,30.4970919
+osm_d10a9dbceb27b120,White Wilson Medical Center,Clinic / Medical Office,OpenStreetMap,way/546440334,2001 John Sims Parkway,,,SM-18,Fort Walton,Pensacola Hub,-86.4355281,30.4961937
+osm_8092d14aab6b108d,Okaloosa Family Dentistry,Clinic / Medical Office,OpenStreetMap,way/550340784,,,,SM-18,Fort Walton,Pensacola Hub,-86.4581323,30.5149241
+osm_5acb0fbafd976e5b,Grand Boulevard Health and Rehabilitation Center,Clinic / Medical Office,OpenStreetMap,way/551314071,,,,SM-22,Walton and Bay Beaches,Growth Markets,-86.3093915,30.3792558
+osm_e0faf846fb3be456,Sharon Chen DDS,Clinic / Medical Office,OpenStreetMap,way/617248074,136 North Partin Drive,,,SM-18,Fort Walton,Pensacola Hub,-86.4783554,30.5216799
+osm_36c6f5a99b3c7d94,Panhandle Pediatric Dentistry,Clinic / Medical Office,OpenStreetMap,way/634477810,West 23rd Street,Panama City,,SM-28,Panama City,Panama City Hub,-85.702001,30.1892574
+osm_77b6174e4bb9bc3f,AFC Urgent Care,Urgent Care,OpenStreetMap,way/636621800,15415 Panama City Beach Parkway,Panama City Beach,,SM-22,Walton and Bay Beaches,Growth Markets,-85.8643725,30.219037
+osm_3e285baee96dae20,Baytown Dental Center,Clinic / Medical Office,OpenStreetMap,way/638031738,2326 Frankford Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.6914477,30.1909186
+osm_e0b28832b89d266c,Baldwin Pediatrics,Clinic / Medical Office,OpenStreetMap,way/639220387,528 West Baldwin Road,Panama City,,SM-28,Panama City,Panama City Hub,-85.6699114,30.2048162
+osm_6e5ef02f0b883041,Jeffrey Dental,Clinic / Medical Office,OpenStreetMap,way/648975592,,,,SM-18,Fort Walton,Pensacola Hub,-86.494314,30.5054876
+osm_5418b71b565ce5f1,Stubbs Orthodontics,Clinic / Medical Office,OpenStreetMap,way/656619707,,,,SM-18,Fort Walton,Pensacola Hub,-86.4084041,30.4781502
+osm_983bee0659f7694c,Destin Vein Center,Clinic / Medical Office,OpenStreetMap,way/683022811,,,,SM-22,Walton and Bay Beaches,Growth Markets,-86.4057343,30.387747
+osm_f2803292141a744e,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/692695044,,,,SM-18,Fort Walton,Pensacola Hub,-86.6140311,30.4476552
+osm_8cf8c1c2d1a0d604,HCA Florida Destin Emergency,Clinic / Medical Office,OpenStreetMap,way/776867275,200 Tequesta Drive,Destin,FL,SM-22,Walton and Bay Beaches,Growth Markets,-86.4027632,30.3871307
+osm_7f8e2e35a3a2d635,Welch Family Medicine,Clinic / Medical Office,OpenStreetMap,way/1096443060,,,,SM-22,Walton and Bay Beaches,Growth Markets,-85.7529609,30.1571172
+osm_7fb53aea9412bde1,Emerald Coast Urgent Care,Urgent Care,OpenStreetMap,way/1096801222,,,,SM-22,Walton and Bay Beaches,Growth Markets,-85.7519093,30.1552492
+osm_fbd0fde7e27d3731,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1136084209,,,,SM-22,Walton and Bay Beaches,Growth Markets,-85.7436172,30.1596088
+osm_b5210fe0c095b4f2,Main Street Medical Center,Clinic / Medical Office,OpenStreetMap,node/5788618523,369 Main Street,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.5710993,30.7601203
+osm_acbc53e72dc366a6,All Seasons Allergy & Asthma,Clinic / Medical Office,OpenStreetMap,node/5788618524,115 East Beech Avenue,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.5710524,30.7602713
+osm_3d22283933173bc4,Rawson & Braxton Oral,Clinic / Medical Office,OpenStreetMap,node/5793228285,261 Oakdale Avenue East,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.5690015,30.76024
+osm_24cc54a08e950f7d,Aspen Dental,Clinic / Medical Office,OpenStreetMap,node/6625234007,,,,SM-17,Crestview,Pensacola Hub,-86.5672037,30.7336819
+osm_51bc7c4186f3e2bc,Florida Department of Health in Walton County - Paxton Branch,Clinic / Medical Office,OpenStreetMap,node/8616164369,21505 US Highway 331 North,Laurel Hill,FL,SM-23,Walton County,Growth Markets,-86.3021036,30.9679823
+osm_5eb86d18293563b0,North Okaloosa Medical Outpatient Center,Clinic / Medical Office,OpenStreetMap,way/170281613,,,,SM-17,Crestview,Pensacola Hub,-86.5674393,30.7352675
+osm_2ae209b7e3013355,Rigsby Orthodontics,Clinic / Medical Office,OpenStreetMap,way/611931731,285 South Ferdon Boulevard,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.569282,30.7598997
+osm_66c1203a7a888e98,Bridgeway Center Inc.,Clinic / Medical Office,OpenStreetMap,way/647882003,299 Railroad Avenue West,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.5706015,30.7562865
+osm_b1b61a0e65e46c3b,Crestview Urgent Care / Walk-In-Clinic,Urgent Care,OpenStreetMap,way/705297931,2400 South Ferdon Boulevard,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.5663091,30.7362157
+osm_8d7e5ea1e800de78,Dr. Richard Thomas - Family Dentistry,Clinic / Medical Office,OpenStreetMap,way/711881657,102 Alabama Street,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.568935,30.7661423
+osm_90ac10e7104239e5,Comfort Dental,Clinic / Medical Office,OpenStreetMap,way/761144019,10 Riverwood Drive,Crestview,FL,SM-17,Crestview,Pensacola Hub,-86.5703561,30.7153732
+osm_0aad25bdd1dec762,Sacred Heart Medical Group at Wewahitchka,Clinic / Medical Office,OpenStreetMap,node/4726411748,807 FL 22,Wewahitchka,,SM-31,Gulf County,Growth Markets,-85.2097,30.1189972
+osm_28a307404b47b518,Wewahitchka Medical Center,Clinic / Medical Office,OpenStreetMap,node/4726411762,255 West River Road,Wewahitchka,,SM-31,Gulf County,Growth Markets,-85.2025992,30.1063464
+osm_8715e8ec7b7234a1,WSI Learning Center,Clinic / Medical Office,OpenStreetMap,node/6011539254,854 North Tyndall Parkway,,,SM-28,Panama City,Panama City Hub,-85.5901577,30.1636564
+osm_af0e52743f2cc354,Dermatology Specialists of Florida,Clinic / Medical Office,OpenStreetMap,node/6371962193,2505 Harrison Avenue,Panama City,FL,SM-28,Panama City,Panama City Hub,-85.6588344,30.1933995
+osm_b6f34dda5b949043,The Hormone & Wellness Center,Clinic / Medical Office,OpenStreetMap,node/9791534461,"508 Airport Road, #G",Panama City,FL,SM-28,Panama City,Panama City Hub,-85.666535,30.1818382
+osm_be08b0fcffce8951,Cove Dental Care,Clinic / Medical Office,OpenStreetMap,node/9830031122,406 North Cove Boulevard,Panama City,FL,SM-28,Panama City,Panama City Hub,-85.6500566,30.1553814
+osm_02f6a608de7bc994,Quest Diagnostics,Clinic / Medical Office,OpenStreetMap,node/9941370983,,,,SM-28,Panama City,Panama City Hub,-85.6505058,30.2036565
+osm_94cb807f181fd0e1,Ascension Sacred Heart Bay Rehabilitation,Clinic / Medical Office,OpenStreetMap,node/9948788147,,,,SM-28,Panama City,Panama City Hub,-85.6505455,30.1928208
+osm_821dc15ecfeeca28,Children's Dentistry Clinic,Clinic / Medical Office,OpenStreetMap,node/10014252967,,,,SM-28,Panama City,Panama City Hub,-85.6068647,30.1744589
+osm_f05024a9c75d113d,Apria Healthcare,Clinic / Medical Office,OpenStreetMap,node/10181443191,3416 Jenks Avenue,Panama City,FL,SM-28,Panama City,Panama City Hub,-85.6618868,30.2104119
+osm_99df830074d76270,Magnolia Pediatric Therapy,Clinic / Medical Office,OpenStreetMap,node/12623516332,,,,SM-28,Panama City,Panama City Hub,-85.6659662,30.1902226
+osm_056be9078d58be89,Lotus Healthcare and Aesthetics,Clinic / Medical Office,OpenStreetMap,node/12623540593,,,,SM-28,Panama City,Panama City Hub,-85.6662919,30.1903942
+osm_227c75ed8b57a4d7,Cove Dental,Clinic / Medical Office,OpenStreetMap,way/636654346,,,,SM-28,Panama City,Panama City Hub,-85.6500496,30.1554365
+osm_661c35787aeaa728,Skin and Vein Clinic,Clinic / Medical Office,OpenStreetMap,way/637029456,738 Harrison Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.6601278,30.1617396
+osm_ce14d5614aef096e,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/637070226,200 North Star Avenue,Callaway,,SM-28,Panama City,Panama City Hub,-85.5656529,30.1495621
+osm_bbb7d2432cc5f5bf,Personal Attention Dental Center,Clinic / Medical Office,OpenStreetMap,way/637662781,5701 Hickory Street,Callaway,,SM-28,Panama City,Panama City Hub,-85.589951,30.1386882
+osm_2839f718070952e0,Callaway Clinic,Clinic / Medical Office,OpenStreetMap,way/637717231,489 North Tyndall Parkway,Callaway,,SM-28,Panama City,Panama City Hub,-85.5915563,30.1566523
+osm_657c66f98b0bed9f,Sleep Disorder Center of Panama City,Clinic / Medical Office,OpenStreetMap,way/637933059,502 North Mac Arthur Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.6488907,30.1570238
+osm_f1de7ddfedb85d22,Surgical Center For Excellence,Clinic / Medical Office,OpenStreetMap,way/637973882,202 Doctors Drive,Panama City,,SM-28,Panama City,Panama City Hub,-85.6659162,30.1886517
+osm_4ad0a6d602610d69,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/637973910,25 Doctors Drive,Panama City,,SM-28,Panama City,Panama City Hub,-85.6638033,30.1865686
+osm_0748aa536394b078,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/637973923,425 West 19th Street,Panama City,,SM-28,Panama City,Panama City Hub,-85.6654951,30.1819369
+osm_3af25f601c1dc49b,Consult Care Pain Medicine,Clinic / Medical Office,OpenStreetMap,way/637973937,501 Airport Road,Panama City,,SM-28,Panama City,Panama City Hub,-85.6662127,30.1806162
+osm_10120a6d3926d25e,St. Andrews Bay Skilled Nursing and Rehabilitation Center,Clinic / Medical Office,OpenStreetMap,way/637974173,2100 Jenks Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.6612282,30.1857219
+osm_e4563a47ce0584b9,Emerald Coast Pediatrics,Clinic / Medical Office,OpenStreetMap,way/637974216,200 West 19th Street,Panama City,,SM-28,Panama City,Panama City Hub,-85.6617114,30.1827355
+osm_1a2a118baed8e205,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/637974220,1560 Jenks Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.661996,30.1779104
+osm_8b0bd23799479379,Fresenius Kidney Care Panama City,Clinic / Medical Office,OpenStreetMap,way/637974276,2100 Harrison Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.6577343,30.1863318
+osm_4ebfb7bf09359c19,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/637974283,1931 Martin Luther King Jr Boulevard,Panama City,,SM-28,Panama City,Panama City Hub,-85.6505417,30.1842337
+osm_f1d0a98a1ec17094,Bay Arthritis Institute,Clinic / Medical Office,OpenStreetMap,way/638030625,2401 State Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.6670711,30.1917751
+osm_63fcbb3ee6faf164,Ideal Dentistry,Clinic / Medical Office,OpenStreetMap,way/645017009,,,,SM-28,Panama City,Panama City Hub,-85.6483324,30.2464153
+osm_34310c83fc17258a,Primary Care Center of Lynn Haven,Clinic / Medical Office,OpenStreetMap,way/665917232,,,,SM-28,Panama City,Panama City Hub,-85.6494282,30.2456667
+osm_00dea5cb3e884c01,Florida Cancer Affiliates,Clinic / Medical Office,OpenStreetMap,way/745444725,2614 Jenks Avenue,Panama City,,SM-28,Panama City,Panama City Hub,-85.6618391,30.1952209
+osm_bc1ed17d072241b3,Emerald Coast Rheumatology and Infusion Center,Clinic / Medical Office,OpenStreetMap,way/776742050,3890 Jenks Avenue,Lynn Haven,FL,SM-28,Panama City,Panama City Hub,-85.6615586,30.218082
+osm_a0ac7dde8594dd95,Emerald Coast OBGYN,Clinic / Medical Office,OpenStreetMap,way/776744796,,,,SM-28,Panama City,Panama City Hub,-85.6573508,30.1903133
+osm_32110fe251bee49f,SunCoast Diagnostic Imaging,Clinic / Medical Office,OpenStreetMap,way/776744806,,,,SM-28,Panama City,Panama City Hub,-85.6522383,30.1900042
+osm_2604adc9af779971,Buttram Orthodontics,Clinic / Medical Office,OpenStreetMap,way/776769821,,,,SM-28,Panama City,Panama City Hub,-85.6502543,30.2020455
+osm_21f0f3b2066d3588,Panama City Open MRI and Imaging,Clinic / Medical Office,OpenStreetMap,way/776769874,,,,SM-28,Panama City,Panama City Hub,-85.6504985,30.1948152
+osm_a3d2909e02f4980b,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/962979548,,,FL,SM-28,Panama City,Panama City Hub,-85.6545487,30.2037196
+osm_1acffa778fdddb35,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/962979549,,,FL,SM-28,Panama City,Panama City Hub,-85.6541845,30.2040486
+osm_63a2ac485b187d18,Amir Manzoor Endocrinologist,Clinic / Medical Office,OpenStreetMap,way/962979551,,,FL,SM-28,Panama City,Panama City Hub,-85.6545489,30.2034684
+osm_4925e5b431e33ad8,The Institute of Endocrinology,Clinic / Medical Office,OpenStreetMap,way/962979558,,,FL,SM-28,Panama City,Panama City Hub,-85.6516122,30.2029189
+osm_925ef8b1ae1524bc,Go Now Doctors Urgent Care,Urgent Care,OpenStreetMap,way/1062747177,,,,SM-28,Panama City,Panama City Hub,-85.6495422,30.189882
+osm_847bbe338f27d41f,Coastal Urgent Care,Urgent Care,OpenStreetMap,way/1063189127,1702 Ohio Avenue,Lynn Haven,,SM-28,Panama City,Panama City Hub,-85.649524,30.2326061
+osm_ba287b39efe36e0a,Accident Orthopedics,Clinic / Medical Office,OpenStreetMap,way/1064765382,,,,SM-28,Panama City,Panama City Hub,-85.6072389,30.2140601
+osm_35a2fefc8d335817,VITAS® Healthcare,Clinic / Medical Office,OpenStreetMap,way/1064765383,,,,SM-28,Panama City,Panama City Hub,-85.6088898,30.2141087
+osm_460c05dc54c474a4,DaVita Dialysis,Clinic / Medical Office,OpenStreetMap,way/1065377024,,,,SM-28,Panama City,Panama City Hub,-85.6458202,30.2225173
+osm_196a25b1c56994b9,Hope Regional Cancer Center,Clinic / Medical Office,OpenStreetMap,way/1065381155,,,,SM-28,Panama City,Panama City Hub,-85.6499814,30.214597
+osm_0c24408355798bcb,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1073692857,,,,SM-28,Panama City,Panama City Hub,-85.629089,30.212953
+osm_df425479c85216d9,Gerlecz Dentistry,Clinic / Medical Office,OpenStreetMap,way/1084373644,,,,SM-28,Panama City,Panama City Hub,-85.6616281,30.2190904
+osm_f659cee922c89a62,Sickbay Clinic,Clinic / Medical Office,OpenStreetMap,way/1084959165,,,,SM-28,Panama City,Panama City Hub,-85.650288,30.2099387
+osm_a4854ed88305922a,Ascension Sacred Heart Primary Care,Clinic / Medical Office,OpenStreetMap,way/1086875190,,,,SM-28,Panama City,Panama City Hub,-85.6483076,30.2468477
+osm_5590127adf36f4b6,William H Hargraves Family Dentistry,Clinic / Medical Office,OpenStreetMap,way/1087139825,,,,SM-28,Panama City,Panama City Hub,-85.648922,30.2483861
+osm_ca144ca0932f2c1a,Bay Smile Docs,Clinic / Medical Office,OpenStreetMap,way/1087139828,,,,SM-28,Panama City,Panama City Hub,-85.6501205,30.2493312
+osm_f35d5ba1e21cd2f4,Panama City Smiles,Clinic / Medical Office,OpenStreetMap,way/1093523907,,,,SM-28,Panama City,Panama City Hub,-85.6598898,30.1668921
+osm_77cde7ef36673590,Baldwin Pediatrics,Clinic / Medical Office,OpenStreetMap,way/1102720893,,,,SM-28,Panama City,Panama City Hub,-85.6618688,30.1949296
+osm_8ba2104a63f7c864,"Jenna Pascoli, DMD",Clinic / Medical Office,OpenStreetMap,way/1102720906,,,,SM-28,Panama City,Panama City Hub,-85.662099,30.196136
+osm_02317a13ab077d88,Northwest Florida Spine,Clinic / Medical Office,OpenStreetMap,way/1102720913,,,,SM-28,Panama City,Panama City Hub,-85.6610591,30.1968279
+osm_f19d0d9c2660263b,Practice of Family Medicine,Clinic / Medical Office,OpenStreetMap,way/1102720916,,,,SM-28,Panama City,Panama City Hub,-85.6614613,30.1961795
+osm_121649ffaae0038b,Oral Surgery and Dental Implant Center of Panama City,Clinic / Medical Office,OpenStreetMap,way/1102720920,,,,SM-28,Panama City,Panama City Hub,-85.6610568,30.1961246
+osm_e510f30c9e3476f9,HCA Florida Panama City Emergency,Clinic / Medical Office,OpenStreetMap,way/1105948703,,,,SM-28,Panama City,Panama City Hub,-85.6047924,30.2158224
+osm_c72e788caffc372b,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1136084192,,,,SM-28,Panama City,Panama City Hub,-85.6615885,30.1858643
+osm_fee0f7594012cc3e,Healthcare Facility,Clinic / Medical Office,OpenStreetMap,way/1136084196,,,,SM-28,Panama City,Panama City Hub,-85.6591937,30.1828885
+osm_a112c45df45e4e1e,Life Management Center,Clinic / Medical Office,OpenStreetMap,way/1136084203,,,,SM-28,Panama City,Panama City Hub,-85.6536128,30.1769302
+osm_7045e009fe2355b2,Digestive Diseases Center,Clinic / Medical Office,OpenStreetMap,relation/8848798,204 East 19th Street,Panama City,,SM-28,Panama City,Panama City Hub,-85.6581239,30.1818498
+osm_46f6767eb420c598,Pregnancy Center of Marianna,Other Healthcare,OpenStreetMap,node/13254671306,4540H Lafayette Street,Marianna,FL,SM-27,Marianna,Panama City Hub,-85.2171201,30.7747855
+osm_9d7b4f9cf9cc577e,Fresenius Kidney Care,Clinic / Medical Office,OpenStreetMap,way/739690842,4319 Lafayette Street,Marianna,FL,SM-27,Marianna,Panama City Hub,-85.2363643,30.7766579
+osm_4470dbf1edb026ac,Southeast Cardiology Clinic,Clinic / Medical Office,OpenStreetMap,way/1117547980,4257 Lafayette Street,Marianna,FL,SM-27,Marianna,Panama City Hub,-85.2412465,30.7801497
+osm_03adab8285abfec8,Marianna Health and Rehab Center,Clinic / Medical Office,OpenStreetMap,way/1117702564,4925 5th Avenue,Marianna,FL,SM-27,Marianna,Panama City Hub,-85.2376177,30.7866555
+osm_41338937e1ecb440,Chipola Health and Rehabilitation Center,Clinic / Medical Office,OpenStreetMap,way/1117702565,4294 3rd Avenue,Marianna,FL,SM-27,Marianna,Panama City Hub,-85.2378993,30.785844
+osm_37e32d7c9fcb3a7f,Walk In Med Care,Urgent Care,OpenStreetMap,node/5837702205,25405 Perdido Beach Boulevard,Orange Beach,AL,SM-04,South Baldwin,Alabama Hub,-87.5913086,30.2695097
+osm_cc078f05ea690a0b,Walking Horse Lane,Other Healthcare,OpenStreetMap,way/6234872,,,,SM-12,Central Baldwin,Alabama Hub,-87.5724319,30.5792787
+osm_7c8ea5bf6a8b246c,Walking Horse Court,Other Healthcare,OpenStreetMap,way/7907027,,,,SM-02,Central Mobile,Alabama Hub,-88.1931008,30.6352164
+osm_ae34590c02b337a4,Walking Horse Lane,Other Healthcare,OpenStreetMap,way/11314011,,,,SM-14,Santa Rosa County,Growth Markets,-87.1103895,30.919579
+osm_96ad5b8fce0e8306,Walking Path,Other Healthcare,OpenStreetMap,way/151523046,,,,SM-28,Panama City,Panama City Hub,-85.6647965,30.1532418
+osm_805ecd7dc39ba2c2,Harvey De Mathis Park Walking Path,Other Healthcare,OpenStreetMap,way/340322582,,,,SM-28,Panama City,Panama City Hub,-85.6696206,30.2082093
+osm_56af49d755104781,Urgent Care Drive,Urgent Care,OpenStreetMap,way/353289604,,,,SM-06,West Baldwin,Alabama Hub,-87.8511607,30.6578588
+osm_9d8ab51fcb96ac69,Urgent Care Drive,Urgent Care,OpenStreetMap,way/353289606,,,,SM-06,West Baldwin,Alabama Hub,-87.8516077,30.6578576
+osm_ef1d546db0124733,Walk In Tent Camp,Urgent Care,OpenStreetMap,way/404317365,,,,SM-27,Marianna,Panama City Hub,-85.2469155,30.820449
+osm_12421c493cb02f24,Henry Brooks Memorial Walking Park,Other Healthcare,OpenStreetMap,way/477217587,,,,SM-28,Panama City,Panama City Hub,-85.6142912,30.154021
+osm_a49cac2481d57802,walking loop,Other Healthcare,OpenStreetMap,way/480225439,,,,SM-31,Gulf County,Growth Markets,-85.2007254,30.1147152
+osm_de36241122d982c0,Walking Trail,Other Healthcare,OpenStreetMap,way/480225440,,,,SM-31,Gulf County,Growth Markets,-85.1924262,30.0620636
+osm_94ddeb8504c40fef,Springfield Gardens Walking Park,Other Healthcare,OpenStreetMap,way/484605303,,,,SM-28,Panama City,Panama City Hub,-85.6071987,30.1584572
+osm_6e470885ad7b9d2b,Walking Path,Other Healthcare,OpenStreetMap,way/673404143,,,,SM-04,South Baldwin,Alabama Hub,-87.6903699,30.3160388
+osm_48002025f536822b,Quality Urgent Care & Wellness at Pensacola,Urgent Care,OpenStreetMap,way/827660277,5115 North Palafox Street,Pensacola,FL,SM-07,Pensacola,Pensacola Hub,-87.2425647,30.4657275
+osm_3326f290fb4f214e,Highpoint Walking Trail,Other Healthcare,OpenStreetMap,way/832955058,,,,SM-02,Central Mobile,Alabama Hub,-88.1625876,30.7574641
+osm_8ead5bfad2c73237,West Florida Immediate Care at Kingsfield,Urgent Care,OpenStreetMap,way/836370554,2360 South Highway 29,Cantonment,FL,SM-11,Cantonment,Pensacola Hub,-87.2884165,30.5665845
+osm_5a667e0ee4769125,Walking Path,Other Healthcare,OpenStreetMap,way/947165021,,,,SM-28,Panama City,Panama City Hub,-85.6604488,30.1539404
+osm_16e8e0b823370c02,Spring Valley Walking Park,Other Healthcare,OpenStreetMap,way/1093459004,1605 Spring Avenue,Panama City,FL,SM-28,Panama City,Panama City Hub,-85.6280656,30.1776098
+osm_f0eff24d9f016c24,Walking Trail,Other Healthcare,OpenStreetMap,way/1135249473,,,,SM-31,Gulf County,Growth Markets,-85.1927018,30.0622446
+osm_e87497162464d6f6,Community Health Northwest Florida Walk-in Care,Urgent Care,OpenStreetMap,way/1157324924,1400 North Palafox Street,,,SM-07,Pensacola,Pensacola Hub,-87.2181114,30.4273775
