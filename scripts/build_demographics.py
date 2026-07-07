@@ -249,19 +249,24 @@ def census_get_json(url: str, params: Dict[str, str], retries: int = 5) -> list:
 
 
 def validate_census_key_or_fail() -> None:
-    """Validate Census API key before the long TIGER/intersection work starts."""
+    """Validate the Census API key with a broad county-level request.
+
+    Earlier versions tested a single Baldwin County tract/block group that may not exist
+    in the selected ACS release, which produced HTTP 204 and incorrectly looked like
+    an invalid key. This version validates against the county geography instead.
+    """
     api_key = os.getenv("CENSUS_API_KEY", "").strip()
     if not api_key:
         raise RuntimeError(
             "CENSUS_API_KEY is missing. Add it in GitHub under Settings > Secrets and variables > Actions. "
             "Name the secret exactly CENSUS_API_KEY. Do not put the key in the public repository."
         )
-    log(f"Census API key detected. Length: {len(api_key)} characters. Validating before long build...")
+    log(f"Census API key detected. Length: {len(api_key)} characters. Validating with a county-level ACS request...")
     test_url = f"https://api.census.gov/data/{CURRENT_YEAR}/acs/acs5"
     test_params = {
         "get": "NAME,B01003_001E",
-        "for": "block group:*",
-        "in": "state:01 county:003 tract:010700",
+        "for": "county:003",
+        "in": "state:01",
         "key": api_key,
     }
     try:
@@ -269,12 +274,12 @@ def validate_census_key_or_fail() -> None:
     except Exception as exc:
         raise RuntimeError(
             "Census API key validation failed before the full build. "
-            "Re-enter the activated key as the GitHub Actions secret CENSUS_API_KEY. "
-            "Common issues: extra spaces, copying the wrong field from the email, or not clicking the activation link. "
+            "This should be a broad county-level test, so a failure here usually means the secret value is wrong, "
+            "not activated, or Census is temporarily rejecting requests. "
             f"Underlying error: {exc}"
         ) from exc
     if not isinstance(data, list) or len(data) < 2:
-        raise RuntimeError("Census API key validation returned no data. Check the key and try again.")
+        raise RuntimeError("Census API key validation returned no county data. Check the key and try again.")
     log("Census API key validated successfully.")
 
 def fetch_acs_for_counties(year: int, counties: pd.DataFrame) -> pd.DataFrame:
