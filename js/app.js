@@ -301,18 +301,17 @@ function colorForPopulation(v) {
 function renderDemographicsCard(demo) {
   if (!demo) return `<div class="demo-card"><b>Demographics</b><br>No Census overlap record found for this submarket.</div>`;
   const c = demo.current || {};
-  const f = demo.forecast_5yr || {};
   return `<div class="demo-card">
-    <div class="demo-head"><b>Demographics</b><span>ACS ${state.demographics?.metadata?.current_year || 2023} + 5-Year Forecast</span></div>
+    <div class="demo-head"><b>Demographics</b><span>ACS ${state.demographics?.metadata?.current_year || 2023} Current</span></div>
     <div class="demo-grid">
-      <div><span>Population</span><b>${fmt(c.population)}</b><small>${fmt(f.population)} forecast</small></div>
-      <div><span>Households</span><b>${fmt(c.households)}</b><small>${fmt(f.households)} forecast</small></div>
-      <div><span>Median Income</span><b>${fmtMoney(c.median_household_income)}</b><small>${fmtMoney(f.median_household_income)} forecast</small></div>
-      <div><span>Median Age</span><b>${fmtOne(c.median_age)}</b><small>${fmtOne(f.median_age)} forecast</small></div>
-      <div><span>Owner Occupancy</span><b>${fmtPct(c.owner_occupancy_pct)}</b><small>${fmtPct(f.owner_occupancy_pct)} forecast</small></div>
-      <div><span>Bachelor's+</span><b>${fmtPct(c.bachelors_plus_pct)}</b><small>${fmtPct(f.bachelors_plus_pct)} forecast</small></div>
+      <div><span>Population</span><b>${fmt(c.population)}</b><small>current estimate</small></div>
+      <div><span>Households</span><b>${fmt(c.households)}</b><small>current estimate</small></div>
+      <div><span>Median Income</span><b>${fmtMoney(c.median_household_income)}</b><small>current estimate</small></div>
+      <div><span>Median Age</span><b>${fmtOne(c.median_age)}</b><small>current estimate</small></div>
+      <div><span>Owner Occupancy</span><b>${fmtPct(c.owner_occupancy_pct)}</b><small>current estimate</small></div>
+      <div><span>Bachelor's+</span><b>${fmtPct(c.bachelors_plus_pct)}</b><small>current estimate</small></div>
     </div>
-    <div class="demo-note">Current values are ACS 5-Year block-group estimates area-weighted to custom KML boundaries. Forecast values are model-based, not official Census projections.</div>
+    <div class="demo-note">Current values are ACS 5-Year block-group estimates area-weighted to custom KML boundaries. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
   </div>`;
 }
 
@@ -1079,7 +1078,7 @@ function bindUI() {
     });
   }
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
-    if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','popgrowth','population'].includes(e.target.value);
+    if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
     setMapTheme(e.target.value);
   });
   document.getElementById('basemapSelect').addEventListener('change', e => {

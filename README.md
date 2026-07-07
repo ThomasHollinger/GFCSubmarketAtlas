@@ -1,10 +1,5 @@
-# Gulf Coast Submarket Atlas v2.6.0
+# Gulf Coast Submarket Atlas v2.6.1
 
-Adds precomputed demographics using ACS 5-Year block-group data area-weighted to the custom KML submarket boundaries.
+Static GitHub Pages atlas with Enterprise submarkets, schools, retail/dining, and current ACS demographics.
 
-Included outputs:
-- Current demographics
-- 5-year forecast values
-- Audit CSV from the demographics builder
-
-The web atlas loads a static `data/submarket_demographics_combined.json` file, so the browser no longer calls Census directly.
+Demographics are precomputed from Census ACS block-group data area-weighted to the custom KML submarket boundaries. Experimental 5-year forecasts are retained in the data export for review but are not displayed in the atlas until a calibrated forecast model is approved.
