@@ -173,19 +173,56 @@ def hifld_hospitals_to_facilities(features: Iterable[Dict[str, Any]]) -> List[Di
     return out
 
 
-def overpass_query(bbox: Tuple[float, float, float, float]) -> str:
+def split_bbox(bbox: Tuple[float, float, float, float], cols: int = 4, rows: int = 3) -> List[Tuple[float, float, float, float]]:
+    """Split a large bbox into smaller tiles to avoid Overpass timeout/size failures."""
+    west, south, east, north = bbox
+    dx = (east - west) / cols
+    dy = (north - south) / rows
+    tiles = []
+    for i in range(cols):
+        for j in range(rows):
+            tiles.append((west + i * dx, south + j * dy, west + (i + 1) * dx, south + (j + 1) * dy))
+    return tiles
+
+
+def overpass_query_for_category(bbox: Tuple[float, float, float, float], category: str) -> str:
     west, south, east, north = bbox
     bb = f"{south},{west},{north},{east}"
-    amenity = "hospital|clinic|doctors|dentist|pharmacy"
-    healthcare = "hospital|clinic|doctor|dentist|urgent_care|pharmacy|centre|center|laboratory|rehabilitation"
-    return f"""[out:json][timeout:180];(
-  node["amenity"~"^({amenity})$"]({bb});
-  way["amenity"~"^({amenity})$"]({bb});
-  relation["amenity"~"^({amenity})$"]({bb});
-  node["healthcare"~"^({healthcare})$"]({bb});
-  way["healthcare"~"^({healthcare})$"]({bb});
-  relation["healthcare"~"^({healthcare})$"]({bb});
-);out center tags;"""
+    if category == "pharmacies":
+        return f'''[out:json][timeout:120];(
+  node["amenity"="pharmacy"]({bb});
+  way["amenity"="pharmacy"]({bb});
+  relation["amenity"="pharmacy"]({bb});
+  node["healthcare"="pharmacy"]({bb});
+  way["healthcare"="pharmacy"]({bb});
+  relation["healthcare"="pharmacy"]({bb});
+);out center tags;'''
+    if category == "urgent_care":
+        return f'''[out:json][timeout:120];(
+  node["healthcare"="urgent_care"]({bb});
+  way["healthcare"="urgent_care"]({bb});
+  relation["healthcare"="urgent_care"]({bb});
+  node["name"~"urgent|immediate care|walk[- ]?in",i]({bb});
+  way["name"~"urgent|immediate care|walk[- ]?in",i]({bb});
+  relation["name"~"urgent|immediate care|walk[- ]?in",i]({bb});
+);out center tags;'''
+    if category == "clinics":
+        return f'''[out:json][timeout:120];(
+  node["amenity"~"^(clinic|doctors|dentist)$"]({bb});
+  way["amenity"~"^(clinic|doctors|dentist)$"]({bb});
+  relation["amenity"~"^(clinic|doctors|dentist)$"]({bb});
+  node["healthcare"~"^(clinic|doctor|dentist|centre|center|laboratory|rehabilitation)$"]({bb});
+  way["healthcare"~"^(clinic|doctor|dentist|centre|center|laboratory|rehabilitation)$"]({bb});
+  relation["healthcare"~"^(clinic|doctor|dentist|centre|center|laboratory|rehabilitation)$"]({bb});
+);out center tags;'''
+    return f'''[out:json][timeout:120];(
+  node["amenity"~"^(hospital|clinic|doctors|dentist|pharmacy)$"]({bb});
+  way["amenity"~"^(hospital|clinic|doctors|dentist|pharmacy)$"]({bb});
+  relation["amenity"~"^(hospital|clinic|doctors|dentist|pharmacy)$"]({bb});
+  node["healthcare"]({bb});
+  way["healthcare"]({bb});
+  relation["healthcare"]({bb});
+);out center tags;'''
 
 
 def fetch_overpass(query: str) -> Dict[str, Any]:
@@ -200,9 +237,50 @@ def fetch_overpass(query: str) -> Dict[str, Any]:
         except Exception as exc:  # noqa: BLE001
             last_error = exc
             log(f"Overpass source failed: {exc}")
-            time.sleep(3)
+            time.sleep(4)
     raise RuntimeError(f"All Overpass sources failed: {last_error}")
 
+
+def fetch_overpass_healthcare(bbox: Tuple[float, float, float, float]) -> Dict[str, Any]:
+    """Fetch OSM healthcare POIs in category/tile queries.
+
+    The previous builder made one large Overpass query and swallowed failures, which
+    allowed the dataset to succeed with HIFLD hospitals only. This version queries
+    pharmacies, clinics/offices, and urgent care separately and tiles the atlas bbox
+    if a full-bbox request fails.
+    """
+    all_elements: List[Dict[str, Any]] = []
+    seen = set()
+    categories = ["pharmacies", "clinics", "urgent_care"]
+    failures = []
+    for cat in categories:
+        log(f"Overpass category: {cat}")
+        try:
+            data = fetch_overpass(overpass_query_for_category(bbox, cat))
+            elements = data.get("elements", [])
+            log(f"Overpass {cat} full bbox: {len(elements)} elements")
+        except Exception as exc:  # noqa: BLE001
+            failures.append(f"{cat} full bbox failed: {exc}")
+            elements = []
+            for idx, tile in enumerate(split_bbox(bbox), start=1):
+                try:
+                    data = fetch_overpass(overpass_query_for_category(tile, cat))
+                    batch = data.get("elements", [])
+                    log(f"Overpass {cat} tile {idx}: {len(batch)} elements")
+                    elements.extend(batch)
+                    time.sleep(1)
+                except Exception as tile_exc:  # noqa: BLE001
+                    failures.append(f"{cat} tile {idx} failed: {tile_exc}")
+                    log(f"WARNING: Overpass {cat} tile {idx} failed: {tile_exc}")
+        for el in elements:
+            key = (el.get("type"), el.get("id"))
+            if key in seen:
+                continue
+            seen.add(key)
+            all_elements.append(el)
+    if not all_elements:
+        raise RuntimeError("Overpass returned zero non-hospital healthcare POIs. Failures: " + " | ".join(failures[:8]))
+    return {"elements": all_elements}
 
 def osm_to_facilities(data: Dict[str, Any]) -> List[Dict[str, Any]]:
     out = []
@@ -376,12 +454,14 @@ def main() -> int:
         log(f"WARNING: HIFLD hospitals failed: {exc}")
 
     try:
-        osm = fetch_overpass(overpass_query(bbox))
+        osm = fetch_overpass_healthcare(bbox)
         osm_facilities = osm_to_facilities(osm)
         facilities.extend(osm_facilities)
         log(f"OSM healthcare facilities parsed: {len(osm_facilities)}")
+        if len(osm_facilities) == 0:
+            raise RuntimeError("OSM/Overpass returned zero clinic, urgent care, or pharmacy facilities.")
     except Exception as exc:  # noqa: BLE001
-        log(f"WARNING: OSM healthcare failed: {exc}")
+        raise RuntimeError(f"OSM/Overpass healthcare source failed; refusing to write hospital-only dataset. Details: {exc}") from exc
 
     if not facilities:
         raise RuntimeError("No healthcare facilities could be fetched from any source.")
