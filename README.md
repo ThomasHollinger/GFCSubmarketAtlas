@@ -1,19 +1,35 @@
-# Gulf Coast Submarket Atlas v2.6.3
+# Gulf Coast Submarket Atlas v2.7.0
 
-This release reorders the sidebar: Market Summary, Market Data, Atlas Health with Search, then About. It keeps the v2.6.2 school sidebar behavior and current ACS demographics.
+This release adds the Healthcare Facilities module framework.
 
-# Gulf Coast Submarket Atlas v2.6.2
+## What is included
+- Healthcare layer toggle in Market Data.
+- Healthcare Access map theme.
+- Sidebar Healthcare Facilities card for each submarket/hub/enterprise view.
+- Search support for healthcare facilities after the dataset is built.
+- GitHub Action healthcare builder:
+  - `.github/workflows/build-healthcare.yml`
+  - `scripts/build_healthcare.py`
+  - `requirements-healthcare.txt`
 
-This release keeps current ACS demographics and updates School Rating behavior so ratings appear in the sidebar without requiring the Schools map layer to be enabled.
+## Healthcare data workflow
+The app ships with empty healthcare data files so the site will not break before the healthcare dataset is built.
 
-# Gulf Coast Submarket Atlas v2.6.1
+To build the real facility dataset:
+1. Upload this release to the `GFCSubmarketAtlas` repository.
+2. Go to GitHub > Actions.
+3. Run `Build Healthcare Dataset`.
+4. The workflow will fetch public healthcare facility sources, assign points to the custom submarket boundaries in `data/submarkets.geojson`, write the output files into `data/`, and commit them back to the repository.
 
-Static GitHub Pages atlas with Enterprise submarkets, schools, retail/dining, and current ACS demographics.
+## Healthcare outputs
+- `data/healthcare_facilities.geojson`
+- `data/submarket_healthcare_summary.json`
+- `data/healthcare_facility_audit.csv`
+- `data/healthcare_metadata.json`
 
-Demographics are precomputed from Census ACS block-group data area-weighted to the custom KML submarket boundaries. Experimental 5-year forecasts are retained in the data export for review but are not displayed in the atlas until a calibrated forecast model is approved.
+## Sources
+- HIFLD Hospitals for hospitals.
+- OpenStreetMap/Overpass for urgent care, clinics, doctors, dental, pharmacy, and related healthcare points.
 
-
-## v2.6.4 - ACS 2020-2024 Demographics
-- Updated demographics dataset to 2024 ACS 5-Year / ACS 2020-2024 current estimates.
-- Updated sidebar and legend labeling to avoid implying a single-year Census count.
-- Retained current-demographics-only display; forecast remains hidden pending calibrated model.
+## Notes
+This is a facility-count and access layer, not a healthcare quality score. A later version can add a Healthcare Access Score after the facility data is reviewed.

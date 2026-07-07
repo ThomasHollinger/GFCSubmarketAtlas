@@ -3,12 +3,16 @@ const state = {
   submarketLayer: null,
   schoolLayer: null,
   poiLayer: null,
+  healthcareLayer: null,
   selected: null,
   features: [],
   schools: [],
   schoolsLoaded: false,
   pois: [],
   poisLoaded: false,
+  healthcare: [],
+  healthcareLoaded: false,
+  healthcareSummary: null,
   demographics: null,
   demographicsLoaded: false,
   basemaps: {},
@@ -494,13 +498,139 @@ function selectPOI(poi) {
   if (target) target.openPopup();
 }
 
+
+function healthcareIcon(type) {
+  const t = String(type || '').toLowerCase();
+  const cls = t.includes('hospital') ? 'health-hospital' : t.includes('urgent') ? 'health-urgent' : t.includes('pharmacy') ? 'health-pharmacy' : 'health-clinic';
+  const label = t.includes('hospital') ? 'H' : t.includes('urgent') ? 'U' : t.includes('pharmacy') ? 'P' : 'C';
+  return L.divIcon({ className: '', html: `<div class="health-marker ${cls}">${label}</div>`, iconSize: [20,20], iconAnchor: [10,10], popupAnchor: [0,-10] });
+}
+
+function emptyHealthcareSummary() {
+  return { total: 0, hospitals: 0, urgent_care: 0, clinics: 0, pharmacies: 0, other: 0, density: 0, nearest_hospital_name: '', nearest_hospital_mi: null, facilities: [] };
+}
+
+function healthcareSummaryForSubmarket(submarketID, areaSqMi) {
+  const byId = (state.healthcareSummary && state.healthcareSummary.submarkets) || {};
+  const summary = byId[submarketID] || emptyHealthcareSummary();
+  if (summary.density === undefined) summary.density = areaSqMi ? summary.total / Number(areaSqMi) : 0;
+  return summary;
+}
+
+function healthcareSummaryForFeatures(features) {
+  const ids = new Set(features.map(f => f.properties.SubmarketID));
+  const area = features.reduce((sum, f) => sum + Number(f.properties.AreaSqMi || 0), 0);
+  const out = emptyHealthcareSummary();
+  const hospitalDistances = [];
+  features.forEach(f => {
+    const s = healthcareSummaryForSubmarket(f.properties.SubmarketID, f.properties.AreaSqMi);
+    out.total += Number(s.total || 0);
+    out.hospitals += Number(s.hospitals || 0);
+    out.urgent_care += Number(s.urgent_care || 0);
+    out.clinics += Number(s.clinics || 0);
+    out.pharmacies += Number(s.pharmacies || 0);
+    out.other += Number(s.other || 0);
+    if (s.nearest_hospital_mi !== null && s.nearest_hospital_mi !== undefined) hospitalDistances.push({ name: s.nearest_hospital_name, mi: Number(s.nearest_hospital_mi) });
+    if (Array.isArray(s.facilities)) out.facilities.push(...s.facilities);
+  });
+  out.density = area ? out.total / area : 0;
+  hospitalDistances.sort((a,b) => a.mi - b.mi);
+  if (hospitalDistances.length) {
+    out.nearest_hospital_name = hospitalDistances[0].name;
+    out.nearest_hospital_mi = hospitalDistances[0].mi;
+  }
+  return out;
+}
+
+function colorForHealthcareDensity(density) {
+  if (density === null || density === undefined || Number.isNaN(Number(density)) || density <= 0) return '#e5e7eb';
+  if (density >= 1.2) return '#7f1d1d';
+  if (density >= 0.6) return '#dc2626';
+  if (density >= 0.25) return '#f87171';
+  return '#fecaca';
+}
+
+function healthcareDatasetBuilt() {
+  return !!(state.healthcareSummary && state.healthcareSummary.metadata && state.healthcareSummary.metadata.status === 'built');
+}
+
+function renderHealthcareCard(summary) {
+  if (!healthcareDatasetBuilt()) return `<div class="healthcare-card"><b>Healthcare Facilities</b><br>Healthcare data has not been built yet. Run the Healthcare builder action to generate the facility dataset.</div>`;
+  summary = summary || emptyHealthcareSummary();
+  const nearest = summary.nearest_hospital_name ? `${summary.nearest_hospital_name}${summary.nearest_hospital_mi !== null && summary.nearest_hospital_mi !== undefined ? ' • ' + Number(summary.nearest_hospital_mi).toFixed(1) + ' mi' : ''}` : 'N/A';
+  const list = summary.facilities && summary.facilities.length ? `
+    <details class="healthcare-used">
+      <summary>Facilities in boundary</summary>
+      ${summary.facilities.slice(0, 30).map(f => `<div class="healthcare-used-row"><span>${f.name}</span><b>${f.type}</b></div>`).join('')}
+      ${summary.facilities.length > 30 ? `<div class="healthcare-used-note">Showing first 30 of ${summary.facilities.length.toLocaleString()} facilities.</div>` : ''}
+    </details>` : `<div class="healthcare-used-note">No healthcare facilities are physically located inside this boundary.</div>`;
+  return `<div class="healthcare-card">
+    <div class="healthcare-head"><b>Healthcare Facilities</b><span>${summary.total.toLocaleString()} facilities</span></div>
+    <div class="healthcare-grid">
+      <div><span>Hospitals</span><b>${summary.hospitals.toLocaleString()}</b></div>
+      <div><span>Urgent Care</span><b>${summary.urgent_care.toLocaleString()}</b></div>
+      <div><span>Clinics / Offices</span><b>${summary.clinics.toLocaleString()}</b></div>
+      <div><span>Pharmacies</span><b>${summary.pharmacies.toLocaleString()}</b></div>
+    </div>
+    <div class="healthcare-nearest"><span>Nearest Hospital</span><b>${nearest}</b></div>
+    ${list}
+  </div>`;
+}
+
+async function loadHealthcare(showLayer = false) {
+  if (!state.healthcareLoaded) {
+    const badge = document.getElementById('healthcareCountBadge');
+    if (badge) badge.textContent = 'Loading...';
+    if (!state.healthcareSummary || !Array.isArray(state.healthcare)) {
+      try {
+        const [facilities, summary] = await Promise.all([
+          fetch('data/healthcare_facilities.geojson').then(r => r.json()),
+          fetch('data/submarket_healthcare_summary.json').then(r => r.json())
+        ]);
+        state.healthcare = facilities.features || [];
+        state.healthcareSummary = summary;
+      } catch (err) {
+        console.warn('Healthcare files not available yet', err);
+        state.healthcare = [];
+        state.healthcareSummary = { metadata: { status: 'not_built' }, submarkets: {} };
+      }
+    }
+    state.healthcareLayer = L.geoJSON({ type: 'FeatureCollection', features: state.healthcare }, {
+      pointToLayer: (feature, latlng) => L.marker(latlng, { icon: healthcareIcon(feature.properties.FacilityType) }),
+      onEachFeature: (feature, layer) => {
+        const p = feature.properties || {};
+        layer.bindPopup(`<div class="healthcare-popup"><h3>${p.Name || 'Healthcare Facility'}</h3><p><b>Type:</b> ${p.FacilityType || ''}</p><p><b>Address:</b> ${p.Address || '—'}</p><p><b>City:</b> ${p.City || ''} ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> ${p.Source || ''}</p></div>`);
+        layer.on('click', () => selectHealthcare(feature));
+      }
+    });
+    state.healthcareLoaded = true;
+    if (badge) badge.textContent = state.healthcare.length ? `${state.healthcare.length.toLocaleString()} loaded` : 'No data';
+    buildSearchIndex();
+    renderSearchResults(document.getElementById('searchInput').value || '');
+    renderRelease(state.metadata);
+  }
+  if (showLayer && state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
+function selectHealthcare(facility) {
+  if (state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
+  const toggle = document.getElementById('toggleHealthcare');
+  if (toggle) toggle.checked = true;
+  let target = null;
+  state.healthcareLayer.eachLayer(layer => {
+    if (layer.feature && layer.feature.properties.HealthcareID === facility.properties.HealthcareID) target = layer;
+  });
+  if (target) target.openPopup();
+}
+
 function styleFeature(feature) {
   const p = feature.properties;
   const selected = state.selected && state.selected.properties.SubmarketID === p.SubmarketID;
   return {
     color: selected ? '#061827' : '#26384f',
     weight: selected ? 3.5 : 1.4,
-    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (state.mapTheme === 'retail' ? colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'income' ? colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income) : (state.mapTheme === 'popgrowth' ? colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct) : (state.mapTheme === 'population' ? colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population) : (p.HubColor || p.HubBaseColor || '#8ea0ad'))))),
+    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (state.mapTheme === 'retail' ? colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'healthcare' ? colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'income' ? colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income) : (state.mapTheme === 'popgrowth' ? colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct) : (state.mapTheme === 'population' ? colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population) : (p.HubColor || p.HubBaseColor || '#8ea0ad')))))),
     fillOpacity: selected ? 0.72 : 0.48
   };
 }
@@ -515,6 +645,11 @@ function legendHtml() {
   if (state.mapTheme === 'retail') {
     return `<b>Retail Density</b><div class="legend-subtitle">POIs per sq mi</div>` + [
       ['#0f766e','Very High','4.0+'], ['#14b8a6','High','2.0-3.9'], ['#5eead4','Moderate','1.0-1.9'], ['#ccfbf1','Low','0.1-0.9'], ['#e5e7eb','None','0']
+    ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
+  }
+  if (state.mapTheme === 'healthcare') {
+    return `<b>Healthcare Access</b><div class="legend-subtitle">Facilities per sq mi</div>` + [
+      ['#7f1d1d','Very High','1.2+'], ['#dc2626','High','0.6-1.19'], ['#f87171','Moderate','0.25-0.59'], ['#fecaca','Low','0.01-0.24'], ['#e5e7eb','None','0']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'income') {
@@ -575,16 +710,23 @@ function initMap() {
 }
 
 async function loadData() {
-  const [geojson, meta, demographics] = await Promise.all([
+  const [geojson, meta, demographics, healthcareFacilities, healthcareSummary] = await Promise.all([
     fetch('data/submarkets.geojson').then(r => r.json()),
     fetch('data/metadata.json').then(r => r.json()),
-    fetch('data/submarket_demographics_combined.json').then(r => r.json())
+    fetch('data/submarket_demographics_combined.json').then(r => r.json()),
+    fetch('data/healthcare_facilities.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/submarket_healthcare_summary.json').then(r => r.json()).catch(() => ({ metadata: { status: 'not_built' }, submarkets: {} }))
   ]);
 
   state.features = geojson.features;
   state.metadata = meta;
   state.demographics = demographics;
   state.demographicsLoaded = true;
+  state.healthcare = healthcareFacilities.features || [];
+  state.healthcareSummary = healthcareSummary;
+  // healthcareLoaded tracks whether the Leaflet marker layer has been constructed.
+  // healthcareDatasetBuilt() tracks whether the static data files have real records.
+  state.healthcareLoaded = false;
   buildSearchIndex();
   renderRelease(meta);
   renderHubList(meta);
@@ -615,9 +757,10 @@ function renderRelease(meta) {
     Health score: <b>${meta.healthScore}/100</b><br>
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
     Demographics: <b>${state.demographicsLoaded ? 'ACS 2020-2024 loaded' : 'Pending'}</b><br>
+    Healthcare: <b>${healthcareDatasetBuilt() ? state.healthcare.length + ' loaded' : 'Builder ready'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
   `;
-  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School and demographics data ready`;
+  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, and healthcare framework ready`;
 }
 
 function renderHubList(meta) {
@@ -693,6 +836,7 @@ function renderHubSummary(hub) {
   const counts = schoolCountsFor(items);
   const scoreSummary = scoreSummaryForFeatures(items);
   const retail = retailSummaryForFeatures(items);
+  const healthcare = healthcareSummaryForFeatures(items);
   const demo = aggregateDemographics(items);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
@@ -706,6 +850,7 @@ function renderHubSummary(hub) {
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
+    ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
     <div class="focus-list">
       ${items.map(f => `<div class="focus-row"><span>${f.properties.DisplayName}</span><b>${f.properties.SubmarketID}</b></div>`).join('')}
@@ -718,6 +863,7 @@ function renderHomeSummary() {
   const counts = schoolCountsFor(state.features);
   const scoreSummary = scoreSummaryForFeatures(state.features);
   const retail = retailSummaryForFeatures(state.features);
+  const healthcare = healthcareSummaryForFeatures(state.features);
   const demo = aggregateDemographics(state.features);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
@@ -731,6 +877,7 @@ function renderHomeSummary() {
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
+    ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
@@ -765,6 +912,18 @@ function buildSearchIndex() {
       school
     };
   });
+  const healthcare = state.healthcare.map(facility => {
+    const p = facility.properties || {};
+    return {
+      type: 'Healthcare',
+      icon: (p.FacilityType || '').includes('Hospital') ? 'H' : ((p.FacilityType || '').includes('Urgent') ? 'U' : 'C'),
+      id: p.HealthcareID,
+      title: p.Name || 'Healthcare Facility',
+      subtitle: `${p.FacilityType || 'Healthcare'} • ${p.SubmarketName || ''}`,
+      keywords: `${p.Name || ''} ${p.FacilityType || ''} ${p.Address || ''} ${p.City || ''} ${p.SubmarketName || ''}`.toLowerCase(),
+      facility
+    };
+  });
   const pois = state.pois.map(poi => {
     const p = poi.properties;
     return {
@@ -777,7 +936,7 @@ function buildSearchIndex() {
       poi
     };
   });
-  state.searchIndex = submarkets.concat(schools).concat(pois);
+  state.searchIndex = submarkets.concat(schools).concat(healthcare).concat(pois);
 }
 
 function selectFeature(feature, layer) {
@@ -804,6 +963,7 @@ function renderSelected(p) {
   const counts = summarizeSchools(schools);
   const scoreSummary = scoreSummaryForSubmarket(p.DisplayName);
   const retail = retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi);
+  const healthcare = healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi);
   const demo = demoForSubmarket(p.DisplayName);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
@@ -817,10 +977,12 @@ function renderSelected(p) {
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
+    ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>School Rating</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
+      <div class="focus-row"><span>Healthcare</span><b>${healthcareDatasetBuilt() ? 'Loaded' : 'Builder Ready'}</b></div>
       <div class="focus-row"><span>Retail & Dining</span><b>${state.poisLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Demographics</span><b>${demo ? 'Loaded' : 'No Data'}</b></div>
       <div class="focus-row"><span>Builder Competition</span><b>Pending</b></div>
@@ -867,7 +1029,8 @@ function renderSearchResults(query) {
       const item = state.searchIndex.find(x => x.type === btn.dataset.type && String(x.id) === btn.dataset.id);
       if (!item) return;
       if (item.type === 'School') selectSchool(item.school);
-      if (item.type === 'POI') selectPOI(item.poi);
+      else if (item.type === 'POI') selectPOI(item.poi);
+      else if (item.type === 'Healthcare') selectHealthcare(item.facility);
       else selectFeature(item.feature, findLayerForFeature(item.feature));
     });
   });
@@ -880,7 +1043,8 @@ function performSearch() {
   if (!results.length) return alert('No matching result found.');
   const first = results[0];
   if (first.type === 'School') selectSchool(first.school);
-  if (first.type === 'POI') selectPOI(first.poi);
+  else if (first.type === 'POI') selectPOI(first.poi);
+  else if (first.type === 'Healthcare') selectHealthcare(first.facility);
   else selectFeature(first.feature, findLayerForFeature(first.feature));
 }
 
@@ -1073,6 +1237,25 @@ function bindUI() {
       e.target.checked = false;
       document.getElementById('retailCountBadge').textContent = 'Error';
       alert('Retail & Dining could not be loaded from OpenStreetMap right now. Try again later.');
+    }
+  });
+  document.getElementById('toggleHealthcare').addEventListener('change', async e => {
+    try {
+      if (e.target.checked) {
+        await loadHealthcare(true);
+        if (state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
+        document.getElementById('mapThemeSelect').value = 'healthcare';
+        setMapTheme('healthcare');
+      } else if (state.healthcareLayer) {
+        state.map.removeLayer(state.healthcareLayer);
+        document.getElementById('mapThemeSelect').value = 'hub';
+        setMapTheme('hub');
+      }
+    } catch (err) {
+      console.error(err);
+      e.target.checked = false;
+      document.getElementById('healthcareCountBadge').textContent = 'Error';
+      alert('Healthcare facilities could not be loaded. Run the Healthcare builder or try again later.');
     }
   });
   const demoToggle = document.getElementById('toggleDemographics');
