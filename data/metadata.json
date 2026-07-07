@@ -1,12 +1,12 @@
 {
-  "version": "2.6.0",
+  "version": "2.6.2",
   "releaseDate": "2026-07-07",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 65,
   "boundaries": "Verified",
-  "schools": "Live NCES layer enabled",
+  "schools": "School ratings load in background; map pins remain optional",
   "demographics": "Precomputed ACS 5-Year block-group estimates with 5-year forecast",
   "builders": "Pending",
-  "notes": "Demographics release: adds precomputed ACS/TIGER block-group demographics area-weighted to custom KML boundaries.",
+  "notes": "Demographics current ACS estimates plus always-on sidebar school rating summaries.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered"
 }

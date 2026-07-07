@@ -665,7 +665,7 @@ function summarizeSchools(schools) {
 
 function renderSchoolCountCard(counts, scoreSummary = null) {
   if (!scoreSummary) {
-    if (!state.schoolsLoaded) return `<div class="school-count-card"><b>Schools</b><br>Turn on the Schools layer to load public school points.</div>`;
+    if (!state.schoolsLoaded) return `<div class="school-count-card"><b>Schools</b><br>School data is loading in the background. Map pins remain off until the Schools layer is turned on.</div>`;
     return `<div class="school-count-card"><b>Public Schools</b><br>${counts.total} total • ${counts.Elementary} elem • ${counts.Middle} middle • ${counts.High} high</div>`;
   }
   const usedList = scoreSummary.rows && scoreSummary.rows.length ? `
@@ -673,7 +673,7 @@ function renderSchoolCountCard(counts, scoreSummary = null) {
       <summary>Schools used in calculation</summary>
       ${scoreSummary.rows.slice().sort((a,b)=>a.SchoolName.localeCompare(b.SchoolName)).map(r => `<div class="school-used-row"><span>${r.SchoolName}</span><b>${r.Rating}/10</b></div>`).join('')}
     </details>` : `
-    <div class="school-used-note">Turn on Schools to calculate ratings from school locations. Unrated schools are ignored.</div>`;
+    <div class="school-used-note">No rated schools are physically located inside this boundary. Unrated schools are ignored.</div>`;
   return `<div class="school-score-card">
     <div class="score-head"><b>School Rating</b><span class="score-grade grade-${gradeForScore(scoreSummary.overall)}">${gradeForScore(scoreSummary.overall)}</span></div>
     <div class="overall-score"><span>${fmtScore(scoreSummary.overall)}</span><small>/10 Overall • ${scoreSummary.count} rated schools</small></div>
@@ -952,8 +952,11 @@ function bboxForSubmarkets() {
   return [Math.min(...xs)-0.15, Math.min(...ys)-0.15, Math.max(...xs)+0.15, Math.max(...ys)+0.15];
 }
 
-async function loadSchools() {
-  if (state.schoolsLoaded) return;
+async function loadSchools(showLayer = false) {
+  if (state.schoolsLoaded) {
+    if (showLayer && state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
+    return;
+  }
   document.getElementById('schoolCountBadge').textContent = 'Loading...';
   const bbox = bboxForSubmarkets();
   const params = new URLSearchParams({
@@ -989,12 +992,14 @@ async function loadSchools() {
       layer.on('click', () => selectSchool(feature, false));
       layer.on('dblclick', () => selectSchool(feature, true));
     }
-  }).addTo(state.map);
+  });
+  if (showLayer) state.schoolLayer.addTo(state.map);
   state.schoolsLoaded = true;
   buildSearchIndex();
   renderSearchResults(document.getElementById('searchInput').value || '');
   document.getElementById('schoolCountBadge').textContent = `${state.schools.length} loaded`;
   renderRelease(state.metadata);
+  if (state.mapTheme === 'schools' && state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
@@ -1034,7 +1039,7 @@ function bindUI() {
   document.getElementById('toggleSchools').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
-        await loadSchools();
+        await loadSchools(true);
         if (state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
         document.getElementById('mapThemeSelect').value = 'schools';
         setMapTheme('schools');
@@ -1090,7 +1095,16 @@ function bindUI() {
 
 initMap();
 bindUI();
-loadData().catch(err => {
-  console.error(err);
-  document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
-});
+loadData()
+  .then(() => {
+    // Load school data in the background so sidebar ratings are available
+    // without turning on the Schools map layer or School Rating map theme.
+    loadSchools(false).catch(err => {
+      console.error('Background school data load failed', err);
+      document.getElementById('schoolCountBadge').textContent = 'Unavailable';
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+  });
