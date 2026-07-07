@@ -15,3 +15,15 @@
 .poi-restaurant{background:#e76f51}.poi-grocery{background:#2a9d8f}.poi-convenience{background:#f4a261}.poi-shopping{background:#7c3aed}.poi-retail{background:#0ea5e9}
 .poi-popup h3{margin:0 0 6px;font-size:15px;color:#0f2437}.poi-popup p{margin:3px 0;font-size:12px}
 .retail-card{background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px;padding:12px;margin-top:10px;color:#0f2437;font-size:12px}.retail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.retail-head span{font-size:11px;color:#0f766e;font-weight:900}.retail-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.retail-grid div{background:#fff;border:1px solid #ccfbf1;border-radius:9px;padding:7px;text-align:center}.retail-grid span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#667085;font-weight:900}.retail-grid b{display:block;font-size:16px;margin-top:2px;color:#0f2437}
+
+/* Demographics module */
+.demo-card{background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;padding:12px;margin-top:10px;color:#0f2437;font-size:12px}
+.demo-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
+.demo-head span{font-size:10px;color:#475569;font-weight:900;text-transform:uppercase;letter-spacing:.04em;text-align:right}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.demo-grid div{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:7px;text-align:center}
+.demo-grid span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#667085;font-weight:900}
+.demo-grid b{display:block;font-size:15px;margin-top:2px;color:#0f2437}
+.demo-grid small{display:block;font-size:10px;color:#64748b;margin-top:2px}
+.demo-note{font-size:10.5px;color:#64748b;margin-top:8px;line-height:1.35}
+.check span#demographicsCountBadge{background:#eef2ff;color:#3730a3}

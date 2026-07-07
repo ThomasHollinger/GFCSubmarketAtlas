@@ -1,13 +1,10 @@
-# Gulf Coast Demographics GitHub Action v6
+# Gulf Coast Submarket Atlas v2.6.0
 
-This patch fixes the false API-key failure in v5.
+Adds precomputed demographics using ACS 5-Year block-group data area-weighted to the custom KML submarket boundaries.
 
-The v5 workflow validated the key using a single tract/block group request:
-`state:01 county:003 tract:010700`. Census returned HTTP 204 because that test geography may not exist in the selected ACS release. V6 validates using a broad Baldwin County request instead.
+Included outputs:
+- Current demographics
+- 5-year forecast values
+- Audit CSV from the demographics builder
 
-Replace these files in the repository:
-
-- `.github/workflows/build-demographics.yml`
-- `scripts/build_demographics.py`
-
-Then run **Actions > Build Demographics Dataset > Run workflow**.
+The web atlas loads a static `data/submarket_demographics_combined.json` file, so the browser no longer calls Census directly.

@@ -1,8 +1,10 @@
 # Changelog
 
-## v2.5.2
-- Hotfix: restored map load by fixing undefined demographics reference in home and hub summaries.
-- Demographics now remains optional until loaded; selected submarkets show demographics after the Census engine finishes.
+## v2.6.0 - Demographics
 
-## v2.5.1
-- Added Census-based demographics engine.
+- Added static precomputed demographics file from the GitHub demographics builder.
+- Added current ACS 5-Year demographics to Market Summary.
+- Added 5-Year Forecast values to Demographics cards.
+- Added map themes for Median Income, Population Growth, and Population.
+- Restored stable offline app behavior: no live Census calls in browser.
+- Included demographics audit and metadata files in `/data`.

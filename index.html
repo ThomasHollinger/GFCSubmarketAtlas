@@ -27,7 +27,7 @@
             <div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div>
             <div><span class="dot partial"></span><span>Schools</span><b>Layer Ready</b></div>
             <div><span class="dot partial"></span><span>Retail & Dining</span><b>Layer Ready</b></div>
-            <div><span class="dot pending"></span><span>Demographics</span><b>Pending</b></div>
+            <div><span class="dot good"></span><span>Demographics</span><b>Loaded</b></div>
             <div><span class="dot pending"></span><span>Builders</span><b>Pending</b></div>
           </div>
         </div>
@@ -51,17 +51,18 @@
           <option value="schools">School Score Heat Map</option>
           <option value="retail">Retail Density</option>
           <option value="income">Median Income</option>
-          <option value="growth">Population Growth</option>
+          <option value="popgrowth">Population Growth</option>
+          <option value="population">Population</option>
         </select>
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
         <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
         <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
-        <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demoCountBadge">Load Layer</span></label>
+        <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
         <label class="check disabled"><input type="checkbox" disabled> Builders <span>Coming Soon</span></label>
       </section>
 
       <section class="control-block hubs-block">
-        <h2>Submarket Hubs</h2>
+        <h2>Hubs</h2>
         <div id="hubList" class="hub-list"></div>
       </section>
 
@@ -98,7 +99,6 @@
     </main>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
