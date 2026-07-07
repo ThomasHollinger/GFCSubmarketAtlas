@@ -27,3 +27,5 @@
 .demo-grid small{display:block;font-size:10px;color:#64748b;margin-top:2px}
 .demo-note{font-size:10.5px;color:#64748b;margin-top:8px;line-height:1.35}
 .check span#demographicsCountBadge{background:#eef2ff;color:#3730a3}
+.hubs-inline{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.atlas-search-panel{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}

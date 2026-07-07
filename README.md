@@ -1,3 +1,7 @@
+# Gulf Coast Submarket Atlas v2.6.3
+
+This release reorders the sidebar: Market Summary, Market Data, Atlas Health with Search, then About. It keeps the v2.6.2 school sidebar behavior and current ACS demographics.
+
 # Gulf Coast Submarket Atlas v2.6.2
 
 This release keeps current ACS demographics and updates School Rating behavior so ratings appear in the sidebar without requiring the Schools map layer to be enabled.

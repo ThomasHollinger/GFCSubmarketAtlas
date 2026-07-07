@@ -19,27 +19,11 @@
         </div>
       </div>
 
-      <section class="control-block health-block">
-        <h2>Atlas Health</h2>
-        <div class="health-layout">
-          <div class="health-ring"><span>25</span><small>/100</small></div>
-          <div class="health-list">
-            <div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div>
-            <div><span class="dot partial"></span><span>Schools</span><b>Layer Ready</b></div>
-            <div><span class="dot partial"></span><span>Retail & Dining</span><b>Layer Ready</b></div>
-            <div><span class="dot good"></span><span>Demographics</span><b>Loaded</b></div>
-            <div><span class="dot pending"></span><span>Builders</span><b>Pending</b></div>
-          </div>
-        </div>
-      </section>
-
       <section class="control-block">
-        <label for="searchInput">Search Atlas</label>
-        <div class="search-row">
-          <input id="searchInput" type="search" placeholder="Search submarket, SM-##, school, city...">
-          <button id="searchBtn" aria-label="Search">Go</button>
+        <h2>Market Summary</h2>
+        <div id="selectedPanel" class="selected-panel empty">
+          <p>Click a submarket on the map or use search.</p>
         </div>
-        <div id="searchResults" class="search-results"></div>
       </section>
 
       <section class="control-block">
@@ -58,17 +42,32 @@
         <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
         <label class="check disabled"><input type="checkbox" disabled> Builders <span>Coming Soon</span></label>
+
+        <div class="hubs-inline">
+          <h2>Hubs</h2>
+          <div id="hubList" class="hub-list"></div>
+        </div>
       </section>
 
-      <section class="control-block hubs-block">
-        <h2>Hubs</h2>
-        <div id="hubList" class="hub-list"></div>
-      </section>
-
-      <section class="control-block">
-        <h2>Market Summary</h2>
-        <div id="selectedPanel" class="selected-panel empty">
-          <p>Click a submarket on the map or use search.</p>
+      <section class="control-block health-block">
+        <h2>Atlas Health</h2>
+        <div class="health-layout">
+          <div class="health-ring"><span>25</span><small>/100</small></div>
+          <div class="health-list">
+            <div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div>
+            <div><span class="dot partial"></span><span>Schools</span><b>Layer Ready</b></div>
+            <div><span class="dot partial"></span><span>Retail & Dining</span><b>Layer Ready</b></div>
+            <div><span class="dot good"></span><span>Demographics</span><b>Loaded</b></div>
+            <div><span class="dot pending"></span><span>Builders</span><b>Pending</b></div>
+          </div>
+        </div>
+        <div class="atlas-search-panel">
+          <label for="searchInput">Search Atlas</label>
+          <div class="search-row">
+            <input id="searchInput" type="search" placeholder="Search submarket, SM-##, school, city...">
+            <button id="searchBtn" aria-label="Search">Go</button>
+          </div>
+          <div id="searchResults" class="search-results"></div>
         </div>
       </section>
 
