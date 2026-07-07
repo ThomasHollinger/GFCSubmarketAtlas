@@ -202,9 +202,9 @@ def load_tiger_block_groups(year: int, states: Iterable[str], cache_dir: Path) -
 def census_get_json(url: str, params: Dict[str, str], retries: int = 5) -> list:
     """Fetch JSON from Census.
 
-    The Census API redirects to /data/missing_key.html when a blank/invalid key
-    is passed. This function detects that case, removes the key parameter, and
-    retries keyless before failing.
+    The Census API redirects to /data/missing_key.html or /data/invalid_key.html
+    when a blank/invalid key is passed. This function detects that case, removes
+    the key parameter, and retries keyless before failing.
     """
     request_params = dict(params)
     if request_params.get("key", "").strip() == "":
@@ -213,13 +213,25 @@ def census_get_json(url: str, params: Dict[str, str], retries: int = 5) -> list:
     for attempt in range(1, retries + 1):
         try:
             r = requests.get(url, params=request_params, timeout=90)
-            if "missing_key" in str(r.url).lower() or "<title>missing key</title>" in r.text.lower():
+            bad_key_response = (
+                "missing_key" in str(r.url).lower()
+                or "invalid_key" in str(r.url).lower()
+                or "<title>missing key</title>" in r.text.lower()
+                or "<title>invalid key</title>" in r.text.lower()
+            )
+            if bad_key_response:
                 if "key" in request_params:
                     log("Census rejected the API key parameter. Retrying without a key.")
                     request_params.pop("key", None)
                     r = requests.get(url, params=request_params, timeout=90)
-                if "missing_key" in str(r.url).lower() or "<title>missing key</title>" in r.text.lower():
-                    raise RuntimeError("Census API requires a valid API key for this request. Add a repo secret named CENSUS_API_KEY and rerun the workflow.")
+                    bad_key_response = (
+                        "missing_key" in str(r.url).lower()
+                        or "invalid_key" in str(r.url).lower()
+                        or "<title>missing key</title>" in r.text.lower()
+                        or "<title>invalid key</title>" in r.text.lower()
+                    )
+                if bad_key_response:
+                    raise RuntimeError("Census API rejected the API request because no valid key was accepted. Confirm the repo secret CENSUS_API_KEY exactly matches the activated Census key, or rerun after removing the bad secret so the script can try keyless requests.")
             if r.status_code != 200:
                 raise RuntimeError(f"HTTP {r.status_code}. URL: {r.url}. Response: {r.text[:800]}")
             try:
@@ -234,6 +246,36 @@ def census_get_json(url: str, params: Dict[str, str], retries: int = 5) -> list:
                 time.sleep(8 * attempt)
     raise RuntimeError(f"Census API request failed after {retries} attempts: {last_err}")
 
+
+
+def validate_census_key_or_fail() -> None:
+    """Validate Census API key before the long TIGER/intersection work starts."""
+    api_key = os.getenv("CENSUS_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError(
+            "CENSUS_API_KEY is missing. Add it in GitHub under Settings > Secrets and variables > Actions. "
+            "Name the secret exactly CENSUS_API_KEY. Do not put the key in the public repository."
+        )
+    log(f"Census API key detected. Length: {len(api_key)} characters. Validating before long build...")
+    test_url = f"https://api.census.gov/data/{CURRENT_YEAR}/acs/acs5"
+    test_params = {
+        "get": "NAME,B01003_001E",
+        "for": "block group:*",
+        "in": "state:01 county:003 tract:010700",
+        "key": api_key,
+    }
+    try:
+        data = census_get_json(test_url, test_params, retries=2)
+    except Exception as exc:
+        raise RuntimeError(
+            "Census API key validation failed before the full build. "
+            "Re-enter the activated key as the GitHub Actions secret CENSUS_API_KEY. "
+            "Common issues: extra spaces, copying the wrong field from the email, or not clicking the activation link. "
+            f"Underlying error: {exc}"
+        ) from exc
+    if not isinstance(data, list) or len(data) < 2:
+        raise RuntimeError("Census API key validation returned no data. Check the key and try again.")
+    log("Census API key validated successfully.")
 
 def fetch_acs_for_counties(year: int, counties: pd.DataFrame) -> pd.DataFrame:
     base_url = f"https://api.census.gov/data/{year}/acs/acs5"
@@ -484,6 +526,8 @@ def main() -> int:
     cache_dir = Path(args.cache_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     cache_dir.mkdir(parents=True, exist_ok=True)
+
+    validate_census_key_or_fail()
 
     submarkets = read_kml_boundaries(kml_path)
     bg_current = load_tiger_block_groups(CURRENT_YEAR, STATES.keys(), cache_dir)
