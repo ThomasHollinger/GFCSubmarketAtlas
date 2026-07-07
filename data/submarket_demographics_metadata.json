@@ -1,8 +1,8 @@
 {
   "source": "U.S. Census ACS 5-Year block-group data with TIGER block-group geometry",
-  "current_year": 2023,
-  "prior_year": 2018,
-  "forecast_year": 2028,
+  "current_year": 2024,
+  "prior_year": 2019,
+  "forecast_year": 2029,
   "forecast_label": "5-Year Forecast",
   "forecast_method": "Repeats the observed prior-to-current five-year change/growth once more. Current values are ACS-derived; forecast values are model-based, not official Census projections.",
   "allocation_method": "Area-weighted overlap between Census block groups and custom KML submarket polygons using EPSG:5070 area calculations."

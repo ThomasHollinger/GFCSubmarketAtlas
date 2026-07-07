@@ -1,19 +1,19 @@
-# Gulf Coast Demographics Builder - GitHub Action v7
+# Gulf Coast Submarket Atlas v2.6.3
 
-This version updates the current demographic source to **2024 ACS 5-Year** / **ACS 2020-2024 current estimates**.
+This release reorders the sidebar: Market Summary, Market Data, Atlas Health with Search, then About. It keeps the v2.6.2 school sidebar behavior and current ACS demographics.
 
-It keeps the same GitHub Actions workflow/output structure as v6. Replace the workflow and script files in the repo, rerun the Build Demographics Dataset workflow, then download the generated artifact.
+# Gulf Coast Submarket Atlas v2.6.2
 
-# Gulf Coast Demographics GitHub Action v6
+This release keeps current ACS demographics and updates School Rating behavior so ratings appear in the sidebar without requiring the Schools map layer to be enabled.
 
-This patch fixes the false API-key failure in v5.
+# Gulf Coast Submarket Atlas v2.6.1
 
-The v5 workflow validated the key using a single tract/block group request:
-`state:01 county:003 tract:010700`. Census returned HTTP 204 because that test geography may not exist in the selected ACS release. V6 validates using a broad Baldwin County request instead.
+Static GitHub Pages atlas with Enterprise submarkets, schools, retail/dining, and current ACS demographics.
 
-Replace these files in the repository:
+Demographics are precomputed from Census ACS block-group data area-weighted to the custom KML submarket boundaries. Experimental 5-year forecasts are retained in the data export for review but are not displayed in the atlas until a calibrated forecast model is approved.
 
-- `.github/workflows/build-demographics.yml`
-- `scripts/build_demographics.py`
 
-Then run **Actions > Build Demographics Dataset > Run workflow**.
+## v2.6.4 - ACS 2020-2024 Demographics
+- Updated demographics dataset to 2024 ACS 5-Year / ACS 2020-2024 current estimates.
+- Updated sidebar and legend labeling to avoid implying a single-year Census count.
+- Retained current-demographics-only display; forecast remains hidden pending calibrated model.

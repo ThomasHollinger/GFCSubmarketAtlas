@@ -302,7 +302,7 @@ function renderDemographicsCard(demo) {
   if (!demo) return `<div class="demo-card"><b>Demographics</b><br>No Census overlap record found for this submarket.</div>`;
   const c = demo.current || {};
   return `<div class="demo-card">
-    <div class="demo-head"><b>Demographics</b><span>ACS ${state.demographics?.metadata?.current_year || 2023} Current</span></div>
+    <div class="demo-head"><b>Demographics</b><span>ACS 2020-2024 Current Estimate</span></div>
     <div class="demo-grid">
       <div><span>Population</span><b>${fmt(c.population)}</b><small>current estimate</small></div>
       <div><span>Households</span><b>${fmt(c.households)}</b><small>current estimate</small></div>
@@ -311,7 +311,7 @@ function renderDemographicsCard(demo) {
       <div><span>Owner Occupancy</span><b>${fmtPct(c.owner_occupancy_pct)}</b><small>current estimate</small></div>
       <div><span>Bachelor's+</span><b>${fmtPct(c.bachelors_plus_pct)}</b><small>current estimate</small></div>
     </div>
-    <div class="demo-note">Current values are ACS 5-Year block-group estimates area-weighted to custom KML boundaries. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
+    <div class="demo-note">Current values use ACS 2020-2024 5-Year block-group estimates area-weighted to custom KML boundaries. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
   </div>`;
 }
 
@@ -518,7 +518,7 @@ function legendHtml() {
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'income') {
-    return `<b>Median Income</b><div class="legend-subtitle">Current ACS 5-Year</div>` + [
+    return `<b>Median Income</b><div class="legend-subtitle">ACS 2020-2024 Current Estimate</div>` + [
       ['#064e3b','$100k+','Very High'], ['#047857','$85k-$99k','High'], ['#10b981','$70k-$84k','Strong'], ['#a7f3d0','$55k-$69k','Moderate'], ['#d1fae5','<$55k','Lower'], ['#e5e7eb','N/A','No data']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
@@ -528,7 +528,7 @@ function legendHtml() {
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'population') {
-    return `<b>Population</b><div class="legend-subtitle">Current ACS 5-Year</div>` + [
+    return `<b>Population</b><div class="legend-subtitle">ACS 2020-2024 Current Estimate</div>` + [
       ['#1e3a8a','100k+','Very High'], ['#2563eb','60k-99k','High'], ['#60a5fa','30k-59k','Moderate'], ['#bfdbfe','10k-29k','Low'], ['#dbeafe','<10k','Very Low'], ['#e5e7eb','N/A','No data']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
@@ -614,7 +614,7 @@ function renderRelease(meta) {
     Submarkets loaded: <b>${meta.uniqueSubmarketsLoaded}</b><br>
     Health score: <b>${meta.healthScore}/100</b><br>
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
-    Demographics: <b>${state.demographicsLoaded ? 'Precomputed ACS loaded' : 'Pending'}</b><br>
+    Demographics: <b>${state.demographicsLoaded ? 'ACS 2020-2024 loaded' : 'Pending'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
   `;
   document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School and demographics data ready`;
