@@ -1,7 +1,677 @@
 {
   "metadata": {
-    "status": "not_built",
-    "note": "Run Build Healthcare Dataset GitHub Action to generate facility data."
+    "status": "built",
+    "created_utc": "2026-07-07T16:41:42+00:00",
+    "sources": [
+      "HIFLD Hospitals",
+      "OpenStreetMap Overpass"
+    ],
+    "method": "Points assigned to custom submarkets using point-in-polygon against data/submarkets.geojson."
   },
-  "submarkets": {}
+  "submarkets": {
+    "SM-01": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "BAYPOINTE BEHAVIORAL HEALTH",
+      "nearest_hospital_mi": 14.57,
+      "facilities": []
+    },
+    "SM-02": {
+      "total": 3,
+      "hospitals": 3,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0051869910265055245,
+      "nearest_hospital_name": "PROVIDENCE HOSPITAL",
+      "nearest_hospital_mi": 5.01,
+      "facilities": [
+        {
+          "id": "hifld_9eeb1e9bb5834c2e",
+          "name": "BAYPOINTE BEHAVIORAL HEALTH",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_125907986b15c431",
+          "name": "PROVIDENCE HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_0811a7b6521c3789",
+          "name": "SPRINGHILL MEMORIAL HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-03": {
+      "total": 4,
+      "hospitals": 4,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.01692405331076793,
+      "nearest_hospital_name": "UNIVERSITY OF SOUTH ALABAMA CHILDREN'S AND WOMEN'S HOSPITAL",
+      "nearest_hospital_mi": 9.19,
+      "facilities": [
+        {
+          "id": "hifld_f33d8a181749ff1c",
+          "name": "INFIRMARY LTAC HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_2116cf8993b563e3",
+          "name": "MOBILE INFIRMARY MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_5b65f641a838fa52",
+          "name": "UNIVERSITY OF SOUTH ALABAMA CHILDREN'S AND WOMEN'S HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_bc5e230911092d1f",
+          "name": "UNIVERSITY OF SOUTH ALABAMA MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-04": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0038755183505793903,
+      "nearest_hospital_name": "SOUTH BALDWIN REGIONAL MEDICAL CENTER",
+      "nearest_hospital_mi": 5.33,
+      "facilities": [
+        {
+          "id": "hifld_ce6da40de245b8ea",
+          "name": "SOUTH BALDWIN REGIONAL MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-05": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.006257039169065198,
+      "nearest_hospital_name": "NORTH BALDWIN INFIRMARY",
+      "nearest_hospital_mi": 3.71,
+      "facilities": [
+        {
+          "id": "hifld_51a6702639a84451",
+          "name": "NORTH BALDWIN INFIRMARY",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-06": {
+      "total": 2,
+      "hospitals": 2,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.013976240391334731,
+      "nearest_hospital_name": "THOMAS HOSPITAL",
+      "nearest_hospital_mi": 2.58,
+      "facilities": [
+        {
+          "id": "hifld_3389ef5186766a2b",
+          "name": "EASTPOINTE HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_e65e93d46d01498f",
+          "name": "THOMAS HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-07": {
+      "total": 8,
+      "hospitals": 8,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0407518720391218,
+      "nearest_hospital_name": "NAVAL HOSPITAL PENSACOLA",
+      "nearest_hospital_mi": 1.93,
+      "facilities": [
+        {
+          "id": "hifld_7ecda471dfc32f9e",
+          "name": "BAPTIST HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_94e41f041c22fdce",
+          "name": "CONSULATE HEALTH CARE OF PENSACOLA",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_8dc8fb7c0318740a",
+          "name": "LAKEVIEW CENTER - PSYCHIATRIC HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_3dd15b7d2c952bbb",
+          "name": "NAVAL HOSPITAL PENSACOLA",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_5180336120c4ab26",
+          "name": "SACRED HEART HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_a5ed16a0072ac10e",
+          "name": "SELECT SPECIALTY HOSPITAL PENSACOLA",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_019600ed223635d9",
+          "name": "WEST FLORIDA HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_6d131836e73519b3",
+          "name": "WEST FLORIDA REHABILITATION INSTITUTE",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-08": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "SANTA ROSA MEDICAL CENTER",
+      "nearest_hospital_mi": 5.68,
+      "facilities": []
+    },
+    "SM-09": {
+      "total": 2,
+      "hospitals": 2,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.01861850679575498,
+      "nearest_hospital_name": "THE FRIARY OF LAKEVIEW CENTER",
+      "nearest_hospital_mi": 1.37,
+      "facilities": [
+        {
+          "id": "hifld_c89e2e593e6bd468",
+          "name": "GULF BREEZE HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_95d0274e9f3717a3",
+          "name": "THE FRIARY OF LAKEVIEW CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-10": {
+      "total": 2,
+      "hospitals": 2,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.015382248884786955,
+      "nearest_hospital_name": "WEST FLORIDA COMMUNITY CARE CENTER",
+      "nearest_hospital_mi": 2.84,
+      "facilities": [
+        {
+          "id": "hifld_3a36b0d4dc364c38",
+          "name": "SANTA ROSA MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_537885ce49b2a8d2",
+          "name": "WEST FLORIDA COMMUNITY CARE CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-11": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "WEST FLORIDA HOSPITAL",
+      "nearest_hospital_mi": 8.76,
+      "facilities": []
+    },
+    "SM-12": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "EASTPOINTE HOSPITAL",
+      "nearest_hospital_mi": 13.86,
+      "facilities": []
+    },
+    "SM-13": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.002941436009059623,
+      "nearest_hospital_name": "CENTURY HOSPITAL MEDICAL CENTER",
+      "nearest_hospital_mi": 13.21,
+      "facilities": [
+        {
+          "id": "hifld_57f57eb14ec1f192",
+          "name": "CENTURY HOSPITAL MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-14": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0015068637644470564,
+      "nearest_hospital_name": "JAY HOSPITAL",
+      "nearest_hospital_mi": 10.78,
+      "facilities": [
+        {
+          "id": "hifld_d8e59bf42e6ac712",
+          "name": "JAY HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-15": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "NORTH OKALOOSA MEDICAL CENTER",
+      "nearest_hospital_mi": 10.5,
+      "facilities": []
+    },
+    "SM-16": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "NORTH OKALOOSA MEDICAL CENTER",
+      "nearest_hospital_mi": 12.32,
+      "facilities": []
+    },
+    "SM-17": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.008817564588660612,
+      "nearest_hospital_name": "NORTH OKALOOSA MEDICAL CENTER",
+      "nearest_hospital_mi": 3.36,
+      "facilities": [
+        {
+          "id": "hifld_796c45ed6ec8cf93",
+          "name": "NORTH OKALOOSA MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-18": {
+      "total": 2,
+      "hospitals": 2,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.020885547201336674,
+      "nearest_hospital_name": "REHABILITATION INSTITUTE OF NORTHWEST FLORIDA",
+      "nearest_hospital_mi": 5.28,
+      "facilities": [
+        {
+          "id": "hifld_7224c0fa92e9825e",
+          "name": "FORT WALTON BEACH MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_8623284c63ff49f0",
+          "name": "GULF COAST TREATMENT CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-19": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.00970402717127608,
+      "nearest_hospital_name": "HEALTHMARK REGIONAL MEDICAL CENTER",
+      "nearest_hospital_mi": 5.87,
+      "facilities": [
+        {
+          "id": "hifld_8219edba0188dc8a",
+          "name": "HEALTHMARK REGIONAL MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-20": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "HEALTHMARK REGIONAL MEDICAL CENTER",
+      "nearest_hospital_mi": 11.54,
+      "facilities": []
+    },
+    "SM-21": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0014131878691953307,
+      "nearest_hospital_name": "TWIN CITIES HOSPITAL",
+      "nearest_hospital_mi": 3.84,
+      "facilities": [
+        {
+          "id": "hifld_72908ae1ed3a0652",
+          "name": "TWIN CITIES HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-22": {
+      "total": 2,
+      "hospitals": 2,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.005495864362067544,
+      "nearest_hospital_name": "HEALTHSOUTH EMERALD COAST REHABILITATION",
+      "nearest_hospital_mi": 11.88,
+      "facilities": [
+        {
+          "id": "hifld_6b552629caab3945",
+          "name": "REHABILITATION INSTITUTE OF NORTHWEST FLORIDA",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_3a46864c317ec915",
+          "name": "SACRED HEART HOSPITAL ON EMERALD COAST",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-23": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "HEALTHMARK REGIONAL MEDICAL CENTER",
+      "nearest_hospital_mi": 5.52,
+      "facilities": []
+    },
+    "SM-24": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0019202335003936479,
+      "nearest_hospital_name": "DOCTORS MEMORIAL HOSPITAL",
+      "nearest_hospital_mi": 10.46,
+      "facilities": [
+        {
+          "id": "hifld_ed60e3206183c30c",
+          "name": "DOCTORS MEMORIAL HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-25": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.001680785262874815,
+      "nearest_hospital_name": "DOCTORS MEMORIAL HOSPITAL",
+      "nearest_hospital_mi": 11.57,
+      "facilities": [
+        {
+          "id": "hifld_fff77620758989b4",
+          "name": "NORTHWEST FLORIDA COMMUNITY HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-26": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0012647021626406981,
+      "nearest_hospital_name": "JACKSON HOSPITAL",
+      "nearest_hospital_mi": 4.03,
+      "facilities": [
+        {
+          "id": "hifld_60ab0444fdb00367",
+          "name": "CAMPBELLTON-GRACEVILLE HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-27": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.004530832313896062,
+      "nearest_hospital_name": "JACKSON HOSPITAL",
+      "nearest_hospital_mi": 5.98,
+      "facilities": [
+        {
+          "id": "hifld_915d1e3bee8c6872",
+          "name": "JACKSON HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-28": {
+      "total": 5,
+      "hospitals": 5,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.023431276067294626,
+      "nearest_hospital_name": "GULF COAST MEDICAL CENTER",
+      "nearest_hospital_mi": 6.0,
+      "facilities": [
+        {
+          "id": "hifld_6e105119ac243fea",
+          "name": "BAY MEDICAL CENTER SACRED HEART",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_c018ddead21d7895",
+          "name": "EMERALD COAST BEHAVIORAL HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_79c33dc6a7b49753",
+          "name": "GULF COAST MEDICAL CENTER",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_f1f690e60c4fa331",
+          "name": "HEALTHSOUTH EMERALD COAST REHABILITATION",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        },
+        {
+          "id": "hifld_2646f162776cd983",
+          "name": "SELECT SPECIALTY HOSPITAL - PANAMA CITY",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-29": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "EMERALD COAST BEHAVIORAL HOSPITAL",
+      "nearest_hospital_mi": 14.65,
+      "facilities": []
+    },
+    "SM-30": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.00197667523225934,
+      "nearest_hospital_name": "CALHOUN-LIBERTY HOSPITAL",
+      "nearest_hospital_mi": 8.74,
+      "facilities": [
+        {
+          "id": "hifld_3b16558f2bff00c9",
+          "name": "CALHOUN-LIBERTY HOSPITAL",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-31": {
+      "total": 1,
+      "hospitals": 1,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0018049564103026913,
+      "nearest_hospital_name": "SACRED HEART HOSPITAL ON THE GULF",
+      "nearest_hospital_mi": 13.04,
+      "facilities": [
+        {
+          "id": "hifld_baad9d5edb4b1dc9",
+          "name": "SACRED HEART HOSPITAL ON THE GULF",
+          "type": "Hospital",
+          "source": "HIFLD Hospitals"
+        }
+      ]
+    },
+    "SM-32": {
+      "total": 0,
+      "hospitals": 0,
+      "urgent_care": 0,
+      "clinics": 0,
+      "pharmacies": 0,
+      "other": 0,
+      "density": 0.0,
+      "nearest_hospital_name": "GULF COAST MEDICAL CENTER",
+      "nearest_hospital_mi": 15.31,
+      "facilities": []
+    }
+  }
 }

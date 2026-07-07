@@ -1,4 +1,1037 @@
 {
   "type": "FeatureCollection",
-  "features": []
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8894474374492,
+          30.5188790282446
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_e65e93d46d01498f",
+        "Name": "THOMAS HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "THOMAS HOSPITAL",
+        "City": "FAIRHOPE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0011536532",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8951390973914,
+          30.6352891462771
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_3389ef5186766a2b",
+        "Name": "EASTPOINTE HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "EASTPOINTE HOSPITAL",
+        "City": "DAPHNE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0004336526",
+        "RawType": "PSYCHIATRIC",
+        "SubmarketID": "SM-06",
+        "SubmarketName": "West Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6846856472248,
+          30.4258356837698
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_ce6da40de245b8ea",
+        "Name": "SOUTH BALDWIN REGIONAL MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "SOUTH BALDWIN REGIONAL MEDICAL CENTER",
+        "City": "FOLEY",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0008636535",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-04",
+        "SubmarketName": "South Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1780081251748,
+          30.624808491219
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_9eeb1e9bb5834c2e",
+        "Name": "BAYPOINTE BEHAVIORAL HEALTH",
+        "FacilityType": "Hospital",
+        "Address": "BAYPOINTE BEHAVIORAL HEALTH",
+        "City": "MOBILE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0000436693",
+        "RawType": "PSYCHIATRIC",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.7850224961912,
+          30.9039343616815
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_51a6702639a84451",
+        "Name": "NORTH BALDWIN INFIRMARY",
+        "FacilityType": "Hospital",
+        "Address": "NORTH BALDWIN INFIRMARY",
+        "City": "BAY MINETTE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0009436507",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-05",
+        "SubmarketName": "North Baldwin",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0797761916179,
+          30.6957249583402
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_2116cf8993b563e3",
+        "Name": "MOBILE INFIRMARY MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "MOBILE INFIRMARY MEDICAL CENTER",
+        "City": "MOBILE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0013636652",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.1313362913368,
+          30.6845174882915
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_0811a7b6521c3789",
+        "Name": "SPRINGHILL MEMORIAL HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "SPRINGHILL MEMORIAL HOSPITAL",
+        "City": "MOBILE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0011136608",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2331558851359,
+          30.432356899951
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_8dc8fb7c0318740a",
+        "Name": "LAKEVIEW CENTER - PSYCHIATRIC HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "LAKEVIEW CENTER - PSYCHIATRIC HOSPITAL",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0082132501",
+        "RawType": "PSYCHIATRIC",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2878970204311,
+          29.7790236657096
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_baad9d5edb4b1dc9",
+        "Name": "SACRED HEART HOSPITAL ON THE GULF",
+        "FacilityType": "Hospital",
+        "Address": "SACRED HEART HOSPITAL ON THE GULF",
+        "City": "PORT SAINT JOE",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0033232456",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-31",
+        "SubmarketName": "Gulf County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6359252937173,
+          30.4555941405572
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_8623284c63ff49f0",
+        "Name": "GULF COAST TREATMENT CENTER",
+        "FacilityType": "Hospital",
+        "Address": "GULF COAST TREATMENT CENTER",
+        "City": "FORT WALTON BEACH",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0014932547",
+        "RawType": "PSYCHIATRIC",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.5625252858133,
+          30.7353546266148
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_796c45ed6ec8cf93",
+        "Name": "NORTH OKALOOSA MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "NORTH OKALOOSA MEDICAL CENTER",
+        "City": "CRESTVIEW",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0027932539",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-17",
+        "SubmarketName": "Crestview",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4719111873514,
+          30.3941219857411
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_6b552629caab3945",
+        "Name": "REHABILITATION INSTITUTE OF NORTHWEST FLORIDA",
+        "FacilityType": "Hospital",
+        "Address": "REHABILITATION INSTITUTE OF NORTHWEST FLORIDA",
+        "City": "DESTIN",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0032832541",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.4954773199223,
+          30.5335890977587
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_72908ae1ed3a0652",
+        "Name": "TWIN CITIES HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "TWIN CITIES HOSPITAL",
+        "City": "NICEVILLE",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0040632578",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-21",
+        "SubmarketName": "Eglin AFB",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.5428615393286,
+          30.7654920694035
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_fff77620758989b4",
+        "Name": "NORTHWEST FLORIDA COMMUNITY HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "NORTHWEST FLORIDA COMMUNITY HOSPITAL",
+        "City": "CHIPLEY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0028732428",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-25",
+        "SubmarketName": "Washington County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.1570546510513,
+          30.3604819452856
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_c89e2e593e6bd468",
+        "Name": "GULF BREEZE HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "GULF BREEZE HOSPITAL",
+        "City": "GULF BREEZE",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0014332561",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-09",
+        "SubmarketName": "Pensacola Beaches",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.1512692250946,
+          30.9498495428222
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_d8e59bf42e6ac712",
+        "Name": "JAY HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "JAY HOSPITAL",
+        "City": "JAY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0019032565",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-14",
+        "SubmarketName": "Santa Rosa County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.0670950629867,
+          30.6342186913396
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_3a36b0d4dc364c38",
+        "Name": "SANTA ROSA MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "SANTA ROSA MEDICAL CENTER",
+        "City": "MILTON",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0033632570",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-10",
+        "SubmarketName": "Milton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.0425332819854,
+          30.6343753712264
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_537885ce49b2a8d2",
+        "Name": "WEST FLORIDA COMMUNITY CARE CENTER",
+        "FacilityType": "Hospital",
+        "Address": "WEST FLORIDA COMMUNITY CARE CENTER",
+        "City": "MILTON",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0042132570",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-10",
+        "SubmarketName": "Milton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2304209029023,
+          30.4294178948201
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_7ecda471dfc32f9e",
+        "Name": "BAPTIST HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "BAPTIST HOSPITAL",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0001132501",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2156864716533,
+          30.4786590881465
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_a5ed16a0072ac10e",
+        "Name": "SELECT SPECIALTY HOSPITAL PENSACOLA",
+        "FacilityType": "Hospital",
+        "Address": "SELECT SPECIALTY HOSPITAL PENSACOLA",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0034632504",
+        "RawType": "LONG TERM CARE",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2178951418473,
+          30.5156806424478
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_019600ed223635d9",
+        "Name": "WEST FLORIDA HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "WEST FLORIDA HOSPITAL",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0042232514",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2123375987012,
+          30.4754056881221
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_5180336120c4ab26",
+        "Name": "SACRED HEART HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "SACRED HEART HOSPITAL",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0033032504",
+        "RawType": "CHILDREN",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.647532377717,
+          30.1597318301599
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_6e105119ac243fea",
+        "Name": "BAY MEDICAL CENTER SACRED HEART",
+        "FacilityType": "Hospital",
+        "Address": "BAY MEDICAL CENTER SACRED HEART",
+        "City": "PANAMA CITY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0002632401",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.65778238365,
+          30.183781745831
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_c018ddead21d7895",
+        "Name": "EMERALD COAST BEHAVIORAL HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "EMERALD COAST BEHAVIORAL HOSPITAL",
+        "City": "PANAMA CITY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0009132405",
+        "RawType": "PSYCHIATRIC",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6651762030193,
+          30.1879158816127
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_79c33dc6a7b49753",
+        "Name": "GULF COAST MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "GULF COAST MEDICAL CENTER",
+        "City": "PANAMA CITY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0014632405",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6691749917325,
+          30.181889921183
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_f1f690e60c4fa331",
+        "Name": "HEALTHSOUTH EMERALD COAST REHABILITATION",
+        "FacilityType": "Hospital",
+        "Address": "HEALTHSOUTH EMERALD COAST REHABILITATION",
+        "City": "PANAMA CITY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0015932405",
+        "RawType": "REHABILITATION",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.1179504190765,
+          30.6597162214265
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_8219edba0188dc8a",
+        "Name": "HEALTHMARK REGIONAL MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "HEALTHMARK REGIONAL MEDICAL CENTER",
+        "City": "DEFUNIAK SPRINGS",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0015632435",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-19",
+        "SubmarketName": "Defuniak Springs",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.0501038599052,
+          30.4586228323778
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_3b16558f2bff00c9",
+        "Name": "CALHOUN-LIBERTY HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "CALHOUN-LIBERTY HOSPITAL",
+        "City": "BLOUNTSTOWN",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0005032424",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-30",
+        "SubmarketName": "Calhoun County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2526172241056,
+          30.4714432706904
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_94e41f041c22fdce",
+        "Name": "CONSULATE HEALTH CARE OF PENSACOLA",
+        "FacilityType": "Hospital",
+        "Address": "CONSULATE HEALTH CARE OF PENSACOLA",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0076232505",
+        "RawType": "REHABILITATION",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.039433094062,
+          30.3977763233187
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_95d0274e9f3717a3",
+        "Name": "THE FRIARY OF LAKEVIEW CENTER",
+        "FacilityType": "Hospital",
+        "Address": "THE FRIARY OF LAKEVIEW CENTER",
+        "City": "GULF BREEZE",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0080332563",
+        "RawType": "PSYCHIATRIC",
+        "SubmarketID": "SM-09",
+        "SubmarketName": "Pensacola Beaches",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2168630223106,
+          30.516340123398
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_6d131836e73519b3",
+        "Name": "WEST FLORIDA REHABILITATION INSTITUTE",
+        "FacilityType": "Hospital",
+        "Address": "WEST FLORIDA REHABILITATION INSTITUTE",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0082032514",
+        "RawType": "REHABILITATION",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.298615688763,
+          30.3985699507427
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_3dd15b7d2c952bbb",
+        "Name": "NAVAL HOSPITAL PENSACOLA",
+        "FacilityType": "Hospital",
+        "Address": "NAVAL HOSPITAL PENSACOLA",
+        "City": "PENSACOLA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0000000015",
+        "RawType": "MILITARY",
+        "SubmarketID": "SM-07",
+        "SubmarketName": "Pensacola",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.2575979906547,
+          30.9703938346078
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_57f57eb14ec1f192",
+        "Name": "CENTURY HOSPITAL MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "CENTURY HOSPITAL MEDICAL CENTER",
+        "City": "CENTURY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0080132535",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-13",
+        "SubmarketName": "North Escambia",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.199079373814,
+          30.6793276572457
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_125907986b15c431",
+        "Name": "PROVIDENCE HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "PROVIDENCE HOSPITAL",
+        "City": "MOBILE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0010136685",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-02",
+        "SubmarketName": "Central Mobile",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0983348567682,
+          30.7070619802263
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_bc5e230911092d1f",
+        "Name": "UNIVERSITY OF SOUTH ALABAMA MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "UNIVERSITY OF SOUTH ALABAMA MEDICAL CENTER",
+        "City": "MOBILE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0009836617",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.08029057505,
+          30.6969006924131
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_f33d8a181749ff1c",
+        "Name": "INFIRMARY LTAC HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "INFIRMARY LTAC HOSPITAL",
+        "City": "MOBILE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0003136607",
+        "RawType": "LONG TERM CARE",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0778076404102,
+          30.6976838166549
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_5b65f641a838fa52",
+        "Name": "UNIVERSITY OF SOUTH ALABAMA CHILDREN'S AND WOMEN'S HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "UNIVERSITY OF SOUTH ALABAMA CHILDREN'S AND WOMEN'S HOSPITAL",
+        "City": "MOBILE",
+        "State": "AL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0090736604",
+        "RawType": "CHILDREN",
+        "SubmarketID": "SM-03",
+        "SubmarketName": "North Mobile / Saraland",
+        "Hub": "Alabama Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.2413148247193,
+          30.7868444128395
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_915d1e3bee8c6872",
+        "Name": "JACKSON HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "JACKSON HOSPITAL",
+        "City": "MARIANNA",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0018032446",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-27",
+        "SubmarketName": "Marianna",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.5067445519195,
+          30.9630351634421
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_60ab0444fdb00367",
+        "Name": "CAMPBELLTON-GRACEVILLE HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "CAMPBELLTON-GRACEVILLE HOSPITAL",
+        "City": "GRACEVILLE",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0005232440",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-26",
+        "SubmarketName": "Jackson County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6830323699479,
+          30.7610808120299
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_ed60e3206183c30c",
+        "Name": "DOCTORS MEMORIAL HOSPITAL",
+        "FacilityType": "Hospital",
+        "Address": "DOCTORS MEMORIAL HOSPITAL",
+        "City": "BONIFAY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0008132425",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-24",
+        "SubmarketName": "Holmes County",
+        "Hub": "Growth Markets"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.633210019227,
+          30.4544387311626
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_7224c0fa92e9825e",
+        "Name": "FORT WALTON BEACH MEDICAL CENTER",
+        "FacilityType": "Hospital",
+        "Address": "FORT WALTON BEACH MEDICAL CENTER",
+        "City": "FORT WALTON BEACH",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0013932547",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-18",
+        "SubmarketName": "Fort Walton",
+        "Hub": "Pensacola Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.647789359891,
+          30.1597127951094
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_2646f162776cd983",
+        "Name": "SELECT SPECIALTY HOSPITAL - PANAMA CITY",
+        "FacilityType": "Hospital",
+        "Address": "SELECT SPECIALTY HOSPITAL - PANAMA CITY",
+        "City": "PANAMA CITY",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0034532401",
+        "RawType": "LONG TERM CARE",
+        "SubmarketID": "SM-28",
+        "SubmarketName": "Panama City",
+        "Hub": "Panama City Hub"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.3068563117693,
+          30.3785746707845
+        ]
+      },
+      "properties": {
+        "HealthcareID": "hifld_3a46864c317ec915",
+        "Name": "SACRED HEART HOSPITAL ON EMERALD COAST",
+        "FacilityType": "Hospital",
+        "Address": "SACRED HEART HOSPITAL ON EMERALD COAST",
+        "City": "MIRAMAR BEACH",
+        "State": "FL",
+        "Source": "HIFLD Hospitals",
+        "SourceID": "0033132550",
+        "RawType": "GENERAL ACUTE CARE",
+        "SubmarketID": "SM-22",
+        "SubmarketName": "Walton and Bay Beaches",
+        "Hub": "Growth Markets"
+      }
+    }
+  ]
 }
