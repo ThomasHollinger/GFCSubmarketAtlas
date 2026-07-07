@@ -28,7 +28,7 @@ jobs:
 
       - name: Build healthcare dataset
         run: |
-          python scripts/build_healthcare.py
+          python scripts/build_healthcare.py --submarkets data/submarkets.geojson --output-dir data
 
       - name: Commit healthcare outputs
         run: |
