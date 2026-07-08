@@ -1,5 +1,5 @@
 {
-  "version": "2.7.5",
+  "version": "2.7.6",
   "releaseDate": "2026-07-07",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -7,11 +7,11 @@
   "schools": "School ratings load in background; map pins remain optional",
   "demographics": "Precomputed ACS 5-Year block-group estimates with 5-year forecast",
   "builders": "Pending",
-  "notes": "Retail & Dining clustering plus display filters; verified schools, ACS 2020-2024 current demographics, and healthcare framework preserved.",
+  "notes": "Retail & Dining clustering, display filters, and wholesale club capture; verified schools, ACS 2020-2024 current demographics, and healthcare framework preserved.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "v2.7.5",
+  "release": "v2.7.6",
   "school_rating_update": "Thomas verified grades applied; Unranked values excluded from scoring",
   "updated": "2026-07-08",
-  "retail": "Retail & Dining clustering and display filters enabled"
+  "retail": "Retail & Dining clustering and display filters enabled; OSM shop=wholesale/shop=warehouse included as Grocery for Costco, Sam's Club, BJ's, and similar wholesale clubs."
 }
