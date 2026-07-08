@@ -43,6 +43,15 @@
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
         <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
         <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
+        <div id="retailFilterPanel" class="retail-filter-panel">
+          <div class="filter-title">Retail & Dining Display</div>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Restaurant" checked> Restaurants</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Grocery" checked> Grocery</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Retail" checked> Retail</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Convenience" checked> Convenience</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="NationalBrandsOnly"> National Brands only</label>
+          <div id="retailFilterCount" class="filter-count">Load Retail & Dining</div>
+        </div>
         <label class="check"><input type="checkbox" id="toggleHealthcare"> Healthcare <span id="healthcareCountBadge">Builder Ready</span></label>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
         <label class="check disabled"><input type="checkbox" disabled> Builders <span>Coming Soon</span></label>

@@ -1,5 +1,5 @@
 {
-  "version": "2.7.0",
+  "version": "2.7.5",
   "releaseDate": "2026-07-07",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -7,10 +7,11 @@
   "schools": "School ratings load in background; map pins remain optional",
   "demographics": "Precomputed ACS 5-Year block-group estimates with 5-year forecast",
   "builders": "Pending",
-  "notes": "Healthcare layer added with precomputed-data workflow, current ACS demographics, schools, and retail.",
+  "notes": "Retail & Dining clustering plus display filters; verified schools, ACS 2020-2024 current demographics, and healthcare framework preserved.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "v2.7.3",
+  "release": "v2.7.5",
   "school_rating_update": "Thomas verified grades applied; Unranked values excluded from scoring",
-  "updated": "2026-07-08"
+  "updated": "2026-07-08",
+  "retail": "Retail & Dining clustering and display filters enabled"
 }

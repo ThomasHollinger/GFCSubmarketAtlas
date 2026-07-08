@@ -45,3 +45,11 @@
 .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background: rgba(15, 118, 110, .22); }
 .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background: #0f766e; color: #fff; font-weight: 900; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
 .marker-cluster div { font-family: inherit; }
+
+.retail-filter-panel{display:none;margin:8px 0 10px 26px;padding:10px;border:1px solid #ccfbf1;border-radius:10px;background:#f0fdfa;font-size:12px;color:#0f2437}
+.retail-filter-panel.active{display:block}
+.retail-filter-panel .filter-title{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:#0f766e;margin-bottom:6px}
+.retail-filter-panel label{display:flex;align-items:center;gap:7px;margin:6px 0;font-weight:800;color:#344054}
+.retail-filter-panel input{width:14px;height:14px}
+.retail-filter-panel .filter-count{margin-top:8px;padding-top:7px;border-top:1px solid #ccfbf1;color:#0f766e;font-size:11px;font-weight:900}
+.retail-filter-note{font-size:11px;color:#0f766e;font-weight:800;margin:-2px 0 7px}

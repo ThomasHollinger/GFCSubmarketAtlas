@@ -4,6 +4,7 @@ const state = {
   schoolLayer: null,
   poiLayer: null,
   poiMarkerIndex: new Map(),
+  retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
   healthcareLayer: null,
   selected: null,
   features: [],
@@ -373,15 +374,34 @@ function assignPoiToSubmarket(poi) {
   }
 }
 
+function activeRetailPOIs() {
+  return state.pois.filter(passesRetailFilter);
+}
+
+function passesRetailFilter(feature) {
+  const p = feature.properties || {};
+  const c = p.Category || '';
+  const filters = state.retailFilters || {};
+  const categoryMatch =
+    (c === 'Restaurant' && filters.Restaurant) ||
+    (c === 'Grocery' && filters.Grocery) ||
+    (c === 'Retail' && filters.Retail) ||
+    (c === 'Shopping Center' && filters.Retail) ||
+    (c === 'Convenience' && filters.Convenience);
+  if (!categoryMatch) return false;
+  if (filters.NationalBrandsOnly && !p.NationalBrand) return false;
+  return true;
+}
+
 function retailSummaryForSubmarket(submarketID, areaSqMi) {
-  const pois = state.pois.filter(p => p.properties.SubmarketID === submarketID);
+  const pois = activeRetailPOIs().filter(p => p.properties.SubmarketID === submarketID);
   return retailSummary(pois, areaSqMi);
 }
 
 function retailSummaryForFeatures(features) {
   const ids = new Set(features.map(f => f.properties.SubmarketID));
   const area = features.reduce((sum, f) => sum + Number(f.properties.AreaSqMi || 0), 0);
-  return retailSummary(state.pois.filter(p => ids.has(p.properties.SubmarketID)), area);
+  return retailSummary(activeRetailPOIs().filter(p => ids.has(p.properties.SubmarketID)), area);
 }
 
 function retailSummary(pois, areaSqMi = 0) {
@@ -398,13 +418,17 @@ function retailSummary(pois, areaSqMi = 0) {
 
 function renderRetailCard(summary) {
   if (!state.poisLoaded) return `<div class="retail-card"><b>Retail & Dining</b><br>Turn on Retail & Dining to load POIs.</div>`;
+  const filtered = activeRetailPOIs().length !== state.pois.length;
   return `<div class="retail-card">
-    <div class="retail-head"><b>Retail & Dining</b><span>${summary.total.toLocaleString()} POIs</span></div>
+    <div class="retail-head"><b>Retail & Dining</b><span>${summary.total.toLocaleString()} visible POIs</span></div>
+    ${filtered ? `<div class="retail-filter-note">Filtered from ${state.pois.length.toLocaleString()} total POIs</div>` : ''}
     <div class="retail-grid">
       <div><span>Restaurants</span><b>${summary.Restaurant.toLocaleString()}</b></div>
       <div><span>Grocery</span><b>${summary.Grocery.toLocaleString()}</b></div>
       <div><span>Retail</span><b>${summary.Retail.toLocaleString()}</b></div>
+      <div><span>Convenience</span><b>${summary.Convenience.toLocaleString()}</b></div>
       <div><span>National Brands</span><b>${summary.NationalBrands.toLocaleString()}</b></div>
+      <div><span>Shopping Centers</span><b>${summary.ShoppingCenter.toLocaleString()}</b></div>
     </div>
   </div>`;
 }
@@ -474,6 +498,19 @@ async function loadPOIs() {
     assignPoiToSubmarket(f);
     return !!f.properties.SubmarketID;
   });
+  buildPOILayer();
+  state.poiLayer.addTo(state.map);
+  state.poisLoaded = true;
+  badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
+  updateRetailFilterPanel();
+  buildSearchIndex();
+  renderSearchResults(document.getElementById('searchInput').value || '');
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
+function buildPOILayer() {
+  const wasVisible = state.poiLayer && state.map && state.map.hasLayer(state.poiLayer);
+  if (state.poiLayer && state.map && state.map.hasLayer(state.poiLayer)) state.map.removeLayer(state.poiLayer);
   state.poiMarkerIndex = new Map();
   state.poiLayer = L.markerClusterGroup({
     chunkedLoading: true,
@@ -484,7 +521,7 @@ async function loadPOIs() {
     disableClusteringAtZoom: 14,
     maxClusterRadius: 55
   });
-  state.pois.forEach(feature => {
+  activeRetailPOIs().forEach(feature => {
     const coords = feature.geometry && feature.geometry.coordinates;
     if (!coords || coords.length < 2) return;
     const p = feature.properties;
@@ -495,12 +532,27 @@ async function loadPOIs() {
     state.poiMarkerIndex.set(p.OSMID, marker);
     state.poiLayer.addLayer(marker);
   });
-  state.poiLayer.addTo(state.map);
-  state.poisLoaded = true;
-  badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
-  buildSearchIndex();
-  renderSearchResults(document.getElementById('searchInput').value || '');
+  if (wasVisible) state.poiLayer.addTo(state.map);
+}
+
+function applyRetailFilters() {
+  if (!state.poisLoaded) return;
+  buildPOILayer();
+  if (document.getElementById('toggleRetail').checked && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
+  const visibleCount = activeRetailPOIs().length;
+  document.getElementById('retailCountBadge').textContent = `${visibleCount.toLocaleString()} shown`;
+  updateRetailFilterPanel();
+  if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
+function updateRetailFilterPanel() {
+  const panel = document.getElementById('retailFilterPanel');
+  if (!panel) return;
+  const visibleCount = state.poisLoaded ? activeRetailPOIs().length : 0;
+  panel.classList.toggle('active', !!state.poisLoaded);
+  const count = document.getElementById('retailFilterCount');
+  if (count) count.textContent = state.poisLoaded ? `${visibleCount.toLocaleString()} of ${state.pois.length.toLocaleString()} visible` : 'Load Retail & Dining';
 }
 
 function selectPOI(poi) {
@@ -1260,6 +1312,15 @@ function bindUI() {
       alert('Retail & Dining could not be loaded from OpenStreetMap right now. Try again later.');
     }
   });
+  document.querySelectorAll('.retail-filter').forEach(input => {
+    input.addEventListener('change', e => {
+      const key = e.target.dataset.retailFilter;
+      if (!key) return;
+      state.retailFilters[key] = e.target.checked;
+      applyRetailFilters();
+    });
+  });
+
   document.getElementById('toggleHealthcare').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
