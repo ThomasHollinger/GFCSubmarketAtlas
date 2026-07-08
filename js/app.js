@@ -3,6 +3,7 @@ const state = {
   submarketLayer: null,
   schoolLayer: null,
   poiLayer: null,
+  poiMarkerIndex: new Map(),
   healthcareLayer: null,
   selected: null,
   features: [],
@@ -473,14 +474,28 @@ async function loadPOIs() {
     assignPoiToSubmarket(f);
     return !!f.properties.SubmarketID;
   });
-  state.poiLayer = L.geoJSON({ type: 'FeatureCollection', features: state.pois }, {
-    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: poiIcon(feature.properties.Category) }),
-    onEachFeature: (feature, layer) => {
-      const p = feature.properties;
-      layer.bindPopup(`<div class="poi-popup"><h3>${p.Name}</h3><p><b>Category:</b> ${p.Category}</p><p><b>Subcategory:</b> ${p.Subcategory}</p><p><b>Brand:</b> ${p.Brand || '—'}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> OpenStreetMap</p></div>`);
-      layer.on('click', () => selectPOI(feature));
-    }
-  }).addTo(state.map);
+  state.poiMarkerIndex = new Map();
+  state.poiLayer = L.markerClusterGroup({
+    chunkedLoading: true,
+    chunkInterval: 120,
+    chunkDelay: 30,
+    showCoverageOnHover: false,
+    spiderfyOnMaxZoom: true,
+    disableClusteringAtZoom: 14,
+    maxClusterRadius: 55
+  });
+  state.pois.forEach(feature => {
+    const coords = feature.geometry && feature.geometry.coordinates;
+    if (!coords || coords.length < 2) return;
+    const p = feature.properties;
+    const marker = L.marker([coords[1], coords[0]], { icon: poiIcon(p.Category) });
+    marker.feature = feature;
+    marker.bindPopup(`<div class="poi-popup"><h3>${p.Name}</h3><p><b>Category:</b> ${p.Category}</p><p><b>Subcategory:</b> ${p.Subcategory}</p><p><b>Brand:</b> ${p.Brand || '—'}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> OpenStreetMap</p></div>`);
+    marker.on('click', () => selectPOI(feature));
+    state.poiMarkerIndex.set(p.OSMID, marker);
+    state.poiLayer.addLayer(marker);
+  });
+  state.poiLayer.addTo(state.map);
   state.poisLoaded = true;
   badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
   buildSearchIndex();
@@ -491,11 +506,15 @@ async function loadPOIs() {
 function selectPOI(poi) {
   if (state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
   document.getElementById('toggleRetail').checked = true;
-  let target = null;
-  state.poiLayer.eachLayer(layer => {
-    if (layer.feature && layer.feature.properties.OSMID === poi.properties.OSMID) target = layer;
-  });
-  if (target) target.openPopup();
+  const target = state.poiMarkerIndex ? state.poiMarkerIndex.get(poi.properties.OSMID) : null;
+  if (target) {
+    state.map.setView(target.getLatLng(), Math.max(state.map.getZoom(), 14));
+    if (state.poiLayer.zoomToShowLayer) {
+      state.poiLayer.zoomToShowLayer(target, () => target.openPopup());
+    } else {
+      target.openPopup();
+    }
+  }
 }
 
 
