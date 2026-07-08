@@ -1,3 +1,10 @@
+# v2.7.3 - Thomas Verified School Ratings
+
+- Updated school scoring with the Thomas Verified Grade column from the verification workbook.
+- Schools marked Unranked are now excluded from scoring and shown as Not Rated (Excluded).
+- Preserved current demographics, healthcare framework, sidebar order, and school-sidebar behavior.
+- Included latest healthcare builder workflow/script fixes to avoid regressing healthcare dataset generation.
+
 # Changelog
 
 ## v2.7.0 - Healthcare Facilities Framework

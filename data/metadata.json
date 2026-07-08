@@ -9,5 +9,8 @@
   "builders": "Pending",
   "notes": "Healthcare layer added with precomputed-data workflow, current ACS demographics, schools, and retail.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered",
-  "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points"
+  "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
+  "release": "v2.7.3",
+  "school_rating_update": "Thomas verified grades applied; Unranked values excluded from scoring",
+  "updated": "2026-07-08"
 }
