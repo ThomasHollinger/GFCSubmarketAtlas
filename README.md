@@ -13,3 +13,7 @@ Builder filters included:
 - Active
 - Future
 - Built Out
+
+
+### v2.8.1 Builder Pin Refinement
+Builder subdivision markers now render as individual pins rather than clusters. Pin colors follow the requested builder color profile and pin labels use the builder initial.

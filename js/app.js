@@ -505,12 +505,50 @@ function colorForBuilderDensity(density) {
   return '#e9d5ff';
 }
 
-function builderIcon(status, product) {
+function normalizeBuilderName(builder) {
+  return String(builder || '')
+    .split('|')[0]
+    .replace(/\bInc\.?$/i, '')
+    .replace(/\bLLC$/i, '')
+    .replace(/\bHomes?$/i, 'Homes')
+    .trim();
+}
+
+function builderDisplayLetter(builder) {
+  const b = normalizeBuilderName(builder);
+  if (/^d\.?\s*r\.?\s*horton/i.test(b)) return 'D';
+  if (/^lennar/i.test(b)) return 'L';
+  if (/^adams/i.test(b)) return 'A';
+  if (/^dsld/i.test(b)) return 'D';
+  if (/^holiday/i.test(b)) return 'H';
+  if (/^meritage/i.test(b)) return 'M';
+  if (/^maronda/i.test(b)) return 'M';
+  if (/^century/i.test(b)) return 'C';
+  if (/^valor/i.test(b)) return 'V';
+  const m = b.match(/[A-Za-z]/);
+  return m ? m[0].toUpperCase() : 'B';
+}
+
+function builderColorClass(builder) {
+  const b = normalizeBuilderName(builder).toLowerCase();
+  if (/^lennar/.test(b)) return 'builder-lennar';
+  if (/^d\.?\s*r\.?\s*horton/.test(b)) return 'builder-drhorton';
+  if (/^adams/.test(b)) return 'builder-adams';
+  if (/^dsld/.test(b)) return 'builder-dsld';
+  if (/^holiday/.test(b)) return 'builder-holiday';
+  if (/^meritage/.test(b)) return 'builder-meritage';
+  if (/^maronda/.test(b)) return 'builder-maronda';
+  if (/^century/.test(b)) return 'builder-century';
+  if (/^valor/.test(b)) return 'builder-valor';
+  return 'builder-other';
+}
+
+function builderIcon(builder, status) {
   const s = String(status || '').toLowerCase();
-  const p = String(product || '').toLowerCase();
-  const cls = s.includes('future') ? 'builder-future' : s.includes('built') ? 'builder-built' : 'builder-active';
-  const label = p.includes('town') ? 'T' : 'S';
-  return L.divIcon({ className: '', html: `<div class="builder-marker ${cls}">${label}</div>`, iconSize: [22,22], iconAnchor: [11,11], popupAnchor: [0,-11] });
+  const statusCls = s.includes('future') ? 'builder-future' : s.includes('built') ? 'builder-built' : 'builder-active';
+  const colorCls = builderColorClass(builder);
+  const label = builderDisplayLetter(builder);
+  return L.divIcon({ className: '', html: `<div class="builder-marker ${statusCls} ${colorCls}">${label}</div>`, iconSize: [24,24], iconAnchor: [12,12], popupAnchor: [0,-12] });
 }
 
 function renderBuilderCard(summary) {
@@ -542,12 +580,12 @@ function buildBuilderLayer() {
   const wasVisible = state.builderLayer && state.map && state.map.hasLayer(state.builderLayer);
   if (state.builderLayer && state.map && state.map.hasLayer(state.builderLayer)) state.map.removeLayer(state.builderLayer);
   state.builderMarkerIndex = new Map();
-  state.builderLayer = L.markerClusterGroup({ chunkedLoading: true, chunkInterval: 120, chunkDelay: 30, showCoverageOnHover: false, spiderfyOnMaxZoom: true, disableClusteringAtZoom: 13, maxClusterRadius: 50 });
+  state.builderLayer = L.layerGroup();
   activeBuilderSubdivisions().forEach(feature => {
     const coords = feature.geometry && feature.geometry.coordinates;
     if (!coords || coords.length < 2) return;
     const p = feature.properties || {};
-    const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(p.Status, p.ProductStyle) });
+    const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(p.Builder, p.Status) });
     marker.feature = feature;
     marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${p.Builder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
     marker.on('click', () => selectBuilderSubdivision(feature));
@@ -613,8 +651,7 @@ function selectBuilderSubdivision(builder) {
   const target = state.builderMarkerIndex ? state.builderMarkerIndex.get(builder.properties.BuilderSubdivisionID) : null;
   if (target) {
     state.map.setView(target.getLatLng(), Math.max(state.map.getZoom(), 13));
-    if (state.builderLayer.zoomToShowLayer) state.builderLayer.zoomToShowLayer(target, () => target.openPopup());
-    else target.openPopup();
+    target.openPopup();
   }
 }
 

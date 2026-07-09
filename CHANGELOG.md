@@ -9,3 +9,9 @@
 - Preserved retail clustering/filters, verified school ratings, demographics, and healthcare framework.
 
 Note: the uploaded source file contains 482 records. All records are currently tagged as Single-Family in the Product Style column, so the Townhomes filter is available but will show zero until townhome records are included in a future source export.
+
+
+## v2.8.1 - Builder Pin Refinement
+- Changed Builder Subdivisions rendering from clustered markers to individual pins, matching the school layer behavior.
+- Added builder-specific pin colors: Lennar blue, D.R. Horton red, Adams green, DSLD purple, Holiday black, Meritage yellow, Maronda brown, Century maroon, Valor pink, and all others orange.
+- Changed builder pin labels from product type initials to the first letter of the builder name.
