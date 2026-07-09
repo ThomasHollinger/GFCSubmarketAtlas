@@ -1,0 +1,10 @@
+requests
+beautifulsoup4
+pandas
+geopandas
+shapely
+pyogrio
+fiona
+rtree
+geopy
+openpyxl
