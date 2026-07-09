@@ -30,7 +30,7 @@ jobs:
         run: |
           python scripts/build_builder_subdivisions.py \
             --submarkets data/submarkets.geojson \
-            --targets data/builder_source_targets.json \
+            --sources data/builder_source_targets.json \
             --output-dir data
 
       - name: Commit builder subdivision outputs
