@@ -1,16 +1,11 @@
-# Gulf Coast Submarket Atlas v2.8.5
+# Gulf Coast Submarket Atlas v2.8.8
 
-Market Intelligence Platform for Gulf Coast submarket analysis.
+This release normalizes Lennar builder naming in the Builder Subdivisions layer.
 
-This release adds persistent sidebar dropdown behavior. Expanded sidebar sections remain open when the selected submarket changes, unless the user manually collapses them.
+Changes:
+- `Lennar` is merged into `Lennar Homes` in the builder filter list.
+- Avery Cove remains assigned to `Lennar Homes`.
+- Multi-builder communities that include Lennar Homes now use the Lennar blue `L` pin on the map.
+- Sidebar builder lists and popups display normalized builder names.
 
-
-## v2.8.6 Builder Filter Update
-- Added Builder Subdivisions sub-filter by builder name.
-- Builder filter list prioritizes Lennar first when present, sorts remaining builders alphabetically, and places unknown `?` builders last.
-- Builder filter list scopes to the selected submarket when a submarket is selected.
-- Leaving all builder names unchecked shows all builders; selecting one or more builder names limits the pins and sidebar counts to those builders.
-
-
-### v2.8.7
-Avery Cove builder corrected to Lennar Homes.
+Includes prior fixes for verified school ratings, ACS 2020-2024 demographics, healthcare, retail clustering/filters, and builder dropdown/filter behavior.

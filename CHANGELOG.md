@@ -17,3 +17,9 @@ Built from v2.8.4.
 
 ## v2.8.7
 - Updated Avery Cove builder from Lennar to Lennar Homes.
+
+## v2.8.8 Builder Lennar normalization
+- Merged legacy `Lennar` builder values into `Lennar Homes`.
+- Builder filters now group Lennar and Lennar Homes together.
+- Builder pins now prioritize Lennar Homes when a community has multiple builders, so any Lennar Homes community displays as a blue `L`.
+- Popups and sidebar lists display normalized builder names.

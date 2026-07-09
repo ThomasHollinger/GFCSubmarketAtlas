@@ -2,8 +2,8 @@ BuilderSubdivisionID,Subdivision,Builder,Status,ProductStyle,City,County,State,L
 F984C9A1-08B3-4443-85E8-31213568AAC7,Cherry Hill,Brett-Robinson | MSB Homes,Active,Single-Family Detached,Saraland,Mobile,AL,30.830633,-88.127991,SM-02,Central Mobile,68,43,5.0,7.0
 7FA16FD2-A57C-4DCC-B41B-8FE65A915A7D,Belfair,DSLD Homes,Active,Single-Family Detached,Daphne,Baldwin,AL,30.61784,-87.843073,SM-06,West Baldwin,79,79,0.0,0.0
 E201AEE3-B6CB-42C5-9585-DCF3374161D7,Heritage Landing,Adams Homes,Active,Single-Family Detached,Foley,Baldwin,AL,30.389554,-87.674555,SM-04,South Baldwin,115,18,33.0,38.0
-774A4566-3C00-4BC0-9A2F-332CF526844B,Airways Oaks,Holiday Builders ,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.642221,-86.99612,SM-10,Milton,61,5,2.0,4.0
-1F621702-BBF6-4F6B-B985-32FFBF7D059B,Hodges Bayou Plantation ,Cassell Builders | Coastal Classic Homes | D.R. Horton Inc | Watertight Construction ,Active,Single-Family Detached,Panama City,Bay,FL,30.284945,-85.615927,SM-29,Bay County Submarket 2,618,362,46.0,40.0
+774A4566-3C00-4BC0-9A2F-332CF526844B,Airways Oaks,Holiday Builders,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.642221,-86.99612,SM-10,Milton,61,5,2.0,4.0
+1F621702-BBF6-4F6B-B985-32FFBF7D059B,Hodges Bayou Plantation ,Cassell Builders | Coastal Classic Homes | D.R. Horton Inc | Watertight Construction,Active,Single-Family Detached,Panama City,Bay,FL,30.284945,-85.615927,SM-29,Bay County Submarket 2,618,362,46.0,40.0
 CA84F23E-443E-44EC-B812-66573449BAD7,Watersound/Rivercamps at Crooked Creek,BCB Construction | Chuck Neel Construction Inc | Focus Construction | JC Homes and Development | Koehnemann Construction Co | Martelle Homes,Active,Single-Family Detached,Panama City Beach,Bay,FL,30.289247,-85.826459,SM-32,Bay County Submarket 1,397,207,5.0,1.0
 81BE6CC2-3316-48E7-A286-EFCA31F29607,Alys Beach/BK M,Earthbuild LLC,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.289666,-86.029722,SM-22,Walton and Bay Beaches,3,3,1.0,0.0
 23ABA1B9-C013-4272-8739-75B70D1342D3,Watersound/Arborview Park,Huff Homes,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.312269,-86.027962,SM-22,Walton and Bay Beaches,325,325,5.0,0.0
@@ -11,7 +11,7 @@ CA84F23E-443E-44EC-B812-66573449BAD7,Watersound/Rivercamps at Crooked Creek,BCB 
 D56FDE28-CCB0-4B15-9090-555C4BF1C8AC,Magnolia Ridge,Lennar Homes,Active,Single-Family Detached,Panama City,Bay,FL,30.208074,-85.595176,SM-28,Panama City,134,106,62.0,28.0
 5CFE4224-590F-4295-B8FF-2ACB9C9E0574,Watersound/Naturewalk,Kolter Homes,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.304443,-86.003861,SM-22,Walton and Bay Beaches,465,99,65.0,82.0
 6891F171-EFD9-4806-9B3B-2CA040CB4BB4,Village at Craft Farms,D.R. Horton Inc,Built Out,Single-Family Detached,Gulf Shores,Baldwin,AL,30.323811,-87.66543,SM-04,South Baldwin,162,0,0.0,0.0
-EBC97CA9-021C-4D83-8DBD-AC4CA4AFEA9B,Valhallas Landing,Herbst Homes ,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.588352,-86.959461,SM-10,Milton,12,0,0.0,12.0
+EBC97CA9-021C-4D83-8DBD-AC4CA4AFEA9B,Valhallas Landing,Herbst Homes,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.588352,-86.959461,SM-10,Milton,12,0,0.0,12.0
 5BDAFF3E-20A2-4F3D-B5BB-982AAA55D120,Watersound/Ward Creek/Breakwater,Toll Brothers Inc,Active,Single-Family Detached,Panama City Beach,Bay,FL,30.263787,-85.873816,SM-22,Walton and Bay Beaches,348,299,32.0,44.0
 A492DD6B-D86B-4054-9D26-0CA6BC8C5506,Coxwell Crossing,D.R. Horton Inc,Active,Single-Family Detached,Mobile,Mobile,AL,30.601475,-88.29297,SM-02,Central Mobile,70,65,12.0,5.0
 71CB4A89-0F02-4C4D-A7EE-3DABA09A358B,Heritage Estates,,Active,Single-Family Detached,Wewahitchka,Gulf,FL,30.113631,-85.19451,SM-31,Gulf County,80,80,0.0,0.0
@@ -28,8 +28,8 @@ CF6AD89D-2EAE-4EB6-8016-2CEA86BDC2BE,Longleaf Gates,D.R. Horton Inc,Built Out,Si
 A9D36D15-51EE-4AA8-9B0B-DE84648A3560,Pine Hill,Century Communities,Active,Single-Family Detached,Panama City,Bay,FL,30.248142,-85.519391,SM-29,Bay County Submarket 2,51,51,0.0,0.0
 19A89E88-AE00-42C9-97AA-EE316475AE50,Plantation Woods,D.R. Horton Inc,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.632433,-86.962997,SM-10,Milton,358,80,59.0,65.0
 020AF351-9D62-4EFF-8CE7-53B0951B2D4A,Hammock Bay/Moonswept ,DSLD Homes,Built Out,Single-Family Detached,Freeport,Walton,FL,30.459818,-86.179822,SM-20,Freeport,59,0,0.0,0.0
-F01F7486-AFEA-4994-B627-B94E67967E8D,Alys Beach/BK LL ,Alys Beach Construction ,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.283785,-86.029264,SM-22,Walton and Bay Beaches,10,10,0.0,0.0
-3CCACB1E-064A-42AB-A7BC-3D537AC335CC,Alys Beach/BK EE,Alys Beach Construction  | Arkon Group | Gulfview Development & Construction LLC | Hufham/Farris Construction LLC,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.28724,-86.03195,SM-22,Walton and Bay Beaches,20,19,10.0,1.0
+F01F7486-AFEA-4994-B627-B94E67967E8D,Alys Beach/BK LL ,Alys Beach Construction,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.283785,-86.029264,SM-22,Walton and Bay Beaches,10,10,0.0,0.0
+3CCACB1E-064A-42AB-A7BC-3D537AC335CC,Alys Beach/BK EE,Alys Beach Construction | Arkon Group | Gulfview Development & Construction LLC | Hufham/Farris Construction LLC,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.28724,-86.03195,SM-22,Walton and Bay Beaches,20,19,10.0,1.0
 9FB3D946-1104-4043-8C7C-A3A58BDF896C,Bear Run,D.R. Horton Inc,Active,Single-Family Detached,Saraland,Mobile,AL,30.864247,-88.119349,SM-02,Central Mobile,262,262,8.0,0.0
 F930FEF7-CA96-4847-A5CD-B21BF27BA262,Jackson Creek Oaks,Cretin Townsend Homes,Active,Single-Family Detached,Theodore,Mobile,AL,30.545543,-88.301217,SM-02,Central Mobile,13,12,2.0,1.0
 C6BDA09A-542C-4DBC-A4A3-8AE433E21786,Pine Top,Adams Homes,Active,Single-Family Detached,Cantonment,Escambia,FL,30.621976,-87.338027,SM-11,Cantonment,70,36,14.0,16.0
@@ -79,7 +79,7 @@ AB23E806-9C1C-469F-B599-591DD3B06EF2,East Bay Park ,Porch Swing Homes,Active,Sin
 05F2EA92-DFA9-4A21-B146-056E71DBAC71,Independence/SF,D.R. Horton Inc,Active,Single-Family Detached,Daphne,Baldwin,AL,30.693421,-87.80582,SM-12,Central Baldwin,158,57,55.0,50.0
 F449BFAA-C927-447B-8421-007B614C9B7C,"Sandbar, The",Fischer Homes,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.3728,-86.246844,SM-22,Walton and Bay Beaches,10,10,0.0,0.0
 DF8BD42C-17CF-4372-A232-40AF154C02E3,Parkbrook,Adams Homes,Active,Single-Family Detached,Panama City,Bay,FL,30.240537,-85.525917,SM-29,Bay County Submarket 2,201,189,33.0,12.0
-5BCEACE6-4D2B-48D5-8993-590F821022E5,Breezy Meadows,Herbst Homes ,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.590091,-86.964257,SM-10,Milton,20,0,0.0,4.0
+5BCEACE6-4D2B-48D5-8993-590F821022E5,Breezy Meadows,Herbst Homes,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.590091,-86.964257,SM-10,Milton,20,0,0.0,4.0
 4A98620F-866E-4687-B946-3E9360CF0149,Grande Oaks (Walton),CJL Homes,Active,Single-Family Detached,Freeport,Walton,FL,30.496365,-86.151716,SM-20,Freeport,36,9,0.0,4.0
 4E8D802A-CA05-4804-9010-7BB168074425,Battles Trace at The Colony,Stuart Construction,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.493988,-87.907154,SM-06,West Baldwin,285,117,9.0,12.0
 7F312BBA-5F37-43D1-A9CD-A60AB9796A47,Eden Lake ,DSLD Homes,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.759405,-86.557016,SM-17,Crestview,181,181,0.0,0.0
@@ -90,7 +90,7 @@ BCE2529B-C793-4FD7-A323-BCB7C40F8A29,Falling Leaf,D.R. Horton Inc,Built Out,Sing
 CD0CE7BF-B1A9-4CD6-BC6D-98E4E0A2EE33,"Porches, The",D.R. Horton Inc,Built Out,Single-Family Detached,Elberta,Baldwin,AL,30.403787,-87.611474,SM-04,South Baldwin,122,0,0.0,1.0
 81761D78-036C-436A-A687-B9DBB6351098,Pheasant Run,D.R. Horton Inc,Built Out,Single-Family Detached,Elberta,Baldwin,AL,30.406996,-87.613328,SM-04,South Baldwin,80,0,4.0,16.0
 A4CDDB68-3AEF-46EA-AA1B-3A0C40E0B9FE,Greenbrier,Lennar Homes,Active,Single-Family Detached,Foley,Baldwin,AL,30.363096,-87.694349,SM-04,South Baldwin,102,14,41.0,46.0
-21498E86-4277-4FCA-8FD4-D92F801E3E6E,Jubilee/Mahogany,Holiday Builders ,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.690302,-87.174682,SM-08,Pace,260,260,3.0,0.0
+21498E86-4277-4FCA-8FD4-D92F801E3E6E,Jubilee/Mahogany,Holiday Builders,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.690302,-87.174682,SM-08,Pace,260,260,3.0,0.0
 A572F69F-2764-4CA0-A4E3-2866D5D283CB,Gaylen Oaks,D.R. Horton Inc,Active,Single-Family Detached,Pensacola,Escambia,FL,30.539835,-87.266668,SM-11,Cantonment,20,14,20.0,6.0
 3509AACA-6245-4057-A4D5-C701B66D278E,Green Fields,Lennar Homes,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.480293,-87.868692,SM-06,West Baldwin,80,80,0.0,0.0
 1B02545F-1ACF-42B9-AB8B-950B158FA1FB,Vickers Estates,Adams Homes,Active,Single-Family Detached,Semmes,Mobile,AL,30.796754,-88.267658,SM-02,Central Mobile,40,23,9.0,13.0
@@ -108,7 +108,7 @@ B0A6AB9B-1F66-4368-A2A0-5E0FAC0A24F4,Stonebridge/Biltmore ,D.R. Horton Inc,Activ
 AD38CE76-3B69-4822-851B-3A0E38D92B44,Eagles Landing of Niceville,Huff Homes,Active,Single-Family Detached,Niceville,Okaloosa,FL,30.519377,-86.470375,SM-18,Fort Walton,35,4,6.0,13.0
 CF743763-835B-400F-9B32-B0B4DA8ED211,White Oak Estates,Lennar Homes,Active,Single-Family Detached,Laurel Hill,Okaloosa,FL,30.961009,-86.468343,SM-16,Laurel Hill,109,98,0.0,11.0
 1DAD59F1-A3C7-4293-B156-895A61D1883B,Silver Springs,DSLD Homes,Active,Single-Family Detached,Silverhill,Baldwin,AL,30.551445,-87.767904,SM-12,Central Baldwin,199,199,14.0,0.0
-3347191C-B262-489E-85C8-B7ABF5B832F3,Las Colinas,Holiday Builders ,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.632796,-87.063412,SM-10,Milton,12,9,7.0,3.0
+3347191C-B262-489E-85C8-B7ABF5B832F3,Las Colinas,Holiday Builders,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.632796,-87.063412,SM-10,Milton,12,9,7.0,3.0
 56175094-251B-4440-812B-6DC27EAE40CB,Game Farm,Ben Wortman Construction | Phillips Homes | Southern Coastal Homes,Active,Single-Family Detached,Panama City,Bay,FL,30.199565,-85.599746,SM-28,Panama City,125,101,5.0,15.0
 9FCDAA9A-3B27-4338-9902-6C4E0C48F5EC,Pond Creek Landing,,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.682676,-87.134432,SM-08,Pace,22,22,0.0,0.0
 888350DC-871F-49CF-8FB0-C08ADD05340A,Lantern Ridge,Linc Grant Construction,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.764625,-86.548112,SM-17,Crestview,23,23,0.0,0.0
@@ -121,7 +121,7 @@ FA6173F4-E2DD-4136-8DE2-CCAE44EFF079,Heritage Lake,D.R. Horton Inc,Active,Single
 1104ADA4-CB7D-4F17-8DEA-61CD3DB8FF78,Watersound/Greenway,Arkon Group | Cole Construction & Development | Dune Construction and Development | Huff Homes | Key Lime Construction | Romair Homes,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.294952,-86.013593,SM-22,Walton and Bay Beaches,62,4,1.0,6.0
 BFCA1470-95E0-4398-AC3D-351927590E7A,McCarthy Estates,CJL Homes,Active,Single-Family Detached,Defuniak Springs,Walton,FL,30.744763,-86.132638,SM-19,Defuniak Springs,29,29,0.0,0.0
 1304B2D7-00C4-4D51-AAD9-5B2F8F766238,French Settlement,D.R. Horton Inc,Active,Single-Family Detached,Daphne,Baldwin,AL,30.622568,-87.873158,SM-06,West Baldwin,236,1,0.0,1.0
-54FC3228-0C0A-4C21-918A-6E3E7935812B,Hammock Bay/Symphony ,Adams Homes | Coastal Builders of NW FL Inc | D.R. Horton Inc | DSLD Homes | Holiday Builders  | Remyford Construction | Simmons Home Builders of NW Florida | Traton Homes,Active,Single-Family Detached,Freeport,Walton,FL,30.489847,-86.161757,SM-20,Freeport,201,17,1.0,2.0
+54FC3228-0C0A-4C21-918A-6E3E7935812B,Hammock Bay/Symphony ,Adams Homes | Coastal Builders of NW FL Inc | D.R. Horton Inc | DSLD Homes | Holiday Builders | Remyford Construction | Simmons Home Builders of NW Florida | Traton Homes,Active,Single-Family Detached,Freeport,Walton,FL,30.489847,-86.161757,SM-20,Freeport,201,17,1.0,2.0
 0EC567E7-532A-4DA0-B5AF-A39263C36ADC,Sandy Creek (Mobile),Cretin Townsend Homes | D.R. Horton Inc,Active,Single-Family Detached,Mobile,Mobile,AL,30.607987,-88.349575,SM-02,Central Mobile,57,56,3.0,1.0
 E6AA8A03-5660-43DB-81DB-6883D27D48A0,Chateau Nemours/SF,D.R. Horton Inc,Active,Single-Family Detached,Port Saint Joe,Gulf,FL,29.77634,-85.27461,SM-31,Gulf County,68,68,11.0,0.0
 72615CC7-4D49-4C4C-8779-4FC2F3DB80F7,Clear Lake Estates,Century Communities,Active,Single-Family Detached,Youngstown,Bay,FL,30.311851,-85.512902,SM-28,Panama City,111,76,27.0,21.0
@@ -129,7 +129,7 @@ E6AA8A03-5660-43DB-81DB-6883D27D48A0,Chateau Nemours/SF,D.R. Horton Inc,Active,S
 C3D5DCCB-25A6-4DBB-BB05-EAF83E1D1935,Twin Palms at Inlet Beach,Brock Built,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.279021,-86.006491,SM-22,Walton and Bay Beaches,25,3,0.0,0.0
 694D9418-C74F-438B-BDF9-09E5E45468D9,Hidden Lakes,D.R. Horton Inc,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.843605,-86.524509,SM-16,Laurel Hill,85,59,10.0,24.0
 B7A2208E-95EB-474A-A0BE-3EFCFF37732F,Traditions/SF,Valor Communities,Active,Single-Family Detached,Gulf Shores,Baldwin,AL,30.315226,-87.686405,SM-04,South Baldwin,117,103,21.0,14.0
-AA4E086D-FE45-4AB5-B08C-FB058D94A875,Wildwood Estates/Brookhaven,Adams Homes | D.R. Horton Inc | Holiday Builders ,Built Out,Single-Family Detached,Cantonment,Escambia,FL,30.550485,-87.352023,SM-11,Cantonment,160,0,0.0,1.0
+AA4E086D-FE45-4AB5-B08C-FB058D94A875,Wildwood Estates/Brookhaven,Adams Homes | D.R. Horton Inc | Holiday Builders,Built Out,Single-Family Detached,Cantonment,Escambia,FL,30.550485,-87.352023,SM-11,Cantonment,160,0,0.0,1.0
 C9AFF957-9880-47BE-9DA1-0CC26072C10E,Pine Creek,D.R. Horton Inc,Built Out,Single-Family Detached,Port Saint Joe,Gulf,FL,29.772702,-85.285529,SM-31,Gulf County,5,0,1.0,4.0
 BB47318C-1595-4413-8585-A173930B7777,Sandy Oaks,Meritage Homes,Active,Single-Family Detached,Elberta,Baldwin,AL,30.410828,-87.616813,SM-04,South Baldwin,244,201,26.0,34.0
 6EDBA7B9-0787-45AC-9178-AEB456A1310B,Avalon Beach,Flynn Building Specialists | R&K Construction,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.544206,-87.110053,SM-08,Pace,48,12,0.0,2.0
@@ -142,12 +142,12 @@ AE80F69D-8947-428D-B626-03347B535BBE,Shell Landing,Century Communities,Built Out
 B6A1D5D9-2D4D-4064-8874-731FE50D54A5,Magnolia Bay Estates (Bay),RJ Investors LLC,Active,Single-Family Detached,Panama City,Bay,FL,30.158813,-85.731665,SM-22,Walton and Bay Beaches,20,20,16.0,0.0
 1DC1E73C-73A5-4CE8-85B5-83CD6FD18283,Hope Vineyard,D.R. Horton Inc | Maronda Homes,Active,Single-Family Detached,Daphne,Baldwin,AL,30.572679,-87.867273,SM-06,West Baldwin,236,120,49.0,58.0
 C039BB88-828F-40CD-8688-4D8474432EED,Dogwood Estates,D.R. Horton Inc,Active,Single-Family Detached,Summerdale,Baldwin,AL,30.501975,-87.663963,SM-12,Central Baldwin,152,105,21.0,25.0
-273CBD74-1A1D-4405-BD77-4C9F40B8499C,Windswept Estates,D.R. Horton Inc | Holiday Builders ,Active,Single-Family Detached,Freeport,Walton,FL,30.495736,-86.040133,SM-23,Walton County,194,32,1.0,27.0
+273CBD74-1A1D-4405-BD77-4C9F40B8499C,Windswept Estates,D.R. Horton Inc | Holiday Builders,Active,Single-Family Detached,Freeport,Walton,FL,30.495736,-86.040133,SM-23,Walton County,194,32,1.0,27.0
 87151917-3753-4643-B76D-A6664CECD732,Owls Head/Nest,D.R. Horton Inc | Valor Communities,Active,Single-Family Detached,Defuniak Springs,Walton,FL,30.554473,-86.101935,SM-20,Freeport,89,89,2.0,0.0
 6372FDD3-0762-44B0-9DA2-29E518BC607D,Longmire Estates,D.R. Horton Inc,Active,Single-Family Detached,Theodore,Mobile,AL,30.595927,-88.258023,SM-02,Central Mobile,12,12,3.0,0.0
 5DE02B73-D19F-4F9B-91D1-FCCEBDCDF295,Alys Beach/BK FF,,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.287611,-86.03283,SM-22,Walton and Bay Beaches,12,12,0.0,0.0
 EFDE692C-D299-4B98-9F4A-9BCC919114C7,Old Battles Village ,D.R. Horton Inc,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.496535,-87.891463,SM-06,West Baldwin,262,6,13.0,20.0
-C10354FB-9964-4907-8161-B81351F3A216,Lake Merial/SF,Adams Homes | D.R. Horton Inc | Holiday Builders ,Active,Single-Family Detached,Panama City,Bay,FL,30.381715,-85.681315,SM-28,Panama City,254,101,18.0,8.0
+C10354FB-9964-4907-8161-B81351F3A216,Lake Merial/SF,Adams Homes | D.R. Horton Inc | Holiday Builders,Active,Single-Family Detached,Panama City,Bay,FL,30.381715,-85.681315,SM-28,Panama City,254,101,18.0,8.0
 D5D44488-8B04-4961-BBE0-402882D225FF,Bright Meadows,Flynn Building Specialists,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.673183,-87.10361,SM-08,Pace,40,1,9.0,16.0
 725F86FE-665C-4B8B-937A-D04479840100,Savannah Estates,DSLD Homes,Active,Single-Family Detached,Daphne,Baldwin,AL,30.610507,-87.834995,SM-06,West Baldwin,229,191,57.0,38.0
 3388BF85-5B05-4CE6-8FAC-B3F991942C3D,Emmaline Gardens ,Adams Homes,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.660661,-87.105699,SM-08,Pace,97,3,18.0,49.0
@@ -158,8 +158,8 @@ D5D44488-8B04-4961-BBE0-402882D225FF,Bright Meadows,Flynn Building Specialists,A
 F768CCC4-B88B-4E94-9D24-877D0137F3BA,Cottages of Aventura,Lennar Homes,Active,Single-Family Detached,Loxley,Baldwin,AL,30.583454,-87.735665,SM-12,Central Baldwin,141,1,7.0,32.0
 CBFEECED-AFD3-4BB4-98C7-3F225F61C5F1,Southern Belle,Jacob Locke Construction Inc,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.808556,-86.476663,SM-17,Crestview,28,15,4.0,7.0
 E8C058C7-521E-4D6D-B0B2-5A09AAD1D229,Sunny Hills/Unit 23,,Active,Single-Family Detached,Chipley,Washington,FL,30.580678,-85.546411,SM-25,Washington County,98,98,0.0,0.0
-27513DF9-9B1B-4053-B239-DBA54D12C6E6,Graystone Estates,D.R. Horton Inc | Holiday Builders ,Built Out,Single-Family Detached,Cantonment,Escambia,FL,30.599599,-87.342288,SM-11,Cantonment,143,0,0.0,1.0
-F036B211-605A-453C-A9F9-CF5B80FD0579,Serenity at Dune Allen/Reserves,"Trotter's General Contractors, Inc. ",Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.358769,-86.253904,SM-22,Walton and Bay Beaches,15,15,1.0,0.0
+27513DF9-9B1B-4053-B239-DBA54D12C6E6,Graystone Estates,D.R. Horton Inc | Holiday Builders,Built Out,Single-Family Detached,Cantonment,Escambia,FL,30.599599,-87.342288,SM-11,Cantonment,143,0,0.0,1.0
+F036B211-605A-453C-A9F9-CF5B80FD0579,Serenity at Dune Allen/Reserves,"Trotter's General Contractors, Inc.",Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.358769,-86.253904,SM-22,Walton and Bay Beaches,15,15,1.0,0.0
 22BF5D8F-D4CA-46E2-B4DD-7AC600445170,Spanish Cove,D.R. Horton Inc,Built Out,Single-Family Detached,Lillian,Baldwin,AL,30.401449,-87.454699,SM-04,South Baldwin,123,0,0.0,0.0
 8F0DC458-C3DB-40DB-9A80-ABB5F8A164AE,Pine Blossom ,,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.678929,-87.079094,SM-10,Milton,11,11,0.0,0.0
 94DB171E-E54D-40D3-AC79-E34CE6AA9094,Sanctuary Beach (Bay),D.R. Horton Inc | Nadeau Construction,Active,Single-Family Detached,Panama City,Bay,FL,30.142211,-85.716495,SM-22,Walton and Bay Beaches,71,31,0.0,2.0
@@ -184,17 +184,17 @@ FC960DEF-CBC3-4814-BB07-5272C58B4043,Woodlands/SF,D.R. Horton Inc | Henry Compan
 DCCFE824-95AD-4377-9B7D-B78B67144AE3,Heathers Place ,Henry Company Homes,Active,Single-Family Detached,Gulf Breeze,Santa Rosa,FL,30.419419,-86.957926,SM-09,Pensacola Beaches,520,446,9.0,23.0
 EE8E84F4-D45F-4D61-8A05-5B3EA8870069,Carillon Beach ,STT Properties LLC,Active,Single-Family Detached,Panama City Beach,Bay,FL,30.26573,-85.983168,SM-22,Walton and Bay Beaches,13,9,3.0,2.0
 186D3C84-995D-4497-80E7-35AB80943EF7,Hadleys Beach,Grayt-A Construction,Active,Single-Family Detached,Panama City,Bay,FL,30.148187,-85.763257,SM-22,Walton and Bay Beaches,26,20,3.0,6.0
-B9E1002E-3DE3-44C9-B089-9B4DAC9F8EA9,Harvey Heights,Holiday Builders ,Active,Single-Family Detached,Panama City,Bay,FL,30.151009,-85.596373,SM-28,Panama City,18,17,6.0,1.0
-9EDC7469-00D3-43F0-A46C-0D504B34FD97,Alys Beach/BK YY,Alys Beach Construction  | Arkon Group,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.285435,-86.032423,SM-22,Walton and Bay Beaches,11,11,6.0,0.0
+B9E1002E-3DE3-44C9-B089-9B4DAC9F8EA9,Harvey Heights,Holiday Builders,Active,Single-Family Detached,Panama City,Bay,FL,30.151009,-85.596373,SM-28,Panama City,18,17,6.0,1.0
+9EDC7469-00D3-43F0-A46C-0D504B34FD97,Alys Beach/BK YY,Alys Beach Construction | Arkon Group,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.285435,-86.032423,SM-22,Walton and Bay Beaches,11,11,6.0,0.0
 8D3941C3-C26E-4877-B5F0-06A6B6CA4E39,Parkside,D.R. Horton Inc,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.367292,-86.269341,SM-22,Walton and Bay Beaches,124,119,2.0,5.0
 67943DBA-DF68-4020-B3DE-3668E8C69779,Martin Preserve,D.R. Horton Inc,Active,Single-Family Detached,Pensacola,Escambia,FL,30.376416,-87.348835,SM-07,Pensacola,46,4,28.0,42.0
-2119C900-9697-46C6-9391-C3969FC1BB78,Doyle Hawkins Landing,Herbst Homes ,Active,Single-Family Detached,Navarre,Santa Rosa,FL,30.459882,-86.903743,SM-21,Eglin AFB,8,1,8.0,7.0
+2119C900-9697-46C6-9391-C3969FC1BB78,Doyle Hawkins Landing,Herbst Homes,Active,Single-Family Detached,Navarre,Santa Rosa,FL,30.459882,-86.903743,SM-21,Eglin AFB,8,1,8.0,7.0
 DE0D6CA0-B0AB-49D8-9BDB-3E55649C982B,Turtle Creek,Adams Homes,Active,Single-Family Detached,Cantonment,Escambia,FL,30.641497,-87.342887,SM-11,Cantonment,134,83,15.0,22.0
 0F48F4B5-E85E-402D-ACF8-B6A451ACD36A,Brizo,Brock Built,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.391066,-86.270776,SM-22,Walton and Bay Beaches,18,10,6.0,8.0
 158CF71D-3D86-49BA-B845-961AE0E78EA2,Sawmill Court,Century Communities | Halifax Homes,Built Out,Single-Family Detached,Defuniak Springs,Walton,FL,30.701473,-86.027656,SM-23,Walton County,83,0,0.0,0.0
 10B87EA4-FE0D-415C-B346-4140798C29EB,Summer Salt,D.R. Horton Inc,Built Out,Single-Family Detached,Orange Beach,Baldwin,AL,30.267938,-87.612826,SM-04,South Baldwin,115,0,0.0,15.0
 B74A699A-B33C-4DB0-83F7-DE385CD04F82,Bayou Pines,D.R. Horton Inc,Built Out,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.392551,-86.300581,SM-22,Walton and Bay Beaches,5,0,0.0,0.0
-91488F3C-099D-400C-A747-51F6077AEE45,Alys Beach/BK AC,Alys Beach Construction  | Arkon Group | Craft Custom Homes LLC | Davis Dunn Construction | Galvas Construction Inc | Gulfview Development & Construction LLC | Hufham/Farris Construction LLC | JC Craig LLC,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.284576,-86.032819,SM-22,Walton and Bay Beaches,35,11,4.0,15.0
+91488F3C-099D-400C-A747-51F6077AEE45,Alys Beach/BK AC,Alys Beach Construction | Arkon Group | Craft Custom Homes LLC | Davis Dunn Construction | Galvas Construction Inc | Gulfview Development & Construction LLC | Hufham/Farris Construction LLC | JC Craig LLC,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.284576,-86.032819,SM-22,Walton and Bay Beaches,35,11,4.0,15.0
 B79344B8-0CC3-49CF-8CF4-7D3D22EA3C9A,Turquoise,,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.356549,-86.236833,SM-22,Walton and Bay Beaches,66,66,0.0,0.0
 8FED3A46-45D5-4A69-9F4C-BCB1E9D14D2E,Wildwood Estates/Iron Rock,Celebrity Home Builders | D.R. Horton Inc | DSLD Homes | KW Custom Homes | Signature Homes LLC,Active,Single-Family Detached,Cantonment,Escambia,FL,30.567947,-87.36688,SM-11,Cantonment,364,67,38.0,36.0
 951C3A37-051B-495D-B25D-A4E40CB4542F,Sunny Hills/Unit 17,,Active,Single-Family Detached,Chipley,Washington,FL,30.553497,-85.585909,SM-25,Washington County,42,42,0.0,0.0
@@ -232,7 +232,7 @@ BC38EA1D-8679-46BE-B5FF-26E64DA2CDBB,Grady Place,CJS Roth LLC | Meritage Homes |
 E90B74C7-60D5-45CE-AA77-BD5F84EFEF33,Yellow River Plantation,Lennar Homes,Active,Single-Family Detached,Laurel Hill,Okaloosa,FL,30.837201,-86.557074,SM-16,Laurel Hill,205,180,47.0,25.0
 277A5DD2-E77A-4979-A80F-E4BD6FF64DD0,Brentwood,DSLD Homes,Active,Single-Family Detached,Daphne,Baldwin,AL,30.675357,-87.813575,SM-12,Central Baldwin,109,31,27.0,37.0
 F4CC7E6F-EF85-4F7A-B73F-840E29D77BC4,Lee Farm,Cassady Homes,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.77201,-86.602834,SM-17,Crestview,99,2,0.0,0.0
-A1078CCD-1EC6-4186-B7C3-EEC4C5003FA3,Ventura Manor,Holiday Builders ,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.591474,-87.047311,SM-10,Milton,87,0,0.0,1.0
+A1078CCD-1EC6-4186-B7C3-EEC4C5003FA3,Ventura Manor,Holiday Builders,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.591474,-87.047311,SM-10,Milton,87,0,0.0,1.0
 779C2665-4B03-4A93-B180-54494F29F3B5,Pamela Place,D.R. Horton Inc,Active,Single-Family Detached,Pensacola,Escambia,FL,30.507719,-87.358456,SM-11,Cantonment,20,20,0.0,0.0
 4836B800-8A31-41F3-8E96-070A8E135FEB,Ashton View,Adams Homes,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.815703,-86.495292,SM-17,Crestview,46,15,23.0,23.0
 AA59C909-3E7C-4D4E-ACA6-71E9D51C54AF,Windmill Palms Estates,D.R. Horton Inc,Active,Single-Family Detached,Grand Bay,Mobile,AL,30.572212,-88.331604,SM-02,Central Mobile,20,15,8.0,5.0
@@ -261,16 +261,16 @@ C198CF8E-2EAE-462F-AB1D-A8C5C9053DE9,Forest Park,Adams Homes,Active,Single-Famil
 85A1F6AC-8878-4A89-9ADE-A01B9E67395A,Pathstone/Fallschase,D.R. Horton Inc,Active,Single-Family Detached,Pensacola,Escambia,FL,30.531164,-87.339695,SM-11,Cantonment,208,56,47.0,56.0
 C8A2806E-DA33-42A7-BBA1-0B21FCCB4F8A,Crest Bay Cottages,D.R. Horton Inc,Active,Single-Family Detached,Miramar Beach,Walton,FL,30.385428,-86.355869,SM-22,Walton and Bay Beaches,19,19,0.0,0.0
 9341B9DF-22B0-43BC-A5F7-EEF4FD882DCA,Deer Ridge Crossing,D.R. Horton Inc,Active,Single-Family Detached,Gulf Breeze,Santa Rosa,FL,30.412884,-86.977569,SM-09,Pensacola Beaches,58,38,49.0,20.0
-F73A19EF-44F6-4C35-9CDF-E10F249FAB99,Lupin Beach,Alys Beach Construction ,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.2711,-85.997575,SM-22,Walton and Bay Beaches,20,18,2.0,1.0
+F73A19EF-44F6-4C35-9CDF-E10F249FAB99,Lupin Beach,Alys Beach Construction,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.2711,-85.997575,SM-22,Walton and Bay Beaches,20,18,2.0,1.0
 735FC0CC-34E8-4AB8-AFBD-9088B6530C1C,Emerald Heights,Adams Homes,Built Out,Single-Family Detached,Pensacola,Escambia,FL,30.398755,-87.396225,SM-07,Pensacola,38,0,0.0,10.0
 74802CB2-6500-481E-B527-4BA3AC8219BE,Salter Rd Subdivision,Coastal Homes of NWF LLC | Crosswood Homes | Shear Construction,Active,Single-Family Detached,Jay,Santa Rosa,FL,30.778626,-87.195673,SM-14,Santa Rosa County,21,5,2.0,4.0
 48193433-683F-4D41-B0FA-B534DB669CF0,Chase Farms,D.R. Horton Inc,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.720419,-87.210466,SM-14,Santa Rosa County,78,8,23.0,30.0
-7DA6B8C6-7D29-4860-B6D7-16D218AD4F3F,NatureView/North,DSLD Homes | Holiday Builders ,Active,Single-Family Detached,Ponce De Leon,Walton,FL,30.429471,-86.042394,SM-20,Freeport,266,258,31.0,8.0
+7DA6B8C6-7D29-4860-B6D7-16D218AD4F3F,NatureView/North,DSLD Homes | Holiday Builders,Active,Single-Family Detached,Ponce De Leon,Walton,FL,30.429471,-86.042394,SM-20,Freeport,266,258,31.0,8.0
 3E878163-4875-4E11-A9C7-5FC2D0A45F28,Laurelbrooke,D.R. Horton Inc,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.452686,-87.852233,SM-06,West Baldwin,100,15,37.0,39.0
 E54B39DC-E769-4192-8D7B-B44105CE4B03,Haven at Fairhope,,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.468348,-87.852997,SM-06,West Baldwin,174,174,0.0,0.0
 FB6F5711-53C4-4528-B15B-4C83A24F867A,Blackwater Reserve,D.R. Horton Inc,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.627463,-86.98027,SM-10,Milton,598,526,89.0,72.0
 E38BA0BB-38D5-42A8-B07C-83359B3D0F39,Harrisburg Estates,D.R. Horton Inc | W. Douglas Harris Construction Inc,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.795385,-86.595651,SM-17,Crestview,88,74,0.0,0.0
-21070C78-F5A5-40D9-B034-1B009A49AC78,Buckeyes Landing,Herbst Homes ,Active,Single-Family Detached,Navarre,Santa Rosa,FL,30.461493,-86.906535,SM-21,Eglin AFB,62,62,17.0,0.0
+21070C78-F5A5-40D9-B034-1B009A49AC78,Buckeyes Landing,Herbst Homes,Active,Single-Family Detached,Navarre,Santa Rosa,FL,30.461493,-86.906535,SM-21,Eglin AFB,62,62,17.0,0.0
 C88EB0EC-2638-4308-8688-6C38AAEE40D0,Grasslands,Lennar Homes,Active,Single-Family Detached,Foley,Baldwin,AL,30.374236,-87.716777,SM-04,South Baldwin,258,255,32.0,3.0
 B28A5CB8-4FA8-4CDF-9F71-0CECED3A026E,Wildwood Village,BluScape Homes,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.281995,-86.00197,SM-22,Walton and Bay Beaches,45,35,5.0,5.0
 737B7868-F19E-4D7A-80A2-21152476A4D3,Hamilton Ridge ,D.R. Horton Inc,Active,Single-Family Detached,Mobile,Mobile,AL,30.640913,-88.271501,SM-02,Central Mobile,136,19,21.0,39.0
@@ -280,11 +280,11 @@ CFBCA5B8-9567-4ED5-9921-611D21E5584C,Ridge at Harvest Point,Lennar Homes,Active,
 FF51EA62-79FB-4B22-A0B3-B7551FD322A8,Old Towne Bayou,Tarey Franxman,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.40194,-86.228543,SM-22,Walton and Bay Beaches,13,13,1.0,0.0
 371051CD-4BDC-454B-9231-E7439A965348,Hammock Bay/Vineyards ,Randy Wise Homes,Active,Single-Family Detached,Freeport,Walton,FL,30.492153,-86.164924,SM-20,Freeport,47,9,4.0,3.0
 97ACC1B8-5173-4B89-B521-D8166AA21C2A,Rayne Plantation,D.R. Horton Inc,Active,Single-Family Detached,Daphne,Baldwin,AL,30.689581,-87.809327,SM-12,Central Baldwin,130,27,8.0,19.0
-731CA60A-76F4-4B99-ABCD-9F08B9A5EDA3,Clear Water Landing,Herbst Homes ,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.593469,-86.967343,SM-10,Milton,11,1,0.0,10.0
+731CA60A-76F4-4B99-ABCD-9F08B9A5EDA3,Clear Water Landing,Herbst Homes,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.593469,-86.967343,SM-10,Milton,11,1,0.0,10.0
 EF492272-D35E-4E95-B6FA-AD541AFBC915,Wilson Place ,Adams Homes,Built Out,Single-Family Detached,Daphne,Baldwin,AL,30.611651,-87.886497,SM-06,West Baldwin,6,0,0.0,4.0
 F8DCE89C-AA8D-43E3-B3A1-3A9C5401C564,Bonita Crossing ,R & B Development,Active,Single-Family Detached,Panama City,Bay,FL,30.192626,-85.644195,SM-28,Panama City,10,7,0.0,3.0
 7E438706-43B8-4880-A47B-1D4FF695BA3A,Nautilus Pointe at Inlet Beach,Brock Built,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.27871,-86.001424,SM-22,Walton and Bay Beaches,32,31,0.0,1.0
-2B19733E-B4CC-47BF-8464-23E23AFE80DA,North Hills at Fairhope,Crocker Homes | Farmstead Built | Pickering Building & Renovations ,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.547627,-87.862042,SM-06,West Baldwin,108,74,13.0,14.0
+2B19733E-B4CC-47BF-8464-23E23AFE80DA,North Hills at Fairhope,Crocker Homes | Farmstead Built | Pickering Building & Renovations,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.547627,-87.862042,SM-06,West Baldwin,108,74,13.0,14.0
 E79CA31C-42F9-4331-9E55-8A8F9B596EBB,Anglebrook/SF,D.R. Horton Inc,Active,Single-Family Detached,Mobile,Mobile,AL,30.643144,-88.25802,SM-02,Central Mobile,107,107,8.0,0.0
 11635966-89DE-4DA4-9D42-604C6DAECA31,Lakes of Woodbine,D.R. Horton Inc,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.611751,-87.185019,SM-08,Pace,749,537,65.0,97.0
 8F07AFE6-5B93-406A-92E5-2999747E411F,Buffalo Creek Estates,Owens Custom Homes,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.71699,-87.216672,SM-14,Santa Rosa County,46,5,0.0,1.0
@@ -292,7 +292,7 @@ E79CA31C-42F9-4331-9E55-8A8F9B596EBB,Anglebrook/SF,D.R. Horton Inc,Active,Single
 AE18D829-8B6D-4043-BE2D-BC8315239D72,Three Hollow East,Century Communities | D.R. Horton Inc,Active,Single-Family Detached,Jay,Santa Rosa,FL,30.777953,-87.124651,SM-14,Santa Rosa County,34,5,15.0,28.0
 DF883D1A-05EF-410A-9CF4-477E3DEB4F3F,College Station,Adams Homes | Camben Homes | Valor Communities,Active,Single-Family Detached,Panama City,Bay,FL,30.211264,-85.588294,SM-28,Panama City,459,300,27.0,11.0
 ABCC43E0-7065-428D-A7EB-3B4897A8DAEE,Alexandras Park,,Active,Single-Family Detached,Panama City,Bay,FL,30.159546,-85.549259,SM-28,Panama City,361,361,0.0,0.0
-C29BEE87-4D64-4E8A-9CA5-E1717013AFCB,Alys Beach/BK GG,Alys Beach Construction  | Earthbuild LLC | Ebsco Gulf Coast Development Inc | Galvas Construction Inc,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.28961,-86.032254,SM-22,Walton and Bay Beaches,20,6,3.0,9.0
+C29BEE87-4D64-4E8A-9CA5-E1717013AFCB,Alys Beach/BK GG,Alys Beach Construction | Earthbuild LLC | Ebsco Gulf Coast Development Inc | Galvas Construction Inc,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.28961,-86.032254,SM-22,Walton and Bay Beaches,20,6,3.0,9.0
 B49C69C2-A678-46F4-B110-89690248653A,Outlaws Way at Highlands City,George Outlaw Homes,Active,Single-Family Detached,Panama City,Bay,FL,30.19523,-85.615018,SM-28,Panama City,18,1,0.0,2.0
 611A62F6-083E-4560-8941-1BA6C6E9AD40,Palmer Woods,D.R. Horton Inc,Active,Single-Family Detached,Semmes,Mobile,AL,30.78253,-88.244179,SM-02,Central Mobile,112,96,20.0,16.0
 EA05CD26-4262-48AE-AA59-CF9471C828BC,Fox Glenn ,Adams Homes,Active,Single-Family Detached,Panama City,Bay,FL,30.161317,-85.569822,SM-28,Panama City,63,63,13.0,0.0
@@ -315,18 +315,18 @@ A6F072E0-3632-47C3-9191-D9A6C9D55C1B,Edens Landing/SF,BluScape Homes | Edens Lan
 BB9F87F5-6D26-4284-B475-0158EE62D86C,Live Oak Village/SF,CHS Properties | DSLD Homes,Active,Single-Family Detached,Foley,Baldwin,AL,30.431506,-87.697401,SM-04,South Baldwin,96,22,27.0,34.0
 B2F7B523-7994-47BB-9F95-A2D99D3AEBC1,Brookwood,Adams Homes,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.820923,-86.558737,SM-16,Laurel Hill,38,38,14.0,0.0
 B6A771AC-8E2B-48F8-B837-43F10515F113,Morningside ,D.R. Horton Inc,Active,Single-Family Detached,Panama City,Bay,FL,30.277162,-85.517414,SM-28,Panama City,134,84,15.0,18.0
-58D6E844-503E-45E7-8BAE-405C93C60B9C,Yellow River Ranch,D.R. Horton Inc | Flynn Building Specialists | Holiday Builders ,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.584803,-86.948845,SM-10,Milton,446,219,16.0,26.0
+58D6E844-503E-45E7-8BAE-405C93C60B9C,Yellow River Ranch,D.R. Horton Inc | Flynn Building Specialists | Holiday Builders,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.584803,-86.948845,SM-10,Milton,446,219,16.0,26.0
 929EDECC-8A4E-47D9-BB4A-1B2DD56BE515,Stonechase,Celebrity Home Builders | Lennar Homes | Signature Homes LLC,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.654992,-87.203038,SM-08,Pace,724,373,53.0,52.0
 F12C7E75-784D-4B1D-A343-3DB9960D533F,Martins Woods,Century Communities | KLB Contracting LLC,Active,Single-Family Detached,Chipley,Washington,FL,30.760084,-85.522989,SM-25,Washington County,8,1,6.0,5.0
 E7142C35-17A9-4BFA-86D9-70B8C2207E4C,Cotton District,DSLD Homes,Built Out,Single-Family Detached,Robertsdale,Baldwin,AL,30.569542,-87.730404,SM-12,Central Baldwin,90,0,0.0,0.0
 868D72FA-FF76-4274-A237-6C5704264378,Penny Lakes,D.R. Horton Inc,Active,Single-Family Detached,Semmes,Mobile,AL,30.719548,-88.239929,SM-02,Central Mobile,121,74,9.0,0.0
 B2A4F549-99EA-446B-A366-888BB2449C04,Royal Palms,,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.386739,-86.275818,SM-22,Walton and Bay Beaches,16,16,0.0,0.0
-7B81B91E-999F-44DF-B51E-CD3FB277B41F,Hammock Bay/Harmony,D.R. Horton Inc | DSLD Homes | Holiday Builders  | Hop Building Company Inc | Jay Odom Group,Active,Single-Family Detached,Freeport,Walton,FL,30.49576,-86.164229,SM-20,Freeport,20,1,0.0,1.0
+7B81B91E-999F-44DF-B51E-CD3FB277B41F,Hammock Bay/Harmony,D.R. Horton Inc | DSLD Homes | Holiday Builders | Hop Building Company Inc | Jay Odom Group,Active,Single-Family Detached,Freeport,Walton,FL,30.49576,-86.164229,SM-20,Freeport,20,1,0.0,1.0
 E5BBAB43-E5C7-4947-836E-A36D0DA8A498,Royal Meadows,D.R. Horton Inc,Active,Single-Family Detached,Loxley,Baldwin,AL,30.632521,-87.782131,SM-12,Central Baldwin,80,80,6.0,0.0
 82E8F6DF-0C98-46F7-B765-D5CD95C095C3,Sunny Hills/Unit 5,Century Communities | McQuagge Development & Construction Inc,Active,Single-Family Detached,Chipley,Washington,FL,30.578449,-85.595856,SM-25,Washington County,520,508,0.0,0.0
 A0D09B48-2C39-47FE-BCDF-F327A190017C,Hammock Bay/Starburst  ,DSLD Homes,Active,Single-Family Detached,Freeport,Walton,FL,30.463259,-86.178721,SM-20,Freeport,96,8,14.0,31.0
 A7C76EBA-5F5A-470E-A57C-3EB6505E2218,Breakfast Point East,D.R. Horton Inc | Fischer Homes | Harris Doyle Homes Inc - Clayton Properties Group Inc | Samuel Taylor Homes,Active,Single-Family Detached,Panama City Beach,Bay,FL,30.195141,-85.791924,SM-22,Walton and Bay Beaches,930,666,104.0,84.0
-99CC1B64-9FE8-4E7A-9486-3FA29A3CAB66,Cadence Place,Holiday Builders ,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.672421,-87.058698,SM-10,Milton,49,0,0.0,10.0
+99CC1B64-9FE8-4E7A-9486-3FA29A3CAB66,Cadence Place,Holiday Builders,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.672421,-87.058698,SM-10,Milton,49,0,0.0,10.0
 B37373C0-9FA3-4883-9C32-7D4112775699,Ten Mile Rd Subdivision,Flynn Building Specialists,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.721993,-87.20516,SM-14,Santa Rosa County,40,2,2.0,2.0
 F2960124-5CC8-4A9A-A324-39AF30FE75B6,Palmetto Place ,CJL Homes | Valor Communities,Active,Single-Family Detached,Freeport,Walton,FL,30.521017,-86.132413,SM-20,Freeport,23,8,1.0,0.0
 51BB6F39-7A34-4A70-8CB6-91D8157D1B03,Horizons Edge,Lennar Homes,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.628515,-86.998516,SM-10,Milton,157,78,50.0,63.0
@@ -337,7 +337,7 @@ BE56B78B-81C5-4042-A792-787274E38123,Arbor Walk/Riverside,Benchmark Homes Group 
 CAD23777-B47D-4B0A-98A1-DD3056769243,Cedar Creek at Deerpoint Lake,Adams Homes | Coastal Classic Homes,Active,Single-Family Detached,Panama City,Bay,FL,30.331962,-85.588557,SM-29,Bay County Submarket 2,60,48,4.0,7.0
 B4BD64BE-C912-43D4-A3CB-0DA7ABFC3157,Bishop Landing/SF,Brock Built,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.381905,-86.237294,SM-22,Walton and Bay Beaches,84,84,0.0,0.0
 12FDDEE7-3F55-4EC2-994D-211224FA3FD0,Homewood Estates,Bryan Rogers Construction Inc | CJL Homes | D.R. Horton Inc | Homewood Properties LLC | Linc Grant Construction,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.76895,-86.540987,SM-17,Crestview,78,2,2.0,5.0
-26BC6BB7-9DBF-4F98-A822-D367B83380A7,Southern Palms,DSLD Homes | Holiday Builders ,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.609387,-87.146892,SM-08,Pace,130,5,2.0,12.0
+26BC6BB7-9DBF-4F98-A822-D367B83380A7,Southern Palms,DSLD Homes | Holiday Builders,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.609387,-87.146892,SM-08,Pace,130,5,2.0,12.0
 2466ADAB-AB56-4851-8071-0B3EF1603554,Allison Acres,Adams Homes,Active,Single-Family Detached,Cantonment,Escambia,FL,30.548191,-87.285397,SM-11,Cantonment,85,13,22.0,22.0
 715DE010-EA63-41FA-A60B-13A5D75B125F,Waterside at East Bay,D.R. Horton Inc,Active,Single-Family Detached,Gulf Breeze,Santa Rosa,FL,30.413102,-86.985795,SM-09,Pensacola Beaches,96,96,0.0,0.0
 12A15095-4C98-4513-838B-F65A396E3E4B,Sentinel Ridge,DSLD Homes,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.614815,-87.104843,SM-08,Pace,348,274,44.0,40.0
@@ -353,16 +353,16 @@ AAD68430-B3FB-4ADC-8F72-924AC146969D,Live Oak Estates,Lennar Homes,Built Out,Sin
 ADD377D7-9419-44A3-BD0A-EDE7C3B3D9CC,Hidden Grove,BMB Construction | BMKN Inc | Hidden Grove LLC | Magnolia Custom Homes Inc | Premier Builders of NWFL LLC | RAK Construction,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.393388,-86.285384,SM-22,Walton and Bay Beaches,78,13,0.0,3.0
 207ACB30-DF68-4656-B4EF-C05E4802EB13,Southern Charm,CJL Homes,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.80912,-86.477646,SM-17,Crestview,45,45,8.0,0.0
 56B79067-86E8-4DA4-BF70-A29CA9EE2FE2,Independence (Okaloosa),D.R. Horton Inc,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.751275,-86.483209,SM-17,Crestview,1200,1200,0.0,0.0
-0059D991-8478-4552-B973-A521690ECD52,Ledgewick,DSLD Homes | Holiday Builders ,Built Out,Single-Family Detached,Foley,Baldwin,AL,30.427015,-87.66257,SM-04,South Baldwin,148,0,0.0,5.0
+0059D991-8478-4552-B973-A521690ECD52,Ledgewick,DSLD Homes | Holiday Builders,Built Out,Single-Family Detached,Foley,Baldwin,AL,30.427015,-87.66257,SM-04,South Baldwin,148,0,0.0,5.0
 45C85BD8-8B49-4200-A33C-EC892EAC4AC8,Churchill,D.R. Horton Inc | DSLD Homes,Active,Single-Family Detached,Daphne,Baldwin,AL,30.684491,-87.819307,SM-12,Central Baldwin,256,52,19.0,7.0
 124648CA-62A8-4619-845D-0D8C4BAB907C,Hidden Pines Estates,Adams Homes,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.621717,-87.000286,SM-10,Milton,139,121,38.0,18.0
 D382CDCD-3020-4A7B-BD4A-6C4119B8C79A,Kirksey Court,aDoor Development,Built Out,Single-Family Detached,Pensacola,Escambia,FL,30.41776,-87.228554,SM-07,Pensacola,14,0,0.0,0.0
 3687DCEC-CB49-4037-994F-31A4DAFBA3CA,Sunny Hills/Unit 2,Century Communities | Deltona Corporation | D.R. Horton Inc | Homes by Deltona | Lsk Construction | McQuagge Development & Construction Inc,Active,Single-Family Detached,Chipley,Washington,FL,30.528777,-85.599035,SM-25,Washington County,1492,1434,6.0,10.0
 B4786CB4-AA2E-4AF0-8759-6EE4A5B7ED74,Harvest Green West,D.R. Horton Inc,Active,Single-Family Detached,Fairhope,Baldwin,AL,30.55694,-87.852563,SM-06,West Baldwin,148,125,21.0,23.0
 456CCADA-9C06-4887-95BD-027DD1E717D8,Elizabeth Gardens,D.R. Horton Inc,Active,Single-Family Detached,Silverhill,Baldwin,AL,30.515863,-87.782264,SM-12,Central Baldwin,260,260,9.0,0.0
-C0D2E4B3-FDCA-4B1F-A092-CDCFA592C359,Riverwalk ,Adams Homes | Century Communities | D.R. Horton Inc | Holiday Builders  | JAB Holdings LLC,Active,Single-Family Detached,Freeport,Walton,FL,30.483442,-86.13353,SM-20,Freeport,173,18,0.0,5.0
+C0D2E4B3-FDCA-4B1F-A092-CDCFA592C359,Riverwalk ,Adams Homes | Century Communities | D.R. Horton Inc | Holiday Builders | JAB Holdings LLC,Active,Single-Family Detached,Freeport,Walton,FL,30.483442,-86.13353,SM-20,Freeport,173,18,0.0,5.0
 7BF8E484-F782-439E-A362-D5AEA7325A0D,Rossfield,D.R. Horton Inc,Active,Single-Family Detached,Mobile,Mobile,AL,30.633551,-88.286024,SM-02,Central Mobile,163,52,62.0,54.0
-417BD7EA-4254-4F2B-BA0A-E8EB5B23704E,Mary Annetta Estates,Holiday Builders  | Maronda Homes,Built Out,Single-Family Detached,Pensacola,Escambia,FL,30.530336,-87.321484,SM-11,Cantonment,45,0,0.0,3.0
+417BD7EA-4254-4F2B-BA0A-E8EB5B23704E,Mary Annetta Estates,Holiday Builders | Maronda Homes,Built Out,Single-Family Detached,Pensacola,Escambia,FL,30.530336,-87.321484,SM-11,Cantonment,45,0,0.0,3.0
 7D1C3F34-292F-4253-B2DE-F88C7927559A,Magnolia Pines,D.R. Horton Inc,Active,Single-Family Detached,Foley,Baldwin,AL,30.426649,-87.73759,SM-04,South Baldwin,162,103,66.0,56.0
 33DF0512-BCE2-418B-949A-B23238BA1ACF,Glenhollow,D.R. Horton Inc | Thomas Home Corporation,Active,Single-Family Detached,Pensacola,Escambia,FL,30.533347,-87.388884,SM-11,Cantonment,136,54,8.0,8.0
 128C9D4E-EF72-4AC8-90C1-BA650FDE9739,Bluffs at Magnolia,D.R. Horton Inc,Active,Single-Family Detached,Freeport,Walton,FL,30.529934,-86.103588,SM-20,Freeport,129,125,14.0,4.0
@@ -396,7 +396,7 @@ DB8DCECD-E52C-4480-99BD-9932E19752E4,Sweetbay/Cottages,Harris Doyle Homes Inc - 
 490B86AE-8B26-4031-A4F3-D4C2B5441B34,Watersound/Camp Creek,Corestruction LLC | Paradise Coastal Builders LLC | Reeves & Shaw Homes LLC | Romain Construction Inc | The BG Group LLC,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.30271,-86.035436,SM-22,Walton and Bay Beaches,263,192,52.0,32.0
 BA4798A6-FFCC-4A45-BDDB-C142FEB4E31E,Azalea Gardens,D.R. Horton Inc,Active,Single-Family Detached,Loxley,Baldwin,AL,30.63269,-87.745173,SM-12,Central Baldwin,73,73,0.0,0.0
 F2788FD3-85EC-4A86-A30D-18241199A962,River Oaks Estates,,Active,Single-Family Detached,Mobile,Mobile,AL,30.614267,-88.120639,SM-02,Central Mobile,11,11,0.0,0.0
-FA50D5C5-A7F4-43D1-B6D4-8FCEFC047CE4,NatureView/South,DSLD Homes | Holiday Builders ,Active,Single-Family Detached,Ponce De Leon,Walton,FL,30.429035,-86.042705,SM-20,Freeport,444,424,45.0,20.0
+FA50D5C5-A7F4-43D1-B6D4-8FCEFC047CE4,NatureView/South,DSLD Homes | Holiday Builders,Active,Single-Family Detached,Ponce De Leon,Walton,FL,30.429035,-86.042705,SM-20,Freeport,444,424,45.0,20.0
 95F5A616-E472-4BD6-BD82-00D92EB9BCE1,Pandion Place,Bill Walther Construction Inc | D.R. Horton Inc,Built Out,Single-Family Detached,Milton,Santa Rosa,FL,30.617848,-87.143868,SM-08,Pace,17,0,0.0,0.0
 292059ED-3221-490F-B479-70EAEE928FC9,Holley Grove at Peach Creek,D.R. Horton Inc,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.367168,-86.105965,SM-22,Walton and Bay Beaches,43,22,41.0,21.0
 FC70E9B0-92DE-4360-8FEA-E1D6E1F66F3B,Bear Creek/Cottages,4A Ventures | Brown Venture Investments Inc | Cavazos & Flores Construction | Coastal Custom Homebuilding | Southern Hybird Homes LLC | Valor Communities,Active,Single-Family Detached,Freeport,Walton,FL,30.442104,-86.122156,SM-20,Freeport,92,33,3.0,4.0
@@ -407,7 +407,7 @@ E964F51E-92B8-4079-8ADD-3A61040539EB,Sunny Hills/Unit 4,Century Communities | D.
 1211C0BD-72A9-41D9-84B0-D655423AF528,Thompson Woods,,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.370103,-86.244182,SM-22,Walton and Bay Beaches,33,33,0.0,0.0
 C20DAAAB-7E54-4C7E-ABEA-B60A13D770BE,Canterbury Park,BW Construction,Active,Single-Family Detached,Mobile,Mobile,AL,30.690222,-88.157628,SM-02,Central Mobile,12,9,0.0,1.0
 B29D2204-E777-4C63-9BBC-94C062673829,Barton's Bend,CJL Homes,Active,Single-Family Detached,Crestview,Okaloosa,FL,30.795561,-86.547971,SM-17,Crestview,34,34,0.0,0.0
-56D78E03-3B46-424C-8E99-A442D1F4B7F6,Alys Beach/BK DD,Alys Beach Construction  | Davis Dunn Construction | Earthbuild LLC | Galvas Construction Inc | Gulfview Development & Construction LLC | Hufham/Farris Construction LLC | JC Craig LLC | Koast Builders Inc | Regal Stephens Construction,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.288447,-86.031422,SM-22,Walton and Bay Beaches,14,11,6.0,1.0
+56D78E03-3B46-424C-8E99-A442D1F4B7F6,Alys Beach/BK DD,Alys Beach Construction | Davis Dunn Construction | Earthbuild LLC | Galvas Construction Inc | Gulfview Development & Construction LLC | Hufham/Farris Construction LLC | JC Craig LLC | Koast Builders Inc | Regal Stephens Construction,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.288447,-86.031422,SM-22,Walton and Bay Beaches,14,11,6.0,1.0
 BC4B960C-24FE-44C8-A699-4F3B0D6CE52B,Riverbend Run,Lennar Homes,Active,Single-Family Detached,Panama City,Bay,FL,30.374998,-85.685929,SM-28,Panama City,310,310,0.0,0.0
 E9D075A5-D4AF-4E26-8A40-F7D09702A259,Bella Terra/Enclave,Lennar Homes,Active,Single-Family Detached,Cantonment,Escambia,FL,30.63376,-87.33718,SM-11,Cantonment,51,51,7.0,0.0
 5489DFEB-80ED-4785-BE09-DC7F3647D726,Mallard Landing,Lennar Homes,Built Out,Single-Family Detached,Pensacola,Escambia,FL,30.332275,-87.360073,SM-07,Pensacola,22,0,0.0,0.0
@@ -425,10 +425,10 @@ F8F9ADE3-D538-40C4-B7B7-B9B8ED761456,Bluewater Landing,D.R. Horton Inc,Built Out
 BC302FF8-1101-4CD9-BDD9-9235E5EDC749,Costas Ridge,Bill Walther Construction Inc | Century Communities | Kevin Stanton Construction LLC,Active,Single-Family Detached,Jay,Santa Rosa,FL,30.831079,-87.139268,SM-14,Santa Rosa County,106,49,3.0,0.0
 25DF973D-DADF-4FCF-9FD1-4C04F2659998,Park Place (Bay),D.R. Horton Inc,Active,Single-Family Detached,Panama City,Bay,FL,30.15253,-85.544155,SM-28,Panama City,402,193,35.0,37.0
 68E7977F-1F63-48BF-B05B-4F67C1D12916,Canterbury Village,Benchmark Homes Group | Castle Homes | Flynn Building Specialists | Maronda Homes,Active,Single-Family Detached,Bay Minette,Baldwin,AL,30.900848,-87.778915,SM-05,North Baldwin,32,6,2.0,4.0
-F1D256A3-940F-4AC1-A9BD-14548E92FAF2,Mexico Beach/Salt Creek SF,Holiday Builders ,Active,Single-Family Detached,Port Saint Joe,Bay,FL,29.957894,-85.434663,SM-22,Walton and Bay Beaches,92,84,23.0,8.0
+F1D256A3-940F-4AC1-A9BD-14548E92FAF2,Mexico Beach/Salt Creek SF,Holiday Builders,Active,Single-Family Detached,Port Saint Joe,Bay,FL,29.957894,-85.434663,SM-22,Walton and Bay Beaches,92,84,23.0,8.0
 23AAF9C2-90DA-4901-B03E-85BE2930364D,Marigold,D.R. Horton Inc,Built Out,Single-Family Detached,Foley,Baldwin,AL,30.412346,-87.692668,SM-04,South Baldwin,5,0,5.0,5.0
 3E473594-BBB3-457C-81ED-D0638C2C8204,Sunny Hills/Unit 12,,Active,Single-Family Detached,Chipley,Washington,FL,30.559131,-85.509968,SM-25,Washington County,1444,1444,0.0,0.0
-F342C9C1-5F61-4CE4-B8AD-C0B46C33FDA3,Alys Beach/BK AB,Alys Beach Construction ,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.285944,-86.033077,SM-22,Walton and Bay Beaches,7,7,1.0,0.0
+F342C9C1-5F61-4CE4-B8AD-C0B46C33FDA3,Alys Beach/BK AB,Alys Beach Construction,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.285944,-86.033077,SM-22,Walton and Bay Beaches,7,7,1.0,0.0
 7126C45B-A97B-416C-B893-86D6EAD10248,Alys Beach/BK V,,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.286954,-86.025162,SM-22,Walton and Bay Beaches,8,8,0.0,0.0
 DBDF3340-BA57-4C09-806D-BB82500BD11B,Rhetts Run,D.R. Horton Inc,Active,Single-Family Detached,Jay,Santa Rosa,FL,30.778711,-87.156396,SM-14,Santa Rosa County,286,268,0.0,14.0
 1E77DEA4-0844-43FD-878C-8D2B48E2EA4D,Bay Street Village,D.R. Horton Inc,Built Out,Single-Family Detached,Foley,Baldwin,AL,30.394791,-87.679936,SM-04,South Baldwin,77,0,0.0,11.0
@@ -451,10 +451,10 @@ AF9BA502-07A7-4D7B-AF98-8E6967B01C27,Carl Booker Rd Westside,Flynn Building Spec
 EFEBA9CD-21E3-446C-8C1F-9F17B5F73348,Heronshaw,Southern Ventures Corp,Active,Single-Family Detached,Navarre,Santa Rosa,FL,30.406566,-86.847017,SM-21,Eglin AFB,29,29,0.0,0.0
 331E9C4B-28B1-42BB-83B4-B19277877BC3,Rosewood,D.R. Horton Inc,Active,Single-Family Detached,Foley,Baldwin,AL,30.368889,-87.716896,SM-04,South Baldwin,161,12,30.0,34.0
 1B224332-7F19-4FA7-9347-687FB511146A,Roberts Cove,D.R. Horton Inc,Active,Single-Family Detached,Gulf Shores,Baldwin,AL,30.354241,-87.6467,SM-04,South Baldwin,566,273,91.0,89.0
-865C804C-10D3-49BC-B3DE-59B0C51ECEF2,Alys Beach/BK UU & VV,Alys Beach Construction  | Arkon Group | Koast Builders Inc,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.283019,-86.027637,SM-22,Walton and Bay Beaches,17,4,2.0,11.0
+865C804C-10D3-49BC-B3DE-59B0C51ECEF2,Alys Beach/BK UU & VV,Alys Beach Construction | Arkon Group | Koast Builders Inc,Active,Single-Family Detached,Inlet Beach,Walton,FL,30.283019,-86.027637,SM-22,Walton and Bay Beaches,17,4,2.0,11.0
 917C1280-4AA3-4C61-95AE-269C4FB3C444,Lyle Farms,D.R. Horton Inc,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.667238,-87.045565,SM-10,Milton,180,180,0.0,0.0
 8EDCE1A1-2D28-45E2-ABD5-F8902F588818,Bridle Wood Estates,CJL Homes,Built Out,Single-Family Detached,Crestview,Okaloosa,FL,30.810875,-86.456177,SM-17,Crestview,7,0,3.0,7.0
-BC423CAB-844A-4EEA-ABA3-AE87F5B20A1C,Hammock Bay/Aurora ,Holiday Builders ,Built Out,Single-Family Detached,Freeport,Walton,FL,30.462958,-86.179908,SM-20,Freeport,39,0,0.0,0.0
+BC423CAB-844A-4EEA-ABA3-AE87F5B20A1C,Hammock Bay/Aurora ,Holiday Builders,Built Out,Single-Family Detached,Freeport,Walton,FL,30.462958,-86.179908,SM-20,Freeport,39,0,0.0,0.0
 51D4F4C2-535E-4738-A10B-701C6864114F,Longmire Trail East,D.R. Horton Inc,Active,Single-Family Detached,Mobile,Mobile,AL,30.594431,-88.253574,SM-02,Central Mobile,219,219,0.0,0.0
 A2287DD7-E413-4699-BF31-E39CC99DFDDE,Magnolia Cottages ,Benchmark Homes Group,Active,Single-Family Detached,Magnolia Springs,Baldwin,AL,30.405045,-87.772962,SM-04,South Baldwin,12,7,0.0,4.0
 CBF1908D-EA79-42F1-9BC6-FA892671F164,Clarke Place,BC Daniels Inc,Active,Single-Family Detached,Mobile,Mobile,AL,30.650924,-88.244299,SM-02,Central Mobile,14,10,0.0,0.0
@@ -475,7 +475,7 @@ C52220EA-8337-4F29-915D-CBBCB81E0140,Saltaire,DSLD Homes,Active,Single-Family De
 7F8D07DE-9A38-4B19-9FFE-46D562FBBE61,Sunny Hills/Unit 11,,Active,Single-Family Detached,Chipley,Washington,FL,30.532344,-85.518077,SM-25,Washington County,1313,1313,0.0,0.0
 9813E7EA-BAEE-4B64-9926-859ACCE185A5,Osprey Landing,DSLD Homes,Active,Single-Family Detached,Gulf Shores,Baldwin,AL,30.323753,-87.673566,SM-04,South Baldwin,90,42,0.0,0.0
 2519CC28-8D98-474D-BD29-3BE6181F88C7,Heritage Dunes,Bella Mare Real Estate Holdings,Active,Single-Family Detached,Santa Rosa Beach,Walton,FL,30.309277,-86.101635,SM-22,Walton and Bay Beaches,28,6,1.0,1.0
-0BD326A4-62C7-4D40-8FD0-8A202914826A,Pinetrace,Branum Builders ,Active,Single-Family Detached,Bay Minette,Baldwin,AL,30.877129,-87.796813,SM-05,North Baldwin,10,10,0.0,0.0
+0BD326A4-62C7-4D40-8FD0-8A202914826A,Pinetrace,Branum Builders,Active,Single-Family Detached,Bay Minette,Baldwin,AL,30.877129,-87.796813,SM-05,North Baldwin,10,10,0.0,0.0
 44C3E010-E0A3-47B0-916A-115229916411,Marlin Place at Avalon (SantaRosa),D.R. Horton Inc,Active,Single-Family Detached,Milton,Santa Rosa,FL,30.575765,-87.081644,SM-10,Milton,305,234,47.0,44.0
 3C2D83A1-E6AE-475C-BCB1-FD69820EDC32,River Oaks,DSLD Homes,Active,Single-Family Detached,Foley,Baldwin,AL,30.390586,-87.697514,SM-04,South Baldwin,230,82,26.0,39.0
 16C77C85-F73E-41D2-936A-1905769BC8C1,Driftwood Lakes,DSLD Homes,Active,Single-Family Detached,Foley,Baldwin,AL,30.391651,-87.714706,SM-04,South Baldwin,139,139,0.0,0.0

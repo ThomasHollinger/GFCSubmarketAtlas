@@ -445,23 +445,66 @@ function activeBuilderSubdivisions() {
   return state.builders.filter(passesBuilderFilter);
 }
 
+function normalizeSingleBuilderName(builder) {
+  const raw = String(builder || '').trim();
+  if (!raw || raw === '—' || /^unknown$/i.test(raw)) return '?';
+  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
+  return raw
+    .replace(/\bInc\.?$/i, '')
+    .replace(/\bLLC$/i, '')
+    .replace(/\bHomes?$/i, 'Homes')
+    .trim() || '?';
+}
+
 function builderNamesForFeature(feature) {
   const p = feature.properties || {};
   const raw = String(p.Builder || '').trim();
-  const parts = raw ? raw.split('|').map(b => b.trim()).filter(Boolean) : [];
-  return parts.length ? parts : ['?'];
+  const parts = raw ? raw.split('|').map(b => normalizeSingleBuilderName(b)).filter(Boolean) : [];
+  const seen = new Set();
+  const names = [];
+  parts.forEach(name => {
+    const key = canonicalBuilderKey(name);
+    if (!seen.has(key)) { seen.add(key); names.push(name); }
+  });
+  return names.length ? names : ['?'];
+}
+
+function primaryBuilderForFeature(featureOrBuilder) {
+  if (featureOrBuilder && featureOrBuilder.properties) {
+    const names = builderNamesForFeature(featureOrBuilder);
+    const lennar = names.find(name => canonicalBuilderKey(name) === 'lennar homes');
+    return lennar || names[0] || '?';
+  }
+  const raw = String(featureOrBuilder || '').trim();
+  const names = raw ? raw.split('|').map(b => normalizeSingleBuilderName(b)).filter(Boolean) : [];
+  const lennar = names.find(name => canonicalBuilderKey(name) === 'lennar homes');
+  return lennar || names[0] || '?';
 }
 
 function canonicalBuilderKey(builder) {
-  const b = normalizeBuilderName(builder);
+  const b = normalizeSingleBuilderName(builder);
   if (!b || b === '?' || b === '—' || /^unknown$/i.test(b)) return '?';
+  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
   return b.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
 function displayBuilderName(builder) {
-  const b = normalizeBuilderName(builder);
+  const b = normalizeSingleBuilderName(builder);
   if (!b || b === '?' || b === '—' || /^unknown$/i.test(b)) return '?';
+  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
   return b;
+}
+
+function displayBuilderList(builder) {
+  const raw = String(builder || '').trim();
+  const names = raw ? raw.split('|').map(b => displayBuilderName(b)).filter(Boolean) : ['?'];
+  const seen = new Set();
+  const out = [];
+  names.forEach(name => {
+    const key = canonicalBuilderKey(name);
+    if (!seen.has(key)) { seen.add(key); out.push(name); }
+  });
+  return out.join(' | ') || '?';
 }
 
 function builderProductStatusMatch(feature) {
@@ -512,11 +555,11 @@ function builderSummary(rows, areaSqMi = 0) {
     if (p.ProductStyle === 'Townhomes') out.townhomes += 1;
     else if (p.ProductStyle === 'Single-Family Detached') out.single_family += 1;
     const builderNames = builderNamesForFeature(f);
-    builderNames.forEach(b => builders.add(b));
+    builderNames.forEach(b => builders.add(displayBuilderName(b)));
     const annualStarts = Number(p.AnnualStarts || 0);
     const allocatedStarts = builderNames.length ? annualStarts / builderNames.length : annualStarts;
     if (builderNames.length) {
-      builderNames.forEach(b => startsByBuilder.set(b, (startsByBuilder.get(b) || 0) + allocatedStarts));
+      builderNames.forEach(b => { const name = displayBuilderName(b); startsByBuilder.set(name, (startsByBuilder.get(name) || 0) + allocatedStarts); });
     }
     out.units_planned += Number(p.UnitsPlanned || 0);
     out.units_remaining += Number(p.UnitsRemaining || 0);
@@ -524,7 +567,7 @@ function builderSummary(rows, areaSqMi = 0) {
     out.annual_closings += Number(p.AnnualClosings || 0);
     out.vacant_developed_lots += Number(p.VacantDevelopedLots || 0);
     out.under_construction += Number(p.UnderConstruction || 0);
-    out.communities.push({ name: p.Subdivision || p.CommunityName || '', builder: p.Builder || '', status: p.Status || '', product: p.ProductStyle || '', units_remaining: p.UnitsRemaining, annual_starts: p.AnnualStarts });
+    out.communities.push({ name: p.Subdivision || p.CommunityName || '', builder: displayBuilderList(p.Builder), status: p.Status || '', product: p.ProductStyle || '', units_remaining: p.UnitsRemaining, annual_starts: p.AnnualStarts });
   });
   out.builders = Array.from(builders).sort();
   out.builders_count = out.builders.length;
@@ -565,19 +608,14 @@ function bindPersistentDetails() {
 }
 
 function normalizeBuilderName(builder) {
-  return String(builder || '')
-    .split('|')[0]
-    .replace(/\bInc\.?$/i, '')
-    .replace(/\bLLC$/i, '')
-    .replace(/\bHomes?$/i, 'Homes')
-    .trim();
+  return primaryBuilderForFeature(builder);
 }
 
 function builderDisplayLetter(builder) {
   const b = normalizeBuilderName(builder);
   if (!b || b === '—' || /^unknown$/i.test(b)) return '?';
   if (/^d\.?\s*r\.?\s*horton/i.test(b)) return 'D';
-  if (/^lennar/i.test(b)) return 'L';
+  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
   if (/^adams/i.test(b)) return 'A';
   if (/^dsld/i.test(b)) return 'D';
   if (/^holiday/i.test(b)) return 'H';
@@ -591,7 +629,7 @@ function builderDisplayLetter(builder) {
 
 function builderColorClass(builder) {
   const b = normalizeBuilderName(builder).toLowerCase();
-  if (/^lennar/.test(b)) return 'builder-lennar';
+  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
   if (/^d\.?\s*r\.?\s*horton/.test(b)) return 'builder-drhorton';
   if (/^adams/.test(b)) return 'builder-adams';
   if (/^dsld/.test(b)) return 'builder-dsld';
@@ -651,9 +689,11 @@ function buildBuilderLayer() {
     const coords = feature.geometry && feature.geometry.coordinates;
     if (!coords || coords.length < 2) return;
     const p = feature.properties || {};
-    const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(p.Builder, p.Status) });
+    const displayBuilder = displayBuilderList(p.Builder);
+    const primaryBuilder = primaryBuilderForFeature(feature);
+    const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(primaryBuilder, p.Status) });
     marker.feature = feature;
-    marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${p.Builder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
+    marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${displayBuilder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
     marker.on('click', () => selectBuilderSubdivision(feature, false));
     marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
     state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
@@ -695,7 +735,7 @@ function builderNameOptionsForPanel() {
   });
   const selected = (state.builderFilters || {}).BuilderNames || {};
   Object.entries(selected).forEach(([key, checked]) => {
-    if (checked && !counts.has(key)) counts.set(key, { key, name: key === '?' ? '?' : key, count: 0 });
+    if (checked && !counts.has(key)) counts.set(key, { key, name: key === '?' ? '?' : (key === 'lennar homes' ? 'Lennar Homes' : key), count: 0 });
   });
   return Array.from(counts.values()).sort(builderNameSort);
 }
