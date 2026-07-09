@@ -473,8 +473,9 @@ function builderSummaryForFeatures(features) {
 }
 
 function builderSummary(rows, areaSqMi = 0) {
-  const out = { total: rows.length, active: 0, future: 0, built_out: 0, single_family: 0, townhomes: 0, builders_count: 0, builders: [], units_planned: 0, units_remaining: 0, annual_starts: 0, annual_closings: 0, vacant_developed_lots: 0, under_construction: 0, density: 0, communities: [] };
+  const out = { total: rows.length, active: 0, future: 0, built_out: 0, single_family: 0, townhomes: 0, builders_count: 0, builders: [], starts_by_builder: [], units_planned: 0, units_remaining: 0, annual_starts: 0, annual_closings: 0, vacant_developed_lots: 0, under_construction: 0, density: 0, communities: [] };
   const builders = new Set();
+  const startsByBuilder = new Map();
   rows.forEach(f => {
     const p = f.properties || {};
     if (p.Status === 'Active') out.active += 1;
@@ -482,10 +483,19 @@ function builderSummary(rows, areaSqMi = 0) {
     else if (p.Status === 'Built Out') out.built_out += 1;
     if (p.ProductStyle === 'Townhomes') out.townhomes += 1;
     else if (p.ProductStyle === 'Single-Family Detached') out.single_family += 1;
-    String(p.Builder || '').split('|').forEach(b => { if (b.trim()) builders.add(b.trim()); });
+    const builderNames = String(p.Builder || '')
+      .split('|')
+      .map(b => b.trim())
+      .filter(Boolean);
+    builderNames.forEach(b => builders.add(b));
+    const annualStarts = Number(p.AnnualStarts || 0);
+    const allocatedStarts = builderNames.length ? annualStarts / builderNames.length : annualStarts;
+    if (builderNames.length) {
+      builderNames.forEach(b => startsByBuilder.set(b, (startsByBuilder.get(b) || 0) + allocatedStarts));
+    }
     out.units_planned += Number(p.UnitsPlanned || 0);
     out.units_remaining += Number(p.UnitsRemaining || 0);
-    out.annual_starts += Number(p.AnnualStarts || 0);
+    out.annual_starts += annualStarts;
     out.annual_closings += Number(p.AnnualClosings || 0);
     out.vacant_developed_lots += Number(p.VacantDevelopedLots || 0);
     out.under_construction += Number(p.UnderConstruction || 0);
@@ -493,6 +503,9 @@ function builderSummary(rows, areaSqMi = 0) {
   });
   out.builders = Array.from(builders).sort();
   out.builders_count = out.builders.length;
+  out.starts_by_builder = Array.from(startsByBuilder.entries())
+    .map(([builder, starts]) => ({ builder, starts, pct: out.annual_starts ? (starts / out.annual_starts) * 100 : 0 }))
+    .sort((a, b) => b.starts - a.starts || a.builder.localeCompare(b.builder));
   out.density = areaSqMi ? out.total / Number(areaSqMi) : 0;
   return out;
 }
@@ -561,6 +574,11 @@ function renderBuilderCard(summary) {
       ${summary.communities.slice(0, 30).sort((a,b)=>a.name.localeCompare(b.name)).map(c => `<div class="builder-used-row"><span>${c.name}</span><b>${c.builder || '—'}</b></div>`).join('')}
       ${summary.communities.length > 30 ? `<div class="builder-used-note">Showing first 30 of ${summary.communities.length.toLocaleString()} communities.</div>` : ''}
     </details>` : `<div class="builder-used-note">No visible builder subdivisions are physically located inside this boundary.</div>`;
+  const startsRows = summary.starts_by_builder && summary.starts_by_builder.length ? `
+    <details class="builder-used">
+      <summary>Starts by Builder</summary>
+      ${summary.starts_by_builder.map(b => `<div class="builder-used-row"><span>${b.builder}</span><b>${fmt(Math.round(b.starts))} starts (${Number(b.pct || 0).toFixed(1)}%)</b></div>`).join('')}
+    </details>` : `<details class="builder-used"><summary>Starts by Builder</summary><div class="builder-used-note">No annual starts recorded for visible communities in this boundary.</div></details>`;
   return `<div class="builder-card">
     <div class="builder-head"><b>Builder Subdivisions</b><span>${summary.total.toLocaleString()} visible communities</span></div>
     ${filtered ? `<div class="builder-filter-note">Filtered from ${state.builders.length.toLocaleString()} total communities</div>` : ''}
@@ -572,6 +590,7 @@ function renderBuilderCard(summary) {
       <div><span>Annual Starts</span><b>${fmt(Math.round(summary.annual_starts || 0))}</b></div>
       <div><span>VDLs</span><b>${fmt(Math.round(summary.vacant_developed_lots || 0))}</b></div>
     </div>
+    ${startsRows}
     ${list}
   </div>`;
 }
@@ -588,7 +607,8 @@ function buildBuilderLayer() {
     const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(p.Builder, p.Status) });
     marker.feature = feature;
     marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${p.Builder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
-    marker.on('click', () => selectBuilderSubdivision(feature));
+    marker.on('click', () => selectBuilderSubdivision(feature, false));
+    marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
     state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
     state.builderLayer.addLayer(marker);
   });
@@ -644,13 +664,13 @@ async function loadBuilders(showLayer = false) {
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
-function selectBuilderSubdivision(builder) {
+function selectBuilderSubdivision(builder, zoomTo = false) {
   if (state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
   const toggle = document.getElementById('toggleBuilders');
   if (toggle) toggle.checked = true;
   const target = state.builderMarkerIndex ? state.builderMarkerIndex.get(builder.properties.BuilderSubdivisionID) : null;
   if (target) {
-    state.map.setView(target.getLatLng(), Math.max(state.map.getZoom(), 13));
+    if (zoomTo) state.map.setView(target.getLatLng(), Math.max(state.map.getZoom(), 13));
     target.openPopup();
   }
 }
