@@ -23,3 +23,10 @@ Built from v2.8.4.
 - Builder filters now group Lennar and Lennar Homes together.
 - Builder pins now prioritize Lennar Homes when a community has multiple builders, so any Lennar Homes community displays as a blue `L`.
 - Popups and sidebar lists display normalized builder names.
+
+
+## v2.8.9
+- Fixed Builder Subdivisions load error caused by Lennar normalization runtime references.
+- Submarket single-click now selects without zooming or recentering.
+- Submarket double-click now zooms/recenters to the selected boundary.
+- Search selection still zooms to the chosen submarket.

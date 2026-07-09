@@ -1,18 +1,18 @@
 {
-  "version": "2.7.6",
-  "releaseDate": "2026-07-07",
+  "version": "2.8.9",
+  "releaseDate": "2026-07-09",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
   "boundaries": "Verified",
   "schools": "School ratings load in background; map pins remain optional",
   "demographics": "Precomputed ACS 5-Year block-group estimates with 5-year forecast",
   "builders": "Pending",
-  "notes": "Retail & Dining clustering, display filters, and wholesale club capture; verified schools, ACS 2020-2024 current demographics, and healthcare framework preserved.",
+  "notes": "Builder subdivision load fix, Lennar normalization, and submarket click no-zoom behavior; verified schools, ACS 2020-2024 demographics, healthcare, retail clustering/filters preserved.",
   "schoolRatings": "Baldwin County proof of concept - GreatSchools ratings manually entered",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "v2.8.0",
+  "release": "v2.8.9",
   "school_rating_update": "Thomas verified grades applied; Unranked values excluded from scoring",
   "updated": "2026-07-08",
   "retail": "Retail & Dining clustering and display filters enabled; OSM shop=wholesale/shop=warehouse included as Grocery for Costco, Sam's Club, BJ's, and similar wholesale clubs.",
-  "builder_subdivisions": "Zonda subdivision export, assigned to custom submarkets by latitude/longitude"
+  "builder_subdivisions": "Zonda subdivision export with builder normalization and builder filters; single-click selects, double-click zooms."
 }

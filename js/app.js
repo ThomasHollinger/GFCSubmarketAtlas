@@ -484,14 +484,14 @@ function primaryBuilderForFeature(featureOrBuilder) {
 function canonicalBuilderKey(builder) {
   const b = normalizeSingleBuilderName(builder);
   if (!b || b === '?' || b === '—' || /^unknown$/i.test(b)) return '?';
-  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
+  if (b.toLowerCase().startsWith('lennar')) return 'lennar homes';
   return b.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
 function displayBuilderName(builder) {
   const b = normalizeSingleBuilderName(builder);
   if (!b || b === '?' || b === '—' || /^unknown$/i.test(b)) return '?';
-  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
+  if (b.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
   return b;
 }
 
@@ -615,7 +615,7 @@ function builderDisplayLetter(builder) {
   const b = normalizeBuilderName(builder);
   if (!b || b === '—' || /^unknown$/i.test(b)) return '?';
   if (/^d\.?\s*r\.?\s*horton/i.test(b)) return 'D';
-  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
+  if (b.toLowerCase().startsWith('lennar')) return 'L';
   if (/^adams/i.test(b)) return 'A';
   if (/^dsld/i.test(b)) return 'D';
   if (/^holiday/i.test(b)) return 'H';
@@ -629,7 +629,7 @@ function builderDisplayLetter(builder) {
 
 function builderColorClass(builder) {
   const b = normalizeBuilderName(builder).toLowerCase();
-  if (raw.toLowerCase().startsWith('lennar')) return 'Lennar Homes';
+  if (b.toLowerCase().startsWith('lennar')) return 'builder-lennar';
   if (/^d\.?\s*r\.?\s*horton/.test(b)) return 'builder-drhorton';
   if (/^adams/.test(b)) return 'builder-adams';
   if (/^dsld/.test(b)) return 'builder-dsld';
@@ -1229,7 +1229,8 @@ async function loadData() {
       layer.on({
         mouseover: () => layer.setStyle({ weight: 2.8, fillOpacity: 0.64 }),
         mouseout: () => state.submarketLayer.resetStyle(layer),
-        click: () => selectFeature(feature, layer)
+        click: () => selectFeature(feature, layer, false),
+        dblclick: () => selectFeature(feature, layer, true)
       });
       const p = feature.properties;
       layer.bindTooltip(`${p.DisplayName}`, { sticky: true, className: 'submarket-label' });
@@ -1447,13 +1448,13 @@ function buildSearchIndex() {
   state.searchIndex = submarkets.concat(schools).concat(healthcare).concat(builders).concat(pois);
 }
 
-function selectFeature(feature, layer) {
+function selectFeature(feature, layer, shouldZoom = false) {
   state.selected = feature;
   state.submarketLayer.setStyle(styleFeature);
   const targetLayer = layer || findLayerForFeature(feature);
   if (targetLayer) {
     targetLayer.setStyle(styleFeature(feature));
-    state.map.fitBounds(targetLayer.getBounds(), { padding: [50, 50], maxZoom: 10 });
+    if (shouldZoom) state.map.fitBounds(targetLayer.getBounds(), { padding: [50, 50], maxZoom: 10 });
   }
   renderSelected(feature.properties);
 }
@@ -1543,7 +1544,7 @@ function renderSearchResults(query) {
       else if (item.type === 'POI') selectPOI(item.poi);
       else if (item.type === 'Healthcare') selectHealthcare(item.facility);
       else if (item.type === 'Builder') selectBuilderSubdivision(item.builder);
-      else selectFeature(item.feature, findLayerForFeature(item.feature));
+      else selectFeature(item.feature, findLayerForFeature(item.feature), true);
     });
   });
 }
@@ -1558,7 +1559,7 @@ function performSearch() {
   else if (first.type === 'POI') selectPOI(first.poi);
   else if (first.type === 'Healthcare') selectHealthcare(first.facility);
   else if (first.type === 'Builder') selectBuilderSubdivision(first.builder);
-  else selectFeature(first.feature, findLayerForFeature(first.feature));
+  else selectFeature(first.feature, findLayerForFeature(first.feature), true);
 }
 
 function resetView() {
