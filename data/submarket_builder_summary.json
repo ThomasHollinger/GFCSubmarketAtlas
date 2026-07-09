@@ -1,0 +1,75 @@
+{
+  "Central Baldwin": {
+    "total": 2,
+    "active": 2,
+    "comingSoon": 0,
+    "closeout": 0,
+    "unknownStatus": 0,
+    "builderCount": 1,
+    "builders": [
+      "D.R. Horton"
+    ],
+    "needsReview": 0
+  },
+  "Central Mobile": {
+    "total": 2,
+    "active": 2,
+    "comingSoon": 0,
+    "closeout": 0,
+    "unknownStatus": 0,
+    "builderCount": 1,
+    "builders": [
+      "D.R. Horton"
+    ],
+    "needsReview": 0
+  },
+  "Milton": {
+    "total": 2,
+    "active": 2,
+    "comingSoon": 0,
+    "closeout": 0,
+    "unknownStatus": 0,
+    "builderCount": 1,
+    "builders": [
+      "D.R. Horton"
+    ],
+    "needsReview": 0
+  },
+  "Panama City": {
+    "total": 4,
+    "active": 3,
+    "comingSoon": 0,
+    "closeout": 0,
+    "unknownStatus": 1,
+    "builderCount": 2,
+    "builders": [
+      "D.R. Horton",
+      "Lennar"
+    ],
+    "needsReview": 0
+  },
+  "Pensacola": {
+    "total": 1,
+    "active": 1,
+    "comingSoon": 0,
+    "closeout": 0,
+    "unknownStatus": 0,
+    "builderCount": 1,
+    "builders": [
+      "Lennar"
+    ],
+    "needsReview": 0
+  },
+  "West Baldwin": {
+    "total": 1,
+    "active": 0,
+    "comingSoon": 1,
+    "closeout": 0,
+    "unknownStatus": 0,
+    "builderCount": 1,
+    "builders": [
+      "NewHomeSource"
+    ],
+    "needsReview": 0
+  }
+}
