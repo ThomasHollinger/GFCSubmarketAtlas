@@ -13,3 +13,7 @@ Built from v2.8.4.
 - Builder filter list prioritizes Lennar first when present, sorts remaining builders alphabetically, and places unknown `?` builders last.
 - Builder filter list scopes to the selected submarket when a submarket is selected.
 - Leaving all builder names unchecked shows all builders; selecting one or more builder names limits the pins and sidebar counts to those builders.
+
+
+## v2.8.7
+- Updated Avery Cove builder from Lennar to Lennar Homes.

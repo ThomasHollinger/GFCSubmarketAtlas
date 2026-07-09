@@ -2,7 +2,7 @@
   "metadata": {
     "source": "Zonda export provided by user",
     "updated": "2026-07-09",
-    "note": "Builder subdivision summary generated from builder_subdivisions.geojson; Avery Cove builder corrected to Lennar."
+    "note": "Builder subdivision summary generated from builder_subdivisions.geojson; Avery Cove builder corrected to Lennar Homes."
   },
   "submarkets": {
     "SM-02": {
@@ -2939,14 +2939,13 @@
       "visible_default": 33,
       "single_family": 35,
       "townhomes": 0,
-      "builders_count": 12,
+      "builders_count": 11,
       "builders": [
         "Adams Homes",
         "Benchmark Homes Group",
         "D.R. Horton Inc",
         "DSLD Homes",
         "JBL Homes",
-        "Lennar",
         "Lennar Homes",
         "Meritage Homes",
         "Mitchell Custom Homes LLC",
@@ -2986,7 +2985,7 @@
         },
         {
           "name": "Avery Cove",
-          "builder": "Lennar",
+          "builder": "Lennar Homes",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 121,

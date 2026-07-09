@@ -10,3 +10,7 @@ This release adds persistent sidebar dropdown behavior. Expanded sidebar section
 - Builder filter list prioritizes Lennar first when present, sorts remaining builders alphabetically, and places unknown `?` builders last.
 - Builder filter list scopes to the selected submarket when a submarket is selected.
 - Leaving all builder names unchecked shows all builders; selecting one or more builder names limits the pins and sidebar counts to those builders.
+
+
+### v2.8.7
+Avery Cove builder corrected to Lennar Homes.
