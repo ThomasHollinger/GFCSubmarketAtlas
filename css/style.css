@@ -53,3 +53,15 @@
 .retail-filter-panel input{width:14px;height:14px}
 .retail-filter-panel .filter-count{margin-top:8px;padding-top:7px;border-top:1px solid #ccfbf1;color:#0f766e;font-size:11px;font-weight:900}
 .retail-filter-note{font-size:11px;color:#0f766e;font-weight:800;margin:-2px 0 7px}
+
+/* Builder Subdivisions module */
+.builder-marker{width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:900}
+.builder-active{background:#7e22ce}.builder-future{background:#f59e0b}.builder-built{background:#64748b}
+.builder-popup h3{margin:0 0 6px;font-size:15px;color:#0f2437}.builder-popup p{margin:3px 0;font-size:12px}
+.builder-card{background:#faf5ff;border:1px solid #e9d5ff;border-radius:12px;padding:12px;margin-top:10px;color:#0f2437;font-size:12px}
+.builder-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.builder-head span{font-size:11px;color:#7e22ce;font-weight:900}
+.builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.builder-grid div{background:#fff;border:1px solid #f3e8ff;border-radius:9px;padding:7px;text-align:center}
+.builder-grid span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#667085;font-weight:900}.builder-grid b{display:block;font-size:16px;margin-top:2px;color:#0f2437}
+.builder-used{margin-top:10px;border-top:1px solid rgba(126,34,206,.20);padding-top:8px}.builder-used summary{cursor:pointer;font-size:12px;font-weight:700;color:#334155}.builder-used-row{display:flex;justify-content:space-between;gap:8px;padding:4px 0;font-size:12px;border-bottom:1px solid rgba(243,232,255,.85)}.builder-used-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.builder-used-row b{color:#0f172a;font-size:10px;text-align:right}.builder-used-note{margin-top:8px;font-size:12px;color:#64748b}.builder-filter-note{font-size:11px;color:#7e22ce;font-weight:800;margin:-2px 0 7px}.check span#builderCountBadge{background:#faf5ff;color:#7e22ce}
+.builder-filter-panel{display:none;margin:8px 0 10px 26px;padding:10px;border:1px solid #e9d5ff;border-radius:10px;background:#faf5ff;font-size:12px;color:#0f2437}
+.builder-filter-panel.active{display:block}.builder-filter-panel .filter-title{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:#7e22ce;margin-bottom:6px}.builder-filter-panel label{display:flex;align-items:center;gap:7px;margin:6px 0;font-weight:800;color:#344054}.builder-filter-panel input{width:14px;height:14px}.builder-filter-panel .filter-count{margin-top:8px;padding-top:7px;border-top:1px solid #e9d5ff;color:#7e22ce;font-size:11px;font-weight:900}

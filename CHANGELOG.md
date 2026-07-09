@@ -1,11 +1,11 @@
-# Gulf Coast Submarket Atlas v2.7.7
+# v2.8.0 - Builder Subdivisions
 
-## Fix
-- Repairs the JavaScript syntax error introduced in v2.7.6 by the BJ's Wholesale Club brand name string.
-- Keeps the wholesale/warehouse retail additions from v2.7.6.
+- Added Builder Subdivisions layer using the uploaded Zonda subdivision export.
+- Added static builder subdivision data files under data/.
+- Added Builder Activity map theme.
+- Added sidebar Builder Subdivisions card with active/future counts, builders, units remaining, annual starts, and VDLs.
+- Added Builder Display filters for Single Family Detached, Townhomes, Active, Future, and Built Out.
+- Added builder subdivision search support.
+- Preserved retail clustering/filters, verified school ratings, demographics, and healthcare framework.
 
-## Retained
-- Retail clustering and display filters.
-- Verified school ratings.
-- ACS 2020-2024 demographics.
-- Healthcare framework/data compatibility.
+Note: the uploaded source file contains 482 records. All records are currently tagged as Single-Family in the Product Style column, so the Townhomes filter is available but will show zero until townhome records are included in a future source export.

@@ -5,6 +5,9 @@ const state = {
   poiLayer: null,
   poiMarkerIndex: new Map(),
   retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
+  builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false },
+  builderLayer: null,
+  builderMarkerIndex: new Map(),
   healthcareLayer: null,
   selected: null,
   features: [],
@@ -15,6 +18,9 @@ const state = {
   healthcare: [],
   healthcareLoaded: false,
   healthcareSummary: null,
+  builders: [],
+  buildersLoaded: false,
+  builderSummary: null,
   demographics: null,
   demographicsLoaded: false,
   basemaps: {},
@@ -433,6 +439,185 @@ function renderRetailCard(summary) {
   </div>`;
 }
 
+
+function activeBuilderSubdivisions() {
+  return state.builders.filter(passesBuilderFilter);
+}
+
+function passesBuilderFilter(feature) {
+  const p = feature.properties || {};
+  const f = state.builderFilters || {};
+  const product = p.ProductStyle || '';
+  const status = p.Status || '';
+  const productMatch =
+    (product === 'Single-Family Detached' && f.SingleFamily) ||
+    (product === 'Townhomes' && f.Townhomes) ||
+    (!['Single-Family Detached','Townhomes'].includes(product));
+  const statusMatch =
+    (status === 'Active' && f.Active) ||
+    (status === 'Future' && f.Future) ||
+    (status === 'Built Out' && f.BuiltOut) ||
+    (!['Active','Future','Built Out'].includes(status));
+  return productMatch && statusMatch;
+}
+
+function builderSummaryForSubmarket(submarketID, areaSqMi) {
+  const rows = activeBuilderSubdivisions().filter(b => b.properties.SubmarketID === submarketID);
+  return builderSummary(rows, areaSqMi);
+}
+
+function builderSummaryForFeatures(features) {
+  const ids = new Set(features.map(f => f.properties.SubmarketID));
+  const area = features.reduce((sum, f) => sum + Number(f.properties.AreaSqMi || 0), 0);
+  return builderSummary(activeBuilderSubdivisions().filter(b => ids.has(b.properties.SubmarketID)), area);
+}
+
+function builderSummary(rows, areaSqMi = 0) {
+  const out = { total: rows.length, active: 0, future: 0, built_out: 0, single_family: 0, townhomes: 0, builders_count: 0, builders: [], units_planned: 0, units_remaining: 0, annual_starts: 0, annual_closings: 0, vacant_developed_lots: 0, under_construction: 0, density: 0, communities: [] };
+  const builders = new Set();
+  rows.forEach(f => {
+    const p = f.properties || {};
+    if (p.Status === 'Active') out.active += 1;
+    else if (p.Status === 'Future') out.future += 1;
+    else if (p.Status === 'Built Out') out.built_out += 1;
+    if (p.ProductStyle === 'Townhomes') out.townhomes += 1;
+    else if (p.ProductStyle === 'Single-Family Detached') out.single_family += 1;
+    String(p.Builder || '').split('|').forEach(b => { if (b.trim()) builders.add(b.trim()); });
+    out.units_planned += Number(p.UnitsPlanned || 0);
+    out.units_remaining += Number(p.UnitsRemaining || 0);
+    out.annual_starts += Number(p.AnnualStarts || 0);
+    out.annual_closings += Number(p.AnnualClosings || 0);
+    out.vacant_developed_lots += Number(p.VacantDevelopedLots || 0);
+    out.under_construction += Number(p.UnderConstruction || 0);
+    out.communities.push({ name: p.Subdivision || p.CommunityName || '', builder: p.Builder || '', status: p.Status || '', product: p.ProductStyle || '', units_remaining: p.UnitsRemaining, annual_starts: p.AnnualStarts });
+  });
+  out.builders = Array.from(builders).sort();
+  out.builders_count = out.builders.length;
+  out.density = areaSqMi ? out.total / Number(areaSqMi) : 0;
+  return out;
+}
+
+function colorForBuilderDensity(density) {
+  if (density === null || density === undefined || Number.isNaN(Number(density)) || density <= 0) return '#e5e7eb';
+  if (density >= 1.2) return '#581c87';
+  if (density >= 0.6) return '#7e22ce';
+  if (density >= 0.25) return '#a855f7';
+  return '#e9d5ff';
+}
+
+function builderIcon(status, product) {
+  const s = String(status || '').toLowerCase();
+  const p = String(product || '').toLowerCase();
+  const cls = s.includes('future') ? 'builder-future' : s.includes('built') ? 'builder-built' : 'builder-active';
+  const label = p.includes('town') ? 'T' : 'S';
+  return L.divIcon({ className: '', html: `<div class="builder-marker ${cls}">${label}</div>`, iconSize: [22,22], iconAnchor: [11,11], popupAnchor: [0,-11] });
+}
+
+function renderBuilderCard(summary) {
+  if (!state.buildersLoaded) return `<div class="builder-card"><b>Builder Subdivisions</b><br>Builder subdivision data is ready. Turn on the Builders layer to load communities.</div>`;
+  summary = summary || builderSummary([]);
+  const filtered = activeBuilderSubdivisions().length !== state.builders.length;
+  const list = summary.communities && summary.communities.length ? `
+    <details class="builder-used">
+      <summary>Communities in boundary</summary>
+      ${summary.communities.slice(0, 30).sort((a,b)=>a.name.localeCompare(b.name)).map(c => `<div class="builder-used-row"><span>${c.name}</span><b>${c.builder || '—'}</b></div>`).join('')}
+      ${summary.communities.length > 30 ? `<div class="builder-used-note">Showing first 30 of ${summary.communities.length.toLocaleString()} communities.</div>` : ''}
+    </details>` : `<div class="builder-used-note">No visible builder subdivisions are physically located inside this boundary.</div>`;
+  return `<div class="builder-card">
+    <div class="builder-head"><b>Builder Subdivisions</b><span>${summary.total.toLocaleString()} visible communities</span></div>
+    ${filtered ? `<div class="builder-filter-note">Filtered from ${state.builders.length.toLocaleString()} total communities</div>` : ''}
+    <div class="builder-grid">
+      <div><span>Active</span><b>${summary.active.toLocaleString()}</b></div>
+      <div><span>Future</span><b>${summary.future.toLocaleString()}</b></div>
+      <div><span>Builders</span><b>${summary.builders_count.toLocaleString()}</b></div>
+      <div><span>Units Remaining</span><b>${fmt(Math.round(summary.units_remaining || 0))}</b></div>
+      <div><span>Annual Starts</span><b>${fmt(Math.round(summary.annual_starts || 0))}</b></div>
+      <div><span>VDLs</span><b>${fmt(Math.round(summary.vacant_developed_lots || 0))}</b></div>
+    </div>
+    ${list}
+  </div>`;
+}
+
+function buildBuilderLayer() {
+  const wasVisible = state.builderLayer && state.map && state.map.hasLayer(state.builderLayer);
+  if (state.builderLayer && state.map && state.map.hasLayer(state.builderLayer)) state.map.removeLayer(state.builderLayer);
+  state.builderMarkerIndex = new Map();
+  state.builderLayer = L.markerClusterGroup({ chunkedLoading: true, chunkInterval: 120, chunkDelay: 30, showCoverageOnHover: false, spiderfyOnMaxZoom: true, disableClusteringAtZoom: 13, maxClusterRadius: 50 });
+  activeBuilderSubdivisions().forEach(feature => {
+    const coords = feature.geometry && feature.geometry.coordinates;
+    if (!coords || coords.length < 2) return;
+    const p = feature.properties || {};
+    const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(p.Status, p.ProductStyle) });
+    marker.feature = feature;
+    marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${p.Builder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
+    marker.on('click', () => selectBuilderSubdivision(feature));
+    state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
+    state.builderLayer.addLayer(marker);
+  });
+  if (wasVisible) state.builderLayer.addTo(state.map);
+}
+
+function updateBuilderFilterPanel() {
+  const panel = document.getElementById('builderFilterPanel');
+  if (!panel) return;
+  const visibleCount = state.buildersLoaded ? activeBuilderSubdivisions().length : 0;
+  panel.classList.toggle('active', !!state.buildersLoaded);
+  const count = document.getElementById('builderFilterCount');
+  if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible` : 'Load Builders';
+}
+
+function applyBuilderFilters() {
+  if (!state.buildersLoaded) return;
+  buildBuilderLayer();
+  if (document.getElementById('toggleBuilders') && document.getElementById('toggleBuilders').checked && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
+  const visibleCount = activeBuilderSubdivisions().length;
+  const badge = document.getElementById('builderCountBadge');
+  if (badge) badge.textContent = `${visibleCount.toLocaleString()} shown`;
+  updateBuilderFilterPanel();
+  if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
+async function loadBuilders(showLayer = false) {
+  if (!state.buildersLoaded) {
+    const badge = document.getElementById('builderCountBadge');
+    if (badge) badge.textContent = 'Loading...';
+    try {
+      const [communities, summary] = await Promise.all([
+        fetch('data/builder_subdivisions.geojson').then(r => r.json()),
+        fetch('data/submarket_builder_summary.json').then(r => r.json())
+      ]);
+      state.builders = communities.features || [];
+      state.builderSummary = summary;
+    } catch (err) {
+      console.warn('Builder subdivision data not available', err);
+      state.builders = [];
+      state.builderSummary = { metadata: { status: 'not_built' }, submarkets: {} };
+    }
+    buildBuilderLayer();
+    state.buildersLoaded = true;
+    if (badge) badge.textContent = state.builders.length ? `${state.builders.length.toLocaleString()} loaded` : 'No data';
+    updateBuilderFilterPanel();
+    buildSearchIndex();
+    renderSearchResults(document.getElementById('searchInput').value || '');
+    renderRelease(state.metadata);
+  }
+  if (showLayer && state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
+function selectBuilderSubdivision(builder) {
+  if (state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
+  const toggle = document.getElementById('toggleBuilders');
+  if (toggle) toggle.checked = true;
+  const target = state.builderMarkerIndex ? state.builderMarkerIndex.get(builder.properties.BuilderSubdivisionID) : null;
+  if (target) {
+    state.map.setView(target.getLatLng(), Math.max(state.map.getZoom(), 13));
+    if (state.builderLayer.zoomToShowLayer) state.builderLayer.zoomToShowLayer(target, () => target.openPopup());
+    else target.openPopup();
+  }
+}
+
 function overpassQuery() {
   const [west, south, east, north] = bboxForSubmarkets();
   const bbox = `${south},${west},${north},${east}`;
@@ -701,7 +886,7 @@ function styleFeature(feature) {
   return {
     color: selected ? '#061827' : '#26384f',
     weight: selected ? 3.5 : 1.4,
-    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (state.mapTheme === 'retail' ? colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'healthcare' ? colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'income' ? colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income) : (state.mapTheme === 'popgrowth' ? colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct) : (state.mapTheme === 'population' ? colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population) : (p.HubColor || p.HubBaseColor || '#8ea0ad')))))),
+    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (state.mapTheme === 'retail' ? colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'healthcare' ? colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'builders' ? colorForBuilderDensity(builderSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'income' ? colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income) : (state.mapTheme === 'popgrowth' ? colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct) : (state.mapTheme === 'population' ? colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population) : (p.HubColor || p.HubBaseColor || '#8ea0ad'))))))),
     fillOpacity: selected ? 0.72 : 0.48
   };
 }
@@ -721,6 +906,12 @@ function legendHtml() {
   if (state.mapTheme === 'healthcare') {
     return `<b>Healthcare Access</b><div class="legend-subtitle">Facilities per sq mi</div>` + [
       ['#7f1d1d','Very High','1.2+'], ['#dc2626','High','0.6-1.19'], ['#f87171','Moderate','0.25-0.59'], ['#fecaca','Low','0.01-0.24'], ['#e5e7eb','None','0']
+    ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
+  }
+
+  if (state.mapTheme === 'builders') {
+    return `<b>Builder Activity</b><div class="legend-subtitle">Visible communities per sq mi</div>` + [
+      ['#581c87','Very High','1.2+'], ['#7e22ce','High','0.6-1.19'], ['#a855f7','Moderate','0.25-0.59'], ['#e9d5ff','Low','0.01-0.24'], ['#e5e7eb','None','0']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'income') {
@@ -923,6 +1114,7 @@ function renderHubSummary(hub) {
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
+    ${renderBuilderCard(builderSummaryForFeatures(items))}
     <div class="focus-list">
       ${items.map(f => `<div class="focus-row"><span>${f.properties.DisplayName}</span><b>${f.properties.SubmarketID}</b></div>`).join('')}
     </div>
@@ -935,6 +1127,7 @@ function renderHomeSummary() {
   const scoreSummary = scoreSummaryForFeatures(state.features);
   const retail = retailSummaryForFeatures(state.features);
   const healthcare = healthcareSummaryForFeatures(state.features);
+  const builder = builderSummaryForFeatures(state.features);
   const demo = aggregateDemographics(state.features);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
@@ -950,6 +1143,7 @@ function renderHomeSummary() {
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
+    ${renderBuilderCard(builder)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>Hub color model</span><b>Active</b></div>
@@ -995,6 +1189,19 @@ function buildSearchIndex() {
       facility
     };
   });
+
+  const builders = state.builders.map(builder => {
+    const p = builder.properties || {};
+    return {
+      type: 'Builder',
+      icon: p.ProductStyle === 'Townhomes' ? 'TH' : 'BD',
+      id: p.BuilderSubdivisionID,
+      title: p.Subdivision || 'Builder Community',
+      subtitle: `${p.Builder || 'Builder'} • ${p.SubmarketName || ''}`,
+      keywords: `${p.Subdivision || ''} ${p.Builder || ''} ${p.City || ''} ${p.County || ''} ${p.Status || ''} ${p.ProductStyle || ''} ${p.SubmarketName || ''}`.toLowerCase(),
+      builder
+    };
+  });
   const pois = state.pois.map(poi => {
     const p = poi.properties;
     return {
@@ -1007,7 +1214,7 @@ function buildSearchIndex() {
       poi
     };
   });
-  state.searchIndex = submarkets.concat(schools).concat(healthcare).concat(pois);
+  state.searchIndex = submarkets.concat(schools).concat(healthcare).concat(builders).concat(pois);
 }
 
 function selectFeature(feature, layer) {
@@ -1035,6 +1242,7 @@ function renderSelected(p) {
   const scoreSummary = scoreSummaryForSubmarket(p.DisplayName);
   const retail = retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi);
   const healthcare = healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi);
+  const builder = builderSummaryForSubmarket(p.SubmarketID, p.AreaSqMi);
   const demo = demoForSubmarket(p.DisplayName);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
@@ -1050,13 +1258,14 @@ function renderSelected(p) {
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
+    ${renderBuilderCard(builder)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>School Rating</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Healthcare</span><b>${healthcareDatasetBuilt() ? 'Loaded' : 'Builder Ready'}</b></div>
       <div class="focus-row"><span>Retail & Dining</span><b>${state.poisLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Demographics</span><b>${demo ? 'Loaded' : 'No Data'}</b></div>
-      <div class="focus-row"><span>Builder Competition</span><b>Pending</b></div>
+      <div class="focus-row"><span>Builder Subdivisions</span><b>${state.buildersLoaded ? 'Loaded' : 'Ready'}</b></div>
     </div>
     <button class="profile-btn" type="button">View Market Profile <span>›</span></button>
   `;
@@ -1102,6 +1311,7 @@ function renderSearchResults(query) {
       if (item.type === 'School') selectSchool(item.school);
       else if (item.type === 'POI') selectPOI(item.poi);
       else if (item.type === 'Healthcare') selectHealthcare(item.facility);
+      else if (item.type === 'Builder') selectBuilderSubdivision(item.builder);
       else selectFeature(item.feature, findLayerForFeature(item.feature));
     });
   });
@@ -1116,6 +1326,7 @@ function performSearch() {
   if (first.type === 'School') selectSchool(first.school);
   else if (first.type === 'POI') selectPOI(first.poi);
   else if (first.type === 'Healthcare') selectHealthcare(first.facility);
+  else if (first.type === 'Builder') selectBuilderSubdivision(first.builder);
   else selectFeature(first.feature, findLayerForFeature(first.feature));
 }
 
@@ -1321,6 +1532,35 @@ function bindUI() {
     });
   });
 
+
+  document.getElementById('toggleBuilders').addEventListener('change', async e => {
+    try {
+      if (e.target.checked) {
+        await loadBuilders(true);
+        if (state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
+        document.getElementById('mapThemeSelect').value = 'builders';
+        setMapTheme('builders');
+      } else if (state.builderLayer) {
+        state.map.removeLayer(state.builderLayer);
+        document.getElementById('mapThemeSelect').value = 'hub';
+        setMapTheme('hub');
+      }
+    } catch (err) {
+      console.error(err);
+      e.target.checked = false;
+      document.getElementById('builderCountBadge').textContent = 'Error';
+      alert('Builder subdivisions could not be loaded.');
+    }
+  });
+  document.querySelectorAll('.builder-filter').forEach(input => {
+    input.addEventListener('change', e => {
+      const key = e.target.dataset.builderFilter;
+      if (!key) return;
+      state.builderFilters[key] = e.target.checked;
+      applyBuilderFilters();
+    });
+  });
+
   document.getElementById('toggleHealthcare').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
@@ -1367,6 +1607,11 @@ loadData()
     loadSchools(false).catch(err => {
       console.error('Background school data load failed', err);
       document.getElementById('schoolCountBadge').textContent = 'Unavailable';
+    });
+    loadBuilders(false).catch(err => {
+      console.error('Background builder data load failed', err);
+      const badge = document.getElementById('builderCountBadge');
+      if (badge) badge.textContent = 'Unavailable';
     });
   })
   .catch(err => {

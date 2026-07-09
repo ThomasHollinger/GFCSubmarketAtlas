@@ -37,6 +37,7 @@
           <option value="schools">School Score Heat Map</option>
           <option value="retail">Retail Density</option>
           <option value="healthcare">Healthcare Access</option>
+          <option value="builders">Builder Activity</option>
           <option value="income">Median Income</option>
           <option value="population">Population</option>
         </select>
@@ -53,8 +54,17 @@
           <div id="retailFilterCount" class="filter-count">Load Retail & Dining</div>
         </div>
         <label class="check"><input type="checkbox" id="toggleHealthcare"> Healthcare <span id="healthcareCountBadge">Builder Ready</span></label>
+        <label class="check"><input type="checkbox" id="toggleBuilders"> Builder Subdivisions <span id="builderCountBadge">Ready</span></label>
+        <div id="builderFilterPanel" class="builder-filter-panel">
+          <div class="filter-title">Builder Display</div>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="SingleFamily" checked> Single Family Detached</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Townhomes" checked> Townhomes</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Active" checked> Active</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Future" checked> Future</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="BuiltOut"> Built Out</label>
+          <div id="builderFilterCount" class="filter-count">Load Builders</div>
+        </div>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
-        <label class="check disabled"><input type="checkbox" disabled> Builders <span>Coming Soon</span></label>
 
         <div class="hubs-inline">
           <h2>Hubs</h2>
@@ -72,7 +82,7 @@
             <div><span class="dot partial"></span><span>Retail & Dining</span><b>Layer Ready</b></div>
             <div><span class="dot partial"></span><span>Healthcare</span><b>Builder Ready</b></div>
             <div><span class="dot good"></span><span>Demographics</span><b>Loaded</b></div>
-            <div><span class="dot pending"></span><span>Builders</span><b>Pending</b></div>
+            <div><span class="dot partial"></span><span>Builders</span><b>Layer Ready</b></div>
           </div>
         </div>
         <div class="atlas-search-panel">
