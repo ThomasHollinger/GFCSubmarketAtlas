@@ -25,7 +25,8 @@ const state = {
   demographicsLoaded: false,
   basemaps: {},
   searchIndex: [],
-  metadata: null
+  metadata: null,
+  detailOpen: {}
 };
 
 const hubOrder = ['Alabama Hub', 'Pensacola Hub', 'Panama City Hub', 'Growth Markets'];
@@ -518,6 +519,27 @@ function colorForBuilderDensity(density) {
   return '#e9d5ff';
 }
 
+
+function detailKey(label) {
+  return String(label || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function detailOpenAttr(label) {
+  return state.detailOpen[detailKey(label)] ? ' open' : '';
+}
+
+function bindPersistentDetails() {
+  const panel = document.getElementById('selectedPanel');
+  if (!panel) return;
+  panel.addEventListener('toggle', event => {
+    const details = event.target;
+    if (!details || String(details.tagName).toLowerCase() !== 'details') return;
+    const summary = details.querySelector('summary');
+    if (!summary) return;
+    state.detailOpen[detailKey(summary.textContent)] = details.open;
+  }, true);
+}
+
 function normalizeBuilderName(builder) {
   return String(builder || '')
     .split('|')[0]
@@ -570,16 +592,16 @@ function renderBuilderCard(summary) {
   summary = summary || builderSummary([]);
   const filtered = activeBuilderSubdivisions().length !== state.builders.length;
   const list = summary.communities && summary.communities.length ? `
-    <details class="builder-used">
+    <details class="builder-used"${detailOpenAttr('Communities in boundary')}>
       <summary>Communities in boundary</summary>
       ${summary.communities.slice(0, 30).sort((a,b)=>a.name.localeCompare(b.name)).map(c => `<div class="builder-used-row"><span>${c.name}</span><b>${c.builder || '—'}</b></div>`).join('')}
       ${summary.communities.length > 30 ? `<div class="builder-used-note">Showing first 30 of ${summary.communities.length.toLocaleString()} communities.</div>` : ''}
     </details>` : `<div class="builder-used-note">No visible builder subdivisions are physically located inside this boundary.</div>`;
   const startsRows = summary.starts_by_builder && summary.starts_by_builder.length ? `
-    <details class="builder-used">
+    <details class="builder-used"${detailOpenAttr('Starts by Builder')}>
       <summary>Starts by Builder</summary>
       ${summary.starts_by_builder.map(b => `<div class="builder-used-row"><span>${b.builder}</span><b>${fmt(Math.round(b.starts))} starts (${Number(b.pct || 0).toFixed(1)}%)</b></div>`).join('')}
-    </details>` : `<details class="builder-used"><summary>Starts by Builder</summary><div class="builder-used-note">No annual starts recorded for visible communities in this boundary.</div></details>`;
+    </details>` : `<details class="builder-used"${detailOpenAttr('Starts by Builder')}><summary>Starts by Builder</summary><div class="builder-used-note">No annual starts recorded for visible communities in this boundary.</div></details>`;
   return `<div class="builder-card">
     <div class="builder-head"><b>Builder Subdivisions</b><span>${summary.total.toLocaleString()} visible communities</span></div>
     ${filtered ? `<div class="builder-filter-note">Filtered from ${state.builders.length.toLocaleString()} total communities</div>` : ''}
@@ -873,7 +895,7 @@ function renderHealthcareCard(summary) {
   summary = summary || emptyHealthcareSummary();
   const nearest = summary.nearest_hospital_name ? `${summary.nearest_hospital_name}${summary.nearest_hospital_mi !== null && summary.nearest_hospital_mi !== undefined ? ' • ' + Number(summary.nearest_hospital_mi).toFixed(1) + ' mi' : ''}` : 'N/A';
   const list = summary.facilities && summary.facilities.length ? `
-    <details class="healthcare-used">
+    <details class="healthcare-used"${detailOpenAttr('Facilities in boundary')}>
       <summary>Facilities in boundary</summary>
       ${summary.facilities.slice(0, 30).map(f => `<div class="healthcare-used-row"><span>${f.name}</span><b>${f.type}</b></div>`).join('')}
       ${summary.facilities.length > 30 ? `<div class="healthcare-used-note">Showing first 30 of ${summary.facilities.length.toLocaleString()} facilities.</div>` : ''}
@@ -1132,7 +1154,7 @@ function renderSchoolCountCard(counts, scoreSummary = null) {
     return `<div class="school-count-card"><b>Public Schools</b><br>${counts.total} total • ${counts.Elementary} elem • ${counts.Middle} middle • ${counts.High} high</div>`;
   }
   const usedList = scoreSummary.rows && scoreSummary.rows.length ? `
-    <details class="school-used">
+    <details class="school-used"${detailOpenAttr('Schools used in calculation')}>
       <summary>Schools used in calculation</summary>
       ${scoreSummary.rows.slice().sort((a,b)=>a.SchoolName.localeCompare(b.SchoolName)).map(r => `<div class="school-used-row"><span>${r.SchoolName}</span><b>${r.Rating}/10</b></div>`).join('')}
     </details>` : `
@@ -1320,7 +1342,7 @@ function renderSelected(p) {
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>School Rating</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
-      <div class="focus-row"><span>Healthcare</span><b>${healthcareDatasetBuilt() ? 'Loaded' : 'Builder Ready'}</b></div>
+      <div class="focus-row"><span>Healthcare</span><b>${healthcareDatasetBuilt() ? 'Loaded' : 'Layer Ready'}</b></div>
       <div class="focus-row"><span>Retail & Dining</span><b>${state.poisLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Demographics</span><b>${demo ? 'Loaded' : 'No Data'}</b></div>
       <div class="focus-row"><span>Builder Subdivisions</span><b>${state.buildersLoaded ? 'Loaded' : 'Ready'}</b></div>
@@ -1523,6 +1545,7 @@ function selectSchool(school, shouldZoom = true) {
 }
 
 function bindUI() {
+  bindPersistentDetails();
   document.getElementById('sidebarToggle').addEventListener('click', () => {
     document.getElementById('appShell').classList.toggle('collapsed');
     setTimeout(() => state.map && state.map.invalidateSize(), 260);

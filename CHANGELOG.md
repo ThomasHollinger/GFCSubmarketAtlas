@@ -1,10 +1,8 @@
-# Changelog
+# Gulf Coast Submarket Atlas v2.8.5
 
-## v2.8.4 - Builder Pin Corrections
-- Builder pins with no builder now display `?` instead of `B`.
-- Corrected Avery Cove builder assignment to Lennar.
-- Regenerated builder summary/audit data from the corrected subdivision dataset.
+## Sidebar dropdown persistence
+- Sidebar dropdowns now remember their expanded/collapsed state when switching between submarkets.
+- If a user opens Starts by Builder, Communities in boundary, Facilities in boundary, or Schools used in calculation, it stays open until the user closes it.
+- Updated Healthcare Atlas Health fallback label to Layer Ready.
 
-
-## v2.8.4
-- Changed Healthcare layer badge from Builder Ready to Load Layer / Layer Ready language.
+Built from v2.8.4.
