@@ -5,7 +5,7 @@ const state = {
   poiLayer: null,
   poiMarkerIndex: new Map(),
   retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
-  builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false },
+  builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false, BuilderNames: {} },
   builderLayer: null,
   builderMarkerIndex: new Map(),
   healthcareLayer: null,
@@ -445,7 +445,26 @@ function activeBuilderSubdivisions() {
   return state.builders.filter(passesBuilderFilter);
 }
 
-function passesBuilderFilter(feature) {
+function builderNamesForFeature(feature) {
+  const p = feature.properties || {};
+  const raw = String(p.Builder || '').trim();
+  const parts = raw ? raw.split('|').map(b => b.trim()).filter(Boolean) : [];
+  return parts.length ? parts : ['?'];
+}
+
+function canonicalBuilderKey(builder) {
+  const b = normalizeBuilderName(builder);
+  if (!b || b === '?' || b === '—' || /^unknown$/i.test(b)) return '?';
+  return b.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+function displayBuilderName(builder) {
+  const b = normalizeBuilderName(builder);
+  if (!b || b === '?' || b === '—' || /^unknown$/i.test(b)) return '?';
+  return b;
+}
+
+function builderProductStatusMatch(feature) {
   const p = feature.properties || {};
   const f = state.builderFilters || {};
   const product = p.ProductStyle || '';
@@ -460,6 +479,14 @@ function passesBuilderFilter(feature) {
     (status === 'Built Out' && f.BuiltOut) ||
     (!['Active','Future','Built Out'].includes(status));
   return productMatch && statusMatch;
+}
+
+function passesBuilderFilter(feature) {
+  if (!builderProductStatusMatch(feature)) return false;
+  const selectedBuilderKeys = Object.entries((state.builderFilters || {}).BuilderNames || {}).filter(([, checked]) => checked).map(([key]) => key);
+  if (!selectedBuilderKeys.length) return true;
+  const selected = new Set(selectedBuilderKeys);
+  return builderNamesForFeature(feature).some(builder => selected.has(canonicalBuilderKey(builder)));
 }
 
 function builderSummaryForSubmarket(submarketID, areaSqMi) {
@@ -484,10 +511,7 @@ function builderSummary(rows, areaSqMi = 0) {
     else if (p.Status === 'Built Out') out.built_out += 1;
     if (p.ProductStyle === 'Townhomes') out.townhomes += 1;
     else if (p.ProductStyle === 'Single-Family Detached') out.single_family += 1;
-    const builderNames = String(p.Builder || '')
-      .split('|')
-      .map(b => b.trim())
-      .filter(Boolean);
+    const builderNames = builderNamesForFeature(f);
     builderNames.forEach(b => builders.add(b));
     const annualStarts = Number(p.AnnualStarts || 0);
     const allocatedStarts = builderNames.length ? annualStarts / builderNames.length : annualStarts;
@@ -638,13 +662,97 @@ function buildBuilderLayer() {
   if (wasVisible) state.builderLayer.addTo(state.map);
 }
 
+function builderNameSort(a, b) {
+  const an = displayBuilderName(a.name || a.builder || a);
+  const bn = displayBuilderName(b.name || b.builder || b);
+  const au = an === '?';
+  const bu = bn === '?';
+  if (au && !bu) return 1;
+  if (!au && bu) return -1;
+  const al = /^lennar/i.test(an);
+  const bl = /^lennar/i.test(bn);
+  if (al && !bl) return -1;
+  if (!al && bl) return 1;
+  return an.localeCompare(bn);
+}
+
+function builderNameOptionsForPanel() {
+  if (!state.buildersLoaded) return [];
+  const selectedID = state.selected && state.selected.properties ? state.selected.properties.SubmarketID : null;
+  const counts = new Map();
+  state.builders.forEach(feature => {
+    const p = feature.properties || {};
+    if (selectedID && p.SubmarketID !== selectedID) return;
+    if (!builderProductStatusMatch(feature)) return;
+    builderNamesForFeature(feature).forEach(builder => {
+      const key = canonicalBuilderKey(builder);
+      const name = displayBuilderName(builder);
+      const prior = counts.get(key) || { key, name, count: 0 };
+      if (prior.name === '?' && name !== '?') prior.name = name;
+      prior.count += 1;
+      counts.set(key, prior);
+    });
+  });
+  const selected = (state.builderFilters || {}).BuilderNames || {};
+  Object.entries(selected).forEach(([key, checked]) => {
+    if (checked && !counts.has(key)) counts.set(key, { key, name: key === '?' ? '?' : key, count: 0 });
+  });
+  return Array.from(counts.values()).sort(builderNameSort);
+}
+
+function renderBuilderNameFilterList() {
+  const list = document.getElementById('builderNameFilterList');
+  if (!list) return;
+  if (!state.buildersLoaded) {
+    list.innerHTML = '<div class="builder-name-empty">Load Builder Subdivisions to filter by builder.</div>';
+    return;
+  }
+  const options = builderNameOptionsForPanel();
+  const selected = (state.builderFilters || {}).BuilderNames || {};
+  const selectedCount = Object.values(selected).filter(Boolean).length;
+  const scope = state.selected && state.selected.properties ? `Available in ${state.selected.properties.DisplayName}` : 'All builders in atlas';
+  if (!options.length) {
+    list.innerHTML = `<div class="builder-name-empty">No builders match the current product/status filters. ${scope}.</div>`;
+    return;
+  }
+  list.innerHTML = `
+    <div class="builder-name-scope">${scope}</div>
+    <div class="builder-name-actions"><button type="button" id="builderNamesClear">Show All</button><button type="button" id="builderNamesOnlyLennar">Lennar Only</button></div>
+    ${options.map(opt => `<label class="builder-name-option"><input type="checkbox" class="builder-name-filter" data-builder-name-key="${opt.key}" ${selected[opt.key] ? 'checked' : ''}> <span>${opt.name}</span><b>${opt.count.toLocaleString()}</b></label>`).join('')}
+    <div class="builder-name-empty">${selectedCount ? `${selectedCount} builder filter${selectedCount === 1 ? '' : 's'} active.` : 'No builder-specific filter active; showing all builders.'}</div>
+  `;
+  list.querySelectorAll('.builder-name-filter').forEach(input => {
+    input.addEventListener('change', e => {
+      const key = e.target.dataset.builderNameKey;
+      if (!key) return;
+      state.builderFilters.BuilderNames = state.builderFilters.BuilderNames || {};
+      state.builderFilters.BuilderNames[key] = e.target.checked;
+      applyBuilderFilters();
+    });
+  });
+  const clearBtn = document.getElementById('builderNamesClear');
+  if (clearBtn) clearBtn.addEventListener('click', () => {
+    state.builderFilters.BuilderNames = {};
+    applyBuilderFilters();
+  });
+  const lennarBtn = document.getElementById('builderNamesOnlyLennar');
+  if (lennarBtn) lennarBtn.addEventListener('click', () => {
+    const lennar = options.find(opt => /^lennar/i.test(opt.name));
+    state.builderFilters.BuilderNames = {};
+    if (lennar) state.builderFilters.BuilderNames[lennar.key] = true;
+    applyBuilderFilters();
+  });
+}
+
 function updateBuilderFilterPanel() {
   const panel = document.getElementById('builderFilterPanel');
   if (!panel) return;
   const visibleCount = state.buildersLoaded ? activeBuilderSubdivisions().length : 0;
   panel.classList.toggle('active', !!state.buildersLoaded);
+  renderBuilderNameFilterList();
+  const selectedBuilderCount = Object.values((state.builderFilters.BuilderNames || {})).filter(Boolean).length;
   const count = document.getElementById('builderFilterCount');
-  if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible` : 'Load Builders';
+  if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible${selectedBuilderCount ? ` • ${selectedBuilderCount} builder filter${selectedBuilderCount === 1 ? '' : 's'}` : ''}` : 'Load Builders';
 }
 
 function applyBuilderFilters() {
@@ -1199,6 +1307,7 @@ function renderHubSummary(hub) {
       ${items.map(f => `<div class="focus-row"><span>${f.properties.DisplayName}</span><b>${f.properties.SubmarketID}</b></div>`).join('')}
     </div>
   `;
+  updateBuilderFilterPanel();
 }
 
 function renderHomeSummary() {
@@ -1230,6 +1339,7 @@ function renderHomeSummary() {
       <div class="focus-row"><span>School layer</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
     </div>
   `;
+  updateBuilderFilterPanel();
 }
 
 function buildSearchIndex() {
@@ -1349,6 +1459,7 @@ function renderSelected(p) {
     </div>
     <button class="profile-btn" type="button">View Market Profile <span>›</span></button>
   `;
+  updateBuilderFilterPanel();
 }
 
 function getSearchResults(q) {

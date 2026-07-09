@@ -6,3 +6,10 @@
 - Updated Healthcare Atlas Health fallback label to Layer Ready.
 
 Built from v2.8.4.
+
+
+## v2.8.6 Builder Filter Update
+- Added Builder Subdivisions sub-filter by builder name.
+- Builder filter list prioritizes Lennar first when present, sorts remaining builders alphabetically, and places unknown `?` builders last.
+- Builder filter list scopes to the selected submarket when a submarket is selected.
+- Leaving all builder names unchecked shows all builders; selecting one or more builder names limits the pins and sidebar counts to those builders.

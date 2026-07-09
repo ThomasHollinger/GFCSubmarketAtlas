@@ -80,3 +80,11 @@
 .builder-other{background:#f97316!important;color:#fff!important}
 .builder-future{border-style:dashed!important}
 .builder-built{opacity:.55!important}
+
+.builder-name-filter-title{margin-top:10px;padding-top:9px;border-top:1px solid #e9d5ff;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:#7e22ce}
+.builder-name-filter-help{font-size:10px;line-height:1.25;color:#64748b;margin:4px 0 6px}
+.builder-name-filter-list{max-height:220px;overflow:auto;padding-right:2px}
+.builder-name-scope{font-size:10px;color:#7e22ce;font-weight:900;margin:4px 0 6px}
+.builder-name-actions{display:flex;gap:6px;margin:5px 0 6px}.builder-name-actions button{border:1px solid #d8b4fe;background:#fff;color:#7e22ce;border-radius:8px;padding:4px 6px;font-size:10px;font-weight:900;cursor:pointer}
+.builder-name-option{display:grid!important;grid-template-columns:14px minmax(0,1fr) auto;gap:7px!important;align-items:center;margin:5px 0!important}.builder-name-option span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.builder-name-option b{font-size:10px;color:#7e22ce}
+.builder-name-empty{font-size:10px;color:#64748b;margin-top:6px;line-height:1.25}
