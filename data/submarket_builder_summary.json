@@ -1,61 +1,10 @@
 {
   "metadata": {
-    "status": "built",
     "source": "Zonda export provided by user",
-    "report_date": "2026-07-09",
-    "records_total": 482,
-    "note": "Builder subdivision points assigned to custom submarket boundaries by latitude/longitude."
+    "updated": "2026-07-09",
+    "note": "Builder subdivision summary generated from builder_subdivisions.geojson; Avery Cove builder corrected to Lennar."
   },
   "submarkets": {
-    "SM-01": {
-      "SubmarketID": "SM-01",
-      "SubmarketName": "South Mobile",
-      "total": 2,
-      "active": 2,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 2,
-      "single_family": 2,
-      "townhomes": 0,
-      "builders_count": 5,
-      "builders": [
-        "Adams Homes",
-        "Benchmark Homes Group",
-        "Circle W Construction CO Inc",
-        "Clark Homes of Distinction Inc",
-        "Prime Design Homes"
-      ],
-      "units_planned": 71,
-      "units_remaining": 10,
-      "annual_starts": 3.0,
-      "annual_closings": 8.0,
-      "vacant_developed_lots": 7,
-      "under_construction": 1,
-      "products": {
-        "Single-Family Detached": 2
-      },
-      "statuses": {
-        "Active": 2
-      },
-      "communities": [
-        {
-          "name": "Country Club Estates",
-          "builder": "Adams Homes | Benchmark Homes Group",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 3,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Kipling Station",
-          "builder": "Circle W Construction CO Inc | Clark Homes of Distinction Inc | Prime Design Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 7,
-          "annual_starts": 0.0
-        }
-      ]
-    },
     "SM-02": {
       "SubmarketID": "SM-02",
       "SubmarketName": "Central Mobile",
@@ -64,14 +13,15 @@
       "future": 0,
       "built_out": 4,
       "visible_default": 35,
-      "single_family": 35,
+      "single_family": 39,
       "townhomes": 0,
-      "builders_count": 14,
+      "builders_count": 15,
       "builders": [
         "Adams Homes",
         "BC Daniels Inc",
         "BW Construction",
         "Benchmark Homes Group",
+        "Breland Homes",
         "Brett-Robinson",
         "CJS Roth LLC",
         "Cretin Townsend Homes",
@@ -83,12 +33,12 @@
         "Southwood Builders",
         "Twilley Builders Inc"
       ],
-      "units_planned": 3344,
-      "units_remaining": 2282,
+      "units_planned": 4289.0,
+      "units_remaining": 2282.0,
       "annual_starts": 398.0,
-      "annual_closings": 360.0,
-      "vacant_developed_lots": 1434,
-      "under_construction": 172,
+      "annual_closings": 375.0,
+      "vacant_developed_lots": 1434.0,
+      "under_construction": 172.0,
       "products": {
         "Single-Family Detached": 39
       },
@@ -112,6 +62,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 65,
           "annual_starts": 12.0
+        },
+        {
+          "name": "Longleaf Gates",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Bear Run",
@@ -154,12 +112,28 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Falling Leaf",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Vickers Estates",
           "builder": "Adams Homes",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 23,
           "annual_starts": 9.0
+        },
+        {
+          "name": "OFallon",
+          "builder": "Adams Homes | D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Heritage Lake",
@@ -208,6 +182,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 4,
           "annual_starts": 9.0
+        },
+        {
+          "name": "Magnolia Springs",
+          "builder": "Adams Homes | Breland Homes | D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Hawkins Manor",
@@ -379,403 +361,6 @@
         }
       ]
     },
-    "SM-03": {
-      "SubmarketID": "SM-03",
-      "SubmarketName": "North Mobile / Saraland",
-      "total": 1,
-      "active": 1,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 1,
-      "single_family": 1,
-      "townhomes": 0,
-      "builders_count": 1,
-      "builders": [
-        "D.R. Horton Inc"
-      ],
-      "units_planned": 50,
-      "units_remaining": 8,
-      "annual_starts": 0,
-      "annual_closings": 0,
-      "vacant_developed_lots": 8,
-      "under_construction": 0,
-      "products": {
-        "Single-Family Detached": 1
-      },
-      "statuses": {
-        "Active": 1
-      },
-      "communities": [
-        {
-          "name": "Weatherby",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 8,
-          "annual_starts": 0.0
-        }
-      ]
-    },
-    "SM-04": {
-      "SubmarketID": "SM-04",
-      "SubmarketName": "South Baldwin",
-      "total": 43,
-      "active": 31,
-      "future": 0,
-      "built_out": 12,
-      "visible_default": 31,
-      "single_family": 31,
-      "townhomes": 0,
-      "builders_count": 15,
-      "builders": [
-        "Adams Homes",
-        "BRI Construction",
-        "Benchmark Homes Group",
-        "CHS Properties",
-        "D.R. Horton Inc",
-        "DSLD Homes",
-        "John Thompson Homes",
-        "Lennar Homes",
-        "Maronda Homes",
-        "Meritage Homes",
-        "Rampy Construction",
-        "River Road Homes",
-        "Southern Homes Al",
-        "Spring River Custom Homes",
-        "Valor Communities"
-      ],
-      "units_planned": 5562,
-      "units_remaining": 3682,
-      "annual_starts": 810.0,
-      "annual_closings": 627.0,
-      "vacant_developed_lots": 1729,
-      "under_construction": 371,
-      "products": {
-        "Single-Family Detached": 43
-      },
-      "statuses": {
-        "Active": 31,
-        "Built Out": 12
-      },
-      "communities": [
-        {
-          "name": "Heritage Landing",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 18,
-          "annual_starts": 33.0
-        },
-        {
-          "name": "Sarah Farms",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 73,
-          "annual_starts": 40.0
-        },
-        {
-          "name": "Paxton Farms",
-          "builder": "Adams Homes | D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 84,
-          "annual_starts": 32.0
-        },
-        {
-          "name": "Colony Parke Estates",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 18,
-          "annual_starts": 26.0
-        },
-        {
-          "name": "Tealwood Estates",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 589,
-          "annual_starts": 10.0
-        },
-        {
-          "name": "Iron Horse ",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 284,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Bayou Ridge",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 29,
-          "annual_starts": 49.0
-        },
-        {
-          "name": "Knoll, The",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 90,
-          "annual_starts": 23.0
-        },
-        {
-          "name": "Foley Pointe",
-          "builder": "Maronda Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 216,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Greenbrier",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 14,
-          "annual_starts": 41.0
-        },
-        {
-          "name": "Eastgate Bend",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 94,
-          "annual_starts": 22.0
-        },
-        {
-          "name": "Oak Shores",
-          "builder": "Spring River Custom Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 75,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Hawthorn",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 12.0
-        },
-        {
-          "name": "Traditions/SF",
-          "builder": "Valor Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 103,
-          "annual_starts": 21.0
-        },
-        {
-          "name": "Sandy Oaks",
-          "builder": "Meritage Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 201,
-          "annual_starts": 26.0
-        },
-        {
-          "name": "Wellborn Lake Estates",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Arbor Walk/Southwood",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 215,
-          "annual_starts": 39.0
-        },
-        {
-          "name": "Bienville Landing ",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 117,
-          "annual_starts": 30.0
-        },
-        {
-          "name": "Grasslands",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 255,
-          "annual_starts": 32.0
-        },
-        {
-          "name": "Autumn Lakes",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 195,
-          "annual_starts": 25.0
-        },
-        {
-          "name": "Raley Farms",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 204,
-          "annual_starts": 69.0
-        },
-        {
-          "name": "Live Oak Village/SF",
-          "builder": "CHS Properties | DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 22,
-          "annual_starts": 27.0
-        },
-        {
-          "name": "Arbor Walk/Riverside",
-          "builder": "Benchmark Homes Group | D.R. Horton Inc | Southern Homes Al",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 13,
-          "annual_starts": 5.0
-        },
-        {
-          "name": "Glenlakes",
-          "builder": "BRI Construction | D.R. Horton Inc | John Thompson Homes | Lennar Homes | Maronda Homes | Rampy Construction | River Road Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 109,
-          "annual_starts": 21.0
-        },
-        {
-          "name": "Magnolia Pines",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 103,
-          "annual_starts": 66.0
-        },
-        {
-          "name": "Rosewood",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 12,
-          "annual_starts": 30.0
-        },
-        {
-          "name": "Roberts Cove",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 273,
-          "annual_starts": 91.0
-        },
-        {
-          "name": "Magnolia Cottages ",
-          "builder": "Benchmark Homes Group",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 7,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Osprey Landing",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 42,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "River Oaks",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 82,
-          "annual_starts": 26.0
-        },
-        {
-          "name": "Driftwood Lakes",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 139,
-          "annual_starts": 0.0
-        }
-      ]
-    },
-    "SM-05": {
-      "SubmarketID": "SM-05",
-      "SubmarketName": "North Baldwin",
-      "total": 4,
-      "active": 4,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 4,
-      "single_family": 4,
-      "townhomes": 0,
-      "builders_count": 8,
-      "builders": [
-        "Adams Homes",
-        "Benchmark Homes Group",
-        "Branum Builders",
-        "Castle Homes",
-        "Dobbins Builders",
-        "Flynn Building Specialists",
-        "Maronda Homes",
-        "Prominence Homes & Communities"
-      ],
-      "units_planned": 151,
-      "units_remaining": 45,
-      "annual_starts": 10.0,
-      "annual_closings": 4.0,
-      "vacant_developed_lots": 37,
-      "under_construction": 8,
-      "products": {
-        "Single-Family Detached": 4
-      },
-      "statuses": {
-        "Active": 4
-      },
-      "communities": [
-        {
-          "name": "Heritage Oaks",
-          "builder": "Benchmark Homes Group | Castle Homes | Dobbins Builders | Prominence Homes & Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 3,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Briar Rose",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 26,
-          "annual_starts": 5.0
-        },
-        {
-          "name": "Canterbury Village",
-          "builder": "Benchmark Homes Group | Castle Homes | Flynn Building Specialists | Maronda Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 6,
-          "annual_starts": 2.0
-        },
-        {
-          "name": "Pinetrace",
-          "builder": "Branum Builders ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 10,
-          "annual_starts": 0.0
-        }
-      ]
-    },
     "SM-06": {
       "SubmarketID": "SM-06",
       "SubmarketName": "West Baldwin",
@@ -784,7 +369,7 @@
       "future": 0,
       "built_out": 5,
       "visible_default": 26,
-      "single_family": 26,
+      "single_family": 31,
       "townhomes": 0,
       "builders_count": 16,
       "builders": [
@@ -805,12 +390,12 @@
         "Tom Beirster Fine Homebuilding",
         "Tower Homes"
       ],
-      "units_planned": 5059,
-      "units_remaining": 2250,
-      "annual_starts": 436.0,
-      "annual_closings": 450.0,
-      "vacant_developed_lots": 1362,
-      "under_construction": 227,
+      "units_planned": 5341.0,
+      "units_remaining": 2250.0,
+      "annual_starts": 439.0,
+      "annual_closings": 465.0,
+      "vacant_developed_lots": 1362.0,
+      "under_construction": 227.0,
       "products": {
         "Single-Family Detached": 31
       },
@@ -834,6 +419,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 171,
           "annual_starts": 57.0
+        },
+        {
+          "name": "Fox Hollow",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 3.0
         },
         {
           "name": "Battles Trace at The Colony",
@@ -988,6 +581,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Wilson Place ",
+          "builder": "Adams Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "North Hills at Fairhope",
           "builder": "Crocker Homes | Farmstead Built | Pickering Building & Renovations ",
           "status": "Active",
@@ -1004,12 +605,28 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Live Oak Estates",
+          "builder": "Lennar Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Harvest Green West",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 125,
           "annual_starts": 21.0
+        },
+        {
+          "name": "Greenbrier at Firethorne",
+          "builder": "Lennar Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Estates at the Verandas",
@@ -1026,352 +643,404 @@
           "product": "Single-Family Detached",
           "units_remaining": 277,
           "annual_starts": 42.0
-        }
-      ]
-    },
-    "SM-07": {
-      "SubmarketID": "SM-07",
-      "SubmarketName": "Pensacola",
-      "total": 11,
-      "active": 7,
-      "future": 0,
-      "built_out": 4,
-      "visible_default": 7,
-      "single_family": 7,
-      "townhomes": 0,
-      "builders_count": 6,
-      "builders": [
-        "Adams Homes",
-        "D.R. Horton Inc",
-        "FD Builds",
-        "Flynn Building Specialists",
-        "Maronda Homes",
-        "Randall Builders Group LLC"
-      ],
-      "units_planned": 253,
-      "units_remaining": 82,
-      "annual_starts": 112.0,
-      "annual_closings": 125.0,
-      "vacant_developed_lots": 30,
-      "under_construction": 38,
-      "products": {
-        "Single-Family Detached": 11
-      },
-      "statuses": {
-        "Active": 7,
-        "Built Out": 4
-      },
-      "communities": [
+        },
         {
-          "name": "Stadium Way",
+          "name": "Longbranch",
           "builder": "D.R. Horton Inc",
-          "status": "Active",
+          "status": "Built Out",
           "product": "Single-Family Detached",
-          "units_remaining": 24,
-          "annual_starts": 13.0
-        },
-        {
-          "name": "Westpointe Place",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 10,
-          "annual_starts": 18.0
-        },
-        {
-          "name": "Madelyn Woods",
-          "builder": "FD Builds | Randall Builders Group LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 8.0
-        },
-        {
-          "name": "Martin Preserve",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 4,
-          "annual_starts": 28.0
-        },
-        {
-          "name": "Yacht Harbor Cottages",
-          "builder": "Flynn Building Specialists",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
+          "units_remaining": 0,
           "annual_starts": 0.0
-        },
-        {
-          "name": "Bellview Pointe",
-          "builder": "Maronda Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 21,
-          "annual_starts": 18.0
-        },
-        {
-          "name": "Preserve at Russell Crossing",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 13,
-          "annual_starts": 27.0
         }
       ]
     },
-    "SM-08": {
-      "SubmarketID": "SM-08",
-      "SubmarketName": "Pace",
-      "total": 19,
-      "active": 16,
+    "SM-04": {
+      "SubmarketID": "SM-04",
+      "SubmarketName": "South Baldwin",
+      "total": 43,
+      "active": 31,
       "future": 0,
-      "built_out": 3,
-      "visible_default": 16,
-      "single_family": 16,
+      "built_out": 12,
+      "visible_default": 31,
+      "single_family": 43,
       "townhomes": 0,
-      "builders_count": 11,
+      "builders_count": 17,
       "builders": [
         "Adams Homes",
-        "Celebrity Home Builders",
+        "BRI Construction",
+        "Benchmark Homes Group",
+        "CHS Properties",
         "D.R. Horton Inc",
         "DSLD Homes",
-        "Flynn Building Specialists",
-        "Henry Company Homes",
         "Holiday Builders",
+        "John Thompson Homes",
         "Lennar Homes",
-        "R&K Construction",
-        "Signature Homes LLC",
-        "Sunchase Construction"
+        "Maronda Homes",
+        "Meritage Homes",
+        "Prominence Homes & Communities",
+        "Rampy Construction",
+        "River Road Homes",
+        "Southern Homes Al",
+        "Spring River Custom Homes",
+        "Valor Communities"
       ],
-      "units_planned": 4730,
-      "units_remaining": 3644,
-      "annual_starts": 354.0,
-      "annual_closings": 388.0,
-      "vacant_developed_lots": 1348,
-      "under_construction": 128,
+      "units_planned": 6822.0,
+      "units_remaining": 3682.0,
+      "annual_starts": 819.0,
+      "annual_closings": 689.0,
+      "vacant_developed_lots": 1729.0,
+      "under_construction": 371.0,
       "products": {
-        "Single-Family Detached": 19
+        "Single-Family Detached": 43
       },
       "statuses": {
-        "Active": 16,
-        "Built Out": 3
+        "Active": 31,
+        "Built Out": 12
       },
       "communities": [
         {
-          "name": "Jubilee/Mahogany",
-          "builder": "Holiday Builders ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 260,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Pond Creek Landing",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 22,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Eventide Estates",
-          "builder": "Sunchase Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Avalon Beach",
-          "builder": "Flynn Building Specialists | R&K Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 12,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Bright Meadows",
-          "builder": "Flynn Building Specialists",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 9.0
-        },
-        {
-          "name": "Emmaline Gardens ",
+          "name": "Heritage Landing",
           "builder": "Adams Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 3,
-          "annual_starts": 18.0
-        },
-        {
-          "name": "Lakes of Woodbine",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 537,
-          "annual_starts": 65.0
-        },
-        {
-          "name": "Stonechase",
-          "builder": "Celebrity Home Builders | Lennar Homes | Signature Homes LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 373,
-          "annual_starts": 53.0
-        },
-        {
-          "name": "Southern Palms",
-          "builder": "DSLD Homes | Holiday Builders ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 2.0
-        },
-        {
-          "name": "Sentinel Ridge",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 274,
-          "annual_starts": 44.0
-        },
-        {
-          "name": "Blossom Grove (Santa Rosa)",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 56,
-          "annual_starts": 25.0
-        },
-        {
-          "name": "Sandy Creek (Santa Rosa)",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 131,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Eagles Ridge",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 31,
-          "annual_starts": 81.0
-        },
-        {
-          "name": "Grove at Berry Hill",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 42,
+          "units_remaining": 18,
           "annual_starts": 33.0
         },
         {
-          "name": "Pace Commons/SF",
-          "builder": "Henry Company Homes",
-          "status": "Active",
+          "name": "Village at Craft Farms",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
           "product": "Single-Family Detached",
-          "units_remaining": 1042,
-          "annual_starts": 19.0
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
-          "name": "Parkland Place",
+          "name": "Sarah Farms",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 73,
+          "annual_starts": 40.0
+        },
+        {
+          "name": "Paxton Farms",
+          "builder": "Adams Homes | D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 84,
+          "annual_starts": 32.0
+        },
+        {
+          "name": "Colony Parke Estates",
           "builder": "Adams Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 850,
-          "annual_starts": 2.0
-        }
-      ]
-    },
-    "SM-09": {
-      "SubmarketID": "SM-09",
-      "SubmarketName": "Pensacola Beaches",
-      "total": 7,
-      "active": 7,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 7,
-      "single_family": 7,
-      "townhomes": 0,
-      "builders_count": 3,
-      "builders": [
-        "Ardco Inc",
-        "D.R. Horton Inc",
-        "Henry Company Homes"
-      ],
-      "units_planned": 1041,
-      "units_remaining": 891,
-      "annual_starts": 87.0,
-      "annual_closings": 69.0,
-      "vacant_developed_lots": 429,
-      "under_construction": 40,
-      "products": {
-        "Single-Family Detached": 7
-      },
-      "statuses": {
-        "Active": 7
-      },
-      "communities": [
-        {
-          "name": "Mer Sea on Navarre Beach",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 47,
-          "annual_starts": 0.0
+          "units_remaining": 18,
+          "annual_starts": 26.0
         },
         {
-          "name": "Heathers Place ",
-          "builder": "Henry Company Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 446,
-          "annual_starts": 9.0
-        },
-        {
-          "name": "Rosemary Sound",
+          "name": "Tealwood Estates",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 254,
-          "annual_starts": 0.0
+          "units_remaining": 589,
+          "annual_starts": 10.0
         },
         {
-          "name": "Grand Chenier",
-          "builder": "Ardco Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 9,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Deer Ridge Crossing",
+          "name": "Iron Horse ",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 38,
+          "units_remaining": 284,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bayou Ridge",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 29,
           "annual_starts": 49.0
         },
         {
-          "name": "Waterside at East Bay",
-          "builder": "D.R. Horton Inc",
+          "name": "Knoll, The",
+          "builder": "DSLD Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 96,
+          "units_remaining": 90,
+          "annual_starts": 23.0
+        },
+        {
+          "name": "Foley Pointe",
+          "builder": "Maronda Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 216,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Porches, The",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
           "annual_starts": 0.0
         },
         {
-          "name": "Roman Oaks ",
+          "name": "Pheasant Run",
           "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Greenbrier",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 14,
+          "annual_starts": 41.0
+        },
+        {
+          "name": "Eastgate Bend",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 94,
+          "annual_starts": 22.0
+        },
+        {
+          "name": "Oak Shores",
+          "builder": "Spring River Custom Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 75,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Hawthorn",
+          "builder": "Lennar Homes",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 1,
+          "annual_starts": 12.0
+        },
+        {
+          "name": "Traditions/SF",
+          "builder": "Valor Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 103,
+          "annual_starts": 21.0
+        },
+        {
+          "name": "Sandy Oaks",
+          "builder": "Meritage Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 201,
           "annual_starts": 26.0
+        },
+        {
+          "name": "Sunset Villas ",
+          "builder": "Prominence Homes & Communities",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Wellborn Lake Estates",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Spanish Cove",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Arbor Walk/Southwood",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 215,
+          "annual_starts": 39.0
+        },
+        {
+          "name": "Bienville Landing ",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 117,
+          "annual_starts": 30.0
+        },
+        {
+          "name": "Summer Salt",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Primland ",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Grasslands",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 255,
+          "annual_starts": 32.0
+        },
+        {
+          "name": "Elberta Place",
+          "builder": "Adams Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Lakeview Gardens ",
+          "builder": "DSLD Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Autumn Lakes",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 195,
+          "annual_starts": 25.0
+        },
+        {
+          "name": "Raley Farms",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 204,
+          "annual_starts": 69.0
+        },
+        {
+          "name": "Live Oak Village/SF",
+          "builder": "CHS Properties | DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 22,
+          "annual_starts": 27.0
+        },
+        {
+          "name": "Arbor Walk/Riverside",
+          "builder": "Benchmark Homes Group | D.R. Horton Inc | Southern Homes Al",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 13,
+          "annual_starts": 5.0
+        },
+        {
+          "name": "Glenlakes",
+          "builder": "BRI Construction | D.R. Horton Inc | John Thompson Homes | Lennar Homes | Maronda Homes | Rampy Construction | River Road Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 109,
+          "annual_starts": 21.0
+        },
+        {
+          "name": "Ledgewick",
+          "builder": "DSLD Homes | Holiday Builders ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Magnolia Pines",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 103,
+          "annual_starts": 66.0
+        },
+        {
+          "name": "Marigold",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 5.0
+        },
+        {
+          "name": "Bay Street Village",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Rosewood",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 12,
+          "annual_starts": 30.0
+        },
+        {
+          "name": "Roberts Cove",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 273,
+          "annual_starts": 91.0
+        },
+        {
+          "name": "Magnolia Cottages ",
+          "builder": "Benchmark Homes Group",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 7,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Osprey Landing",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 42,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "River Oaks",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 82,
+          "annual_starts": 26.0
+        },
+        {
+          "name": "Driftwood Lakes",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 139,
+          "annual_starts": 0.0
         }
       ]
     },
@@ -1383,7 +1052,7 @@
       "future": 0,
       "built_out": 6,
       "visible_default": 16,
-      "single_family": 16,
+      "single_family": 22,
       "townhomes": 0,
       "builders_count": 6,
       "builders": [
@@ -1394,12 +1063,12 @@
         "Holiday Builders",
         "Lennar Homes"
       ],
-      "units_planned": 3226,
-      "units_remaining": 2214,
+      "units_planned": 3522.0,
+      "units_remaining": 2214.0,
       "annual_starts": 413.0,
-      "annual_closings": 391.0,
-      "vacant_developed_lots": 1272,
-      "under_construction": 144,
+      "annual_closings": 418.0,
+      "vacant_developed_lots": 1272.0,
+      "under_construction": 144.0,
       "products": {
         "Single-Family Detached": 22
       },
@@ -1417,12 +1086,28 @@
           "annual_starts": 2.0
         },
         {
+          "name": "Valhallas Landing",
+          "builder": "Herbst Homes ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Plantation Woods",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 80,
           "annual_starts": 59.0
+        },
+        {
+          "name": "Breezy Meadows",
+          "builder": "Herbst Homes ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Las Colinas",
@@ -1438,6 +1123,22 @@
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 11,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Hampton Chase",
+          "builder": "Adams Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Ventura Manor",
+          "builder": "Holiday Builders ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
           "annual_starts": 0.0
         },
         {
@@ -1481,6 +1182,14 @@
           "annual_starts": 16.0
         },
         {
+          "name": "Cadence Place",
+          "builder": "Holiday Builders ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Horizons Edge",
           "builder": "Lennar Homes",
           "status": "Active",
@@ -1503,6 +1212,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 127,
           "annual_starts": 85.0
+        },
+        {
+          "name": "Carl Booker Rd Eastside",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Carl Booker Rd Westside",
@@ -1538,513 +1255,84 @@
         }
       ]
     },
-    "SM-11": {
-      "SubmarketID": "SM-11",
-      "SubmarketName": "Cantonment",
-      "total": 26,
-      "active": 20,
+    "SM-29": {
+      "SubmarketID": "SM-29",
+      "SubmarketName": "Bay County Submarket 2",
+      "total": 5,
+      "active": 5,
       "future": 0,
-      "built_out": 6,
-      "visible_default": 20,
-      "single_family": 20,
+      "built_out": 0,
+      "visible_default": 5,
+      "single_family": 5,
       "townhomes": 0,
-      "builders_count": 11,
+      "builders_count": 7,
       "builders": [
         "Adams Homes",
-        "Celebrity Home Builders",
-        "Classic Homes of Pensacola",
+        "Cassell Builders",
+        "Century Communities",
+        "Coastal Classic Homes",
         "D.R. Horton Inc",
-        "DSLD Homes",
-        "KW Custom Homes",
-        "Lennar Homes",
-        "Maronda Homes",
-        "Mitchell Residential",
-        "Signature Homes LLC",
-        "Thomas Home Corporation"
+        "Samuel Taylor Homes",
+        "Watertight Construction"
       ],
-      "units_planned": 2652,
-      "units_remaining": 1429,
-      "annual_starts": 458.0,
-      "annual_closings": 488.0,
-      "vacant_developed_lots": 1103,
-      "under_construction": 134,
+      "units_planned": 1076.0,
+      "units_remaining": 702.0,
+      "annual_starts": 103.0,
+      "annual_closings": 83.0,
+      "vacant_developed_lots": 514.0,
+      "under_construction": 51.0,
       "products": {
-        "Single-Family Detached": 26
+        "Single-Family Detached": 5
       },
       "statuses": {
-        "Active": 20,
-        "Built Out": 6
+        "Active": 5
       },
       "communities": [
         {
-          "name": "Pine Top",
-          "builder": "Adams Homes",
+          "name": "Hodges Bayou Plantation ",
+          "builder": "Cassell Builders | Coastal Classic Homes | D.R. Horton Inc | Watertight Construction ",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 36,
-          "annual_starts": 14.0
+          "units_remaining": 362,
+          "annual_starts": 46.0
         },
         {
-          "name": "Eagle Pointe",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 123,
-          "annual_starts": 17.0
-        },
-        {
-          "name": "Pipers Landing",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 64,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Gaylen Oaks",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 14,
-          "annual_starts": 20.0
-        },
-        {
-          "name": "Wildwood Estates/Reserve at Brookhaven",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 233,
-          "annual_starts": 72.0
-        },
-        {
-          "name": "Pecan Valley",
-          "builder": "Adams Homes",
+          "name": "Pine Hill",
+          "builder": "Century Communities",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 51,
-          "annual_starts": 24.0
-        },
-        {
-          "name": "Carrington",
-          "builder": "Lennar Homes | Thomas Home Corporation",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 227,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Turtle Creek",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 83,
-          "annual_starts": 15.0
-        },
-        {
-          "name": "Wildwood Estates/Iron Rock",
-          "builder": "Celebrity Home Builders | D.R. Horton Inc | DSLD Homes | KW Custom Homes | Signature Homes LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 67,
-          "annual_starts": 38.0
-        },
-        {
-          "name": "Ledgestone",
-          "builder": "Classic Homes of Pensacola | D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 13,
-          "annual_starts": 6.0
-        },
-        {
-          "name": "Bella Terra/Grove",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 9,
-          "annual_starts": 44.0
-        },
-        {
-          "name": "Pamela Place",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 20,
           "annual_starts": 0.0
         },
         {
-          "name": "Pathstone/Fallschase",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 56,
-          "annual_starts": 47.0
-        },
-        {
-          "name": "Allison Acres",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 13,
-          "annual_starts": 22.0
-        },
-        {
-          "name": "Glenhollow",
-          "builder": "D.R. Horton Inc | Thomas Home Corporation",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 54,
-          "annual_starts": 8.0
-        },
-        {
-          "name": "Bentley Oaks",
-          "builder": "Mitchell Residential",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 8,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Sanctuary (Escambia)",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 182,
-          "annual_starts": 94.0
-        },
-        {
-          "name": "Tower Ridge Estates",
-          "builder": "Classic Homes of Pensacola",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 17,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Bella Terra/Enclave",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 51,
-          "annual_starts": 7.0
-        },
-        {
-          "name": "Seminole Bend",
-          "builder": "Maronda Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 108,
-          "annual_starts": 12.0
-        }
-      ]
-    },
-    "SM-12": {
-      "SubmarketID": "SM-12",
-      "SubmarketName": "Central Baldwin",
-      "total": 35,
-      "active": 33,
-      "future": 0,
-      "built_out": 2,
-      "visible_default": 33,
-      "single_family": 33,
-      "townhomes": 0,
-      "builders_count": 11,
-      "builders": [
-        "Adams Homes",
-        "Benchmark Homes Group",
-        "D.R. Horton Inc",
-        "DSLD Homes",
-        "JBL Homes",
-        "Lennar Homes",
-        "Meritage Homes",
-        "Mitchell Custom Homes LLC",
-        "Smith Douglas Homes",
-        "Terra Cane LLC",
-        "Tower Homes"
-      ],
-      "units_planned": 5629,
-      "units_remaining": 4188,
-      "annual_starts": 442.0,
-      "annual_closings": 399.0,
-      "vacant_developed_lots": 1867,
-      "under_construction": 254,
-      "products": {
-        "Single-Family Detached": 35
-      },
-      "statuses": {
-        "Active": 33,
-        "Built Out": 2
-      },
-      "communities": [
-        {
-          "name": "Pecan Grove",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Mitchells Commercial Plaza",
-          "builder": "Mitchell Custom Homes LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 20,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Avery Cove",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 121,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Jambalaya Farms",
-          "builder": "Meritage Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 77,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Adeline Estates",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 6,
-          "annual_starts": 7.0
-        },
-        {
-          "name": "Ridge at Robertsdale",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 66,
-          "annual_starts": 27.0
-        },
-        {
-          "name": "Independence/SF",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 57,
-          "annual_starts": 55.0
-        },
-        {
-          "name": "Amberley",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 271,
-          "annual_starts": 4.0
-        },
-        {
-          "name": "Stonebridge/Biltmore ",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 163,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Silver Springs",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 199,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Longleaf",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1100,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Dogwood Estates",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 105,
-          "annual_starts": 21.0
-        },
-        {
-          "name": "Safari Farms",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 60,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Cottages of Aventura",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 7.0
-        },
-        {
-          "name": "Hadley Village",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 36,
-          "annual_starts": 32.0
-        },
-        {
-          "name": "Autumn Fields",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 42,
-          "annual_starts": 33.0
-        },
-        {
-          "name": "Garrison Ridge",
-          "builder": "JBL Homes | Tower Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 15,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Retreat, The",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 176,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Brentwood",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 31,
-          "annual_starts": 27.0
-        },
-        {
-          "name": "Parkview",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 76,
-          "annual_starts": 39.0
-        },
-        {
-          "name": "Lakeland",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 83,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Forest Park",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 129,
-          "annual_starts": 5.0
-        },
-        {
-          "name": "Rayne Plantation",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 27,
-          "annual_starts": 8.0
-        },
-        {
-          "name": "Blackwater Ridge",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 243,
-          "annual_starts": 34.0
-        },
-        {
-          "name": "Branch, The",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 3,
-          "annual_starts": 9.0
-        },
-        {
-          "name": "Royal Meadows",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 80,
-          "annual_starts": 6.0
-        },
-        {
-          "name": "Churchill",
-          "builder": "D.R. Horton Inc | DSLD Homes",
+          "name": "East Bay ",
+          "builder": "Adams Homes | Samuel Taylor Homes",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 52,
-          "annual_starts": 19.0
+          "annual_starts": 20.0
         },
         {
-          "name": "Elizabeth Gardens",
-          "builder": "D.R. Horton Inc",
+          "name": "Parkbrook",
+          "builder": "Adams Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 260,
-          "annual_starts": 9.0
+          "units_remaining": 189,
+          "annual_starts": 33.0
         },
         {
-          "name": "Azalea Gardens",
-          "builder": "D.R. Horton Inc",
+          "name": "Cedar Creek at Deerpoint Lake",
+          "builder": "Adams Homes | Coastal Classic Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 73,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Stonebridge/Montecello ",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 59,
-          "annual_starts": 50.0
-        },
-        {
-          "name": "Mill Creek",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 283,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Ivey Ridge",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 68,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Southtown",
-          "builder": "Benchmark Homes Group | Smith Douglas Homes | Terra Cane LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 204,
+          "units_remaining": 48,
           "annual_starts": 4.0
         }
       ]
     },
-    "SM-13": {
-      "SubmarketID": "SM-13",
-      "SubmarketName": "North Escambia",
+    "SM-32": {
+      "SubmarketID": "SM-32",
+      "SubmarketName": "Bay County Submarket 1",
       "total": 1,
       "active": 1,
       "future": 0,
@@ -2052,16 +1340,21 @@
       "visible_default": 1,
       "single_family": 1,
       "townhomes": 0,
-      "builders_count": 1,
+      "builders_count": 6,
       "builders": [
-        "J Miller Construction Inc"
+        "BCB Construction",
+        "Chuck Neel Construction Inc",
+        "Focus Construction",
+        "JC Homes and Development",
+        "Koehnemann Construction Co",
+        "Martelle Homes"
       ],
-      "units_planned": 33,
-      "units_remaining": 33,
-      "annual_starts": 0,
-      "annual_closings": 0,
-      "vacant_developed_lots": 33,
-      "under_construction": 0,
+      "units_planned": 397.0,
+      "units_remaining": 207.0,
+      "annual_starts": 5.0,
+      "annual_closings": 1.0,
+      "vacant_developed_lots": 95.0,
+      "under_construction": 4.0,
       "products": {
         "Single-Family Detached": 1
       },
@@ -2070,1056 +1363,12 @@
       },
       "communities": [
         {
-          "name": "Bluewater Creek Estates",
-          "builder": "J Miller Construction Inc",
+          "name": "Watersound/Rivercamps at Crooked Creek",
+          "builder": "BCB Construction | Chuck Neel Construction Inc | Focus Construction | JC Homes and Development | Koehnemann Construction Co | Martelle Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 33,
-          "annual_starts": 0.0
-        }
-      ]
-    },
-    "SM-14": {
-      "SubmarketID": "SM-14",
-      "SubmarketName": "Santa Rosa County",
-      "total": 11,
-      "active": 10,
-      "future": 0,
-      "built_out": 1,
-      "visible_default": 10,
-      "single_family": 10,
-      "townhomes": 0,
-      "builders_count": 11,
-      "builders": [
-        "Bill Walther Construction Inc",
-        "Century Communities",
-        "Coastal Homes of NWF LLC",
-        "Crofton Homes",
-        "Crosswood Homes",
-        "D.R. Horton Inc",
-        "Flynn Building Specialists",
-        "Kevin Stanton Construction LLC",
-        "Owens Custom Homes",
-        "Shear Construction",
-        "Thomas Home Corporation"
-      ],
-      "units_planned": 981,
-      "units_remaining": 695,
-      "annual_starts": 56.0,
-      "annual_closings": 87.0,
-      "vacant_developed_lots": 294,
-      "under_construction": 22,
-      "products": {
-        "Single-Family Detached": 11
-      },
-      "statuses": {
-        "Active": 10,
-        "Built Out": 1
-      },
-      "communities": [
-        {
-          "name": "Crofton Farms/Pines",
-          "builder": "Crofton Homes | Crosswood Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 6,
-          "annual_starts": 4.0
-        },
-        {
-          "name": "Nichols Creek",
-          "builder": "Thomas Home Corporation",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 247,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Nature Walk at Pond Creek",
-          "builder": "Owens Custom Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 100,
-          "annual_starts": 7.0
-        },
-        {
-          "name": "Salter Rd Subdivision",
-          "builder": "Coastal Homes of NWF LLC | Crosswood Homes | Shear Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 2.0
-        },
-        {
-          "name": "Chase Farms",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 8,
-          "annual_starts": 23.0
-        },
-        {
-          "name": "Buffalo Creek Estates",
-          "builder": "Owens Custom Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Three Hollow East",
-          "builder": "Century Communities | D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 15.0
-        },
-        {
-          "name": "Ten Mile Rd Subdivision",
-          "builder": "Flynn Building Specialists",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2,
-          "annual_starts": 2.0
-        },
-        {
-          "name": "Costas Ridge",
-          "builder": "Bill Walther Construction Inc | Century Communities | Kevin Stanton Construction LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 49,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Rhetts Run",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 268,
-          "annual_starts": 0.0
-        }
-      ]
-    },
-    "SM-15": {
-      "SubmarketID": "SM-15",
-      "SubmarketName": "Okaloosa County",
-      "total": 4,
-      "active": 4,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 4,
-      "single_family": 4,
-      "townhomes": 0,
-      "builders_count": 3,
-      "builders": [
-        "Adams Homes",
-        "CJL Homes",
-        "D.R. Horton Inc"
-      ],
-      "units_planned": 384,
-      "units_remaining": 275,
-      "annual_starts": 39.0,
-      "annual_closings": 44.0,
-      "vacant_developed_lots": 152,
-      "under_construction": 13,
-      "products": {
-        "Single-Family Detached": 4
-      },
-      "statuses": {
-        "Active": 4
-      },
-      "communities": [
-        {
-          "name": "Highlands",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 136,
-          "annual_starts": 6.0
-        },
-        {
-          "name": "Southern Day Chateau",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2,
-          "annual_starts": 18.0
-        },
-        {
-          "name": "Buckhaven",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 132,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Charlie Day Estates",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 15.0
-        }
-      ]
-    },
-    "SM-16": {
-      "SubmarketID": "SM-16",
-      "SubmarketName": "Laurel Hill",
-      "total": 7,
-      "active": 7,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 7,
-      "single_family": 7,
-      "townhomes": 0,
-      "builders_count": 8,
-      "builders": [
-        "Adams Homes",
-        "CJL Homes",
-        "Cadenhead & Davis Construction",
-        "D.R. Horton Inc",
-        "Halifax Homes",
-        "Lennar Homes",
-        "Linc Grant Construction",
-        "Phillips Homes"
-      ],
-      "units_planned": 750,
-      "units_remaining": 435,
-      "annual_starts": 101.0,
-      "annual_closings": 102.0,
-      "vacant_developed_lots": 385,
-      "under_construction": 47,
-      "products": {
-        "Single-Family Detached": 7
-      },
-      "statuses": {
-        "Active": 7
-      },
-      "communities": [
-        {
-          "name": "Heritage Plantation ",
-          "builder": "Cadenhead & Davis Construction | D.R. Horton Inc | Halifax Homes | Phillips Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 47,
-          "annual_starts": 21.0
-        },
-        {
-          "name": "White Oak Estates",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 98,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Hidden Lakes",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 59,
-          "annual_starts": 10.0
-        },
-        {
-          "name": "Yellow River Plantation",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 180,
-          "annual_starts": 47.0
-        },
-        {
-          "name": "Garden City Park",
-          "builder": "CJL Homes | Linc Grant Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 11,
-          "annual_starts": 4.0
-        },
-        {
-          "name": "Brookwood",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 38,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Blossom Grove (Okaloosa)",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2,
+          "units_remaining": 207,
           "annual_starts": 5.0
-        }
-      ]
-    },
-    "SM-17": {
-      "SubmarketID": "SM-17",
-      "SubmarketName": "Crestview",
-      "total": 28,
-      "active": 21,
-      "future": 1,
-      "built_out": 6,
-      "visible_default": 22,
-      "single_family": 22,
-      "townhomes": 0,
-      "builders_count": 14,
-      "builders": [
-        "Adams Homes",
-        "Bryan Rogers Construction Inc",
-        "CJL Homes",
-        "Cassady Homes",
-        "Century Communities",
-        "D.R. Horton Inc",
-        "DSLD Homes",
-        "Homewood Properties LLC",
-        "Jacob Locke Construction Inc",
-        "Lennar Homes",
-        "Linc Grant Construction",
-        "Phillips Homes",
-        "W. Douglas Harris Construction Inc",
-        "Whitworth Builders"
-      ],
-      "units_planned": 3425,
-      "units_remaining": 2175,
-      "annual_starts": 206.0,
-      "annual_closings": 210.0,
-      "vacant_developed_lots": 727,
-      "under_construction": 109,
-      "products": {
-        "Single-Family Detached": 28
-      },
-      "statuses": {
-        "Active": 21,
-        "Built Out": 6,
-        "Future": 1
-      },
-      "communities": [
-        {
-          "name": "Ridgeway Landing",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 14,
-          "annual_starts": 25.0
-        },
-        {
-          "name": "Meadow Creek",
-          "builder": "Century Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 6,
-          "annual_starts": 8.0
-        },
-        {
-          "name": "Houston Place",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 70,
-          "annual_starts": 16.0
-        },
-        {
-          "name": "Eden Lake ",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 181,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Lantern Ridge",
-          "builder": "Linc Grant Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 23,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Southern Belle",
-          "builder": "Jacob Locke Construction Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 15,
-          "annual_starts": 4.0
-        },
-        {
-          "name": "Young Oaks",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 9,
-          "annual_starts": 10.0
-        },
-        {
-          "name": "Wind Meadows",
-          "builder": "Whitworth Builders",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 13,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Magnolia Creeks",
-          "builder": "Lennar Homes",
-          "status": "Future",
-          "product": "Single-Family Detached",
-          "units_remaining": 52,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Lee Farm",
-          "builder": "Cassady Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Ashton View",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 15,
-          "annual_starts": 23.0
-        },
-        {
-          "name": "Patriot Ridge ",
-          "builder": "Cassady Homes | D.R. Horton Inc | DSLD Homes | Phillips Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 224,
-          "annual_starts": 75.0
-        },
-        {
-          "name": "Harrisburg Estates",
-          "builder": "D.R. Horton Inc | W. Douglas Harris Construction Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 74,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Willow Creek Plantation",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 6,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Oak Hollow",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2,
-          "annual_starts": 12.0
-        },
-        {
-          "name": "Homewood Estates",
-          "builder": "Bryan Rogers Construction Inc | CJL Homes | D.R. Horton Inc | Homewood Properties LLC | Linc Grant Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2,
-          "annual_starts": 2.0
-        },
-        {
-          "name": "Southern Charm",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 45,
-          "annual_starts": 8.0
-        },
-        {
-          "name": "Independence (Okaloosa)",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1200,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Brooke Estates",
-          "builder": "Whitworth Builders",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 7,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Oxford Place",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 99,
-          "annual_starts": 19.0
-        },
-        {
-          "name": "Barton's Bend",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 34,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Nature Lake ",
-          "builder": "Whitworth Builders",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 82,
-          "annual_starts": 2.0
-        }
-      ]
-    },
-    "SM-18": {
-      "SubmarketID": "SM-18",
-      "SubmarketName": "Fort Walton",
-      "total": 6,
-      "active": 6,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 6,
-      "single_family": 6,
-      "townhomes": 0,
-      "builders_count": 14,
-      "builders": [
-        "Better Built of NW Florida Inc",
-        "Contemporary Homes of Florida",
-        "Ferrin Campbell Construction",
-        "Grand American Enterprises",
-        "Greg Goodwin Construction",
-        "Huff Homes",
-        "J&V Builders Inc",
-        "Janssen Construction Management Inc",
-        "Jimmy Henderson Construction Co LLC",
-        "Key Lime Construction",
-        "Randy Wise Homes",
-        "Ruckel Properties Inc",
-        "Tidwell Homes",
-        "Wilson Ents of NW FL Inc"
-      ],
-      "units_planned": 3116,
-      "units_remaining": 2746,
-      "annual_starts": 62.0,
-      "annual_closings": 72.0,
-      "vacant_developed_lots": 205,
-      "under_construction": 37,
-      "products": {
-        "Single-Family Detached": 6
-      },
-      "statuses": {
-        "Active": 6
-      },
-      "communities": [
-        {
-          "name": "Meadows at Magnolia Plantation",
-          "builder": "Randy Wise Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 15,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Eagles Landing of Niceville",
-          "builder": "Huff Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 4,
-          "annual_starts": 6.0
-        },
-        {
-          "name": "Addies Place ",
-          "builder": "Randy Wise Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 10,
-          "annual_starts": 7.0
-        },
-        {
-          "name": "Kake Cottages",
-          "builder": "Contemporary Homes of Florida",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 5,
-          "annual_starts": 5.0
-        },
-        {
-          "name": "Deer Moss Creek/Brookfield",
-          "builder": "Greg Goodwin Construction | Tidwell Homes | Wilson Ents of NW FL Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 102,
-          "annual_starts": 24.0
-        },
-        {
-          "name": "Deer Moss Creek/Hartfield",
-          "builder": "Better Built of NW Florida Inc | Ferrin Campbell Construction | Grand American Enterprises | Janssen Construction Management Inc | Jimmy Henderson Construction Co LLC | J&V Builders Inc | Key Lime Construction | Randy Wise Homes | Ruckel Properties Inc | Tidwell Homes | Wilson Ents of NW FL Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2610,
-          "annual_starts": 19.0
-        }
-      ]
-    },
-    "SM-19": {
-      "SubmarketID": "SM-19",
-      "SubmarketName": "Defuniak Springs",
-      "total": 7,
-      "active": 7,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 7,
-      "single_family": 7,
-      "townhomes": 0,
-      "builders_count": 7,
-      "builders": [
-        "CJL Homes",
-        "Century Communities",
-        "Darrell Miller Construction",
-        "Flynn Building Specialists",
-        "Lennar Homes",
-        "R&K Construction",
-        "Valor Communities"
-      ],
-      "units_planned": 649,
-      "units_remaining": 538,
-      "annual_starts": 45.0,
-      "annual_closings": 7.0,
-      "vacant_developed_lots": 258,
-      "under_construction": 39,
-      "products": {
-        "Single-Family Detached": 7
-      },
-      "statuses": {
-        "Active": 7
-      },
-      "communities": [
-        {
-          "name": "Bay Springs Majors/SF",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 311,
-          "annual_starts": 25.0
-        },
-        {
-          "name": "McCarthy Estates",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 29,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Pinehurst Estates",
-          "builder": "Century Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 22,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Juniper Trace",
-          "builder": "Century Communities | Darrell Miller Construction | Flynn Building Specialists",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Walton Pointe",
-          "builder": "Valor Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 65,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Wildwood Lakes",
-          "builder": "R&K Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 75,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Cat Island Estates",
-          "builder": "Century Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 35,
-          "annual_starts": 18.0
-        }
-      ]
-    },
-    "SM-20": {
-      "SubmarketID": "SM-20",
-      "SubmarketName": "Freeport",
-      "total": 31,
-      "active": 28,
-      "future": 0,
-      "built_out": 3,
-      "visible_default": 28,
-      "single_family": 28,
-      "townhomes": 0,
-      "builders_count": 34,
-      "builders": [
-        "360 DA Investment Corp",
-        "4A Ventures",
-        "Adams Homes",
-        "Brannon Construction",
-        "Brown Venture Investments Inc",
-        "CJL Homes",
-        "Cavazos & Flores Construction",
-        "Century Communities",
-        "Coastal Builders of NW FL Inc",
-        "Coastal Custom Homebuilding",
-        "D.R. Horton Inc",
-        "DSLD Homes",
-        "Eagle Venture Group LLC",
-        "Emerald Coast Homes",
-        "Emerald Coast Premier Builders",
-        "Grand American Enterprises",
-        "Halifax Homes",
-        "Hazelstone Homes LLC",
-        "Holiday Builders",
-        "Hop Building Company Inc",
-        "Horizon Design Build Corp",
-        "J Tucker Develoopment",
-        "JAB Holdings LLC",
-        "Jay Odom Group",
-        "Key Lime Construction",
-        "Legendary Innovation Inc",
-        "Lennar Homes",
-        "Live Oak Homes & Development Inc",
-        "Randy Wise Homes",
-        "Remyford Construction",
-        "Simmons Home Builders of NW Florida",
-        "Southern Hybird Homes LLC",
-        "Traton Homes",
-        "Valor Communities"
-      ],
-      "units_planned": 5707,
-      "units_remaining": 3962,
-      "annual_starts": 425.0,
-      "annual_closings": 411.0,
-      "vacant_developed_lots": 2008,
-      "under_construction": 227,
-      "products": {
-        "Single-Family Detached": 31
-      },
-      "statuses": {
-        "Active": 28,
-        "Built Out": 3
-      },
-      "communities": [
-        {
-          "name": "Bear Creek/SF",
-          "builder": "360 DA Investment Corp | 4A Ventures | Brown Venture Investments Inc | Coastal Custom Homebuilding | Emerald Coast Homes | Horizon Design Build Corp | Legendary Innovation Inc | Valor Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 333,
-          "annual_starts": 12.0
-        },
-        {
-          "name": "Hammock Oaks Estates",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 71,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Bluffs at Lafayette",
-          "builder": "Adams Homes | D.R. Horton Inc | DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 901,
-          "annual_starts": 50.0
-        },
-        {
-          "name": "Crossings at Freeport",
-          "builder": "Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 127,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Cross Creek Estates",
-          "builder": "Century Communities | Halifax Homes | Lennar Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 50,
-          "annual_starts": 30.0
-        },
-        {
-          "name": "Grande Oaks (Walton)",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 9,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Hammock Bay/Symphony ",
-          "builder": "Adams Homes | Coastal Builders of NW FL Inc | D.R. Horton Inc | DSLD Homes | Holiday Builders  | Remyford Construction | Simmons Home Builders of NW Florida | Traton Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 17,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Owls Head/Nest",
-          "builder": "D.R. Horton Inc | Valor Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 89,
-          "annual_starts": 2.0
-        },
-        {
-          "name": "Owls Head Farms/SF",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 532,
-          "annual_starts": 71.0
-        },
-        {
-          "name": "LaGrange Landing",
-          "builder": "CJL Homes | D.R. Horton Inc | Hazelstone Homes LLC | J Tucker Develoopment",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 12,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Hammock Bay/Bird Song",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 59,
-          "annual_starts": 33.0
-        },
-        {
-          "name": "NatureView/North",
-          "builder": "DSLD Homes | Holiday Builders ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 258,
-          "annual_starts": 31.0
-        },
-        {
-          "name": "Hammock Bay/Vineyards ",
-          "builder": "Randy Wise Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 9,
-          "annual_starts": 4.0
-        },
-        {
-          "name": "Miller Commerce Park",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 15,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Hammock Bay/Harmony",
-          "builder": "D.R. Horton Inc | DSLD Homes | Holiday Builders  | Hop Building Company Inc | Jay Odom Group",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Hammock Bay/Starburst  ",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 8,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Palmetto Place ",
-          "builder": "CJL Homes | Valor Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 8,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Hammock Bay/Steamboat Landing  ",
-          "builder": "DSLD Homes | Eagle Venture Group LLC | Emerald Coast Premier Builders | Grand American Enterprises | Key Lime Construction | Randy Wise Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 89,
-          "annual_starts": 6.0
-        },
-        {
-          "name": "Riverwalk ",
-          "builder": "Adams Homes | Century Communities | D.R. Horton Inc | Holiday Builders  | JAB Holdings LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 18,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Bluffs at Magnolia",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 125,
-          "annual_starts": 14.0
-        },
-        {
-          "name": "Hammock Bay/Reflection ",
-          "builder": "Randy Wise Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 49,
-          "annual_starts": 4.0
-        },
-        {
-          "name": "Live Oak Cottages",
-          "builder": "CJL Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 3,
-          "annual_starts": 7.0
-        },
-        {
-          "name": "NatureView/South",
-          "builder": "DSLD Homes | Holiday Builders ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 424,
-          "annual_starts": 45.0
-        },
-        {
-          "name": "Bear Creek/Cottages",
-          "builder": "4A Ventures | Brown Venture Investments Inc | Cavazos & Flores Construction | Coastal Custom Homebuilding | Southern Hybird Homes LLC | Valor Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 33,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Ashton Park",
-          "builder": "D.R. Horton Inc | Randy Wise Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 350,
-          "annual_starts": 13.0
-        },
-        {
-          "name": "Hammock Bay/Lanterns",
-          "builder": "DSLD Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 3.0
-        },
-        {
-          "name": "Owls Head East/SF",
-          "builder": "D.R. Horton Inc | Valor Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 327,
-          "annual_starts": 72.0
-        },
-        {
-          "name": "Magnolia Bay Estates (Walton)",
-          "builder": "Brannon Construction | Live Oak Homes & Development Inc | Traton Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 44,
-          "annual_starts": 6.0
-        }
-      ]
-    },
-    "SM-21": {
-      "SubmarketID": "SM-21",
-      "SubmarketName": "Eglin AFB",
-      "total": 6,
-      "active": 6,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 6,
-      "single_family": 6,
-      "townhomes": 0,
-      "builders_count": 5,
-      "builders": [
-        "Abbott Martin Group",
-        "D.R. Horton Inc",
-        "Herbst Homes",
-        "Southern Ventures Corp",
-        "Whitworth Builders"
-      ],
-      "units_planned": 257,
-      "units_remaining": 194,
-      "annual_starts": 52.0,
-      "annual_closings": 20.0,
-      "vacant_developed_lots": 150,
-      "under_construction": 39,
-      "products": {
-        "Single-Family Detached": 6
-      },
-      "statuses": {
-        "Active": 6
-      },
-      "communities": [
-        {
-          "name": "Soundside Hollow",
-          "builder": "Abbott Martin Group",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 9,
-          "annual_starts": 1.0
-        },
-        {
-          "name": "Doyle Hawkins Landing",
-          "builder": "Herbst Homes ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 8.0
-        },
-        {
-          "name": "Buckeyes Landing",
-          "builder": "Herbst Homes ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 62,
-          "annual_starts": 17.0
-        },
-        {
-          "name": "Creets Landing",
-          "builder": "Whitworth Builders",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1,
-          "annual_starts": 4.0
-        },
-        {
-          "name": "Heronshaw",
-          "builder": "Southern Ventures Corp",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 29,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Captain's Cove",
-          "builder": "D.R. Horton Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 92,
-          "annual_starts": 22.0
         }
       ]
     },
@@ -3131,7 +1380,7 @@
       "future": 0,
       "built_out": 4,
       "visible_default": 71,
-      "single_family": 71,
+      "single_family": 75,
       "townhomes": 0,
       "builders_count": 71,
       "builders": [
@@ -3174,7 +1423,6 @@
         "Holland Homes LLC",
         "Huff Homes",
         "Hufham/Farris Construction LLC",
-        "Inc.",
         "JC Craig LLC",
         "KSB Homes",
         "Key Lime Construction",
@@ -3188,6 +1436,7 @@
         "Premier Builders of NWFL LLC",
         "RAK Construction",
         "RJ Investors LLC",
+        "Randy Wise Homes",
         "Reeves & Shaw Homes LLC",
         "Regal Stephens Construction",
         "Romain Construction Inc",
@@ -3203,16 +1452,16 @@
         "The BG Group LLC",
         "Toll Brothers Inc",
         "Traton Homes",
-        "Trotter's General Contractors",
+        "Trotter's General Contractors, Inc.",
         "Turner Heritage Homes",
         "Valor Communities"
       ],
-      "units_planned": 6192,
-      "units_remaining": 3947,
+      "units_planned": 6608.0,
+      "units_remaining": 3947.0,
       "annual_starts": 652.0,
-      "annual_closings": 575.0,
-      "vacant_developed_lots": 2630,
-      "under_construction": 441,
+      "annual_closings": 577.0,
+      "vacant_developed_lots": 2630.0,
+      "under_construction": 441.0,
       "products": {
         "Single-Family Detached": 75
       },
@@ -3414,6 +1663,14 @@
           "annual_starts": 18.0
         },
         {
+          "name": "Breakfast Point",
+          "builder": "Samuel Taylor Homes | Southern Coastal Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Carillon Beach ",
           "builder": "STT Properties LLC",
           "status": "Active",
@@ -3452,6 +1709,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 10,
           "annual_starts": 6.0
+        },
+        {
+          "name": "Bayou Pines",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Alys Beach/BK AC",
@@ -3508,6 +1773,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 42,
           "annual_starts": 18.0
+        },
+        {
+          "name": "Ridge Walk",
+          "builder": "Randy Wise Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         },
         {
           "name": "Nellie Preserve",
@@ -3694,325 +1967,421 @@
           "annual_starts": 6.0
         },
         {
+          "name": "Bluewater Landing",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Mexico Beach/Salt Creek SF",
           "builder": "Holiday Builders ",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 84,
           "annual_starts": 23.0
-        }
-      ]
-    },
-    "SM-23": {
-      "SubmarketID": "SM-23",
-      "SubmarketName": "Walton County",
-      "total": 2,
-      "active": 1,
-      "future": 0,
-      "built_out": 1,
-      "visible_default": 1,
-      "single_family": 1,
-      "townhomes": 0,
-      "builders_count": 2,
-      "builders": [
-        "D.R. Horton Inc",
-        "Holiday Builders"
-      ],
-      "units_planned": 194,
-      "units_remaining": 32,
-      "annual_starts": 1.0,
-      "annual_closings": 27.0,
-      "vacant_developed_lots": 25,
-      "under_construction": 0,
-      "products": {
-        "Single-Family Detached": 2
-      },
-      "statuses": {
-        "Active": 1,
-        "Built Out": 1
-      },
-      "communities": [
+        },
         {
-          "name": "Windswept Estates",
-          "builder": "D.R. Horton Inc | Holiday Builders ",
+          "name": "Alys Beach/BK AB",
+          "builder": "Alys Beach Construction ",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 32,
+          "units_remaining": 7,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Alys Beach/BK V",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 8,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Village at Grayton Beach",
+          "builder": "Better Built of NW Florida Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sweet Bay (Walton)",
+          "builder": "Focus Construction | Soyaz Constructinon",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 10,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Alys Beach/BK UU & VV",
+          "builder": "Alys Beach Construction  | Arkon Group | Koast Builders Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 4,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Alys Beach/BK WW",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Indian Bayou West",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 45,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Tapestry Park",
+          "builder": "Holland Homes LLC | Southern Coastal Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 9,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Watersound/Pines",
+          "builder": "Huff Homes | Romair Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 4,
+          "annual_starts": 11.0
+        },
+        {
+          "name": "Martinique",
+          "builder": "Clements Construction | Valor Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 62,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Heritage Dunes",
+          "builder": "Bella Mare Real Estate Holdings",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 6,
           "annual_starts": 1.0
         }
       ]
     },
-    "SM-24": {
-      "SubmarketID": "SM-24",
-      "SubmarketName": "Holmes County",
-      "total": 0,
-      "active": 0,
+    "SM-20": {
+      "SubmarketID": "SM-20",
+      "SubmarketName": "Freeport",
+      "total": 31,
+      "active": 28,
       "future": 0,
-      "built_out": 0,
-      "visible_default": 0,
-      "single_family": 0,
+      "built_out": 3,
+      "visible_default": 28,
+      "single_family": 31,
       "townhomes": 0,
-      "builders_count": 0,
-      "builders": [],
-      "units_planned": 0,
-      "units_remaining": 0,
-      "annual_starts": 0,
-      "annual_closings": 0,
-      "vacant_developed_lots": 0,
-      "under_construction": 0,
-      "products": {},
-      "statuses": {},
-      "communities": []
-    },
-    "SM-25": {
-      "SubmarketID": "SM-25",
-      "SubmarketName": "Washington County",
-      "total": 20,
-      "active": 19,
-      "future": 0,
-      "built_out": 1,
-      "visible_default": 19,
-      "single_family": 19,
-      "townhomes": 0,
-      "builders_count": 25,
+      "builders_count": 34,
       "builders": [
-        "Artisan Construction CO Inc",
-        "B & D Builders",
-        "Bella Home Builders",
-        "CR Berry Builders Inc",
+        "360 DA Investment Corp",
+        "4A Ventures",
+        "Adams Homes",
+        "Brannon Construction",
+        "Brown Venture Investments Inc",
+        "CJL Homes",
+        "Cavazos & Flores Construction",
         "Century Communities",
+        "Coastal Builders of NW FL Inc",
+        "Coastal Custom Homebuilding",
         "D.R. Horton Inc",
-        "Debco Construction Company",
-        "Deltona Corporation",
-        "Freeport Builders LLC",
-        "Gooden Homes",
-        "Homes by Deltona",
-        "Homes by Ingram",
-        "J & S Builders LLC",
-        "James Fletcher Construction",
-        "James Fletcher Construction Inc",
-        "KLB Contracting LLC",
-        "LLC",
-        "Lsk Construction",
-        "Maronda Homes",
-        "McQuagge Development & Construction Inc",
-        "Mitchell Building Company",
-        "Peak 6 Construction LLC",
-        "Pixie Dust Perfect Home Builders Inc",
-        "Solara Homes",
-        "Stone Wall Construction"
+        "DSLD Homes",
+        "Eagle Venture Group LLC",
+        "Emerald Coast Homes",
+        "Emerald Coast Premier Builders",
+        "Grand American Enterprises",
+        "Halifax Homes",
+        "Hazelstone Homes LLC",
+        "Holiday Builders",
+        "Hop Building Company Inc",
+        "Horizon Design Build Corp",
+        "J Tucker Develoopment",
+        "JAB Holdings LLC",
+        "Jay Odom Group",
+        "Key Lime Construction",
+        "Legendary Innovation Inc",
+        "Lennar Homes",
+        "Live Oak Homes & Development Inc",
+        "Randy Wise Homes",
+        "Remyford Construction",
+        "Simmons Home Builders of NW Florida",
+        "Southern Hybird Homes LLC",
+        "Traton Homes",
+        "Valor Communities"
       ],
-      "units_planned": 20346,
-      "units_remaining": 19403,
-      "annual_starts": 103.0,
-      "annual_closings": 108.0,
-      "vacant_developed_lots": 19173,
-      "under_construction": 54,
+      "units_planned": 5821.0,
+      "units_remaining": 3962.0,
+      "annual_starts": 425.0,
+      "annual_closings": 412.0,
+      "vacant_developed_lots": 2008.0,
+      "under_construction": 227.0,
       "products": {
-        "Single-Family Detached": 20
+        "Single-Family Detached": 31
       },
       "statuses": {
-        "Active": 19,
-        "Built Out": 1
+        "Active": 28,
+        "Built Out": 3
       },
       "communities": [
         {
-          "name": "Sunny Hills/Unit 16",
+          "name": "Bear Creek/SF",
+          "builder": "360 DA Investment Corp | 4A Ventures | Brown Venture Investments Inc | Coastal Custom Homebuilding | Emerald Coast Homes | Horizon Design Build Corp | Legendary Innovation Inc | Valor Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 333,
+          "annual_starts": 12.0
+        },
+        {
+          "name": "Hammock Oaks Estates",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 71,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Hammock Bay/Moonswept ",
+          "builder": "DSLD Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bluffs at Lafayette",
+          "builder": "Adams Homes | D.R. Horton Inc | DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 901,
+          "annual_starts": 50.0
+        },
+        {
+          "name": "Crossings at Freeport",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 127,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Cross Creek Estates",
+          "builder": "Century Communities | Halifax Homes | Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 50,
+          "annual_starts": 30.0
+        },
+        {
+          "name": "Grande Oaks (Walton)",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 9,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Hammock Bay/Symphony ",
+          "builder": "Adams Homes | Coastal Builders of NW FL Inc | D.R. Horton Inc | DSLD Homes | Holiday Builders  | Remyford Construction | Simmons Home Builders of NW Florida | Traton Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 17,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Owls Head/Nest",
+          "builder": "D.R. Horton Inc | Valor Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 89,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Owls Head Farms/SF",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 532,
+          "annual_starts": 71.0
+        },
+        {
+          "name": "LaGrange Landing",
+          "builder": "CJL Homes | D.R. Horton Inc | Hazelstone Homes LLC | J Tucker Develoopment",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 12,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Hammock Bay/Bird Song",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 59,
+          "annual_starts": 33.0
+        },
+        {
+          "name": "NatureView/North",
+          "builder": "DSLD Homes | Holiday Builders ",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 258,
+          "annual_starts": 31.0
+        },
+        {
+          "name": "Hammock Bay/Vineyards ",
+          "builder": "Randy Wise Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 9,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Miller Commerce Park",
           "builder": "",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 1355,
+          "units_remaining": 15,
           "annual_starts": 0.0
         },
         {
-          "name": "Sunny Hills/Unit 23",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 98,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Sunny Hills/Unit 17",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 42,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Sunny Hills/Unit 7",
-          "builder": "Solara Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1321,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Sunny Hills/Unit 3",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 372,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Sunny Hills/Unit 1",
-          "builder": "Artisan Construction CO Inc | Bella Home Builders | Century Communities | Debco Construction Company | Deltona Corporation | D.R. Horton Inc | Freeport Builders LLC | Gooden Homes | Homes by Ingram | J & S Builders LLC | Maronda Homes | McQuagge Development & Construction Inc | Mitchell Building Company, LLC | Solara Homes | Stone Wall Construction",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 2013,
-          "annual_starts": 64.0
-        },
-        {
-          "name": "Sunny Hills/Unit 9",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 274,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Sunny Hills/Unit 10",
-          "builder": "Century Communities | Lsk Construction | Peak 6 Construction LLC",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1127,
-          "annual_starts": 7.0
-        },
-        {
-          "name": "Martins Woods",
-          "builder": "Century Communities | KLB Contracting LLC",
+          "name": "Hammock Bay/Harmony",
+          "builder": "D.R. Horton Inc | DSLD Homes | Holiday Builders  | Hop Building Company Inc | Jay Odom Group",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 1,
-          "annual_starts": 6.0
-        },
-        {
-          "name": "Sunny Hills/Unit 5",
-          "builder": "Century Communities | McQuagge Development & Construction Inc",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 508,
           "annual_starts": 0.0
         },
         {
-          "name": "Sunny Hills/Unit 8",
-          "builder": "B & D Builders | Century Communities | Gooden Homes | James Fletcher Construction | James Fletcher Construction Inc | Solara Homes",
+          "name": "Hammock Bay/Starburst  ",
+          "builder": "DSLD Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 1248,
-          "annual_starts": 0.0
+          "units_remaining": 8,
+          "annual_starts": 14.0
         },
         {
-          "name": "Sunny Hills/Unit 2",
-          "builder": "Century Communities | Deltona Corporation | D.R. Horton Inc | Homes by Deltona | Lsk Construction | McQuagge Development & Construction Inc",
+          "name": "Palmetto Place ",
+          "builder": "CJL Homes | Valor Communities",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 1434,
+          "units_remaining": 8,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Hammock Bay/Steamboat Landing  ",
+          "builder": "DSLD Homes | Eagle Venture Group LLC | Emerald Coast Premier Builders | Grand American Enterprises | Key Lime Construction | Randy Wise Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 89,
           "annual_starts": 6.0
         },
         {
-          "name": "Sunny Hills/Unit 19",
-          "builder": "Century Communities | CR Berry Builders Inc | Deltona Corporation | D.R. Horton Inc | Freeport Builders LLC | Gooden Homes | McQuagge Development & Construction Inc | Pixie Dust Perfect Home Builders Inc | Solara Homes",
+          "name": "Riverwalk ",
+          "builder": "Adams Homes | Century Communities | D.R. Horton Inc | Holiday Builders  | JAB Holdings LLC",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 1057,
+          "units_remaining": 18,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bluffs at Magnolia",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 125,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Hammock Bay/Reflection ",
+          "builder": "Randy Wise Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 49,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Hammock Bay/Splendor  ",
+          "builder": "DSLD Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Live Oak Cottages",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 3,
           "annual_starts": 7.0
         },
         {
-          "name": "Sunny Hills/Unit 6",
-          "builder": "B & D Builders | Century Communities | Debco Construction Company | Deltona Corporation | D.R. Horton Inc | Gooden Homes | James Fletcher Construction | McQuagge Development & Construction Inc | Solara Homes",
+          "name": "NatureView/South",
+          "builder": "DSLD Homes | Holiday Builders ",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 1492,
+          "units_remaining": 424,
+          "annual_starts": 45.0
+        },
+        {
+          "name": "Bear Creek/Cottages",
+          "builder": "4A Ventures | Brown Venture Investments Inc | Cavazos & Flores Construction | Coastal Custom Homebuilding | Southern Hybird Homes LLC | Valor Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 33,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Ashton Park",
+          "builder": "D.R. Horton Inc | Randy Wise Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 350,
           "annual_starts": 13.0
         },
         {
-          "name": "Sunny Hills/Unit 13",
-          "builder": "",
+          "name": "Hammock Bay/Lanterns",
+          "builder": "DSLD Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 1430,
+          "units_remaining": 1,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Hammock Bay/Aurora ",
+          "builder": "Holiday Builders ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
           "annual_starts": 0.0
         },
         {
-          "name": "Sunny Hills/Unit 4",
-          "builder": "Century Communities | D.R. Horton Inc",
+          "name": "Owls Head East/SF",
+          "builder": "D.R. Horton Inc | Valor Communities",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 902,
-          "annual_starts": 0.0
+          "units_remaining": 327,
+          "annual_starts": 72.0
         },
         {
-          "name": "Sunny Hills/Unit 12",
-          "builder": "",
+          "name": "Magnolia Bay Estates (Walton)",
+          "builder": "Brannon Construction | Live Oak Homes & Development Inc | Traton Homes",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 1444,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Sunny Hills/Unit 11",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1313,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "Sunny Hills/Unit 14",
-          "builder": "",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 1972,
-          "annual_starts": 0.0
+          "units_remaining": 44,
+          "annual_starts": 6.0
         }
       ]
-    },
-    "SM-26": {
-      "SubmarketID": "SM-26",
-      "SubmarketName": "Jackson County",
-      "total": 0,
-      "active": 0,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 0,
-      "single_family": 0,
-      "townhomes": 0,
-      "builders_count": 0,
-      "builders": [],
-      "units_planned": 0,
-      "units_remaining": 0,
-      "annual_starts": 0,
-      "annual_closings": 0,
-      "vacant_developed_lots": 0,
-      "under_construction": 0,
-      "products": {},
-      "statuses": {},
-      "communities": []
-    },
-    "SM-27": {
-      "SubmarketID": "SM-27",
-      "SubmarketName": "Marianna",
-      "total": 0,
-      "active": 0,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 0,
-      "single_family": 0,
-      "townhomes": 0,
-      "builders_count": 0,
-      "builders": [],
-      "units_planned": 0,
-      "units_remaining": 0,
-      "annual_starts": 0,
-      "annual_closings": 0,
-      "vacant_developed_lots": 0,
-      "under_construction": 0,
-      "products": {},
-      "statuses": {},
-      "communities": []
     },
     "SM-28": {
       "SubmarketID": "SM-28",
@@ -4049,12 +2418,12 @@
         "Traton Homes",
         "Valor Communities"
       ],
-      "units_planned": 6162,
-      "units_remaining": 3841,
+      "units_planned": 6162.0,
+      "units_remaining": 3841.0,
       "annual_starts": 514.0,
       "annual_closings": 433.0,
-      "vacant_developed_lots": 1887,
-      "under_construction": 204,
+      "vacant_developed_lots": 1887.0,
+      "under_construction": 204.0,
       "products": {
         "Single-Family Detached": 27
       },
@@ -4280,103 +2649,6 @@
         }
       ]
     },
-    "SM-29": {
-      "SubmarketID": "SM-29",
-      "SubmarketName": "Bay County Submarket 2",
-      "total": 5,
-      "active": 5,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 5,
-      "single_family": 5,
-      "townhomes": 0,
-      "builders_count": 7,
-      "builders": [
-        "Adams Homes",
-        "Cassell Builders",
-        "Century Communities",
-        "Coastal Classic Homes",
-        "D.R. Horton Inc",
-        "Samuel Taylor Homes",
-        "Watertight Construction"
-      ],
-      "units_planned": 1076,
-      "units_remaining": 702,
-      "annual_starts": 103.0,
-      "annual_closings": 83.0,
-      "vacant_developed_lots": 514,
-      "under_construction": 51,
-      "products": {
-        "Single-Family Detached": 5
-      },
-      "statuses": {
-        "Active": 5
-      },
-      "communities": [
-        {
-          "name": "Hodges Bayou Plantation ",
-          "builder": "Cassell Builders | Coastal Classic Homes | D.R. Horton Inc | Watertight Construction ",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 362,
-          "annual_starts": 46.0
-        },
-        {
-          "name": "Pine Hill",
-          "builder": "Century Communities",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 51,
-          "annual_starts": 0.0
-        },
-        {
-          "name": "East Bay ",
-          "builder": "Adams Homes | Samuel Taylor Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 52,
-          "annual_starts": 20.0
-        },
-        {
-          "name": "Parkbrook",
-          "builder": "Adams Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 189,
-          "annual_starts": 33.0
-        },
-        {
-          "name": "Cedar Creek at Deerpoint Lake",
-          "builder": "Adams Homes | Coastal Classic Homes",
-          "status": "Active",
-          "product": "Single-Family Detached",
-          "units_remaining": 48,
-          "annual_starts": 4.0
-        }
-      ]
-    },
-    "SM-30": {
-      "SubmarketID": "SM-30",
-      "SubmarketName": "Calhoun County",
-      "total": 0,
-      "active": 0,
-      "future": 0,
-      "built_out": 0,
-      "visible_default": 0,
-      "single_family": 0,
-      "townhomes": 0,
-      "builders_count": 0,
-      "builders": [],
-      "units_planned": 0,
-      "units_remaining": 0,
-      "annual_starts": 0,
-      "annual_closings": 0,
-      "vacant_developed_lots": 0,
-      "under_construction": 0,
-      "products": {},
-      "statuses": {},
-      "communities": []
-    },
     "SM-31": {
       "SubmarketID": "SM-31",
       "SubmarketName": "Gulf County",
@@ -4385,7 +2657,7 @@
       "future": 0,
       "built_out": 2,
       "visible_default": 9,
-      "single_family": 9,
+      "single_family": 11,
       "townhomes": 0,
       "builders_count": 4,
       "builders": [
@@ -4394,12 +2666,12 @@
         "Jubilee Builders",
         "Taunton Development Inc"
       ],
-      "units_planned": 1011,
-      "units_remaining": 719,
-      "annual_starts": 73.0,
-      "annual_closings": 59.0,
-      "vacant_developed_lots": 260,
-      "under_construction": 48,
+      "units_planned": 1031.0,
+      "units_remaining": 719.0,
+      "annual_starts": 76.0,
+      "annual_closings": 70.0,
+      "vacant_developed_lots": 260.0,
+      "under_construction": 48.0,
       "products": {
         "Single-Family Detached": 11
       },
@@ -4449,6 +2721,22 @@
           "annual_starts": 11.0
         },
         {
+          "name": "Pine Creek",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Heron Walk",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 2.0
+        },
+        {
           "name": "Windmark Beach/North/SF",
           "builder": "D.R. Horton Inc",
           "status": "Active",
@@ -4482,9 +2770,2179 @@
         }
       ]
     },
-    "SM-32": {
-      "SubmarketID": "SM-32",
-      "SubmarketName": "Bay County Submarket 1",
+    "SM-19": {
+      "SubmarketID": "SM-19",
+      "SubmarketName": "Defuniak Springs",
+      "total": 7,
+      "active": 7,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 7,
+      "single_family": 7,
+      "townhomes": 0,
+      "builders_count": 7,
+      "builders": [
+        "CJL Homes",
+        "Century Communities",
+        "Darrell Miller Construction",
+        "Flynn Building Specialists",
+        "Lennar Homes",
+        "R&K Construction",
+        "Valor Communities"
+      ],
+      "units_planned": 649.0,
+      "units_remaining": 538.0,
+      "annual_starts": 45.0,
+      "annual_closings": 7.0,
+      "vacant_developed_lots": 258.0,
+      "under_construction": 39.0,
+      "products": {
+        "Single-Family Detached": 7
+      },
+      "statuses": {
+        "Active": 7
+      },
+      "communities": [
+        {
+          "name": "Bay Springs Majors/SF",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 311,
+          "annual_starts": 25.0
+        },
+        {
+          "name": "McCarthy Estates",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 29,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Pinehurst Estates",
+          "builder": "Century Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 22,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Juniper Trace",
+          "builder": "Century Communities | Darrell Miller Construction | Flynn Building Specialists",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Walton Pointe",
+          "builder": "Valor Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 65,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Wildwood Lakes",
+          "builder": "R&K Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 75,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Cat Island Estates",
+          "builder": "Century Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 35,
+          "annual_starts": 18.0
+        }
+      ]
+    },
+    "SM-05": {
+      "SubmarketID": "SM-05",
+      "SubmarketName": "North Baldwin",
+      "total": 4,
+      "active": 4,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 4,
+      "single_family": 4,
+      "townhomes": 0,
+      "builders_count": 8,
+      "builders": [
+        "Adams Homes",
+        "Benchmark Homes Group",
+        "Branum Builders",
+        "Castle Homes",
+        "Dobbins Builders",
+        "Flynn Building Specialists",
+        "Maronda Homes",
+        "Prominence Homes & Communities"
+      ],
+      "units_planned": 151.0,
+      "units_remaining": 45.0,
+      "annual_starts": 10.0,
+      "annual_closings": 4.0,
+      "vacant_developed_lots": 37.0,
+      "under_construction": 8.0,
+      "products": {
+        "Single-Family Detached": 4
+      },
+      "statuses": {
+        "Active": 4
+      },
+      "communities": [
+        {
+          "name": "Heritage Oaks",
+          "builder": "Benchmark Homes Group | Castle Homes | Dobbins Builders | Prominence Homes & Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 3,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Briar Rose",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 26,
+          "annual_starts": 5.0
+        },
+        {
+          "name": "Canterbury Village",
+          "builder": "Benchmark Homes Group | Castle Homes | Flynn Building Specialists | Maronda Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 6,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Pinetrace",
+          "builder": "Branum Builders ",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 10,
+          "annual_starts": 0.0
+        }
+      ]
+    },
+    "SM-12": {
+      "SubmarketID": "SM-12",
+      "SubmarketName": "Central Baldwin",
+      "total": 35,
+      "active": 33,
+      "future": 0,
+      "built_out": 2,
+      "visible_default": 33,
+      "single_family": 35,
+      "townhomes": 0,
+      "builders_count": 12,
+      "builders": [
+        "Adams Homes",
+        "Benchmark Homes Group",
+        "D.R. Horton Inc",
+        "DSLD Homes",
+        "JBL Homes",
+        "Lennar",
+        "Lennar Homes",
+        "Meritage Homes",
+        "Mitchell Custom Homes LLC",
+        "Smith Douglas Homes",
+        "Terra Cane LLC",
+        "Tower Homes"
+      ],
+      "units_planned": 5851.0,
+      "units_remaining": 4188.0,
+      "annual_starts": 442.0,
+      "annual_closings": 415.0,
+      "vacant_developed_lots": 1867.0,
+      "under_construction": 254.0,
+      "products": {
+        "Single-Family Detached": 35
+      },
+      "statuses": {
+        "Active": 33,
+        "Built Out": 2
+      },
+      "communities": [
+        {
+          "name": "Pecan Grove",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Mitchells Commercial Plaza",
+          "builder": "Mitchell Custom Homes LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 20,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Avery Cove",
+          "builder": "Lennar",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 121,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Jambalaya Farms",
+          "builder": "Meritage Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 77,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Adeline Estates",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 6,
+          "annual_starts": 7.0
+        },
+        {
+          "name": "Ridge at Robertsdale",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 66,
+          "annual_starts": 27.0
+        },
+        {
+          "name": "Independence/SF",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 57,
+          "annual_starts": 55.0
+        },
+        {
+          "name": "Amberley",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 271,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Stonebridge/Biltmore ",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 163,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Silver Springs",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 199,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Longleaf",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1100,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Dogwood Estates",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 105,
+          "annual_starts": 21.0
+        },
+        {
+          "name": "Safari Farms",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 60,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Cottages of Aventura",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1,
+          "annual_starts": 7.0
+        },
+        {
+          "name": "Hadley Village",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 36,
+          "annual_starts": 32.0
+        },
+        {
+          "name": "Autumn Fields",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 42,
+          "annual_starts": 33.0
+        },
+        {
+          "name": "Garrison Ridge",
+          "builder": "JBL Homes | Tower Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 15,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Retreat, The",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 176,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Brentwood",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 31,
+          "annual_starts": 27.0
+        },
+        {
+          "name": "Parkview",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 76,
+          "annual_starts": 39.0
+        },
+        {
+          "name": "Lakeland",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 83,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Forest Park",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 129,
+          "annual_starts": 5.0
+        },
+        {
+          "name": "Rayne Plantation",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 27,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Blackwater Ridge",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 243,
+          "annual_starts": 34.0
+        },
+        {
+          "name": "Branch, The",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 3,
+          "annual_starts": 9.0
+        },
+        {
+          "name": "Cotton District",
+          "builder": "DSLD Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Royal Meadows",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 80,
+          "annual_starts": 6.0
+        },
+        {
+          "name": "Churchill",
+          "builder": "D.R. Horton Inc | DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 52,
+          "annual_starts": 19.0
+        },
+        {
+          "name": "Elizabeth Gardens",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 260,
+          "annual_starts": 9.0
+        },
+        {
+          "name": "Azalea Gardens",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 73,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Ponder Place",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Stonebridge/Montecello ",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 59,
+          "annual_starts": 50.0
+        },
+        {
+          "name": "Mill Creek",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 283,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Ivey Ridge",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 68,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Southtown",
+          "builder": "Benchmark Homes Group | Smith Douglas Homes | Terra Cane LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 204,
+          "annual_starts": 4.0
+        }
+      ]
+    },
+    "SM-15": {
+      "SubmarketID": "SM-15",
+      "SubmarketName": "Okaloosa County",
+      "total": 4,
+      "active": 4,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 4,
+      "single_family": 4,
+      "townhomes": 0,
+      "builders_count": 3,
+      "builders": [
+        "Adams Homes",
+        "CJL Homes",
+        "D.R. Horton Inc"
+      ],
+      "units_planned": 384.0,
+      "units_remaining": 275.0,
+      "annual_starts": 39.0,
+      "annual_closings": 44.0,
+      "vacant_developed_lots": 152.0,
+      "under_construction": 13.0,
+      "products": {
+        "Single-Family Detached": 4
+      },
+      "statuses": {
+        "Active": 4
+      },
+      "communities": [
+        {
+          "name": "Highlands",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 136,
+          "annual_starts": 6.0
+        },
+        {
+          "name": "Southern Day Chateau",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2,
+          "annual_starts": 18.0
+        },
+        {
+          "name": "Buckhaven",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 132,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Charlie Day Estates",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 15.0
+        }
+      ]
+    },
+    "SM-14": {
+      "SubmarketID": "SM-14",
+      "SubmarketName": "Santa Rosa County",
+      "total": 11,
+      "active": 10,
+      "future": 0,
+      "built_out": 1,
+      "visible_default": 10,
+      "single_family": 11,
+      "townhomes": 0,
+      "builders_count": 11,
+      "builders": [
+        "Bill Walther Construction Inc",
+        "Century Communities",
+        "Coastal Homes of NWF LLC",
+        "Crofton Homes",
+        "Crosswood Homes",
+        "D.R. Horton Inc",
+        "Flynn Building Specialists",
+        "Kevin Stanton Construction LLC",
+        "Owens Custom Homes",
+        "Shear Construction",
+        "Thomas Home Corporation"
+      ],
+      "units_planned": 1002.0,
+      "units_remaining": 695.0,
+      "annual_starts": 56.0,
+      "annual_closings": 88.0,
+      "vacant_developed_lots": 294.0,
+      "under_construction": 22.0,
+      "products": {
+        "Single-Family Detached": 11
+      },
+      "statuses": {
+        "Active": 10,
+        "Built Out": 1
+      },
+      "communities": [
+        {
+          "name": "Crofton Farms/Pines",
+          "builder": "Crofton Homes | Crosswood Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 6,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Nichols Creek",
+          "builder": "Thomas Home Corporation",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 247,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Shell Landing",
+          "builder": "Century Communities",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Nature Walk at Pond Creek",
+          "builder": "Owens Custom Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 100,
+          "annual_starts": 7.0
+        },
+        {
+          "name": "Salter Rd Subdivision",
+          "builder": "Coastal Homes of NWF LLC | Crosswood Homes | Shear Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Chase Farms",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 8,
+          "annual_starts": 23.0
+        },
+        {
+          "name": "Buffalo Creek Estates",
+          "builder": "Owens Custom Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Three Hollow East",
+          "builder": "Century Communities | D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 15.0
+        },
+        {
+          "name": "Ten Mile Rd Subdivision",
+          "builder": "Flynn Building Specialists",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Costas Ridge",
+          "builder": "Bill Walther Construction Inc | Century Communities | Kevin Stanton Construction LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 49,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Rhetts Run",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 268,
+          "annual_starts": 0.0
+        }
+      ]
+    },
+    "SM-11": {
+      "SubmarketID": "SM-11",
+      "SubmarketName": "Cantonment",
+      "total": 26,
+      "active": 20,
+      "future": 0,
+      "built_out": 6,
+      "visible_default": 20,
+      "single_family": 26,
+      "townhomes": 0,
+      "builders_count": 12,
+      "builders": [
+        "Adams Homes",
+        "Celebrity Home Builders",
+        "Classic Homes of Pensacola",
+        "D.R. Horton Inc",
+        "DSLD Homes",
+        "Holiday Builders",
+        "KW Custom Homes",
+        "Lennar Homes",
+        "Maronda Homes",
+        "Mitchell Residential",
+        "Signature Homes LLC",
+        "Thomas Home Corporation"
+      ],
+      "units_planned": 3263.0,
+      "units_remaining": 1429.0,
+      "annual_starts": 458.0,
+      "annual_closings": 518.0,
+      "vacant_developed_lots": 1103.0,
+      "under_construction": 134.0,
+      "products": {
+        "Single-Family Detached": 26
+      },
+      "statuses": {
+        "Active": 20,
+        "Built Out": 6
+      },
+      "communities": [
+        {
+          "name": "Pine Top",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 36,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Eagle Pointe",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 123,
+          "annual_starts": 17.0
+        },
+        {
+          "name": "Pipers Landing",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 64,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Gaylen Oaks",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 14,
+          "annual_starts": 20.0
+        },
+        {
+          "name": "Wildwood Estates/Reserve at Brookhaven",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 233,
+          "annual_starts": 72.0
+        },
+        {
+          "name": "Pecan Valley",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 51,
+          "annual_starts": 24.0
+        },
+        {
+          "name": "Windy Hill South",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Wildwood Estates/Brookhaven",
+          "builder": "Adams Homes | D.R. Horton Inc | Holiday Builders ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Graystone Estates",
+          "builder": "D.R. Horton Inc | Holiday Builders ",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Carrington",
+          "builder": "Lennar Homes | Thomas Home Corporation",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 227,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Turtle Creek",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 83,
+          "annual_starts": 15.0
+        },
+        {
+          "name": "Wildwood Estates/Iron Rock",
+          "builder": "Celebrity Home Builders | D.R. Horton Inc | DSLD Homes | KW Custom Homes | Signature Homes LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 67,
+          "annual_starts": 38.0
+        },
+        {
+          "name": "Ledgestone",
+          "builder": "Classic Homes of Pensacola | D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 13,
+          "annual_starts": 6.0
+        },
+        {
+          "name": "Bella Terra/Grove",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 9,
+          "annual_starts": 44.0
+        },
+        {
+          "name": "Kaheeley Ridge",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Pamela Place",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 20,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Pathstone/Fallschase",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 56,
+          "annual_starts": 47.0
+        },
+        {
+          "name": "Allison Acres",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 13,
+          "annual_starts": 22.0
+        },
+        {
+          "name": "Mary Annetta Estates",
+          "builder": "Holiday Builders  | Maronda Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Glenhollow",
+          "builder": "D.R. Horton Inc | Thomas Home Corporation",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 54,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Saddle Ridge",
+          "builder": "Lennar Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bentley Oaks",
+          "builder": "Mitchell Residential",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 8,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Sanctuary (Escambia)",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 182,
+          "annual_starts": 94.0
+        },
+        {
+          "name": "Tower Ridge Estates",
+          "builder": "Classic Homes of Pensacola",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 17,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bella Terra/Enclave",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 51,
+          "annual_starts": 7.0
+        },
+        {
+          "name": "Seminole Bend",
+          "builder": "Maronda Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 108,
+          "annual_starts": 12.0
+        }
+      ]
+    },
+    "SM-25": {
+      "SubmarketID": "SM-25",
+      "SubmarketName": "Washington County",
+      "total": 20,
+      "active": 19,
+      "future": 0,
+      "built_out": 1,
+      "visible_default": 19,
+      "single_family": 20,
+      "townhomes": 0,
+      "builders_count": 24,
+      "builders": [
+        "Artisan Construction CO Inc",
+        "B & D Builders",
+        "Bella Home Builders",
+        "CR Berry Builders Inc",
+        "Century Communities",
+        "D.R. Horton Inc",
+        "Debco Construction Company",
+        "Deltona Corporation",
+        "Freeport Builders LLC",
+        "Gooden Homes",
+        "Homes by Deltona",
+        "Homes by Ingram",
+        "J & S Builders LLC",
+        "James Fletcher Construction",
+        "James Fletcher Construction Inc",
+        "KLB Contracting LLC",
+        "Lsk Construction",
+        "Maronda Homes",
+        "McQuagge Development & Construction Inc",
+        "Mitchell Building Company, LLC",
+        "Peak 6 Construction LLC",
+        "Pixie Dust Perfect Home Builders Inc",
+        "Solara Homes",
+        "Stone Wall Construction"
+      ],
+      "units_planned": 20362.0,
+      "units_remaining": 19403.0,
+      "annual_starts": 104.0,
+      "annual_closings": 118.0,
+      "vacant_developed_lots": 19173.0,
+      "under_construction": 54.0,
+      "products": {
+        "Single-Family Detached": 20
+      },
+      "statuses": {
+        "Active": 19,
+        "Built Out": 1
+      },
+      "communities": [
+        {
+          "name": "Sunny Hills/Unit 16",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1355,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 23",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 98,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 17",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 42,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 7",
+          "builder": "Solara Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1321,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Kiersten Heights",
+          "builder": "Century Communities",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Sunny Hills/Unit 3",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 372,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 1",
+          "builder": "Artisan Construction CO Inc | Bella Home Builders | Century Communities | Debco Construction Company | Deltona Corporation | D.R. Horton Inc | Freeport Builders LLC | Gooden Homes | Homes by Ingram | J & S Builders LLC | Maronda Homes | McQuagge Development & Construction Inc | Mitchell Building Company, LLC | Solara Homes | Stone Wall Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2013,
+          "annual_starts": 64.0
+        },
+        {
+          "name": "Sunny Hills/Unit 9",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 274,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 10",
+          "builder": "Century Communities | Lsk Construction | Peak 6 Construction LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1127,
+          "annual_starts": 7.0
+        },
+        {
+          "name": "Martins Woods",
+          "builder": "Century Communities | KLB Contracting LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1,
+          "annual_starts": 6.0
+        },
+        {
+          "name": "Sunny Hills/Unit 5",
+          "builder": "Century Communities | McQuagge Development & Construction Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 508,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 8",
+          "builder": "B & D Builders | Century Communities | Gooden Homes | James Fletcher Construction | James Fletcher Construction Inc | Solara Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1248,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 2",
+          "builder": "Century Communities | Deltona Corporation | D.R. Horton Inc | Homes by Deltona | Lsk Construction | McQuagge Development & Construction Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1434,
+          "annual_starts": 6.0
+        },
+        {
+          "name": "Sunny Hills/Unit 19",
+          "builder": "Century Communities | CR Berry Builders Inc | Deltona Corporation | D.R. Horton Inc | Freeport Builders LLC | Gooden Homes | McQuagge Development & Construction Inc | Pixie Dust Perfect Home Builders Inc | Solara Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1057,
+          "annual_starts": 7.0
+        },
+        {
+          "name": "Sunny Hills/Unit 6",
+          "builder": "B & D Builders | Century Communities | Debco Construction Company | Deltona Corporation | D.R. Horton Inc | Gooden Homes | James Fletcher Construction | McQuagge Development & Construction Inc | Solara Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1492,
+          "annual_starts": 13.0
+        },
+        {
+          "name": "Sunny Hills/Unit 13",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1430,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 4",
+          "builder": "Century Communities | D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 902,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 12",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1444,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 11",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1313,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sunny Hills/Unit 14",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1972,
+          "annual_starts": 0.0
+        }
+      ]
+    },
+    "SM-17": {
+      "SubmarketID": "SM-17",
+      "SubmarketName": "Crestview",
+      "total": 28,
+      "active": 21,
+      "future": 1,
+      "built_out": 6,
+      "visible_default": 22,
+      "single_family": 28,
+      "townhomes": 0,
+      "builders_count": 16,
+      "builders": [
+        "Adams Homes",
+        "Alan Paul Construction",
+        "Bryan Rogers Construction Inc",
+        "CJL Homes",
+        "Cadenhead & Davis Construction",
+        "Cassady Homes",
+        "Century Communities",
+        "D.R. Horton Inc",
+        "DSLD Homes",
+        "Homewood Properties LLC",
+        "Jacob Locke Construction Inc",
+        "Lennar Homes",
+        "Linc Grant Construction",
+        "Phillips Homes",
+        "W. Douglas Harris Construction Inc",
+        "Whitworth Builders"
+      ],
+      "units_planned": 3969.0,
+      "units_remaining": 2175.0,
+      "annual_starts": 209.0,
+      "annual_closings": 279.0,
+      "vacant_developed_lots": 727.0,
+      "under_construction": 109.0,
+      "products": {
+        "Single-Family Detached": 28
+      },
+      "statuses": {
+        "Active": 21,
+        "Built Out": 6,
+        "Future": 1
+      },
+      "communities": [
+        {
+          "name": "Ridgeway Landing",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 14,
+          "annual_starts": 25.0
+        },
+        {
+          "name": "Days Landing",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Meadow Creek",
+          "builder": "Century Communities",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 6,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Houston Place",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 70,
+          "annual_starts": 16.0
+        },
+        {
+          "name": "Eden Lake ",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 181,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Lantern Ridge",
+          "builder": "Linc Grant Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 23,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Southern Belle",
+          "builder": "Jacob Locke Construction Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 15,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Young Oaks",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 9,
+          "annual_starts": 10.0
+        },
+        {
+          "name": "Royal Estates",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Silvercrest",
+          "builder": "Adams Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Wind Meadows",
+          "builder": "Whitworth Builders",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 13,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Magnolia Creeks",
+          "builder": "Lennar Homes",
+          "status": "Future",
+          "product": "Single-Family Detached",
+          "units_remaining": 52,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Lee Farm",
+          "builder": "Cassady Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Ashton View",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 15,
+          "annual_starts": 23.0
+        },
+        {
+          "name": "Patriot Ridge ",
+          "builder": "Cassady Homes | D.R. Horton Inc | DSLD Homes | Phillips Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 224,
+          "annual_starts": 75.0
+        },
+        {
+          "name": "Harrisburg Estates",
+          "builder": "D.R. Horton Inc | W. Douglas Harris Construction Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 74,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Shoal River Landing",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Willow Creek Plantation",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 6,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Oak Hollow",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2,
+          "annual_starts": 12.0
+        },
+        {
+          "name": "Homewood Estates",
+          "builder": "Bryan Rogers Construction Inc | CJL Homes | D.R. Horton Inc | Homewood Properties LLC | Linc Grant Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Southern Charm",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 45,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Independence (Okaloosa)",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1200,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Claires Vineyard",
+          "builder": "Alan Paul Construction | Cadenhead & Davis Construction",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Brooke Estates",
+          "builder": "Whitworth Builders",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 7,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Oxford Place",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 99,
+          "annual_starts": 19.0
+        },
+        {
+          "name": "Barton's Bend",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 34,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Nature Lake ",
+          "builder": "Whitworth Builders",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 82,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Bridle Wood Estates",
+          "builder": "CJL Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 3.0
+        }
+      ]
+    },
+    "SM-16": {
+      "SubmarketID": "SM-16",
+      "SubmarketName": "Laurel Hill",
+      "total": 7,
+      "active": 7,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 7,
+      "single_family": 7,
+      "townhomes": 0,
+      "builders_count": 8,
+      "builders": [
+        "Adams Homes",
+        "CJL Homes",
+        "Cadenhead & Davis Construction",
+        "D.R. Horton Inc",
+        "Halifax Homes",
+        "Lennar Homes",
+        "Linc Grant Construction",
+        "Phillips Homes"
+      ],
+      "units_planned": 750.0,
+      "units_remaining": 435.0,
+      "annual_starts": 101.0,
+      "annual_closings": 102.0,
+      "vacant_developed_lots": 385.0,
+      "under_construction": 47.0,
+      "products": {
+        "Single-Family Detached": 7
+      },
+      "statuses": {
+        "Active": 7
+      },
+      "communities": [
+        {
+          "name": "Heritage Plantation ",
+          "builder": "Cadenhead & Davis Construction | D.R. Horton Inc | Halifax Homes | Phillips Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 47,
+          "annual_starts": 21.0
+        },
+        {
+          "name": "White Oak Estates",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 98,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Hidden Lakes",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 59,
+          "annual_starts": 10.0
+        },
+        {
+          "name": "Yellow River Plantation",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 180,
+          "annual_starts": 47.0
+        },
+        {
+          "name": "Garden City Park",
+          "builder": "CJL Homes | Linc Grant Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 11,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Brookwood",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 38,
+          "annual_starts": 14.0
+        },
+        {
+          "name": "Blossom Grove (Okaloosa)",
+          "builder": "CJL Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2,
+          "annual_starts": 5.0
+        }
+      ]
+    },
+    "SM-01": {
+      "SubmarketID": "SM-01",
+      "SubmarketName": "South Mobile",
+      "total": 2,
+      "active": 2,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 2,
+      "single_family": 2,
+      "townhomes": 0,
+      "builders_count": 5,
+      "builders": [
+        "Adams Homes",
+        "Benchmark Homes Group",
+        "Circle W Construction CO Inc",
+        "Clark Homes of Distinction Inc",
+        "Prime Design Homes"
+      ],
+      "units_planned": 71.0,
+      "units_remaining": 10.0,
+      "annual_starts": 3.0,
+      "annual_closings": 8.0,
+      "vacant_developed_lots": 7.0,
+      "under_construction": 1.0,
+      "products": {
+        "Single-Family Detached": 2
+      },
+      "statuses": {
+        "Active": 2
+      },
+      "communities": [
+        {
+          "name": "Country Club Estates",
+          "builder": "Adams Homes | Benchmark Homes Group",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 3,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Kipling Station",
+          "builder": "Circle W Construction CO Inc | Clark Homes of Distinction Inc | Prime Design Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 7,
+          "annual_starts": 0.0
+        }
+      ]
+    },
+    "SM-21": {
+      "SubmarketID": "SM-21",
+      "SubmarketName": "Eglin AFB",
+      "total": 6,
+      "active": 6,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 6,
+      "single_family": 6,
+      "townhomes": 0,
+      "builders_count": 5,
+      "builders": [
+        "Abbott Martin Group",
+        "D.R. Horton Inc",
+        "Herbst Homes",
+        "Southern Ventures Corp",
+        "Whitworth Builders"
+      ],
+      "units_planned": 257.0,
+      "units_remaining": 194.0,
+      "annual_starts": 52.0,
+      "annual_closings": 20.0,
+      "vacant_developed_lots": 150.0,
+      "under_construction": 39.0,
+      "products": {
+        "Single-Family Detached": 6
+      },
+      "statuses": {
+        "Active": 6
+      },
+      "communities": [
+        {
+          "name": "Soundside Hollow",
+          "builder": "Abbott Martin Group",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 9,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Doyle Hawkins Landing",
+          "builder": "Herbst Homes ",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Buckeyes Landing",
+          "builder": "Herbst Homes ",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 62,
+          "annual_starts": 17.0
+        },
+        {
+          "name": "Creets Landing",
+          "builder": "Whitworth Builders",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1,
+          "annual_starts": 4.0
+        },
+        {
+          "name": "Heronshaw",
+          "builder": "Southern Ventures Corp",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 29,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Captain's Cove",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 92,
+          "annual_starts": 22.0
+        }
+      ]
+    },
+    "SM-07": {
+      "SubmarketID": "SM-07",
+      "SubmarketName": "Pensacola",
+      "total": 11,
+      "active": 7,
+      "future": 0,
+      "built_out": 4,
+      "visible_default": 7,
+      "single_family": 11,
+      "townhomes": 0,
+      "builders_count": 8,
+      "builders": [
+        "Adams Homes",
+        "D.R. Horton Inc",
+        "FD Builds",
+        "Flynn Building Specialists",
+        "Lennar Homes",
+        "Maronda Homes",
+        "Randall Builders Group LLC",
+        "aDoor Development"
+      ],
+      "units_planned": 360.0,
+      "units_remaining": 82.0,
+      "annual_starts": 112.0,
+      "annual_closings": 139.0,
+      "vacant_developed_lots": 30.0,
+      "under_construction": 38.0,
+      "products": {
+        "Single-Family Detached": 11
+      },
+      "statuses": {
+        "Active": 7,
+        "Built Out": 4
+      },
+      "communities": [
+        {
+          "name": "Stadium Way",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 24,
+          "annual_starts": 13.0
+        },
+        {
+          "name": "Westpointe Place",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 10,
+          "annual_starts": 18.0
+        },
+        {
+          "name": "Madelyn Woods",
+          "builder": "FD Builds | Randall Builders Group LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Martin Preserve",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 4,
+          "annual_starts": 28.0
+        },
+        {
+          "name": "Emerald Heights",
+          "builder": "Adams Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Kirksey Court",
+          "builder": "aDoor Development",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Mallard Landing",
+          "builder": "Lennar Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Yacht Harbor Cottages",
+          "builder": "Flynn Building Specialists",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bellview Pointe",
+          "builder": "Maronda Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 21,
+          "annual_starts": 18.0
+        },
+        {
+          "name": "Muldoon Pointe",
+          "builder": "Adams Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Preserve at Russell Crossing",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 13,
+          "annual_starts": 27.0
+        }
+      ]
+    },
+    "SM-18": {
+      "SubmarketID": "SM-18",
+      "SubmarketName": "Fort Walton",
+      "total": 6,
+      "active": 6,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 6,
+      "single_family": 6,
+      "townhomes": 0,
+      "builders_count": 14,
+      "builders": [
+        "Better Built of NW Florida Inc",
+        "Contemporary Homes of Florida",
+        "Ferrin Campbell Construction",
+        "Grand American Enterprises",
+        "Greg Goodwin Construction",
+        "Huff Homes",
+        "J&V Builders Inc",
+        "Janssen Construction Management Inc",
+        "Jimmy Henderson Construction Co LLC",
+        "Key Lime Construction",
+        "Randy Wise Homes",
+        "Ruckel Properties Inc",
+        "Tidwell Homes",
+        "Wilson Ents of NW FL Inc"
+      ],
+      "units_planned": 3116.0,
+      "units_remaining": 2746.0,
+      "annual_starts": 62.0,
+      "annual_closings": 72.0,
+      "vacant_developed_lots": 205.0,
+      "under_construction": 37.0,
+      "products": {
+        "Single-Family Detached": 6
+      },
+      "statuses": {
+        "Active": 6
+      },
+      "communities": [
+        {
+          "name": "Meadows at Magnolia Plantation",
+          "builder": "Randy Wise Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 15,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Eagles Landing of Niceville",
+          "builder": "Huff Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 4,
+          "annual_starts": 6.0
+        },
+        {
+          "name": "Addies Place ",
+          "builder": "Randy Wise Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 10,
+          "annual_starts": 7.0
+        },
+        {
+          "name": "Kake Cottages",
+          "builder": "Contemporary Homes of Florida",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 5.0
+        },
+        {
+          "name": "Deer Moss Creek/Brookfield",
+          "builder": "Greg Goodwin Construction | Tidwell Homes | Wilson Ents of NW FL Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 102,
+          "annual_starts": 24.0
+        },
+        {
+          "name": "Deer Moss Creek/Hartfield",
+          "builder": "Better Built of NW Florida Inc | Ferrin Campbell Construction | Grand American Enterprises | Janssen Construction Management Inc | Jimmy Henderson Construction Co LLC | J&V Builders Inc | Key Lime Construction | Randy Wise Homes | Ruckel Properties Inc | Tidwell Homes | Wilson Ents of NW FL Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 2610,
+          "annual_starts": 19.0
+        }
+      ]
+    },
+    "SM-08": {
+      "SubmarketID": "SM-08",
+      "SubmarketName": "Pace",
+      "total": 19,
+      "active": 16,
+      "future": 0,
+      "built_out": 3,
+      "visible_default": 16,
+      "single_family": 19,
+      "townhomes": 0,
+      "builders_count": 13,
+      "builders": [
+        "Adams Homes",
+        "Bill Walther Construction Inc",
+        "Celebrity Home Builders",
+        "D.R. Horton Inc",
+        "DSLD Homes",
+        "Flynn Building Specialists",
+        "Henry Company Homes",
+        "Holiday Builders",
+        "Lennar Homes",
+        "R&K Construction",
+        "Signature Homes LLC",
+        "Sunchase Construction",
+        "Thomas Home Corporation"
+      ],
+      "units_planned": 5361.0,
+      "units_remaining": 3644.0,
+      "annual_starts": 354.0,
+      "annual_closings": 394.0,
+      "vacant_developed_lots": 1348.0,
+      "under_construction": 128.0,
+      "products": {
+        "Single-Family Detached": 19
+      },
+      "statuses": {
+        "Active": 16,
+        "Built Out": 3
+      },
+      "communities": [
+        {
+          "name": "Jubilee/Mahogany",
+          "builder": "Holiday Builders ",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 260,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Pond Creek Landing",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 22,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Eventide Estates",
+          "builder": "Sunchase Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Avalon Beach",
+          "builder": "Flynn Building Specialists | R&K Construction",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 12,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bright Meadows",
+          "builder": "Flynn Building Specialists",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1,
+          "annual_starts": 9.0
+        },
+        {
+          "name": "Emmaline Gardens ",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 3,
+          "annual_starts": 18.0
+        },
+        {
+          "name": "Woodlands/SF",
+          "builder": "D.R. Horton Inc | Henry Company Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Lakes of Woodbine",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 537,
+          "annual_starts": 65.0
+        },
+        {
+          "name": "Stonechase",
+          "builder": "Celebrity Home Builders | Lennar Homes | Signature Homes LLC",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 373,
+          "annual_starts": 53.0
+        },
+        {
+          "name": "Southern Palms",
+          "builder": "DSLD Homes | Holiday Builders ",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 5,
+          "annual_starts": 2.0
+        },
+        {
+          "name": "Sentinel Ridge",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 274,
+          "annual_starts": 44.0
+        },
+        {
+          "name": "Parkwood",
+          "builder": "Thomas Home Corporation",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Blossom Grove (Santa Rosa)",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 56,
+          "annual_starts": 25.0
+        },
+        {
+          "name": "Pandion Place",
+          "builder": "Bill Walther Construction Inc | D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sandy Creek (Santa Rosa)",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 131,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Eagles Ridge",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 31,
+          "annual_starts": 81.0
+        },
+        {
+          "name": "Grove at Berry Hill",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 42,
+          "annual_starts": 33.0
+        },
+        {
+          "name": "Pace Commons/SF",
+          "builder": "Henry Company Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1042,
+          "annual_starts": 19.0
+        },
+        {
+          "name": "Parkland Place",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 850,
+          "annual_starts": 2.0
+        }
+      ]
+    },
+    "SM-09": {
+      "SubmarketID": "SM-09",
+      "SubmarketName": "Pensacola Beaches",
+      "total": 7,
+      "active": 7,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 7,
+      "single_family": 7,
+      "townhomes": 0,
+      "builders_count": 3,
+      "builders": [
+        "Ardco Inc",
+        "D.R. Horton Inc",
+        "Henry Company Homes"
+      ],
+      "units_planned": 1041.0,
+      "units_remaining": 891.0,
+      "annual_starts": 87.0,
+      "annual_closings": 69.0,
+      "vacant_developed_lots": 429.0,
+      "under_construction": 40.0,
+      "products": {
+        "Single-Family Detached": 7
+      },
+      "statuses": {
+        "Active": 7
+      },
+      "communities": [
+        {
+          "name": "Mer Sea on Navarre Beach",
+          "builder": "",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 47,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Heathers Place ",
+          "builder": "Henry Company Homes",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 446,
+          "annual_starts": 9.0
+        },
+        {
+          "name": "Rosemary Sound",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 254,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Grand Chenier",
+          "builder": "Ardco Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 9,
+          "annual_starts": 3.0
+        },
+        {
+          "name": "Deer Ridge Crossing",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 38,
+          "annual_starts": 49.0
+        },
+        {
+          "name": "Waterside at East Bay",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 96,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Roman Oaks ",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 1,
+          "annual_starts": 26.0
+        }
+      ]
+    },
+    "SM-23": {
+      "SubmarketID": "SM-23",
+      "SubmarketName": "Walton County",
+      "total": 2,
+      "active": 1,
+      "future": 0,
+      "built_out": 1,
+      "visible_default": 1,
+      "single_family": 2,
+      "townhomes": 0,
+      "builders_count": 4,
+      "builders": [
+        "Century Communities",
+        "D.R. Horton Inc",
+        "Halifax Homes",
+        "Holiday Builders"
+      ],
+      "units_planned": 277.0,
+      "units_remaining": 32.0,
+      "annual_starts": 1.0,
+      "annual_closings": 27.0,
+      "vacant_developed_lots": 25.0,
+      "under_construction": 0.0,
+      "products": {
+        "Single-Family Detached": 2
+      },
+      "statuses": {
+        "Active": 1,
+        "Built Out": 1
+      },
+      "communities": [
+        {
+          "name": "Windswept Estates",
+          "builder": "D.R. Horton Inc | Holiday Builders ",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 32,
+          "annual_starts": 1.0
+        },
+        {
+          "name": "Sawmill Court",
+          "builder": "Century Communities | Halifax Homes",
+          "status": "Built Out",
+          "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        }
+      ]
+    },
+    "SM-13": {
+      "SubmarketID": "SM-13",
+      "SubmarketName": "North Escambia",
       "total": 1,
       "active": 1,
       "future": 0,
@@ -4492,21 +4950,16 @@
       "visible_default": 1,
       "single_family": 1,
       "townhomes": 0,
-      "builders_count": 6,
+      "builders_count": 1,
       "builders": [
-        "BCB Construction",
-        "Chuck Neel Construction Inc",
-        "Focus Construction",
-        "JC Homes and Development",
-        "Koehnemann Construction Co",
-        "Martelle Homes"
+        "J Miller Construction Inc"
       ],
-      "units_planned": 397,
-      "units_remaining": 207,
-      "annual_starts": 5.0,
-      "annual_closings": 1.0,
-      "vacant_developed_lots": 95,
-      "under_construction": 4,
+      "units_planned": 33.0,
+      "units_remaining": 33.0,
+      "annual_starts": 0.0,
+      "annual_closings": 0.0,
+      "vacant_developed_lots": 33.0,
+      "under_construction": 0.0,
       "products": {
         "Single-Family Detached": 1
       },
@@ -4515,12 +4968,49 @@
       },
       "communities": [
         {
-          "name": "Watersound/Rivercamps at Crooked Creek",
-          "builder": "BCB Construction | Chuck Neel Construction Inc | Focus Construction | JC Homes and Development | Koehnemann Construction Co | Martelle Homes",
+          "name": "Bluewater Creek Estates",
+          "builder": "J Miller Construction Inc",
           "status": "Active",
           "product": "Single-Family Detached",
-          "units_remaining": 207,
-          "annual_starts": 5.0
+          "units_remaining": 33,
+          "annual_starts": 0.0
+        }
+      ]
+    },
+    "SM-03": {
+      "SubmarketID": "SM-03",
+      "SubmarketName": "North Mobile / Saraland",
+      "total": 1,
+      "active": 1,
+      "future": 0,
+      "built_out": 0,
+      "visible_default": 1,
+      "single_family": 1,
+      "townhomes": 0,
+      "builders_count": 1,
+      "builders": [
+        "D.R. Horton Inc"
+      ],
+      "units_planned": 50.0,
+      "units_remaining": 8.0,
+      "annual_starts": 0.0,
+      "annual_closings": 0.0,
+      "vacant_developed_lots": 8.0,
+      "under_construction": 0.0,
+      "products": {
+        "Single-Family Detached": 1
+      },
+      "statuses": {
+        "Active": 1
+      },
+      "communities": [
+        {
+          "name": "Weatherby",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Single-Family Detached",
+          "units_remaining": 8,
+          "annual_starts": 0.0
         }
       ]
     }

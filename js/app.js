@@ -529,6 +529,7 @@ function normalizeBuilderName(builder) {
 
 function builderDisplayLetter(builder) {
   const b = normalizeBuilderName(builder);
+  if (!b || b === '—' || /^unknown$/i.test(b)) return '?';
   if (/^d\.?\s*r\.?\s*horton/i.test(b)) return 'D';
   if (/^lennar/i.test(b)) return 'L';
   if (/^adams/i.test(b)) return 'A';
@@ -539,7 +540,7 @@ function builderDisplayLetter(builder) {
   if (/^century/i.test(b)) return 'C';
   if (/^valor/i.test(b)) return 'V';
   const m = b.match(/[A-Za-z]/);
-  return m ? m[0].toUpperCase() : 'B';
+  return m ? m[0].toUpperCase() : '?';
 }
 
 function builderColorClass(builder) {
