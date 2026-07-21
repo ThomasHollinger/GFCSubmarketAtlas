@@ -33,3 +33,7 @@ Built from v2.8.4.
 - Submarket single-click now selects without zooming or recentering.
 - Submarket double-click now zooms/recenters to the selected boundary.
 - Search selection still zooms to the chosen submarket.
+
+
+## v2.9.1
+- Updated school ratings and verified school type overrides from the user review workbook.
