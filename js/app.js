@@ -39,7 +39,7 @@ const hubBaseColors = {
 
 const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
 const OVERPASS_URLS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
-const tierOneBrands = ['publix','walmart','walmart supercenter','aldi','costco',"sam's club",'sams club','bj wholesale','bjs wholesale',"bj\'s wholesale club",'target','winn-dixie','rouses','piggly wiggly','whole foods','the fresh market',"trader joe's",'chick-fil-a','starbucks','chipotle','panera','panera bread','texas roadhouse','cracker barrel','home depot','the home depot',"lowe's",'academy sports','academy sports + outdoors','bass pro shops',"kohl's",'tj maxx','marshalls','hobby lobby'];
+const tierOneBrands = ['publix','walmart','walmart supercenter','aldi','costco',"sam's club",'sams club','bj wholesale','bjs wholesale',"bj\'s wholesale club",'target','winn-dixie','rouses','piggly wiggly','whole foods','the fresh market',"trader joe's",'chick-fil-a','starbucks','chipotle','panera','panera bread','texas roadhouse','cracker barrel','home depot','the home depot',"lowe's",'academy sports','academy sports + outdoors','bass pro shops',"kohl's",'tj maxx','marshalls','hobby lobby','mcdonalds',"mcdonald's",'burger king','wendys',"wendy's",'taco bell','subway','dominos',"domino's",'pizza hut','kfc','popeyes',"popeyes louisiana kitchen",'arbys',"arby's",'sonic','dunkin',"dunkin'",'dairy queen','panda express','five guys','whataburger','sheetz','sheets'];
 
 const schoolRatingRecords = [
 {"County":"Escambia County","City":"Atmore","SchoolName":"A C Moore Primary School","SchoolType":"Elementary","Rating":null,"NCESID":"10135002667","State":"","Excluded":true,"ExcludedReason":"Thomas Verified Grade: Unranked"},
@@ -866,8 +866,11 @@ function poiSubcategory(tags) {
 }
 
 function isNationalBrand(tags) {
-  const brand = normBrand(tags.brand || tags.name || '');
-  return tierOneBrands.some(b => brand === normBrand(b) || brand.includes(normBrand(b)));
+  const brand = normBrand([tags.brand, tags.operator, tags.name, tags.short_name, tags.alt_name].filter(Boolean).join(' | '));
+  return tierOneBrands.some(b => {
+    const needle = normBrand(b);
+    return brand === needle || brand.includes(needle) || needle.includes(brand);
+  });
 }
 
 function poiIcon(category) {
@@ -1382,8 +1385,9 @@ function overpassElementToFeature(el) {
     geometry: { type: 'Point', coordinates: [lon, lat] },
     properties: {
       OSMID: `${el.type}/${el.id}`,
-      Name: tags.name || tags.brand || 'Unnamed',
+      Name: tags.name || tags.brand || tags.operator || 'Unnamed',
       Brand: tags.brand || '',
+        Operator: tags.operator || '',
       Category: category,
       Subcategory: poiSubcategory(tags),
       City: tags['addr:city'] || '',
@@ -1449,7 +1453,7 @@ function buildPOILayer() {
     const p = feature.properties;
     const marker = L.marker([coords[1], coords[0]], { icon: poiIcon(p.Category) });
     marker.feature = feature;
-    marker.bindPopup(`<div class="poi-popup"><h3>${p.Name}</h3><p><b>Category:</b> ${p.Category}</p><p><b>Subcategory:</b> ${p.Subcategory}</p><p><b>Brand:</b> ${p.Brand || '—'}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> OpenStreetMap</p></div>`);
+    marker.bindPopup(`<div class="poi-popup"><h3>${p.Name}</h3><p><b>Category:</b> ${p.Category}</p><p><b>Subcategory:</b> ${p.Subcategory}</p><p><b>Brand:</b> ${p.Brand || p.Operator || '—'}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> OpenStreetMap</p></div>`);
     marker.on('click', () => selectPOI(feature));
     state.poiMarkerIndex.set(p.OSMID, marker);
     state.poiLayer.addLayer(marker);
