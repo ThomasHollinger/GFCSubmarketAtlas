@@ -1,3 +1,6 @@
+# v2.9.0
+- Applied the latest verified school grades and exclusion flags from the user review file.
+
 # Gulf Coast Submarket Atlas v2.8.5
 
 ## Sidebar dropdown persistence
