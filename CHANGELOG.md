@@ -1,3 +1,6 @@
+
+# v2.9.3
+- Fixed National Brands only retail filtering so unnamed POIs are excluded from the national-brand view.
 # v2.9.0
 - Applied the latest verified school grades and exclusion flags from the user review file.
 
