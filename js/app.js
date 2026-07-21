@@ -906,8 +906,8 @@ function passesRetailFilter(feature) {
     (c === 'Convenience' && filters.Convenience);
   if (!categoryMatch) return false;
   if (filters.NationalBrandsOnly) {
-    const name = String(p.Name || '').trim().toLowerCase();
-    if (!p.NationalBrand || name === 'unnamed') return false;
+    if (!p.NationalBrand) return false;
+    if (String(p.Name || '').trim() === 'Unnamed') return false;
   }
   return true;
 }
