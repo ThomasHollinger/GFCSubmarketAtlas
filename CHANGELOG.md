@@ -1,5 +1,7 @@
-# v2.9.5
-- Added the Zonda builder source update date to builder source labels.
+# v2.9.6
+- Added a new Builder Display Tier filter based on community Price Max.
+- Tier buckets are editable in the atlas and persist in the browser.
+- Added a Tier line to builder popups for quick reference.
 
 # v2.9.0
 - Applied the latest verified school grades and exclusion flags from the user review file.

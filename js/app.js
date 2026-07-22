@@ -5,7 +5,14 @@ const state = {
   poiLayer: null,
   poiMarkerIndex: new Map(),
   retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
-  builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false, BuilderNames: {} },
+  builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false, BuilderNames: {}, TierNames: {} },
+  builderTierConfig: {
+    Tier0: { key: 'Tier0', label: 'Tier 0', min: 0, max: 220000 },
+    Tier1: { key: 'Tier1', label: 'Tier 1', min: 220001, max: 270000 },
+    Tier2: { key: 'Tier2', label: 'Tier 2', min: 270001, max: 336000 },
+    Tier3: { key: 'Tier3', label: 'Tier 3', min: 336001, max: 450000 },
+    Tier4Plus: { key: 'Tier4Plus', label: 'Tier 4+', min: 450001, max: null }
+  },
   builderLayer: null,
   builderMarkerIndex: new Map(),
   healthcareLayer: null,
@@ -40,6 +47,8 @@ const hubBaseColors = {
 const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
 const OVERPASS_URLS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
 const tierOneBrands = ['publix','walmart','walmart supercenter','aldi','costco',"sam's club",'sams club','bj wholesale','bjs wholesale',"bj\'s wholesale club",'target','winn-dixie','rouses','piggly wiggly','whole foods','the fresh market',"trader joe's",'chick-fil-a','starbucks','chipotle','panera','panera bread','texas roadhouse','cracker barrel','home depot','the home depot',"lowe's",'academy sports','academy sports + outdoors','bass pro shops',"kohl's",'tj maxx','marshalls','hobby lobby'];
+const BUILDER_TIER_STORAGE_KEY = 'gcsa-builder-tier-state-v1';
+const BUILDER_TIER_ORDER = ['Tier0', 'Tier1', 'Tier2', 'Tier3', 'Tier4Plus'];
 
 const schoolRatingRecords = [
 {"County":"Escambia County","City":"Atmore","SchoolName":"A C Moore Primary School","SchoolType":"Elementary","Rating":null,"NCESID":"10135002667","State":"","Excluded":true,"ExcludedReason":"Thomas Verified Grade: Unranked"},
@@ -950,8 +959,111 @@ function renderRetailCard(summary) {
 }
 
 
+function defaultBuilderTierState() {
+  return BUILDER_TIER_ORDER.reduce((acc, key) => {
+    const cfg = state.builderTierConfig[key];
+    acc[key] = { min: cfg.min, max: cfg.max };
+    return acc;
+  }, {});
+}
+
+function hydrateBuilderTierState() {
+  state.builderFilters.TierNames = state.builderFilters.TierNames || {};
+  const defaults = defaultBuilderTierState();
+  const applyDefaults = () => {
+    BUILDER_TIER_ORDER.forEach(key => {
+      state.builderFilters.TierNames[key] = true;
+      state.builderTierConfig[key] = { ...state.builderTierConfig[key], ...(defaults[key] || {}) };
+    });
+  };
+  if (typeof window === 'undefined' || !window.localStorage) {
+    applyDefaults();
+    return;
+  }
+  try {
+    const raw = localStorage.getItem(BUILDER_TIER_STORAGE_KEY);
+    if (!raw) {
+      applyDefaults();
+      return;
+    }
+    const parsed = JSON.parse(raw);
+    const savedSelected = (parsed && parsed.selected) || {};
+    const savedConfig = (parsed && parsed.config) || {};
+    BUILDER_TIER_ORDER.forEach(key => {
+      state.builderFilters.TierNames[key] = savedSelected[key] !== undefined ? !!savedSelected[key] : true;
+      const cfg = state.builderTierConfig[key] || {};
+      const saved = savedConfig[key] || {};
+      const min = saved.min === '' || saved.min === null || saved.min === undefined ? cfg.min : Number(saved.min);
+      const max = saved.max === '' || saved.max === null || saved.max === undefined ? cfg.max : Number(saved.max);
+      state.builderTierConfig[key] = { ...cfg, min: Number.isFinite(min) ? min : cfg.min, max: saved.max === '' ? null : (max === null || max === undefined || Number.isNaN(max) ? cfg.max : max) };
+    });
+  } catch (err) {
+    console.warn('Unable to load builder tier preferences', err);
+    applyDefaults();
+  }
+}
+
+function persistBuilderTierState() {
+  if (typeof window === 'undefined' || !window.localStorage) return;
+  try {
+    localStorage.setItem(BUILDER_TIER_STORAGE_KEY, JSON.stringify({
+      selected: state.builderFilters.TierNames || {},
+      config: BUILDER_TIER_ORDER.reduce((acc, key) => {
+        const cfg = state.builderTierConfig[key] || {};
+        acc[key] = { min: cfg.min ?? '', max: cfg.max ?? '' };
+        return acc;
+      }, {})
+    }));
+  } catch (err) {
+    console.warn('Unable to save builder tier preferences', err);
+  }
+}
+
+function parseCurrencyNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const n = Number(String(value).replace(/[^0-9.-]/g, ''));
+  return Number.isFinite(n) ? n : null;
+}
+
+function builderPriceMax(feature) {
+  const p = feature.properties || {};
+  return parseCurrencyNumber(p.PriceMax);
+}
+
+function builderTierForFeature(feature) {
+  const priceMax = builderPriceMax(feature);
+  if (priceMax === null) return null;
+  for (const key of BUILDER_TIER_ORDER) {
+    const cfg = state.builderTierConfig[key] || {};
+    const min = parseCurrencyNumber(cfg.min);
+    const max = parseCurrencyNumber(cfg.max);
+    const minOk = min === null || priceMax >= min;
+    const maxOk = max === null || priceMax <= max;
+    if (minOk && maxOk) return key;
+  }
+  return null;
+}
+
+function passesBuilderTierFilter(feature) {
+  const selected = (state.builderFilters || {}).TierNames || {};
+  const anySelected = Object.values(selected).some(Boolean);
+  if (!anySelected) return true;
+  const tierKey = builderTierForFeature(feature);
+  return !!tierKey && !!selected[tierKey];
+}
+
+function builderMatchesScopeFilters(feature, ignoreBuilderNames = false) {
+  if (!builderProductStatusMatch(feature)) return false;
+  if (!passesBuilderTierFilter(feature)) return false;
+  if (ignoreBuilderNames) return true;
+  const selectedBuilderKeys = Object.entries((state.builderFilters || {}).BuilderNames || {}).filter(([, checked]) => checked).map(([key]) => key);
+  if (!selectedBuilderKeys.length) return true;
+  const selected = new Set(selectedBuilderKeys);
+  return builderNamesForFeature(feature).some(builder => selected.has(canonicalBuilderKey(builder)));
+}
+
 function activeBuilderSubdivisions() {
-  return state.builders.filter(passesBuilderFilter);
+  return state.builders.filter(feature => builderMatchesScopeFilters(feature));
 }
 
 function normalizeSingleBuilderName(builder) {
@@ -1031,14 +1143,6 @@ function builderProductStatusMatch(feature) {
     (status === 'Built Out' && f.BuiltOut) ||
     (!['Active','Future','Built Out'].includes(status));
   return productMatch && statusMatch;
-}
-
-function passesBuilderFilter(feature) {
-  if (!builderProductStatusMatch(feature)) return false;
-  const selectedBuilderKeys = Object.entries((state.builderFilters || {}).BuilderNames || {}).filter(([, checked]) => checked).map(([key]) => key);
-  if (!selectedBuilderKeys.length) return true;
-  const selected = new Set(selectedBuilderKeys);
-  return builderNamesForFeature(feature).some(builder => selected.has(canonicalBuilderKey(builder)));
 }
 
 function builderSummaryForSubmarket(submarketID, areaSqMi) {
@@ -1202,7 +1306,7 @@ function buildBuilderLayer() {
     const primaryBuilder = primaryBuilderForFeature(feature);
     const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(primaryBuilder, p.Status) });
     marker.feature = feature;
-    marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${displayBuilder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
+    marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${displayBuilder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Tier:</b> ${builderTierForFeature(feature) ? (state.builderTierConfig[builderTierForFeature(feature)] || {}).label || builderTierForFeature(feature) : '—'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
     marker.on('click', () => selectBuilderSubdivision(feature, false));
     marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
     state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
@@ -1232,7 +1336,7 @@ function builderNameOptionsForPanel() {
   state.builders.forEach(feature => {
     const p = feature.properties || {};
     if (selectedID && p.SubmarketID !== selectedID) return;
-    if (!builderProductStatusMatch(feature)) return;
+    if (!builderMatchesScopeFilters(feature, true)) return;
     builderNamesForFeature(feature).forEach(builder => {
       const key = canonicalBuilderKey(builder);
       const name = displayBuilderName(builder);
@@ -1293,19 +1397,87 @@ function renderBuilderNameFilterList() {
   });
 }
 
+function formatPriceLabel(value) {
+  if (value === null || value === undefined || value === '') return '';
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '';
+  return n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+
+function renderBuilderTierFilterList() {
+  const list = document.getElementById('builderTierFilterList');
+  if (!list) return;
+  if (!state.buildersLoaded) {
+    list.innerHTML = '<div class="builder-name-empty">Load Builder Subdivisions to filter by tier.</div>';
+    return;
+  }
+  const selected = (state.builderFilters || {}).TierNames || {};
+  const rows = BUILDER_TIER_ORDER.map(key => {
+    const cfg = state.builderTierConfig[key] || {};
+    const label = cfg.label || key;
+    const min = cfg.min === null || cfg.min === undefined ? '' : cfg.min;
+    const max = cfg.max === null || cfg.max === undefined ? '' : cfg.max;
+    const minLabel = min === '' ? '$0' : `$${formatPriceLabel(min)}`;
+    const maxLabel = max === '' ? 'and up' : `to $${formatPriceLabel(max)}`;
+    return `<div class="builder-tier-row">
+      <label class="builder-tier-toggle"><input type="checkbox" class="builder-tier-filter" data-builder-tier="${key}" ${selected[key] === false ? '' : 'checked'}> <span>${label}</span></label>
+      <div class="builder-tier-range">
+        <input type="number" min="0" step="1000" class="builder-tier-min" data-builder-tier="${key}" value="${min}">
+        <span>to</span>
+        <input type="number" min="0" step="1000" class="builder-tier-max" data-builder-tier="${key}" value="${max}" placeholder="∞">
+      </div>
+      <div class="builder-tier-hint">Price Max ${minLabel} ${maxLabel}</div>
+    </div>`;
+  }).join('');
+  list.innerHTML = `
+    <div class="builder-tier-scope">Range is based on community Price Max.</div>
+    ${rows}
+    <div class="builder-name-empty">Leave all tiers unchecked to show all communities.</div>
+  `;
+  list.querySelectorAll('.builder-tier-filter').forEach(input => {
+    input.addEventListener('change', e => {
+      const key = e.target.dataset.builderTier;
+      if (!key) return;
+      state.builderFilters.TierNames = state.builderFilters.TierNames || {};
+      state.builderFilters.TierNames[key] = e.target.checked;
+      persistBuilderTierState();
+      applyBuilderFilters();
+    });
+  });
+  list.querySelectorAll('.builder-tier-min, .builder-tier-max').forEach(input => {
+    input.addEventListener('change', e => {
+      const key = e.target.dataset.builderTier;
+      if (!key) return;
+      state.builderTierConfig[key] = state.builderTierConfig[key] || {};
+      const cfg = state.builderTierConfig[key];
+      const raw = e.target.value;
+      if (e.target.classList.contains('builder-tier-min')) {
+        cfg.min = raw === '' ? null : parseCurrencyNumber(raw);
+      } else {
+        cfg.max = raw === '' ? null : parseCurrencyNumber(raw);
+      }
+      persistBuilderTierState();
+      applyBuilderFilters();
+    });
+  });
+}
+
 function updateBuilderFilterPanel() {
   const panel = document.getElementById('builderFilterPanel');
   if (!panel) return;
   const visibleCount = state.buildersLoaded ? activeBuilderSubdivisions().length : 0;
   panel.classList.toggle('active', !!state.buildersLoaded);
   renderBuilderNameFilterList();
+  renderBuilderTierFilterList();
   const selectedBuilderCount = Object.values((state.builderFilters.BuilderNames || {})).filter(Boolean).length;
+  const selectedTierCount = Object.values((state.builderFilters.TierNames || {})).filter(Boolean).length;
   const count = document.getElementById('builderFilterCount');
-  if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible${selectedBuilderCount ? ` • ${selectedBuilderCount} builder filter${selectedBuilderCount === 1 ? '' : 's'}` : ''}` : 'Load Builders';
+  if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible${selectedBuilderCount ? ` • ${selectedBuilderCount} builder filter${selectedBuilderCount === 1 ? '' : 's'}` : ''}${selectedTierCount !== BUILDER_TIER_ORDER.length ? ` • ${selectedTierCount} tier${selectedTierCount === 1 ? '' : 's'}` : ''}` : 'Load Builders';
 }
 
 function applyBuilderFilters() {
   if (!state.buildersLoaded) return;
+  persistBuilderTierState();
   buildBuilderLayer();
   if (document.getElementById('toggleBuilders') && document.getElementById('toggleBuilders').checked && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
   const visibleCount = activeBuilderSubdivisions().length;
@@ -1318,6 +1490,7 @@ function applyBuilderFilters() {
 
 async function loadBuilders(showLayer = false) {
   if (!state.buildersLoaded) {
+    hydrateBuilderTierState();
     const badge = document.getElementById('builderCountBadge');
     if (badge) badge.textContent = 'Loading...';
     try {
