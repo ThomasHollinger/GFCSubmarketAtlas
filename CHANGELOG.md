@@ -1,3 +1,6 @@
+# v2.9.5
+- Added the Zonda builder source update date to builder source labels.
+
 # v2.9.0
 - Applied the latest verified school grades and exclusion flags from the user review file.
 
