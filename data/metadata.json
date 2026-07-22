@@ -1,5 +1,5 @@
 {
-  "version": "2.9.1",
+  "version": "2.9.2",
   "releaseDate": "2026-07-21",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -10,9 +10,9 @@
   "notes": "School ratings and verified school types updated from the Thomas review workbook; builder, healthcare, retail, and demographics layers preserved.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "v2.9.1",
+  "release": "v2.9.2",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "updated": "2026-07-21",
-  "retail": "Retail & Dining clustering and display filters enabled; OSM shop=wholesale/shop=warehouse included as Grocery for Costco, Sam's Club, BJ's, and similar wholesale clubs.",
+  "retail": "Retail & Dining clustering and display filters enabled; OSM shop=wholesale/shop=warehouse included as Grocery for Costco, Sam's Club, BJ's, and similar wholesale clubs. National-brand matching expanded to better catch chain restaurants and retail brands.",
   "builder_subdivisions": "Zonda subdivision export with builder normalization and builder filters; single-click selects, double-click zooms."
 }
