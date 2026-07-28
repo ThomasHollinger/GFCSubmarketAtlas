@@ -673,7 +673,7 @@ function ratedSchoolsLocatedInSubmarket(name) {
   if (!state.schoolsLoaded) return [];
   return state.schools
     .filter(s => s.properties.SubmarketName === name)
-    .filter(s => typeof s.properties.GreatSchoolsRating === 'number' && !Number.isNaN(s.properties.GreatSchoolsRating))
+    .filter(s => normalizeGreatSchoolsRating(s.properties.GreatSchoolsRating) !== null)
     .map(s => ({
       SchoolName: s.properties.NAME,
       SchoolType: s.properties.RatingSchoolType || s.properties.SchoolType,
@@ -687,7 +687,7 @@ function ratedSchoolsLocatedInFeatures(features) {
   const ids = new Set(features.map(f => f.properties.SubmarketID));
   return state.schools
     .filter(s => ids.has(s.properties.SubmarketID))
-    .filter(s => typeof s.properties.GreatSchoolsRating === 'number' && !Number.isNaN(s.properties.GreatSchoolsRating))
+    .filter(s => normalizeGreatSchoolsRating(s.properties.GreatSchoolsRating) !== null)
     .map(s => ({
       SchoolName: s.properties.NAME,
       SchoolType: s.properties.RatingSchoolType || s.properties.SchoolType,
@@ -1288,6 +1288,11 @@ function escapeHtml(text) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function normalizeGreatSchoolsRating(value) {
+  const rating = Number(value);
+  return Number.isFinite(rating) && rating > 0 ? Math.max(0, Math.min(10, Math.round(rating))) : null;
 }
 
 function builderSchoolLevelLabel(level) {
@@ -2361,14 +2366,14 @@ function schoolTypeLabel(type) {
 
 function schoolRatingBucket(feature) {
   const p = feature?.properties || {};
-  const rating = Number(p.GreatSchoolsRating);
-  if (Number.isFinite(rating)) return String(Math.max(0, Math.min(10, Math.round(rating))));
+  const rating = normalizeGreatSchoolsRating(p.GreatSchoolsRating);
+  if (rating !== null) return String(rating);
   return 'Not Rated';
 }
 
 function schoolPopupHtml(p) {
-  const rating = Number(p.GreatSchoolsRating);
-  const ratingText = Number.isFinite(rating) ? `${rating}/10` : ((p.SchoolType === 'Other' || p.RatingExcluded) ? 'Not Rated (Excluded)' : 'Not Rated');
+  const rating = normalizeGreatSchoolsRating(p.GreatSchoolsRating);
+  const ratingText = rating !== null ? `${rating}/10` : ((p.SchoolType === 'Other' || p.RatingExcluded) ? 'Not Rated (Excluded)' : 'Not Rated');
   return `<div class="school-popup"><h3>${p.NAME}</h3><p><b>Type:</b> ${schoolTypeLabel(p.SchoolType || 'Other')}</p><p><b>GreatSchools:</b> ${ratingText}</p><p><b>Location:</b> ${p.CITY}, ${p.STATE}</p><p><b>County:</b> ${p.NMCNTY || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>NCES ID:</b> ${p.NCESSCH || ''}</p></div>`;
 }
 

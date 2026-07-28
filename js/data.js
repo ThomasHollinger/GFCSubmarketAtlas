@@ -6,8 +6,8 @@ async function loadAtlasData(){
   ]);
   GCSA.features = submarkets.features || [];
   GCSA.ratings = csvParse(ratingsText).map(r=>({
-    County:r.County||'', City:r.City||'', SchoolName:r.SchoolName||r['School Name']||'', SchoolType:r.SchoolType||r['School Type']||'', Rating:Number(r.Rating||r['GreatSchools Rating (1-10)']||r['GreatSchools Rating (1–10)']||'')
-  })).filter(r=>r.SchoolName && !Number.isNaN(r.Rating));
+    County:r.County||'', City:r.City||'', SchoolName:r.SchoolName||r['School Name']||'', SchoolType:r.SchoolType||r['School Type']||'', Rating:(()=>{ const raw = r.Rating ?? r['GreatSchools Rating (1-10)'] ?? r['GreatSchools Rating (1–10)']; const rating = raw === '' || raw === null || raw === undefined ? null : Number(raw); return Number.isFinite(rating) && rating > 0 ? rating : null; })()
+  })).filter(r=>r.SchoolName);
   GCSA.meta = meta;
   document.getElementById('releasePanel').innerHTML = `Version: <b>${GCSA_CONFIG.version}</b><br>Submarkets loaded: <b>${GCSA.features.length}</b><br>Updated: <b>${GCSA_CONFIG.updated}</b>`;
 }
