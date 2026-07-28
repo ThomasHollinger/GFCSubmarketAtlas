@@ -1044,6 +1044,40 @@ function builderTierForFeature(feature) {
   return null;
 }
 
+function escapeHtml(value) {
+  return String(value === null || value === undefined ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function builderValue(value, fallback = '—') {
+  const text = value === null || value === undefined || value === '' ? fallback : String(value);
+  return escapeHtml(text);
+}
+
+function builderRangeLabel(minValue, maxValue, formatter) {
+  const min = minValue === null || minValue === undefined || minValue === '' ? null : minValue;
+  const max = maxValue === null || maxValue === undefined || maxValue === '' ? null : maxValue;
+  const fmt = typeof formatter === 'function' ? formatter : (v) => String(v);
+  if (min === null && max === null) return '—';
+  if (min !== null && max !== null) return `${escapeHtml(fmt(min))} - ${escapeHtml(fmt(max))}`;
+  if (min !== null) return `${escapeHtml(fmt(min))}+`;
+  return `${escapeHtml(fmt(max))}`;
+}
+
+function builderPopupHtml(feature) {
+  const p = feature.properties || {};
+  const displayBuilder = displayBuilderList(p.Builder);
+  const tierKey = builderTierForFeature(feature);
+  const tierLabel = tierKey ? ((state.builderTierConfig[tierKey] || {}).label || tierKey) : '—';
+  const priceRange = builderRangeLabel(p.PriceMin, p.PriceMax, v => `$${Math.round(Number(v)).toLocaleString()}`);
+  const sqftRange = builderRangeLabel(p.UnitSizeMin, p.UnitSizeMax, v => `${Math.round(Number(v)).toLocaleString()} sq ft`);
+  return `<div class="builder-popup"><h3>${builderValue(p.Subdivision || 'Builder Community')}</h3><p><b>Builder:</b> ${builderValue(displayBuilder)}</p><p><b>Status:</b> ${builderValue(p.Status)}</p><p><b>Product:</b> ${builderValue(p.ProductStyle)}</p><p><b>Price:</b> ${priceRange}</p><p><b>Square Foot:</b> ${sqftRange}</p><p><b>Elementary School:</b> ${builderValue(p.SchoolElementary)}</p><p><b>Middle School:</b> ${builderValue(p.SchoolMiddle)}</p><p><b>High School:</b> ${builderValue(p.SchoolHigh)}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${builderValue([p.City, p.State].filter(Boolean).join(', '))}</p><p><b>Submarket:</b> ${builderValue(p.SubmarketName || 'Outside submarket boundary')}</p><p><b>Tier:</b> ${builderValue(tierLabel)}</p><p><b>Source:</b> ${builderValue(p.Source || 'Zonda export')}</p></div>`;
+}
+
 function passesBuilderTierFilter(feature) {
   const selected = (state.builderFilters || {}).TierNames || {};
   const anySelected = Object.values(selected).some(Boolean);
@@ -1302,11 +1336,10 @@ function buildBuilderLayer() {
     const coords = feature.geometry && feature.geometry.coordinates;
     if (!coords || coords.length < 2) return;
     const p = feature.properties || {};
-    const displayBuilder = displayBuilderList(p.Builder);
     const primaryBuilder = primaryBuilderForFeature(feature);
     const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(primaryBuilder, p.Status) });
     marker.feature = feature;
-    marker.bindPopup(`<div class="builder-popup"><h3>${p.Subdivision || 'Builder Community'}</h3><p><b>Builder:</b> ${displayBuilder || '—'}</p><p><b>Status:</b> ${p.Status || '—'}</p><p><b>Product:</b> ${p.ProductStyle || '—'}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${p.City || ''}, ${p.State || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>Tier:</b> ${builderTierForFeature(feature) ? (state.builderTierConfig[builderTierForFeature(feature)] || {}).label || builderTierForFeature(feature) : '—'}</p><p><b>Source:</b> ${p.Source || 'Zonda export'}</p></div>`);
+    marker.bindPopup(builderPopupHtml(feature));
     marker.on('click', () => selectBuilderSubdivision(feature, false));
     marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
     state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
@@ -1929,12 +1962,11 @@ function renderRelease(meta) {
     Submarkets loaded: <b>${meta.uniqueSubmarketsLoaded}</b><br>
     Health score: <b>${meta.healthScore}/100</b><br>
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
-    School Locator: <b>Baldwin County ready</b><br>
     Demographics: <b>${state.demographicsLoaded ? 'ACS 2020-2024 loaded' : 'Pending'}</b><br>
     Healthcare: <b>${healthcareDatasetBuilt() ? state.healthcare.length + ' loaded' : 'Builder ready'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
   `;
-  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, healthcare, and Baldwin locator framework ready`;
+  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, and healthcare framework ready`;
 }
 
 function renderHubList(meta) {
@@ -2061,7 +2093,6 @@ function renderHomeSummary() {
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>Hub color model</span><b>Active</b></div>
       <div class="focus-row"><span>School layer</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
-      <div class="focus-row"><span>School locator</span><b>Baldwin Ready</b></div>
     </div>
   `;
   updateBuilderFilterPanel();
@@ -2394,7 +2425,6 @@ function bindUI() {
       document.getElementById('searchInput').focus();
     }, 250);
   });
-
   document.getElementById('searchBtn').addEventListener('click', performSearch);
   document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(); });
   document.getElementById('searchInput').addEventListener('input', e => renderSearchResults(e.target.value));
@@ -2518,7 +2548,6 @@ function bindUI() {
 }
 
 initMap();
-if (window.GCSchoolLocator && typeof window.GCSchoolLocator.attachMap === 'function') window.GCSchoolLocator.attachMap(state.map);
 bindUI();
 loadData()
   .then(() => {

@@ -1,8 +1,133 @@
-function num(v,d=0){ if(v===null||v===undefined||v==='')return '—'; const n=Number(v); if(Number.isNaN(n))return v; return n.toLocaleString(undefined,{maximumFractionDigits:d,minimumFractionDigits:d}); }
-function normName(s){ return String(s||'').toLowerCase().replace(/&/g,'and').replace(/\b(school|elementary|middle|high|senior|junior|jr|sr|the|of|academy)\b/g,'').replace(/[^a-z0-9]+/g,' ').trim(); }
-function downloadText(filename,text){ const blob=new Blob([text],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click(); URL.revokeObjectURL(a.href); }
-function pointInRing(pt, ring){ const x=pt[0], y=pt[1]; let inside=false; for(let i=0,j=ring.length-1;i<ring.length;j=i++){ const xi=ring[i][0], yi=ring[i][1], xj=ring[j][0], yj=ring[j][1]; const intersect=((yi>y)!=(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi); if(intersect)inside=!inside;} return inside; }
-function pointInGeometry(pt, geom){ if(!geom)return false; if(geom.type==='Polygon') return pointInRing(pt, geom.coordinates[0]); if(geom.type==='MultiPolygon') return geom.coordinates.some(poly=>pointInRing(pt, poly[0])); return false; }
-function gradeFor(score){ if(score==null) return 'Pending'; if(score>=9) return 'A'; if(score>=8) return 'B'; if(score>=7) return 'C'; if(score>=6) return 'D'; return 'F'; }
-function fmtScore(v){ return v==null ? 'Pending' : Number(v).toFixed(1); }
-function csvParse(text){ const rows=[]; let row=[], cur='', inq=false; for(let i=0;i<text.length;i++){ const c=text[i], n=text[i+1]; if(c==='"'){ if(inq&&n==='"'){cur+='"';i++;} else inq=!inq; } else if(c===','&&!inq){ row.push(cur); cur=''; } else if((c==='\n'||c==='\r')&&!inq){ if(c==='\r'&&n==='\n')i++; row.push(cur); if(row.some(x=>x!=='')) rows.push(row); row=[]; cur=''; } else cur+=c; } row.push(cur); if(row.some(x=>x!=='')) rows.push(row); const head=rows.shift()||[]; return rows.map(r=>Object.fromEntries(head.map((h,i)=>[h.trim(),(r[i]||'').trim()]))); }
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gulf Coast Submarket Atlas</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <button id="sidebarToggle" class="sidebar-toggle" title="Toggle sidebar">☰</button>
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">GCSA</div>
+        <div>
+          <h1>Gulf Coast Submarket Atlas</h1>
+          <p>Market intelligence platform</p>
+        </div>
+      </div>
+
+      <section class="control-block">
+        <h2>Market Summary</h2>
+        <div id="selectedPanel" class="selected-panel empty">
+          <p>Click a submarket on the map or use search.</p>
+        </div>
+      </section>
+
+      <section class="control-block">
+        <h2>Market Data</h2>
+
+        <label for="mapThemeSelect">Map Theme</label>
+        <select id="mapThemeSelect" class="wide-select">
+          <option value="hub">Hub View</option>
+          <option value="schools">School Score Heat Map</option>
+          <option value="retail">Retail Density</option>
+          <option value="healthcare">Healthcare Access</option>
+          <option value="builders">Builder Activity</option>
+          <option value="income">Median Income</option>
+          <option value="population">Population</option>
+        </select>
+        <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
+        <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
+        <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
+        <div id="retailFilterPanel" class="retail-filter-panel">
+          <div class="filter-title">Retail & Dining Display</div>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Restaurant" checked> Restaurants</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Grocery" checked> Grocery</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Retail" checked> Retail</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Convenience" checked> Convenience</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="NationalBrandsOnly"> National Brands only</label>
+          <div id="retailFilterCount" class="filter-count">Load Retail & Dining</div>
+        </div>
+        <label class="check"><input type="checkbox" id="toggleHealthcare"> Healthcare <span id="healthcareCountBadge">Load Layer</span></label>
+        <label class="check"><input type="checkbox" id="toggleBuilders"> Builder Subdivisions <span id="builderCountBadge">Ready</span></label>
+        <div id="builderFilterPanel" class="builder-filter-panel">
+          <div class="filter-title">Builder Display</div>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="SingleFamily" checked> Single Family Detached</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Townhomes" checked> Townhomes</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Active" checked> Active</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Future" checked> Future</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="BuiltOut"> Built Out</label>
+          <div class="builder-name-filter-title">Filter by Builder</div>
+          <div class="builder-name-filter-help">Leave all unchecked to show all builders. Check one or more builders to show only those pins.</div>
+          <div id="builderNameFilterList" class="builder-name-filter-list"></div>
+          <div class="builder-name-filter-title">Filter by Tier</div>
+          <div class="builder-name-filter-help">Price Max controls the tier buckets. Edit the ranges if leadership wants new cutoffs.</div>
+          <div id="builderTierFilterList" class="builder-tier-filter-list"></div>
+          <div id="builderFilterCount" class="filter-count">Load Builders</div>
+        </div>
+        <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
+
+        <div class="hubs-inline">
+          <h2>Hubs</h2>
+          <div id="hubList" class="hub-list"></div>
+        </div>
+      </section>
+
+      <section class="control-block health-block">
+        <h2>Atlas Health</h2>
+        <div class="health-layout">
+          <div class="health-ring"><span>25</span><small>/100</small></div>
+          <div class="health-list">
+            <div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div>
+            <div><span class="dot partial"></span><span>Schools</span><b>Layer Ready</b></div>
+            <div><span class="dot partial"></span><span>Retail & Dining</span><b>Layer Ready</b></div>
+            <div><span class="dot partial"></span><span>Healthcare</span><b>Layer Ready</b></div>
+            <div><span class="dot good"></span><span>Demographics</span><b>Loaded</b></div>
+            <div><span class="dot partial"></span><span>Builders</span><b>Layer Ready</b></div>
+          </div>
+        </div>
+        <div class="atlas-search-panel">
+          <label for="searchInput">Search Atlas</label>
+          <div class="search-row">
+            <input id="searchInput" type="search" placeholder="Search submarket, SM-##, school, city...">
+            <button id="searchBtn" aria-label="Search">Go</button>
+          </div>
+          <div id="searchResults" class="search-results"></div>
+        </div>
+      </section>
+
+      <section class="control-block small">
+        <h2>About</h2>
+        <div id="releasePanel">Loading validation...</div>
+      </section>
+    </aside>
+
+    <main class="map-area">
+      <header class="topbar">
+        <div class="top-title">
+          <strong>Gulf Coast Submarket Atlas</strong>
+          <span id="statusText">Loading atlas...</span>
+        </div>
+        <div class="top-actions">
+          <button id="topSearchBtn" class="ghost-btn">Search</button>
+          <select id="basemapSelect" aria-label="Basemap">
+            <option value="light">Light</option>
+            <option value="streets">Streets</option>
+            <option value="topo">Topo</option>
+          </select>
+          <button id="resetBtn">Reset View</button>
+        </div>
+      </header>
+      <div id="map"></div>
+    </main>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
