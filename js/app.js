@@ -2394,44 +2394,6 @@ function bindUI() {
       document.getElementById('searchInput').focus();
     }, 250);
   });
-  const locatorOpenBtn = document.getElementById('locatorOpenBtn');
-  const locatorOpenExternalBtn = document.getElementById('locatorOpenExternalBtn');
-  const locatorModalBackdrop = document.getElementById('locatorModalBackdrop');
-  const locatorModalClose = document.getElementById('locatorModalClose');
-  const locatorModalOpenExternal = document.getElementById('locatorModalOpenExternal');
-  const locatorModalReload = document.getElementById('locatorModalReload');
-  const locatorModal = document.getElementById('locatorModal');
-
-  const locatorApi = () => window.GCSchoolLocator || null;
-  const openLocatorModal = () => {
-    const api = locatorApi();
-    if (api && typeof api.open === 'function') api.open();
-    if (locatorModalClose) setTimeout(() => locatorModalClose.focus(), 50);
-  };
-  const closeLocatorModal = () => {
-    const api = locatorApi();
-    if (api && typeof api.close === 'function') api.close();
-    if (locatorOpenBtn) locatorOpenBtn.focus();
-  };
-  const openOfficialLocator = () => {
-    const api = locatorApi();
-    if (api && typeof api.openOfficialSite === 'function') api.openOfficialSite();
-    else window.open('https://www.schoolsitelocator.com/apps/baldwin/', '_blank', 'noopener,noreferrer');
-  };
-  const reloadLocatorFrame = () => {
-    const api = locatorApi();
-    if (api && typeof api.reload === 'function') api.reload();
-  };
-
-  if (locatorOpenBtn) locatorOpenBtn.addEventListener('click', openLocatorModal);
-  if (locatorOpenExternalBtn) locatorOpenExternalBtn.addEventListener('click', openOfficialLocator);
-  if (locatorModalOpenExternal) locatorModalOpenExternal.addEventListener('click', openOfficialLocator);
-  if (locatorModalReload) locatorModalReload.addEventListener('click', reloadLocatorFrame);
-  if (locatorModalClose) locatorModalClose.addEventListener('click', closeLocatorModal);
-  if (locatorModalBackdrop) locatorModalBackdrop.addEventListener('click', closeLocatorModal);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && locatorModal && locatorModal.classList.contains('is-open')) closeLocatorModal();
-  });
 
   document.getElementById('searchBtn').addEventListener('click', performSearch);
   document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(); });
@@ -2556,6 +2518,7 @@ function bindUI() {
 }
 
 initMap();
+if (window.GCSchoolLocator && typeof window.GCSchoolLocator.attachMap === 'function') window.GCSchoolLocator.attachMap(state.map);
 bindUI();
 loadData()
   .then(() => {

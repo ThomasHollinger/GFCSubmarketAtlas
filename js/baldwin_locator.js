@@ -24,22 +24,27 @@
   };
 
   const state = {
-    modal: null,
-    mapEl: null,
+    map: null,
+    mapClickHandler: null,
+    dockEl: null,
     resultsEl: null,
     statusEl: null,
     searchEl: null,
     sourceListEl: null,
-    map: null,
+    toggleEl: null,
+    openExternalEl: null,
+    currentBtn: null,
+    resetBtn: null,
+    searchBtn: null,
     marker: null,
     point: null,
+    active: false,
     loading: false,
     loaded: false,
     sourceDiscoveryPromise: null,
     sourceData: null,
     boundaryLayers: [],
-    boundaryFeatures: [],
-    activeLookup: null
+    boundaryFeatures: []
   };
 
   const GEO_SEARCH = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&q=';
@@ -180,7 +185,7 @@
         const strings = collectStrings(data);
         const urls = urlsFromStrings(strings);
         const candidateUrls = new Set(urls);
-        // Also inspect objects that look like layer descriptors.
+
         const walker = (node) => {
           if (!node || typeof node !== 'object') return;
           if (Array.isArray(node)) {
@@ -238,69 +243,74 @@
   }
 
   async function loadBoundaryLayers() {
-    if (state.loaded) return;
+    if (state.loaded || state.loading) return;
+    state.loading = true;
     setStatus('Searching the Baldwin County ArcGIS source for attendance boundary layers…');
-    const discovery = await discoverSourceData();
-    const metadataUrls = new Set();
-    for (const candidate of discovery.candidateUrls) {
-      const meta = await loadServiceMetadata(candidate);
-      if (!meta) continue;
-      if (Array.isArray(meta.layers) && meta.layers.length) {
-        const levelLayers = meta.layers.filter(layer => /attendance|boundary|school/i.test(`${layer.name || ''} ${layer.title || ''}`));
-        if (levelLayers.length) {
-          levelLayers.forEach(layer => metadataUrls.add(layerUrlFromService(candidate, layer.id)));
-        } else {
-          meta.layers.forEach(layer => metadataUrls.add(layerUrlFromService(candidate, layer.id)));
-        }
-      } else if (/attendance|boundary|school/i.test(`${meta.name || ''} ${meta.serviceDescription || ''}`)) {
-        metadataUrls.add(candidate.split('?')[0]);
-      }
-    }
-
-    const candidateLayers = [];
-    for (const layerUrl of metadataUrls) {
-      try {
-        const meta = await loadServiceMetadata(layerUrl);
+    try {
+      const discovery = await discoverSourceData();
+      const metadataUrls = new Set();
+      for (const candidate of discovery.candidateUrls) {
+        const meta = await loadServiceMetadata(candidate);
         if (!meta) continue;
-        const title = `${meta.name || meta.title || ''} ${meta.description || ''}`;
-        const level = inferLevel(title);
-        if (!level && !/attendance|boundary|school/i.test(title)) continue;
-        candidateLayers.push({ layerUrl, title, level: level || inferLevel(layerUrl) || '' });
-      } catch (err) {
-        console.warn('Failed metadata inspection for', layerUrl, err);
-      }
-    }
-
-    const uniqueByLevel = new Map();
-    for (const layer of candidateLayers) {
-      if (!uniqueByLevel.has(layer.level)) uniqueByLevel.set(layer.level, layer);
-    }
-
-    const nextLayers = [];
-    for (const [level, layer] of uniqueByLevel.entries()) {
-      try {
-        setStatus(`Loading ${level || 'boundary'} polygons from Baldwin County sources…`);
-        const result = await queryLayerFeatures(layer.layerUrl);
-        if (result.features.length) {
-          nextLayers.push({ ...layer, features: result.features });
+        if (Array.isArray(meta.layers) && meta.layers.length) {
+          const levelLayers = meta.layers.filter(layer => /attendance|boundary|school/i.test(`${layer.name || ''} ${layer.title || ''}`));
+          if (levelLayers.length) {
+            levelLayers.forEach(layer => metadataUrls.add(layerUrlFromService(candidate, layer.id)));
+          } else {
+            meta.layers.forEach(layer => metadataUrls.add(layerUrlFromService(candidate, layer.id)));
+          }
+        } else if (/attendance|boundary|school/i.test(`${meta.name || ''} ${meta.serviceDescription || ''}`)) {
+          metadataUrls.add(candidate.split('?')[0]);
         }
-      } catch (err) {
-        console.warn('Layer query failed', layer, err);
       }
-    }
 
-    state.boundaryLayers = nextLayers;
-    state.boundaryFeatures = nextLayers.flatMap(layer => layer.features.map(feature => ({ ...feature, __level: layer.level, __layerTitle: layer.title })));
-    state.loaded = state.boundaryFeatures.length > 0;
-    if (state.loaded) {
-      setStatus(`Loaded ${state.boundaryLayers.length} boundary layer(s) for Baldwin County. Drop a pin or search an address.`);
-    } else {
-      setStatus('No public polygon service was exposed yet. The source pack is ready, and the redistricting maps are available below while we wire the county boundary data.', 'warning');
-    }
-    renderSourceList();
-    if (state.point) {
-      const matches = findMatchesForPoint(state.point.lng, state.point.lat);
-      renderLookupResult({ address: state.point.label || 'Selected point' }, matches);
+      const candidateLayers = [];
+      for (const layerUrl of metadataUrls) {
+        try {
+          const meta = await loadServiceMetadata(layerUrl);
+          if (!meta) continue;
+          const title = `${meta.name || meta.title || ''} ${meta.description || ''}`;
+          const level = inferLevel(title);
+          if (!level && !/attendance|boundary|school/i.test(title)) continue;
+          candidateLayers.push({ layerUrl, title, level: level || inferLevel(layerUrl) || '' });
+        } catch (err) {
+          console.warn('Failed metadata inspection for', layerUrl, err);
+        }
+      }
+
+      const uniqueByLevel = new Map();
+      for (const layer of candidateLayers) {
+        if (!uniqueByLevel.has(layer.level)) uniqueByLevel.set(layer.level, layer);
+      }
+
+      const nextLayers = [];
+      for (const [level, layer] of uniqueByLevel.entries()) {
+        try {
+          setStatus(`Loading ${level || 'boundary'} polygons from Baldwin County sources…`);
+          const result = await queryLayerFeatures(layer.layerUrl);
+          if (result.features.length) {
+            nextLayers.push({ ...layer, features: result.features });
+          }
+        } catch (err) {
+          console.warn('Layer query failed', layer, err);
+        }
+      }
+
+      state.boundaryLayers = nextLayers;
+      state.boundaryFeatures = nextLayers.flatMap(layer => layer.features.map(feature => ({ ...feature, __level: layer.level, __layerTitle: layer.title })));
+      state.loaded = state.boundaryFeatures.length > 0;
+      if (state.loaded) {
+        setStatus(`Loaded ${state.boundaryLayers.length} boundary layer(s) for Baldwin County. Drop a pin or search an address.`);
+      } else {
+        setStatus('No public polygon service was exposed yet. The source pack is ready while we wire county boundary data.', 'warning');
+      }
+      renderSourceList();
+      if (state.point) {
+        const matches = findMatchesForPoint(state.point.lng, state.point.lat);
+        renderLookupResult({ address: state.point.label || 'Selected point' }, matches);
+      }
+    } finally {
+      state.loading = false;
     }
   }
 
@@ -399,14 +409,16 @@
   function setPoint(lng, lat, label = '') {
     state.point = { lng, lat, label };
     if (state.marker) state.marker.remove();
-    state.marker = L.circleMarker([lat, lng], {
-      radius: 10,
-      weight: 3,
-      color: '#1e40af',
-      fillColor: '#3b82f6',
-      fillOpacity: 0.4
-    }).addTo(state.map);
-    state.map.panTo([lat, lng]);
+    if (state.map && window.L) {
+      state.marker = L.circleMarker([lat, lng], {
+        radius: 10,
+        weight: 3,
+        color: '#1e40af',
+        fillColor: '#3b82f6',
+        fillOpacity: 0.4
+      }).addTo(state.map);
+      state.map.panTo([lat, lng]);
+    }
     const matches = findMatchesForPoint(lng, lat);
     renderLookupResult({ address: label || `Point: ${lat.toFixed(5)}, ${lng.toFixed(5)}` }, matches);
   }
@@ -417,6 +429,7 @@
       setStatus('Type an address or place name first.', 'warning');
       return;
     }
+    if (!state.active) setActive(true);
     setStatus('Geocoding address…');
     try {
       const results = await geocodeAddress(q);
@@ -440,6 +453,7 @@
       setStatus('Current location is not available in this browser.', 'warning');
       return;
     }
+    if (!state.active) setActive(true);
     setStatus('Waiting for your device location…');
     navigator.geolocation.getCurrentPosition(
       pos => {
@@ -458,44 +472,42 @@
       state.marker.remove();
       state.marker = null;
     }
-    if (state.map) state.map.setView([30.65, -87.85], 10);
-    setStatus('Click the map or search an address to find the assigned Baldwin County schools.');
+    setStatus('Turn on School Locator mode, then click the atlas map or search an address.');
     setResults('');
   }
 
-  function initMap() {
-    if (state.map || !state.mapEl || !window.L) return;
-    state.map = L.map(state.mapEl, { preferCanvas: true, zoomControl: true }).setView([30.65, -87.85], 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(state.map);
-    state.map.on('click', e => {
+  function attachMap(map) {
+    state.map = map;
+    if (!state.map || !window.L) return;
+    if (state.mapClickHandler) state.map.off('click', state.mapClickHandler);
+    state.mapClickHandler = e => {
+      if (!state.active) return;
       setStatus('Resolving the clicked location…');
       setPoint(e.latlng.lng, e.latlng.lat, 'Clicked point');
       if (!state.loaded) {
         setStatus('The boundary source is still loading. Once it is ready, this click will resolve the assigned schools.', 'warning');
       }
-    });
+    };
+    state.map.on('click', state.mapClickHandler);
   }
 
-  async function open() {
-    state.modal?.classList.add('is-open');
-    state.modal?.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('locator-modal-open');
-    initMap();
-    if (state.map) setTimeout(() => state.map.invalidateSize(), 80);
-    if (!state.loaded && !state.loading) {
-      state.loading = true;
-      await loadBoundaryLayers();
-      state.loading = false;
+  function setActive(next) {
+    state.active = !!next;
+    if (state.toggleEl) state.toggleEl.checked = state.active;
+    if (state.dockEl) state.dockEl.hidden = !state.active;
+    if (state.active) {
+      if (!state.loaded && !state.loading) loadBoundaryLayers();
+      setStatus(state.loaded
+        ? 'Click the atlas map or search an address to find assigned Baldwin County schools.'
+        : 'Loading Baldwin County boundary sources… click the map once they are ready.');
+      if (state.map) setTimeout(() => state.map.invalidateSize(), 80);
+    } else {
+      setStatus('School Locator is off. Turn it on to use Baldwin County assignment lookup.');
     }
   }
 
-  function close() {
-    state.modal?.classList.remove('is-open');
-    state.modal?.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('locator-modal-open');
+  function openOfficialSite() {
+    window.open(BALDWIN.officialLocatorUrl, '_blank', 'noopener,noreferrer');
   }
 
   async function reload() {
@@ -507,28 +519,30 @@
     state.boundaryFeatures = [];
     setStatus('Reloading Baldwin County sources…');
     setResults('');
-    await loadBoundaryLayers();
-  }
-
-  function openOfficialSite() {
-    window.open(BALDWIN.officialLocatorUrl, '_blank', 'noopener,noreferrer');
+    if (state.active) await loadBoundaryLayers();
   }
 
   function wireEvents() {
-    state.modal = document.getElementById('locatorModal');
-    state.mapEl = document.getElementById('baldwinLocatorMap');
+    state.dockEl = document.getElementById('baldwinLocatorDock');
     state.resultsEl = document.getElementById('baldwinLocatorResults');
     state.statusEl = document.getElementById('baldwinLocatorStatus');
     state.searchEl = document.getElementById('baldwinLocatorSearch');
     state.sourceListEl = document.getElementById('baldwinLocatorSourceList');
+    state.toggleEl = document.getElementById('toggleBaldwinLocator');
+    state.openExternalEl = document.getElementById('locatorOpenExternalBtn');
+    state.currentBtn = document.getElementById('baldwinLocatorCurrentBtn');
+    state.resetBtn = document.getElementById('baldwinLocatorResetBtn');
+    state.searchBtn = document.getElementById('baldwinLocatorSearchBtn');
+    const dockClose = document.getElementById('baldwinLocatorDockClose');
 
-    const searchBtn = document.getElementById('baldwinLocatorSearchBtn');
-    const currentBtn = document.getElementById('baldwinLocatorCurrentBtn');
-    const resetBtn = document.getElementById('baldwinLocatorResetBtn');
-
-    if (searchBtn) searchBtn.addEventListener('click', searchAddress);
-    if (currentBtn) currentBtn.addEventListener('click', useCurrentLocation);
-    if (resetBtn) resetBtn.addEventListener('click', resetLocator);
+    if (state.toggleEl) {
+      state.toggleEl.addEventListener('change', e => setActive(e.target.checked));
+    }
+    if (state.openExternalEl) state.openExternalEl.addEventListener('click', openOfficialSite);
+    if (state.currentBtn) state.currentBtn.addEventListener('click', useCurrentLocation);
+    if (state.resetBtn) state.resetBtn.addEventListener('click', resetLocator);
+    if (state.searchBtn) state.searchBtn.addEventListener('click', searchAddress);
+    if (dockClose) dockClose.addEventListener('click', () => setActive(false));
     if (state.searchEl) {
       state.searchEl.addEventListener('keydown', e => {
         if (e.key === 'Enter') searchAddress();
@@ -536,7 +550,8 @@
     }
 
     renderSourceList();
-    setStatus('Click the map or search an address to find the assigned Baldwin County schools.');
+    if (state.toggleEl?.checked) setActive(true);
+    else setStatus('Turn on School Locator mode, then click the atlas map or search an address.');
   }
 
   function init() {
@@ -546,11 +561,13 @@
 
   window.GCSchoolLocator = {
     init,
-    open,
-    close,
-    reload,
+    attachMap,
+    setActive,
     openOfficialSite,
-    isOpen: () => !!state.modal?.classList.contains('is-open')
+    reload,
+    open: () => setActive(true),
+    close: () => setActive(false),
+    isOpen: () => state.active
   };
 
   if (document.readyState === 'loading') {

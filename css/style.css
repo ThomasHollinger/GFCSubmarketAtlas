@@ -141,3 +141,38 @@ body.locator-modal-open{overflow:hidden}
 .sr-only{position:absolute !important;width:1px !important;height:1px !important;padding:0 !important;margin:-1px !important;overflow:hidden !important;clip:rect(0,0,0,0) !important;white-space:nowrap !important;border:0 !important}
 @media(max-width:1100px){.locator-modal-card{inset:12px}.locator-modal-body{grid-template-columns:1fr}.locator-modal-side{border-left:none;border-top:1px solid var(--line);max-height:30vh}.baldwin-locator-toolbar{grid-template-columns:1fr 1fr;}.baldwin-locator-toolbar input{grid-column:1/-1}}
 @media(max-width:700px){.locator-modal-card{inset:0;border-radius:0}.locator-modal-header{flex-direction:column}.locator-modal-actions{justify-content:flex-start}.baldwin-locator-toolbar{grid-template-columns:1fr}.baldwin-locator-toolbar button{width:100%}}
+
+/* Baldwin locator on the atlas map */
+.baldwin-locator-dock{position:absolute;top:72px;left:16px;z-index:750;width:min(520px,calc(100% - 32px));max-height:calc(100% - 96px);overflow:auto;background:rgba(255,255,255,.97);border:1px solid rgba(15,23,42,.14);border-radius:18px;box-shadow:0 18px 48px rgba(15,23,42,.18);padding:14px 14px 12px;backdrop-filter:blur(4px)}
+.baldwin-locator-dock[hidden]{display:none}
+.baldwin-locator-dock-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}
+.baldwin-locator-dock-head strong{display:block;font-size:18px;color:#0f2437}
+.baldwin-locator-dock-head span{display:block;margin-top:4px;font-size:12px;color:#667085;line-height:1.4;max-width:48ch}
+.baldwin-locator-dock-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.baldwin-locator-dock .baldwin-locator-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:8px;align-items:center;margin-bottom:10px}
+.baldwin-locator-dock .baldwin-locator-toolbar input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font-size:14px}
+.baldwin-locator-dock .baldwin-locator-toolbar button{padding:10px 12px;font-size:13px;white-space:nowrap}
+.baldwin-locator-status{padding:10px 12px;border:1px solid #d6e4f1;border-radius:12px;background:#fff;color:#334155;font-size:12px;line-height:1.45;margin-bottom:10px}
+.baldwin-locator-status[data-tone="warning"]{background:#fff8db;border-color:#f1de98;color:#7a5e00}
+.baldwin-locator-results{display:grid;gap:10px;align-content:start}
+.baldwin-locator-result{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 1px 0 rgba(15,23,42,.03)}
+.baldwin-locator-result h4{margin:0 0 8px;font-size:14px;color:#0f2437}
+.baldwin-locator-result p{margin:0;color:#475467;font-size:12px;line-height:1.45}
+.baldwin-locator-result .result-grid{display:grid;gap:8px;margin-top:10px}
+.baldwin-locator-row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eef2f7;padding-top:8px;font-size:12px;line-height:1.35}
+.baldwin-locator-row strong{color:#10233b;white-space:nowrap}
+.baldwin-locator-row span{color:#344054;min-width:0;text-align:right}
+.baldwin-locator-source-list{display:grid;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid #eef2f7}
+.baldwin-locator-source-list a{color:#0b4aa2;text-decoration:none;font-size:12px;line-height:1.35}
+.baldwin-locator-source-list a:hover{text-decoration:underline}
+.locator-panel .locator-check{margin-top:6px!important}
+.locator-panel .locator-check span{margin-left:auto;font-size:11px;color:#5b7aa0;background:#eaf2fb;padding:3px 7px;border-radius:6px}
+@media(max-width:900px){
+  .baldwin-locator-dock{left:12px;right:12px;top:66px;width:auto;max-height:calc(100% - 84px)}
+  .baldwin-locator-dock .baldwin-locator-toolbar{grid-template-columns:1fr 1fr;}
+  .baldwin-locator-dock .baldwin-locator-toolbar input{grid-column:1 / -1}
+  .baldwin-locator-dock .baldwin-locator-toolbar button{width:100%}
+  .baldwin-locator-dock-head{flex-direction:column}
+  .baldwin-locator-row{flex-direction:column}
+  .baldwin-locator-row span{text-align:left}
+}

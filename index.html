@@ -47,14 +47,14 @@
         <section class="locator-panel" aria-labelledby="locatorTitle">
           <div class="locator-head">
             <h3 id="locatorTitle">Baldwin County School Locator</h3>
-            <span class="locator-pill">Separate zone tool</span>
+            <span class="locator-pill">Atlas map mode</span>
           </div>
-          <p class="helper-text">Open the official Baldwin County locator in a full-screen panel so you can drop a pin or search an address without crowding the sidebar.</p>
+          <p class="helper-text">Turn on School Locator mode to drop a pin or search an address directly on the atlas map.</p>
+          <label class="check locator-check"><input type="checkbox" id="toggleBaldwinLocator"> School Locator <span>Atlas mode</span></label>
           <div class="locator-actions">
-            <button id="locatorOpenBtn" class="ghost-btn" type="button">Open Full-Screen Locator</button>
             <button id="locatorOpenExternalBtn" type="button">Open Official Site</button>
           </div>
-          <p class="locator-note">The locator is intentionally separate from the GreatSchools ratings layer. Use it to identify assigned elementary, middle, and high schools.</p>
+          <p class="locator-note">This stays separate from the GreatSchools ratings layer. It resolves the assigned elementary, middle, and high schools for a point on our map.</p>
         </section>
 
         <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
@@ -138,54 +138,29 @@
           <button id="resetBtn">Reset View</button>
         </div>
       </header>
+      <section id="baldwinLocatorDock" class="baldwin-locator-dock" hidden aria-label="Baldwin County school locator">
+        <div class="baldwin-locator-dock-head">
+          <div>
+            <strong>Baldwin County School Locator</strong>
+            <span>Use the atlas map to find assigned elementary, middle, and high schools.</span>
+          </div>
+          <div class="baldwin-locator-dock-actions">
+            <button id="baldwinLocatorDockClose" class="ghost-btn" type="button">Hide</button>
+          </div>
+        </div>
+        <div class="baldwin-locator-toolbar">
+          <label class="sr-only" for="baldwinLocatorSearch">Enter an address or place in Baldwin County</label>
+          <input id="baldwinLocatorSearch" type="search" placeholder="Enter an address or place in Baldwin County">
+          <button id="baldwinLocatorSearchBtn" type="button">Search</button>
+          <button id="baldwinLocatorCurrentBtn" type="button">Use Current Location</button>
+          <button id="baldwinLocatorResetBtn" class="ghost-btn" type="button">Reset</button>
+        </div>
+        <div id="baldwinLocatorStatus" class="baldwin-locator-status">Turn on School Locator mode, then click the atlas map or search an address.</div>
+        <div id="baldwinLocatorResults" class="baldwin-locator-results"></div>
+        <div id="baldwinLocatorSourceList" class="baldwin-locator-source-list"></div>
+      </section>
       <div id="map"></div>
     </main>
-  </div>
-
-  <div id="locatorModal" class="locator-modal" aria-hidden="true">
-    <div class="locator-modal-backdrop" id="locatorModalBackdrop"></div>
-    <div class="locator-modal-card" role="dialog" aria-modal="true" aria-labelledby="locatorModalTitle">
-      <div class="locator-modal-header">
-        <div>
-          <h2 id="locatorModalTitle">Baldwin County School Locator</h2>
-          <p>Official attendance-zone lookup, separate from the school ratings layer.</p>
-        </div>
-        <div class="locator-modal-actions">
-          <button id="locatorModalOpenExternal" class="ghost-btn" type="button">Open Official Site</button>
-          <button id="locatorModalReload" type="button">Reload</button>
-          <button id="locatorModalClose" class="locator-close-btn" type="button" aria-label="Close locator">Close</button>
-        </div>
-      </div>
-      <div class="locator-modal-body">
-        <section class="locator-modal-map" aria-label="Baldwin County school locator workspace">
-          <div class="baldwin-locator-toolbar">
-            <label class="sr-only" for="baldwinLocatorSearch">Enter an address or place in Baldwin County</label>
-            <input id="baldwinLocatorSearch" type="search" placeholder="Enter an address or place in Baldwin County">
-            <button id="baldwinLocatorSearchBtn" type="button">Search</button>
-            <button id="baldwinLocatorCurrentBtn" type="button">Use Current Location</button>
-            <button id="baldwinLocatorResetBtn" class="ghost-btn" type="button">Reset</button>
-          </div>
-          <div id="baldwinLocatorMap" class="baldwin-locator-map" role="application" aria-label="Baldwin County school locator map"></div>
-          <div id="baldwinLocatorStatus" class="baldwin-locator-status">Loading Baldwin County boundary sources…</div>
-          <div id="baldwinLocatorResults" class="baldwin-locator-results"></div>
-        </section>
-        <aside class="locator-modal-side">
-          <div class="locator-side-card">
-            <h3>What this tool does</h3>
-            <p>Drop a pin or enter an address to return the assigned elementary, middle, and high schools for that location.</p>
-          </div>
-          <div class="locator-side-card">
-            <h3>How we use it in the atlas</h3>
-            <p>This stays separate from school ratings so the atlas can show both assignment zones and GreatSchools scores without mixing the two.</p>
-          </div>
-          <div class="locator-side-card locator-side-note">
-            <h3>Official Baldwin sources</h3>
-            <p>The module keeps the district’s redistricting maps and official SchoolSite Locator link available while the native lookup resolves boundary layers.</p>
-          </div>
-          <div id="baldwinLocatorSourceList" class="locator-side-card"></div>
-        </aside>
-      </div>
-    </div>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
