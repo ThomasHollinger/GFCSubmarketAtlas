@@ -1,26 +1,14 @@
-# Product Backlog
+# Validation Notes
 
-## Upcoming releases
+Release v2.1.0 loads 32 submarket features from the corrected boundary dataset.
 
-### v2.1 School Rating
-- Public school locations
-- School ratings/grades
-- School filters
-- Submarket school summaries
+Known business updates:
+- Eglin AFB display name corrected.
+- Bay County Submarket 1 rendering issue resolved in v2.0.1 and carried forward.
+- Hub classification added to each submarket.
 
-### v2.2 Demographics
-- Population
-- Household income
-- Growth
-- Age and household formation
-
-### v2.3 Residential Market
-- Enterprise communities
-- Competitor communities
-- Pricing and product positioning
-
-### v3.0 Site Evaluation
-- Drop a pin
-- Identify submarket
-- Summarize nearby schools, retail, competitors, demographics, and environmental risk
-- Generate opportunity score
+The active hub model is:
+- Alabama Hub: 7 submarkets
+- Pensacola Hub: 8 submarkets
+- Panama City Hub: 4 submarkets
+- Growth Markets: all other submarkets
