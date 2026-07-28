@@ -157,28 +157,39 @@
         </div>
       </div>
       <div class="locator-modal-body">
-        <div class="locator-modal-map">
-          <iframe id="baldwinLocatorFrame" title="Baldwin County school zone locator" src="https://www.arcgis.com/apps/instant/lookup/index.html?appid=cbc5aa49364a4a65ad17098ec6a33d6b" loading="eager"></iframe>
-        </div>
+        <section class="locator-modal-map" aria-label="Baldwin County school locator workspace">
+          <div class="baldwin-locator-toolbar">
+            <label class="sr-only" for="baldwinLocatorSearch">Enter an address or place in Baldwin County</label>
+            <input id="baldwinLocatorSearch" type="search" placeholder="Enter an address or place in Baldwin County">
+            <button id="baldwinLocatorSearchBtn" type="button">Search</button>
+            <button id="baldwinLocatorCurrentBtn" type="button">Use Current Location</button>
+            <button id="baldwinLocatorResetBtn" class="ghost-btn" type="button">Reset</button>
+          </div>
+          <div id="baldwinLocatorMap" class="baldwin-locator-map" role="application" aria-label="Baldwin County school locator map"></div>
+          <div id="baldwinLocatorStatus" class="baldwin-locator-status">Loading Baldwin County boundary sources…</div>
+          <div id="baldwinLocatorResults" class="baldwin-locator-results"></div>
+        </section>
         <aside class="locator-modal-side">
           <div class="locator-side-card">
             <h3>What this tool does</h3>
-            <p>Click a point or enter an address to return the assigned elementary, middle, and high schools for that location.</p>
+            <p>Drop a pin or enter an address to return the assigned elementary, middle, and high schools for that location.</p>
           </div>
           <div class="locator-side-card">
             <h3>How we use it in the atlas</h3>
             <p>This stays separate from school ratings so the atlas can show both assignment zones and GreatSchools scores without mixing the two.</p>
           </div>
           <div class="locator-side-card locator-side-note">
-            <h3>For Baldwin County only</h3>
-            <p>This first version is set up for Baldwin County as a proof of concept. We can repeat the same pattern for other counties once we find their official zone tools or GIS layers.</p>
+            <h3>Official Baldwin sources</h3>
+            <p>The module keeps the district’s redistricting maps and official SchoolSite Locator link available while the native lookup resolves boundary layers.</p>
           </div>
+          <div id="baldwinLocatorSourceList" class="locator-side-card"></div>
         </aside>
       </div>
     </div>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="js/baldwin_locator.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

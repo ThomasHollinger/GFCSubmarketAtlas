@@ -2396,38 +2396,31 @@ function bindUI() {
   });
   const locatorOpenBtn = document.getElementById('locatorOpenBtn');
   const locatorOpenExternalBtn = document.getElementById('locatorOpenExternalBtn');
-  const locatorModal = document.getElementById('locatorModal');
   const locatorModalBackdrop = document.getElementById('locatorModalBackdrop');
   const locatorModalClose = document.getElementById('locatorModalClose');
   const locatorModalOpenExternal = document.getElementById('locatorModalOpenExternal');
   const locatorModalReload = document.getElementById('locatorModalReload');
-  const locatorFrame = document.getElementById('baldwinLocatorFrame');
+  const locatorModal = document.getElementById('locatorModal');
 
+  const locatorApi = () => window.GCSchoolLocator || null;
   const openLocatorModal = () => {
-    if (!locatorModal) return;
-    locatorModal.classList.add('is-open');
-    locatorModal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('locator-modal-open');
+    const api = locatorApi();
+    if (api && typeof api.open === 'function') api.open();
     if (locatorModalClose) setTimeout(() => locatorModalClose.focus(), 50);
-    if (locatorFrame) {
-      const src = locatorFrame.getAttribute('src');
-      if (src && !locatorFrame.dataset.loaded) locatorFrame.dataset.loaded = '1';
-    }
   };
   const closeLocatorModal = () => {
-    if (!locatorModal) return;
-    locatorModal.classList.remove('is-open');
-    locatorModal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('locator-modal-open');
+    const api = locatorApi();
+    if (api && typeof api.close === 'function') api.close();
     if (locatorOpenBtn) locatorOpenBtn.focus();
   };
   const openOfficialLocator = () => {
-    window.open('https://www.schoolsitelocator.com/apps/baldwin/', '_blank', 'noopener,noreferrer');
+    const api = locatorApi();
+    if (api && typeof api.openOfficialSite === 'function') api.openOfficialSite();
+    else window.open('https://www.schoolsitelocator.com/apps/baldwin/', '_blank', 'noopener,noreferrer');
   };
   const reloadLocatorFrame = () => {
-    if (!locatorFrame) return;
-    const src = locatorFrame.getAttribute('src');
-    if (src) locatorFrame.src = src;
+    const api = locatorApi();
+    if (api && typeof api.reload === 'function') api.reload();
   };
 
   if (locatorOpenBtn) locatorOpenBtn.addEventListener('click', openLocatorModal);
