@@ -2395,19 +2395,50 @@ function bindUI() {
     }, 250);
   });
   const locatorOpenBtn = document.getElementById('locatorOpenBtn');
-  const locatorReloadBtn = document.getElementById('locatorReloadBtn');
+  const locatorOpenExternalBtn = document.getElementById('locatorOpenExternalBtn');
+  const locatorModal = document.getElementById('locatorModal');
+  const locatorModalBackdrop = document.getElementById('locatorModalBackdrop');
+  const locatorModalClose = document.getElementById('locatorModalClose');
+  const locatorModalOpenExternal = document.getElementById('locatorModalOpenExternal');
+  const locatorModalReload = document.getElementById('locatorModalReload');
   const locatorFrame = document.getElementById('baldwinLocatorFrame');
-  if (locatorOpenBtn) {
-    locatorOpenBtn.addEventListener('click', () => {
-      window.open('https://www.schoolsitelocator.com/apps/baldwin/', '_blank', 'noopener,noreferrer');
-    });
-  }
-  if (locatorReloadBtn && locatorFrame) {
-    locatorReloadBtn.addEventListener('click', () => {
+
+  const openLocatorModal = () => {
+    if (!locatorModal) return;
+    locatorModal.classList.add('is-open');
+    locatorModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('locator-modal-open');
+    if (locatorModalClose) setTimeout(() => locatorModalClose.focus(), 50);
+    if (locatorFrame) {
       const src = locatorFrame.getAttribute('src');
-      if (src) locatorFrame.src = src;
-    });
-  }
+      if (src && !locatorFrame.dataset.loaded) locatorFrame.dataset.loaded = '1';
+    }
+  };
+  const closeLocatorModal = () => {
+    if (!locatorModal) return;
+    locatorModal.classList.remove('is-open');
+    locatorModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('locator-modal-open');
+    if (locatorOpenBtn) locatorOpenBtn.focus();
+  };
+  const openOfficialLocator = () => {
+    window.open('https://www.schoolsitelocator.com/apps/baldwin/', '_blank', 'noopener,noreferrer');
+  };
+  const reloadLocatorFrame = () => {
+    if (!locatorFrame) return;
+    const src = locatorFrame.getAttribute('src');
+    if (src) locatorFrame.src = src;
+  };
+
+  if (locatorOpenBtn) locatorOpenBtn.addEventListener('click', openLocatorModal);
+  if (locatorOpenExternalBtn) locatorOpenExternalBtn.addEventListener('click', openOfficialLocator);
+  if (locatorModalOpenExternal) locatorModalOpenExternal.addEventListener('click', openOfficialLocator);
+  if (locatorModalReload) locatorModalReload.addEventListener('click', reloadLocatorFrame);
+  if (locatorModalClose) locatorModalClose.addEventListener('click', closeLocatorModal);
+  if (locatorModalBackdrop) locatorModalBackdrop.addEventListener('click', closeLocatorModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && locatorModal && locatorModal.classList.contains('is-open')) closeLocatorModal();
+  });
 
   document.getElementById('searchBtn').addEventListener('click', performSearch);
   document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(); });

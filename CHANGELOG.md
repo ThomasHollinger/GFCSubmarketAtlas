@@ -1,3 +1,8 @@
+# v2.9.8
+- Added a dedicated Baldwin County School Locator modal so the zone lookup is separate from the school ratings layer.
+- Moved the locator out of the sidebar and into a full-screen view with reload and external-site controls.
+- Added guidance cards to explain how the locator and ratings layers work together.
+
 # v2.9.6
 - Added a new Builder Display Tier filter based on community Price Max.
 - Tier buckets are editable in the atlas and persist in the browser.

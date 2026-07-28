@@ -99,3 +99,31 @@
 .builder-name-actions{display:flex;gap:6px;margin:5px 0 6px}.builder-name-actions button{border:1px solid #d8b4fe;background:#fff;color:#7e22ce;border-radius:8px;padding:4px 6px;font-size:10px;font-weight:900;cursor:pointer}
 .builder-name-option{display:grid!important;grid-template-columns:14px minmax(0,1fr) auto;gap:7px!important;align-items:center;margin:5px 0!important}.builder-name-option span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.builder-name-option b{font-size:10px;color:#7e22ce}
 .builder-name-empty{font-size:10px;color:#64748b;margin-top:6px;line-height:1.25}
+
+
+/* Full-screen Baldwin locator modal */
+body.locator-modal-open{overflow:hidden}
+.locator-modal{position:fixed;inset:0;z-index:3000;display:none}
+.locator-modal.is-open{display:block}
+.locator-modal-backdrop{position:absolute;inset:0;background:rgba(2,6,23,.62);backdrop-filter:blur(2px)}
+.locator-modal-card{position:absolute;inset:24px;border-radius:22px;background:#fff;box-shadow:0 24px 90px rgba(15,23,42,.35);display:grid;grid-template-rows:auto 1fr;overflow:hidden;border:1px solid rgba(15,23,42,.12)}
+.locator-modal-header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:18px 20px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff 0%,#f8fbff 100%)}
+.locator-modal-header h2{margin:0;font-size:20px;color:#0f2437}
+.locator-modal-header p{margin:6px 0 0;color:#667085;font-size:12px;max-width:68ch}
+.locator-modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.locator-close-btn{background:#0b2f4d;color:#fff;border:none;border-radius:10px;padding:11px 14px;font-weight:900}
+.locator-close-btn:hover{background:#103d61}
+.locator-modal-body{display:grid;grid-template-columns:minmax(0,1fr) 320px;min-height:0}
+.locator-modal-map{min-width:0;min-height:0;background:#eef3f8}
+.locator-modal-map iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+.locator-modal-side{border-left:1px solid var(--line);background:#f8fafc;padding:16px;overflow:auto;display:grid;gap:12px;align-content:start}
+.locator-side-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 1px 0 rgba(15,23,42,.03)}
+.locator-side-card h3{margin:0 0 8px;font-size:13px;color:#0f2437}
+.locator-side-card p{margin:0;color:#475467;font-size:12px;line-height:1.45}
+.locator-side-note{background:#f0f9ff;border-color:#cfe4f5}
+.locator-panel .helper-text{font-size:12px;line-height:1.45;color:#475467;margin:0 0 10px}
+.locator-panel .locator-note{font-size:11px;line-height:1.35;color:#667085;margin:10px 0 0}
+.locator-panel .locator-actions{display:flex;gap:8px;flex-wrap:wrap}
+.locator-panel .locator-actions button{padding:9px 12px;font-size:12px}
+@media(max-width:1100px){.locator-modal-card{inset:12px}.locator-modal-body{grid-template-columns:1fr}.locator-modal-side{border-left:none;border-top:1px solid var(--line);max-height:30vh}}
+@media(max-width:700px){.locator-modal-card{inset:0;border-radius:0}.locator-modal-header{flex-direction:column}.locator-modal-actions{justify-content:flex-start}}
