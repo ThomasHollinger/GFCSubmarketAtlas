@@ -2584,6 +2584,8 @@ function bindUI() {
   document.getElementById('toggleSchools').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
+        // When the school layer is turned on, start with all school ratings visible.
+        setAllSchoolRatings(true);
         await loadSchools(true);
         if (state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
         document.getElementById('mapThemeSelect').value = 'schools';
