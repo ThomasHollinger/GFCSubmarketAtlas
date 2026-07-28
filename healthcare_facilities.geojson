@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-07-09T16:20:30.274070+00:00",
+  "source": "Semi-automated builder subdivision collector from configured builder/new-home source URLs",
+  "submarketFile": "data/submarkets.geojson",
+  "candidateCount": 201,
+  "geocodedCount": 84,
+  "assignedCount": 12,
+  "highConfidenceCount": 27,
+  "reviewNote": "This is a first-pass collector. Review the Excel candidate file before treating counts as complete."
+}

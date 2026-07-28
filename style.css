@@ -1,61 +1,39 @@
-:root {
-  --navy: #1f3145;
-  --blue: #2f6f9f;
-  --light: #f4f6f8;
-  --border: #d9dee5;
-  --text: #17202a;
-  --muted: #65717f;
-  --white: #ffffff;
-}
+name: Build Healthcare Dataset
 
-* { box-sizing: border-box; }
-html, body, #app { height: 100%; margin: 0; }
-body { font-family: Arial, Helvetica, sans-serif; color: var(--text); background: var(--light); }
+on:
+  workflow_dispatch:
 
-#app { display: flex; width: 100%; }
-#sidebar {
-  width: 360px;
-  min-width: 320px;
-  background: var(--white);
-  border-right: 1px solid var(--border);
-  padding: 18px;
-  overflow-y: auto;
-  z-index: 1000;
-}
-#mapWrap { flex: 1; position: relative; }
-#map { width: 100%; height: 100%; }
+permissions:
+  contents: write
 
-.brand { border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 16px; }
-.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--blue); font-weight: bold; }
-h1 { font-size: 26px; line-height: 1.05; margin: 6px 0; color: var(--navy); }
-.version { font-size: 13px; color: var(--muted); }
+jobs:
+  build-healthcare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
 
-.panel { border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fff; }
-.panel h2 { font-size: 15px; margin: 0 0 10px; color: var(--navy); }
-.search-row { display: flex; gap: 8px; }
-input { flex: 1; padding: 9px; border: 1px solid var(--border); border-radius: 7px; }
-button { padding: 9px 12px; border: 0; border-radius: 7px; background: var(--blue); color: white; cursor: pointer; }
-button:hover { filter: brightness(.95); }
-.check { display: block; margin: 8px 0; color: var(--text); }
-.details { font-size: 14px; line-height: 1.5; }
-.muted { color: var(--muted); }
-.metric { display: flex; justify-content: space-between; border-bottom: 1px solid #eef1f4; padding: 6px 0; gap: 10px; }
-.metric span:first-child { color: var(--muted); }
-.metric span:last-child { font-weight: bold; text-align: right; }
-.pill { display: inline-block; margin: 3px; padding: 5px 8px; border-radius: 999px; background: #eef5fa; color: var(--blue); font-size: 12px; }
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-.leaflet-tooltip.submarket-label {
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(0,0,0,.15);
-  color: #1f3145;
-  font-weight: 700;
-  font-size: 11px;
-  padding: 3px 5px;
-  box-shadow: none;
-}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
 
-@media (max-width: 800px) {
-  #app { flex-direction: column; }
-  #sidebar { width: 100%; height: 42%; border-right: 0; border-bottom: 1px solid var(--border); }
-  #mapWrap { height: 58%; }
-}
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pandas geopandas shapely pyogrio fiona rtree geopy
+
+      - name: Build healthcare dataset
+        run: |
+          python scripts/build_healthcare.py --submarkets data/submarkets.geojson --output-dir data
+
+      - name: Commit healthcare outputs
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data/healthcare_facilities.geojson data/submarket_healthcare_summary.json data/healthcare_facility_audit.csv data/healthcare_metadata.json
+          git commit -m "Build healthcare dataset" || echo "No healthcare changes to commit"
+          git push

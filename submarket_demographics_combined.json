@@ -1,0 +1,30 @@
+{
+  "markets": [
+    "Baldwin County AL",
+    "Mobile County AL",
+    "Pensacola FL",
+    "Santa Rosa County FL",
+    "Okaloosa County FL",
+    "Walton County FL",
+    "Panama City FL",
+    "Bay County FL"
+  ],
+  "sources": [
+    {"builder": "D.R. Horton", "url": "https://www.drhorton.com/alabama/baldwin-county"},
+    {"builder": "D.R. Horton", "url": "https://www.drhorton.com/alabama/mobile"},
+    {"builder": "D.R. Horton", "url": "https://www.drhorton.com/florida/pensacola"},
+    {"builder": "D.R. Horton", "url": "https://www.drhorton.com/florida/panama-city"},
+    {"builder": "Lennar", "url": "https://www.lennar.com/new-homes/florida/pensacola"},
+    {"builder": "Lennar", "url": "https://www.lennar.com/new-homes/alabama/mobile"},
+    {"builder": "Lennar", "url": "https://www.lennar.com/new-homes/florida/panama-city"},
+    {"builder": "Truland Homes", "url": "https://trulandhomes.com/find-your-home/"},
+    {"builder": "Adams Homes", "url": "https://www.adamshomes.com/new-homes/florida/pensacola/"},
+    {"builder": "Adams Homes", "url": "https://www.adamshomes.com/new-homes/alabama/mobile/"},
+    {"builder": "DSLD Homes", "url": "https://www.dsldhomes.com/new-homes/"},
+    {"builder": "Holiday Builders", "url": "https://holidaybuilders.com/communities/"},
+    {"builder": "Century Complete", "url": "https://www.centurycommunities.com/find-your-home"},
+    {"builder": "NewHomeSource", "url": "https://www.newhomesource.com/communities/al/mobile-area"},
+    {"builder": "NewHomeSource", "url": "https://www.newhomesource.com/communities/fl/pensacola-area"},
+    {"builder": "NewHomeSource", "url": "https://www.newhomesource.com/communities/fl/panama-city-area"}
+  ]
+}
