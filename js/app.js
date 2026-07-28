@@ -1929,11 +1929,12 @@ function renderRelease(meta) {
     Submarkets loaded: <b>${meta.uniqueSubmarketsLoaded}</b><br>
     Health score: <b>${meta.healthScore}/100</b><br>
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
+    School Locator: <b>Baldwin County ready</b><br>
     Demographics: <b>${state.demographicsLoaded ? 'ACS 2020-2024 loaded' : 'Pending'}</b><br>
     Healthcare: <b>${healthcareDatasetBuilt() ? state.healthcare.length + ' loaded' : 'Builder ready'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
   `;
-  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, and healthcare framework ready`;
+  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, healthcare, and Baldwin locator framework ready`;
 }
 
 function renderHubList(meta) {
@@ -2060,6 +2061,7 @@ function renderHomeSummary() {
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>Hub color model</span><b>Active</b></div>
       <div class="focus-row"><span>School layer</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
+      <div class="focus-row"><span>School locator</span><b>Baldwin Ready</b></div>
     </div>
   `;
   updateBuilderFilterPanel();
@@ -2392,6 +2394,21 @@ function bindUI() {
       document.getElementById('searchInput').focus();
     }, 250);
   });
+  const locatorOpenBtn = document.getElementById('locatorOpenBtn');
+  const locatorReloadBtn = document.getElementById('locatorReloadBtn');
+  const locatorFrame = document.getElementById('baldwinLocatorFrame');
+  if (locatorOpenBtn) {
+    locatorOpenBtn.addEventListener('click', () => {
+      window.open('https://www.schoolsitelocator.com/apps/baldwin/', '_blank', 'noopener,noreferrer');
+    });
+  }
+  if (locatorReloadBtn && locatorFrame) {
+    locatorReloadBtn.addEventListener('click', () => {
+      const src = locatorFrame.getAttribute('src');
+      if (src) locatorFrame.src = src;
+    });
+  }
+
   document.getElementById('searchBtn').addEventListener('click', performSearch);
   document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(); });
   document.getElementById('searchInput').addEventListener('input', e => renderSearchResults(e.target.value));

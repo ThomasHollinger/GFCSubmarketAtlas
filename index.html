@@ -43,6 +43,23 @@
         </select>
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
         <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
+
+        <section class="locator-panel" aria-labelledby="locatorTitle">
+          <div class="locator-head">
+            <h3 id="locatorTitle">Baldwin County School Locator</h3>
+            <span class="locator-pill">Official zone lookup</span>
+          </div>
+          <p class="helper-text">Separate from the school ratings layer. Use this to see the assigned elementary, middle, and high schools for a Baldwin County address or map click.</p>
+          <div class="locator-actions">
+            <button id="locatorOpenBtn" class="ghost-btn" type="button">Open Official Locator</button>
+            <button id="locatorReloadBtn" type="button">Reload Preview</button>
+          </div>
+          <div class="locator-frame-wrap">
+            <iframe id="baldwinLocatorFrame" title="Baldwin County school zone locator" src="https://www.schoolsitelocator.com/apps/baldwin/" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          </div>
+          <p class="locator-note">If the frame is blocked by the browser, use the button above to open the official Baldwin County locator in a new tab.</p>
+        </section>
+
         <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
         <div id="retailFilterPanel" class="retail-filter-panel">
           <div class="filter-title">Retail & Dining Display</div>
@@ -85,6 +102,7 @@
           <div class="health-list">
             <div><span class="dot good"></span><span>Boundaries</span><b>Verified</b></div>
             <div><span class="dot partial"></span><span>Schools</span><b>Layer Ready</b></div>
+            <div><span class="dot good"></span><span>School Locator</span><b>Baldwin Ready</b></div>
             <div><span class="dot partial"></span><span>Retail & Dining</span><b>Layer Ready</b></div>
             <div><span class="dot partial"></span><span>Healthcare</span><b>Layer Ready</b></div>
             <div><span class="dot good"></span><span>Demographics</span><b>Loaded</b></div>
