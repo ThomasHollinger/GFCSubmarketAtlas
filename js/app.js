@@ -641,70 +641,6 @@ function ratingForSchoolName(input) {
   return bestScore >= 0.72 ? best : null;
 }
 
-function splitSchoolCandidates(value) {
-  return String(value === null || value === undefined ? '' : value)
-    .split(/[;\n|]+/)
-    .map(part => part.replace(/\s+/g, ' ').trim())
-    .filter(Boolean);
-}
-
-function schoolTypeLabel(type) {
-  return normalizeName(type || '').toLowerCase();
-}
-
-function schoolTypeMatches(recordType, desiredType) {
-  const rec = schoolTypeLabel(recordType);
-  const desired = schoolTypeLabel(desiredType);
-  if (!rec || !desired) return false;
-  if (desired === 'elementary') return rec === 'elementary' || rec === 'k-6' || rec === 'k-8' || rec.includes('elementary') || rec.includes('primary');
-  if (desired === 'middle') return rec === 'middle' || rec === 'junior' || rec === 'junior high' || rec === 'intermediate' || rec.includes('middle');
-  if (desired === 'high') return rec === 'high' || rec === 'senior' || rec.includes('high');
-  return rec === desired;
-}
-
-function scoreSchoolCandidate(rawValue, desiredType) {
-  const text = String(rawValue === null || rawValue === undefined ? '' : rawValue).replace(/\s+/g, ' ').trim();
-  if (!text) return -Infinity;
-
-  const lower = text.toLowerCase();
-  let score = 0;
-  const record = ratingForSchoolName(text);
-  if (record) {
-    score += schoolTypeMatches(record.SchoolType, desiredType) ? 100 : 20;
-  }
-
-  if (desiredType === 'Elementary') {
-    if (/elementary|primary|elem|k-6|k6/.test(lower)) score += 60;
-    if (/intermediate/.test(lower)) score += 25;
-    if (/middle|junior|high/.test(lower)) score -= 80;
-  } else if (desiredType === 'Middle') {
-    if (/middle|junior|intermediate/.test(lower)) score += 60;
-    if (/high/.test(lower)) score -= 30;
-    if (/elementary|primary/.test(lower)) score -= 10;
-  } else if (desiredType === 'High') {
-    if (/high|senior/.test(lower)) score += 60;
-    if (/middle|junior/.test(lower)) score -= 30;
-    if (/elementary|primary/.test(lower)) score -= 80;
-  }
-
-  return score;
-}
-
-function builderSchoolValue(rawValue, desiredType) {
-  const candidates = splitSchoolCandidates(rawValue);
-  if (!candidates.length) return rawValue;
-  let best = candidates[0];
-  let bestScore = -Infinity;
-  for (const candidate of candidates) {
-    const score = scoreSchoolCandidate(candidate, desiredType);
-    if (score > bestScore) {
-      bestScore = score;
-      best = candidate;
-    }
-  }
-  return best || rawValue;
-}
-
 function avg(nums) {
   const clean = nums.filter(n => typeof n === 'number' && !Number.isNaN(n));
   if (!clean.length) return null;
@@ -1108,43 +1044,6 @@ function builderTierForFeature(feature) {
   return null;
 }
 
-function escapeHtml(value) {
-  return String(value === null || value === undefined ? '' : value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function builderValue(value, fallback = '—') {
-  const text = value === null || value === undefined || value === '' ? fallback : String(value);
-  return escapeHtml(text);
-}
-
-function builderRangeLabel(minValue, maxValue, formatter) {
-  const min = minValue === null || minValue === undefined || minValue === '' ? null : minValue;
-  const max = maxValue === null || maxValue === undefined || maxValue === '' ? null : maxValue;
-  const fmt = typeof formatter === 'function' ? formatter : (v) => String(v);
-  if (min === null && max === null) return '—';
-  if (min !== null && max !== null) return `${escapeHtml(fmt(min))} - ${escapeHtml(fmt(max))}`;
-  if (min !== null) return `${escapeHtml(fmt(min))}+`;
-  return `${escapeHtml(fmt(max))}`;
-}
-
-function builderPopupHtml(feature) {
-  const p = feature.properties || {};
-  const displayBuilder = displayBuilderList(p.Builder);
-  const tierKey = builderTierForFeature(feature);
-  const tierLabel = tierKey ? ((state.builderTierConfig[tierKey] || {}).label || tierKey) : '—';
-  const priceRange = builderRangeLabel(p.PriceMin, p.PriceMax, v => `$${Math.round(Number(v)).toLocaleString()}`);
-  const sqftRange = builderRangeLabel(p.UnitSizeMin, p.UnitSizeMax, v => `${Math.round(Number(v)).toLocaleString()} sq ft`);
-  const elementarySchool = builderSchoolValue(p.SchoolElementary, 'Elementary');
-  const middleSchool = builderSchoolValue(p.SchoolMiddle, 'Middle');
-  const highSchool = builderSchoolValue(p.SchoolHigh, 'High');
-  return `<div class="builder-popup"><h3>${builderValue(p.Subdivision || 'Builder Community')}</h3><p><b>Builder:</b> ${builderValue(displayBuilder)}</p><p><b>Status:</b> ${builderValue(p.Status)}</p><p><b>Product:</b> ${builderValue(p.ProductStyle)}</p><p><b>Price:</b> ${priceRange}</p><p><b>Square Foot:</b> ${sqftRange}</p><p><b>Elementary School:</b> ${builderValue(elementarySchool)}</p><p><b>Middle School:</b> ${builderValue(middleSchool)}</p><p><b>High School:</b> ${builderValue(highSchool)}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${builderValue([p.City, p.State].filter(Boolean).join(', '))}</p><p><b>Submarket:</b> ${builderValue(p.SubmarketName || 'Outside submarket boundary')}</p><p><b>Tier:</b> ${builderValue(tierLabel)}</p><p><b>Source:</b> ${builderValue(p.Source || 'Zonda export')}</p></div>`;
-}
-
 function passesBuilderTierFilter(feature) {
   const selected = (state.builderFilters || {}).TierNames || {};
   const anySelected = Object.values(selected).some(Boolean);
@@ -1363,6 +1262,90 @@ function builderIcon(builder, status) {
   return L.divIcon({ className: '', html: `<div class="builder-marker ${statusCls} ${colorCls}">${label}</div>`, iconSize: [24,24], iconAnchor: [12,12], popupAnchor: [0,-12] });
 }
 
+function builderRangeText(minVal, maxVal, kind = 'number') {
+  const fmtValue = (v) => {
+    if (v === null || v === undefined || v === '') return null;
+    const n = Number(v);
+    if (!Number.isFinite(n)) return null;
+    const rounded = Math.round(n);
+    if (kind === 'money') return '$' + rounded.toLocaleString();
+    return rounded.toLocaleString();
+  };
+  const minText = fmtValue(minVal);
+  const maxText = fmtValue(maxVal);
+  if (minText && maxText) return `${minText} - ${maxText}`;
+  return minText || maxText || 'N/A';
+}
+
+function escapeHtml(text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function builderSchoolLevelLabel(level) {
+  return String(level || '').replace(/\s*School\s*$/i, '').trim() || 'School';
+}
+
+function builderSchoolEntries(v) {
+  return String(v || '')
+    .split(/[;\n]+/)
+    .map(s => s.trim())
+    .filter(Boolean);
+}
+
+function builderSchoolRating(name, feature) {
+  const p = feature && feature.properties ? feature.properties : {};
+  const record = ratingForSchoolName({
+    NAME: name,
+    CITY: p.City || p.CITY || '',
+    NMCNTY: p.County || p.NMCNTY || '',
+    NCESSCH: p.NCESID || p.NCESSCH || ''
+  });
+  return record && Number.isFinite(Number(record.Rating)) ? Number(record.Rating) : null;
+}
+
+function builderSchoolText(v, feature) {
+  const names = builderSchoolEntries(v);
+  if (!names.length) return 'N/A';
+  const seen = new Set();
+  const rendered = [];
+  for (const rawName of names) {
+    const name = String(rawName || '').trim();
+    if (!name) continue;
+    const key = simpleNameKey(name);
+    if (key && seen.has(key)) continue;
+    if (key) seen.add(key);
+    const rating = builderSchoolRating(name, feature);
+    rendered.push(`${escapeHtml(name)}${rating !== null ? ` (${rating})` : ''}`);
+  }
+  return rendered.length ? rendered.join('<br>') : 'N/A';
+}
+
+function builderCombinedSchoolRating(feature) {
+  const p = feature && feature.properties ? feature.properties : {};
+  const combined = [p.SchoolElementary, p.SchoolMiddle, p.SchoolHigh]
+    .flatMap(builderSchoolEntries)
+    .map(name => String(name || '').trim())
+    .filter(Boolean);
+  const unique = [];
+  const seen = new Set();
+  for (const name of combined) {
+    const key = simpleNameKey(name);
+    if (key && seen.has(key)) continue;
+    if (key) seen.add(key);
+    unique.push(name);
+  }
+  const ratings = unique
+    .map(name => builderSchoolRating(name, feature))
+    .filter(v => Number.isFinite(v));
+  if (!ratings.length) return 'N/A';
+  return Math.round(avg(ratings));
+}
+
 function renderBuilderCard(summary) {
   if (!state.buildersLoaded) return `<div class="builder-card"><b>Builder Subdivisions</b><br>Builder subdivision data is ready. Turn on the Builders layer to load communities.</div>`;
   summary = summary || builderSummary([]);
@@ -1403,10 +1386,11 @@ function buildBuilderLayer() {
     const coords = feature.geometry && feature.geometry.coordinates;
     if (!coords || coords.length < 2) return;
     const p = feature.properties || {};
+    const displayBuilder = displayBuilderList(p.Builder);
     const primaryBuilder = primaryBuilderForFeature(feature);
     const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(primaryBuilder, p.Status) });
     marker.feature = feature;
-    marker.bindPopup(builderPopupHtml(feature));
+    marker.bindPopup(`<div class="builder-popup"><h3>${escapeHtml(p.Subdivision || 'Builder Community')}</h3><p><b>Builder:</b> ${escapeHtml(displayBuilder || '—')}</p><p><b>Status:</b> ${escapeHtml(p.Status || '—')}</p><p><b>Product:</b> ${escapeHtml(p.ProductStyle || '—')}</p><p><b>Price:</b> ${builderRangeText(p.PriceMin, p.PriceMax, 'money')}</p><p><b>Square Foot:</b> ${builderRangeText(p.UnitSizeMin, p.UnitSizeMax)}</p><p><b>${builderSchoolLevelLabel('Elementary')}:</b> ${builderSchoolText(p.SchoolElementary, feature)}</p><p><b>${builderSchoolLevelLabel('Middle')}:</b> ${builderSchoolText(p.SchoolMiddle, feature)}</p><p><b>${builderSchoolLevelLabel('High')}:</b> ${builderSchoolText(p.SchoolHigh, feature)}</p><p><b>Combined School Rating:</b> ${builderCombinedSchoolRating(feature)}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${escapeHtml((p.City || '') + (p.State ? ', ' + p.State : ''))}</p><p><b>Submarket:</b> ${escapeHtml(p.SubmarketName || 'Outside submarket boundary')}</p><p><b>Tier:</b> ${escapeHtml(builderTierForFeature(feature) ? (state.builderTierConfig[builderTierForFeature(feature)] || {}).label || builderTierForFeature(feature) : '—')}</p><p><b>Source:</b> ${escapeHtml(p.Source || 'Zonda export')}</p></div>`);
     marker.on('click', () => selectBuilderSubdivision(feature, false));
     marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
     state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
