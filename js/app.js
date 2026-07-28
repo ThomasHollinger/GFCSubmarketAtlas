@@ -641,6 +641,70 @@ function ratingForSchoolName(input) {
   return bestScore >= 0.72 ? best : null;
 }
 
+function splitSchoolCandidates(value) {
+  return String(value === null || value === undefined ? '' : value)
+    .split(/[;\n|]+/)
+    .map(part => part.replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+}
+
+function schoolTypeLabel(type) {
+  return normalizeName(type || '').toLowerCase();
+}
+
+function schoolTypeMatches(recordType, desiredType) {
+  const rec = schoolTypeLabel(recordType);
+  const desired = schoolTypeLabel(desiredType);
+  if (!rec || !desired) return false;
+  if (desired === 'elementary') return rec === 'elementary' || rec === 'k-6' || rec === 'k-8' || rec.includes('elementary') || rec.includes('primary');
+  if (desired === 'middle') return rec === 'middle' || rec === 'junior' || rec === 'junior high' || rec === 'intermediate' || rec.includes('middle');
+  if (desired === 'high') return rec === 'high' || rec === 'senior' || rec.includes('high');
+  return rec === desired;
+}
+
+function scoreSchoolCandidate(rawValue, desiredType) {
+  const text = String(rawValue === null || rawValue === undefined ? '' : rawValue).replace(/\s+/g, ' ').trim();
+  if (!text) return -Infinity;
+
+  const lower = text.toLowerCase();
+  let score = 0;
+  const record = ratingForSchoolName(text);
+  if (record) {
+    score += schoolTypeMatches(record.SchoolType, desiredType) ? 100 : 20;
+  }
+
+  if (desiredType === 'Elementary') {
+    if (/elementary|primary|elem|k-6|k6/.test(lower)) score += 60;
+    if (/intermediate/.test(lower)) score += 25;
+    if (/middle|junior|high/.test(lower)) score -= 80;
+  } else if (desiredType === 'Middle') {
+    if (/middle|junior|intermediate/.test(lower)) score += 60;
+    if (/high/.test(lower)) score -= 30;
+    if (/elementary|primary/.test(lower)) score -= 10;
+  } else if (desiredType === 'High') {
+    if (/high|senior/.test(lower)) score += 60;
+    if (/middle|junior/.test(lower)) score -= 30;
+    if (/elementary|primary/.test(lower)) score -= 80;
+  }
+
+  return score;
+}
+
+function builderSchoolValue(rawValue, desiredType) {
+  const candidates = splitSchoolCandidates(rawValue);
+  if (!candidates.length) return rawValue;
+  let best = candidates[0];
+  let bestScore = -Infinity;
+  for (const candidate of candidates) {
+    const score = scoreSchoolCandidate(candidate, desiredType);
+    if (score > bestScore) {
+      bestScore = score;
+      best = candidate;
+    }
+  }
+  return best || rawValue;
+}
+
 function avg(nums) {
   const clean = nums.filter(n => typeof n === 'number' && !Number.isNaN(n));
   if (!clean.length) return null;
@@ -1075,7 +1139,10 @@ function builderPopupHtml(feature) {
   const tierLabel = tierKey ? ((state.builderTierConfig[tierKey] || {}).label || tierKey) : '—';
   const priceRange = builderRangeLabel(p.PriceMin, p.PriceMax, v => `$${Math.round(Number(v)).toLocaleString()}`);
   const sqftRange = builderRangeLabel(p.UnitSizeMin, p.UnitSizeMax, v => `${Math.round(Number(v)).toLocaleString()} sq ft`);
-  return `<div class="builder-popup"><h3>${builderValue(p.Subdivision || 'Builder Community')}</h3><p><b>Builder:</b> ${builderValue(displayBuilder)}</p><p><b>Status:</b> ${builderValue(p.Status)}</p><p><b>Product:</b> ${builderValue(p.ProductStyle)}</p><p><b>Price:</b> ${priceRange}</p><p><b>Square Foot:</b> ${sqftRange}</p><p><b>Elementary School:</b> ${builderValue(p.SchoolElementary)}</p><p><b>Middle School:</b> ${builderValue(p.SchoolMiddle)}</p><p><b>High School:</b> ${builderValue(p.SchoolHigh)}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${builderValue([p.City, p.State].filter(Boolean).join(', '))}</p><p><b>Submarket:</b> ${builderValue(p.SubmarketName || 'Outside submarket boundary')}</p><p><b>Tier:</b> ${builderValue(tierLabel)}</p><p><b>Source:</b> ${builderValue(p.Source || 'Zonda export')}</p></div>`;
+  const elementarySchool = builderSchoolValue(p.SchoolElementary, 'Elementary');
+  const middleSchool = builderSchoolValue(p.SchoolMiddle, 'Middle');
+  const highSchool = builderSchoolValue(p.SchoolHigh, 'High');
+  return `<div class="builder-popup"><h3>${builderValue(p.Subdivision || 'Builder Community')}</h3><p><b>Builder:</b> ${builderValue(displayBuilder)}</p><p><b>Status:</b> ${builderValue(p.Status)}</p><p><b>Product:</b> ${builderValue(p.ProductStyle)}</p><p><b>Price:</b> ${priceRange}</p><p><b>Square Foot:</b> ${sqftRange}</p><p><b>Elementary School:</b> ${builderValue(elementarySchool)}</p><p><b>Middle School:</b> ${builderValue(middleSchool)}</p><p><b>High School:</b> ${builderValue(highSchool)}</p><p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p><p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p><p><b>City:</b> ${builderValue([p.City, p.State].filter(Boolean).join(', '))}</p><p><b>Submarket:</b> ${builderValue(p.SubmarketName || 'Outside submarket boundary')}</p><p><b>Tier:</b> ${builderValue(tierLabel)}</p><p><b>Source:</b> ${builderValue(p.Source || 'Zonda export')}</p></div>`;
 }
 
 function passesBuilderTierFilter(feature) {
