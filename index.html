@@ -43,6 +43,16 @@
         </select>
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Enterprise Submarkets</label>
         <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
+        <div id="schoolFilterPanel" class="school-filter-panel">
+          <div class="filter-title">School Type</div>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="Elementary" checked> Elementary</label>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="Middle" checked> Middle</label>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="High" checked> High</label>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="Other" checked> Others/Unknown</label>
+          <div class="filter-title">GreatSchools Rating</div>
+          <div id="schoolRatingFilterList" class="school-rating-filter-list"></div>
+          <div id="schoolFilterCount" class="filter-count">Load Schools</div>
+        </div>
         <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
         <div id="retailFilterPanel" class="retail-filter-panel">
           <div class="filter-title">Retail & Dining Display</div>

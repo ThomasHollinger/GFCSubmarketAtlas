@@ -20,6 +20,10 @@ const state = {
   features: [],
   schools: [],
   schoolsLoaded: false,
+  schoolFilters: {
+    types: { Elementary: true, Middle: true, High: true, Other: true },
+    ratings: { '0': true, '1': true, '2': true, '3': true, '4': true, '5': true, '6': true, '7': true, '8': true, '9': true, '10': true, 'Not Rated': true }
+  },
   pois: [],
   poisLoaded: false,
   healthcare: [],
@@ -2351,6 +2355,90 @@ function schoolIcon(type) {
   return L.divIcon({ className: '', html: `<div class="school-marker ${cls}">${letter}</div>`, iconSize: [18,18], iconAnchor: [9,9] });
 }
 
+function schoolTypeLabel(type) {
+  return type === 'Other' ? 'Others/Unknown' : type;
+}
+
+function schoolRatingBucket(feature) {
+  const p = feature?.properties || {};
+  const rating = Number(p.GreatSchoolsRating);
+  if (Number.isFinite(rating)) return String(Math.max(0, Math.min(10, Math.round(rating))));
+  return 'Not Rated';
+}
+
+function schoolPopupHtml(p) {
+  const rating = Number(p.GreatSchoolsRating);
+  const ratingText = Number.isFinite(rating) ? `${rating}/10` : ((p.SchoolType === 'Other' || p.RatingExcluded) ? 'Not Rated (Excluded)' : 'Not Rated');
+  return `<div class="school-popup"><h3>${p.NAME}</h3><p><b>Type:</b> ${schoolTypeLabel(p.SchoolType || 'Other')}</p><p><b>GreatSchools:</b> ${ratingText}</p><p><b>Location:</b> ${p.CITY}, ${p.STATE}</p><p><b>County:</b> ${p.NMCNTY || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>NCES ID:</b> ${p.NCESSCH || ''}</p></div>`;
+}
+
+function passesSchoolFilters(feature) {
+  const p = feature?.properties || {};
+  const type = p.SchoolType || 'Other';
+  const typeKey = ['Elementary', 'Middle', 'High'].includes(type) ? type : 'Other';
+  if (!state.schoolFilters.types[typeKey]) return false;
+  const bucket = schoolRatingBucket(feature);
+  return !!state.schoolFilters.ratings[bucket];
+}
+
+function schoolFilterCounts() {
+  const total = state.schools.length;
+  const visible = state.schools.filter(passesSchoolFilters).length;
+  return { total, visible };
+}
+
+function refreshSchoolFilterSummary() {
+  const panel = document.getElementById('schoolFilterPanel');
+  const countEl = document.getElementById('schoolFilterCount');
+  if (panel) panel.classList.toggle('active', !!state.schoolsLoaded || !!document.getElementById('toggleSchools')?.checked);
+  if (countEl) {
+    const { total, visible } = schoolFilterCounts();
+    if (!state.schoolsLoaded) countEl.textContent = 'Load Schools';
+    else countEl.textContent = `${visible} visible • ${total} loaded`;
+  }
+  document.querySelectorAll('.school-rating-btn').forEach(btn => {
+    const key = btn.dataset.ratingKey;
+    btn.classList.toggle('active', !!state.schoolFilters.ratings[key]);
+  });
+  document.querySelectorAll('.school-type-filter').forEach(input => {
+    const key = input.dataset.schoolType;
+    if (key) input.checked = !!state.schoolFilters.types[key];
+  });
+}
+
+function renderSchoolRatingButtons() {
+  const container = document.getElementById('schoolRatingFilterList');
+  if (!container) return;
+  const keys = ['0','1','2','3','4','5','6','7','8','9','10','Not Rated'];
+  container.innerHTML = keys.map(key => `<button type="button" class="school-rating-btn ${state.schoolFilters.ratings[key] ? 'active' : ''}" data-rating-key="${key}">${key}</button>`).join('');
+  container.querySelectorAll('.school-rating-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.ratingKey;
+      state.schoolFilters.ratings[key] = !state.schoolFilters.ratings[key];
+      refreshSchoolLayer();
+      refreshSchoolFilterSummary();
+    });
+  });
+}
+
+function refreshSchoolLayer() {
+  if (!state.schoolsLoaded) return;
+  const wasVisible = !!(state.schoolLayer && state.map && state.map.hasLayer(state.schoolLayer));
+  if (state.schoolLayer && state.map && state.map.hasLayer(state.schoolLayer)) state.map.removeLayer(state.schoolLayer);
+  const visibleSchools = state.schools.filter(passesSchoolFilters);
+  state.schoolLayer = L.geoJSON({ type: 'FeatureCollection', features: visibleSchools }, {
+    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: schoolIcon(feature.properties.SchoolType) }),
+    onEachFeature: (feature, layer) => {
+      const p = feature.properties;
+      layer.bindPopup(schoolPopupHtml(p));
+      layer.on('click', () => selectSchool(feature, false));
+      layer.on('dblclick', () => selectSchool(feature, true));
+    }
+  });
+  if (wasVisible || document.getElementById('toggleSchools')?.checked) state.schoolLayer.addTo(state.map);
+  refreshSchoolFilterSummary();
+}
+
 function pointInRing(point, ring) {
   const x = point[0], y = point[1];
   let inside = false;
@@ -2431,20 +2519,13 @@ async function loadSchools(showLayer = false) {
     return f;
   });
 
-  state.schoolLayer = L.geoJSON({ type: 'FeatureCollection', features: state.schools }, {
-    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: schoolIcon(feature.properties.SchoolType) }),
-    onEachFeature: (feature, layer) => {
-      const p = feature.properties;
-      layer.bindPopup(`<div class="school-popup"><h3>${p.NAME}</h3><p><b>Type:</b> ${p.SchoolType}</p><p><b>GreatSchools:</b> ${p.GreatSchoolsRating ? p.GreatSchoolsRating + '/10' : ((p.SchoolType === 'Other' || p.RatingExcluded) ? 'Not Rated (Excluded)' : 'Not Rated')}</p><p><b>Location:</b> ${p.CITY}, ${p.STATE}</p><p><b>County:</b> ${p.NMCNTY || ''}</p><p><b>Submarket:</b> ${p.SubmarketName || 'Outside submarket boundary'}</p><p><b>NCES ID:</b> ${p.NCESSCH || ''}</p></div>`);
-      layer.on('click', () => selectSchool(feature, false));
-      layer.on('dblclick', () => selectSchool(feature, true));
-    }
-  });
-  if (showLayer) state.schoolLayer.addTo(state.map);
+  refreshSchoolLayer();
+  if (showLayer && state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
   state.schoolsLoaded = true;
   buildSearchIndex();
   renderSearchResults(document.getElementById('searchInput').value || '');
   document.getElementById('schoolCountBadge').textContent = `${state.schools.length} loaded`;
+  refreshSchoolFilterSummary();
   renderRelease(state.metadata);
   if (state.mapTheme === 'schools' && state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
@@ -2460,7 +2541,15 @@ function selectSchool(school, shouldZoom = true) {
   state.schoolLayer.eachLayer(layer => {
     if (layer.feature && layer.feature.properties.NCESSCH === school.properties.NCESSCH) target = layer;
   });
-  if (target) target.openPopup();
+  if (target) {
+    target.openPopup();
+    return;
+  }
+  const p = school.properties || {};
+  L.popup({ closeButton: true, autoPan: true })
+    .setLatLng([coords[1], coords[0]])
+    .setContent(schoolPopupHtml(p))
+    .openOn(state.map);
 }
 
 function bindUI() {
@@ -2497,6 +2586,7 @@ function bindUI() {
         document.getElementById('mapThemeSelect').value = 'hub';
         setMapTheme('hub');
       }
+      refreshSchoolFilterSummary();
     } catch (err) {
       console.error(err);
       e.target.checked = false;
@@ -2504,6 +2594,17 @@ function bindUI() {
       alert('The school layer could not be loaded from NCES. Try again later.');
     }
   });
+  document.querySelectorAll('.school-type-filter').forEach(input => {
+    input.addEventListener('change', e => {
+      const key = e.target.dataset.schoolType;
+      if (!key) return;
+      state.schoolFilters.types[key] = e.target.checked;
+      refreshSchoolLayer();
+      refreshSchoolFilterSummary();
+    });
+  });
+  renderSchoolRatingButtons();
+  refreshSchoolFilterSummary();
   document.getElementById('toggleRetail').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
