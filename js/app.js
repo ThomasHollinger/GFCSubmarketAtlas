@@ -2406,6 +2406,14 @@ function refreshSchoolFilterSummary() {
   });
 }
 
+function setAllSchoolRatings(value) {
+  Object.keys(state.schoolFilters.ratings).forEach(key => {
+    state.schoolFilters.ratings[key] = !!value;
+  });
+  refreshSchoolLayer();
+  refreshSchoolFilterSummary();
+}
+
 function renderSchoolRatingButtons() {
   const container = document.getElementById('schoolRatingFilterList');
   if (!container) return;
@@ -2605,6 +2613,8 @@ function bindUI() {
   });
   renderSchoolRatingButtons();
   refreshSchoolFilterSummary();
+  document.getElementById('schoolRatingsSelectAll')?.addEventListener('click', () => setAllSchoolRatings(true));
+  document.getElementById('schoolRatingsClearAll')?.addEventListener('click', () => setAllSchoolRatings(false));
   document.getElementById('toggleRetail').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
