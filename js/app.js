@@ -1,6 +1,7 @@
 const state = {
   map: null,
   submarketLayer: null,
+  submarketNumberLayer: null,
   schoolLayer: null,
   poiLayer: null,
   poiMarkerIndex: new Map(),
@@ -53,6 +54,51 @@ const hubBaseColors = {
   'Panama City Hub': '#8CCB6E',
   'Growth Markets': '#A7A7A7'
 };
+
+function normalizeSubmarketName(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+const submarketNumberLookup = Object.freeze({
+  [normalizeSubmarketName('South Mobile')]: 1,
+  [normalizeSubmarketName('Central Mobile')]: 2,
+  [normalizeSubmarketName('North Mobile')]: 3,
+  [normalizeSubmarketName('North Mobile / Saraland')]: 3,
+  [normalizeSubmarketName('North Baldwin')]: 4,
+  [normalizeSubmarketName('Central Baldwin')]: 5,
+  [normalizeSubmarketName('West Baldwin')]: 6,
+  [normalizeSubmarketName('South Baldwin')]: 7,
+  [normalizeSubmarketName('South Baldiwn')]: 7,
+  [normalizeSubmarketName('Pensacola')]: 8,
+  [normalizeSubmarketName('Cantonment')]: 9,
+  [normalizeSubmarketName('Pace')]: 10,
+  [normalizeSubmarketName('Milton')]: 11,
+  [normalizeSubmarketName('Pensacola Beaches')]: 12,
+  [normalizeSubmarketName('Fort Walton')]: 13,
+  [normalizeSubmarketName('Crestview')]: 14,
+  [normalizeSubmarketName('Laurel Hill')]: 15,
+  [normalizeSubmarketName('Defuniak Springs')]: 16,
+  [normalizeSubmarketName('DeFuniak Springs')]: 16,
+  [normalizeSubmarketName('Freeport')]: 17,
+  [normalizeSubmarketName('Walton and Bay Beaches')]: 18,
+  [normalizeSubmarketName('Panama City')]: 19,
+  [normalizeSubmarketName('Marianna')]: 20
+});
+
+function submarketNumberForFeature(feature) {
+  const p = feature && feature.properties ? feature.properties : {};
+  const candidates = [p.DisplayName, p.SubmarketName, p.SubmarketID];
+  for (const candidate of candidates) {
+    const key = normalizeSubmarketName(candidate);
+    if (Object.prototype.hasOwnProperty.call(submarketNumberLookup, key)) {
+      return submarketNumberLookup[key];
+    }
+  }
+  return null;
+}
 
 const overlayThemes = new Set(['schools', 'retail', 'healthcare', 'builders', 'lifestyle']);
 
@@ -2212,6 +2258,13 @@ function setMapTheme(theme) {
   state.mapTheme = theme;
   if (!overlayThemes.has(theme)) state.returnTheme = theme;
   if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
+  if (state.submarketNumberLayer) {
+    if (theme === 'hub') {
+      if (!state.map.hasLayer(state.submarketNumberLayer)) state.submarketNumberLayer.addTo(state.map);
+    } else if (state.map.hasLayer(state.submarketNumberLayer)) {
+      state.map.removeLayer(state.submarketNumberLayer);
+    }
+  }
   updateLegend();
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
@@ -2264,6 +2317,7 @@ async function loadData() {
   renderSearchResults('');
   renderHomeSummary();
 
+  const submarketNumberMarkers = [];
   state.submarketLayer = L.geoJSON(geojson, {
     style: styleFeature,
     onEachFeature: (feature, layer) => {
@@ -2275,8 +2329,26 @@ async function loadData() {
       });
       const p = feature.properties;
       layer.bindTooltip(`${p.DisplayName}`, { sticky: true, className: 'submarket-label' });
+
+      const submarketNumber = submarketNumberForFeature(feature);
+      if (submarketNumber !== null && submarketNumber !== undefined) {
+        const center = layer.getBounds().getCenter();
+        submarketNumberMarkers.push(L.marker(center, {
+          interactive: false,
+          keyboard: false,
+          zIndexOffset: 900,
+          icon: L.divIcon({
+            className: 'submarket-number-icon',
+            html: `<div class="submarket-number-label">${submarketNumber}</div>`,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+          })
+        }));
+      }
     }
   }).addTo(state.map);
+  state.submarketNumberLayer = L.layerGroup(submarketNumberMarkers);
+  if (state.mapTheme === 'hub') state.submarketNumberLayer.addTo(state.map);
 
   state.map.fitBounds(state.submarketLayer.getBounds(), { padding: [24, 24] });
   state.legend.addTo(state.map);
