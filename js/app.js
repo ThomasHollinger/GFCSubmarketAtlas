@@ -875,6 +875,174 @@ function fmtOne(v) {
   return Number(v).toFixed(1);
 }
 
+function downloadBlob(filename, blob) {
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function escapeXml(text) {
+  return String(text ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function escapeKmlCdata(text) {
+  return String(text ?? '').replace(/\]\]>/g, ']]]]><![CDATA[>');
+}
+
+function hexToKmlColor(hex, alpha = 'ff') {
+  const clean = String(hex || '').replace('#', '').trim();
+  if (clean.length !== 6) return `${alpha}ffffff`;
+  return `${alpha}${clean.slice(4, 6)}${clean.slice(2, 4)}${clean.slice(0, 2)}`.toLowerCase();
+}
+
+function ringToKmlCoordinates(ring) {
+  if (!Array.isArray(ring) || !ring.length) return '';
+  const coords = ring.map(pt => `${Number(pt[0])},${Number(pt[1])},0`);
+  const first = ring[0];
+  const last = ring[ring.length - 1];
+  if (!last || first[0] !== last[0] || first[1] !== last[1]) coords.push(`${Number(first[0])},${Number(first[1])},0`);
+  return coords.join(' ');
+}
+
+function geometryToKml(geometry) {
+  if (!geometry) return '';
+  if (geometry.type === 'Polygon') {
+    const rings = geometry.coordinates || [];
+    if (!rings.length) return '';
+    const outer = `<outerBoundaryIs><LinearRing><coordinates>${ringToKmlCoordinates(rings[0])}</coordinates></LinearRing></outerBoundaryIs>`;
+    const holes = rings.slice(1).map(ring => `<innerBoundaryIs><LinearRing><coordinates>${ringToKmlCoordinates(ring)}</coordinates></LinearRing></innerBoundaryIs>`).join('');
+    return `<Polygon><altitudeMode>clampToGround</altitudeMode>${outer}${holes}</Polygon>`;
+  }
+  if (geometry.type === 'MultiPolygon') {
+    return `<MultiGeometry>${(geometry.coordinates || []).map(poly => geometryToKml({ type: 'Polygon', coordinates: poly })).join('')}</MultiGeometry>`;
+  }
+  if (geometry.type === 'Point') {
+    const c = geometry.coordinates || [];
+    if (c.length < 2) return '';
+    return `<Point><coordinates>${Number(c[0])},${Number(c[1])},0</coordinates></Point>`;
+  }
+  if (geometry.type === 'LineString') {
+    const c = geometry.coordinates || [];
+    if (!c.length) return '';
+    return `<LineString><tessellate>1</tessellate><coordinates>${c.map(pt => `${Number(pt[0])},${Number(pt[1])},0`).join(' ')}</coordinates></LineString>`;
+  }
+  return '';
+}
+
+function featureToPlacemark(feature, opts = {}) {
+  const p = feature.properties || {};
+  const name = opts.name || p.DisplayName || p.Subdivision || p.Builder || p.Name || 'Unnamed';
+  const description = opts.description || '';
+  const styleUrl = opts.styleUrl || '#atlasStyle';
+  const geometry = geometryToKml(feature.geometry);
+  if (!geometry) return '';
+  return `
+    <Placemark>
+      <name>${escapeXml(name)}</name>
+      <description><![CDATA[${escapeKmlCdata(description)}]]></description>
+      <styleUrl>${styleUrl}</styleUrl>
+      ${geometry}
+    </Placemark>`;
+}
+
+function buildKmlDocument({ documentName, folderName, features, placemarkOptions, styleBlocks }) {
+  const placemarks = (features || []).map(feature => featureToPlacemark(feature, typeof placemarkOptions === 'function' ? placemarkOptions(feature) : placemarkOptions)).filter(Boolean).join('');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>${escapeXml(documentName)}</name>
+    <open>1</open>
+    ${styleBlocks || ''}
+    <Folder>
+      <name>${escapeXml(folderName)}</name>
+      ${placemarks}
+    </Folder>
+  </Document>
+</kml>`;
+}
+
+function downloadKml(filename, kmlText) {
+  downloadBlob(filename, new Blob([kmlText], { type: 'application/vnd.google-earth.kml+xml;charset=utf-8' }));
+}
+
+async function exportSubmarketOutlinesKml() {
+  if (!state.features.length) {
+    alert('Submarket data is still loading. Please try again in a moment.');
+    return;
+  }
+  const styleBlocks = `
+    <Style id="atlasStyle">
+      <LineStyle><color>${hexToKmlColor('#000000')}</color><width>2</width></LineStyle>
+      <PolyStyle><color>${hexToKmlColor('#ffffff', '00')}</color></PolyStyle>
+    </Style>`;
+  const kml = buildKmlDocument({
+    documentName: 'Gulf Coast Submarket Outlines',
+    folderName: 'Submarket Outlines',
+    features: state.features,
+    styleBlocks,
+    placemarkOptions: feature => {
+      const p = feature.properties || {};
+      const lines = [
+        `<div><b>Submarket:</b> ${escapeXml(p.DisplayName || '')}</div>`,
+        `<div><b>Submarket ID:</b> ${escapeXml(p.SubmarketID || '')}</div>`,
+        `<div><b>Hub:</b> ${escapeXml(p.Hub || '')}</div>`,
+        `<div><b>Acres:</b> ${escapeXml(fmt(Math.round(Number(p.Acres || 0))))}</div>`,
+        `<div><b>Area Sq Mi:</b> ${escapeXml(fmtOne(p.AreaSqMi))}</div>`
+      ].join('');
+      return { name: p.DisplayName, description: `<div>${lines}</div>`, styleUrl: '#atlasStyle' };
+    }
+  });
+  downloadKml('gulf_coast_submarket_outlines.kml', kml);
+}
+
+async function exportBuilderSubdivisionsKml() {
+  let features = state.builders || [];
+  if (!features.length) {
+    try {
+      const communities = await fetch('data/builder_subdivisions.geojson').then(r => r.json());
+      features = communities.features || [];
+    } catch (err) {
+      console.error(err);
+      alert('Builder subdivision data could not be loaded for export.');
+      return;
+    }
+  }
+  const styleBlocks = `
+    <Style id="atlasStyle">
+      <LineStyle><color>${hexToKmlColor('#6d28d9')}</color><width>2</width></LineStyle>
+      <PolyStyle><color>${hexToKmlColor('#ffffff', '00')}</color></PolyStyle>
+    </Style>`;
+  const kml = buildKmlDocument({
+    documentName: 'Gulf Coast Builder Subdivisions',
+    folderName: 'Builder Subdivisions',
+    features,
+    styleBlocks,
+    placemarkOptions: feature => {
+      const p = feature.properties || {};
+      const lines = [
+        `<div><b>Subdivision:</b> ${escapeXml(p.Subdivision || '')}</div>`,
+        `<div><b>Builder:</b> ${escapeXml(p.Builder || '')}</div>`,
+        `<div><b>Status:</b> ${escapeXml(p.Status || '')}</div>`,
+        `<div><b>Product:</b> ${escapeXml(p.ProductStyle || '')}</div>`,
+        `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
+        `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`
+      ].join('');
+      return { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: '#atlasStyle' };
+    }
+  });
+  downloadKml('gulf_coast_builder_subdivisions.kml', kml);
+}
+
 function colorForIncome(v) {
   if (!v || Number.isNaN(Number(v))) return '#e5e7eb';
   if (v >= 100000) return '#064e3b';
@@ -3109,6 +3277,8 @@ function bindUI() {
       setMapTheme(e.target.checked ? 'income' : (state.returnTheme || 'hub'));
     });
   }
+  document.getElementById('downloadSubmarketsKml')?.addEventListener('click', exportSubmarketOutlinesKml);
+  document.getElementById('downloadBuildersKml')?.addEventListener('click', exportBuilderSubdivisionsKml);
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
     if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
     state.returnTheme = e.target.value;
