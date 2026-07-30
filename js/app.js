@@ -4,6 +4,11 @@ const state = {
   schoolLayer: null,
   poiLayer: null,
   poiMarkerIndex: new Map(),
+  lifestyleLayer: null,
+  lifestyleMarkerIndex: new Map(),
+  lifestyleFilters: { Golf: true, Tennis: true, Pickleball: true, Fitness: true, Center: true, Other: true },
+  lifestyle: [],
+  lifestyleLoaded: false,
   retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
   builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false, BuilderNames: {}, TierNames: {} },
   builderTierConfig: {
@@ -858,6 +863,14 @@ function colorForRetailDensity(density) {
   return '#ccfbf1';
 }
 
+function colorForLifestyleDensity(density) {
+  if (density === null || density === undefined || Number.isNaN(density) || density <= 0) return '#e5e7eb';
+  if (density >= 4) return '#9a3412';
+  if (density >= 2) return '#ea580c';
+  if (density >= 1) return '#fb923c';
+  return '#fed7aa';
+}
+
 function normBrand(value) {
   return String(value || '').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 }
@@ -960,6 +973,232 @@ function renderRetailCard(summary) {
       <div><span>Shopping Centers</span><b>${summary.ShoppingCenter.toLocaleString()}</b></div>
     </div>
   </div>`;
+}
+
+
+function lifestyleCategory(tags = {}) {
+  const amenity = String(tags.amenity || '').toLowerCase();
+  const leisure = String(tags.leisure || '').toLowerCase();
+  const sport = String(tags.sport || '').toLowerCase();
+  const name = String(tags.name || tags.brand || '').toLowerCase();
+  if (leisure === 'golf_course' || sport === 'golf' || name.includes('golf')) return 'Golf';
+  if (sport === 'pickleball' || leisure === 'pickleball_court' || name.includes('pickleball')) return 'Pickleball';
+  if (sport === 'tennis' || leisure === 'tennis_court' || (leisure === 'pitch' && sport === 'tennis') || name.includes('tennis')) return 'Tennis';
+  if (amenity === 'fitness_centre' || amenity === 'gym' || name.includes('gym') || name.includes('fitness')) return 'Fitness';
+  if (amenity === 'community_centre' || leisure === 'sports_centre' || name.includes('community center') || name.includes('sports center') || name.includes('recreation center')) return 'Center';
+  return 'Other';
+}
+
+function lifestyleCategoryLabel(key) {
+  return ({ Golf: 'Golf Courses', Tennis: 'Tennis Courts', Pickleball: 'Pickleball Courts', Fitness: 'Gyms / Fitness', Center: 'Sports / Community Centers', Other: 'Others / Unknown' })[key] || 'Others / Unknown';
+}
+
+function lifestyleIcon(category) {
+  const cls = category === 'Golf' ? 'lifestyle-golf' : category === 'Tennis' ? 'lifestyle-tennis' : category === 'Pickleball' ? 'lifestyle-pickleball' : category === 'Fitness' ? 'lifestyle-fitness' : category === 'Center' ? 'lifestyle-center' : 'lifestyle-other';
+  const label = category === 'Golf' ? 'G' : category === 'Tennis' ? 'T' : category === 'Pickleball' ? 'P' : category === 'Fitness' ? 'F' : category === 'Center' ? 'C' : 'O';
+  return L.divIcon({ className: '', html: `<div class="lifestyle-marker ${cls}">${label}</div>`, iconSize: [20,20], iconAnchor: [10,10], popupAnchor: [0,-10] });
+}
+
+function lifestylePopupHtml(p) {
+  return `<div class="lifestyle-popup"><h3>${escapeHtml(p.Name || 'Lifestyle Amenity')}</h3><p><b>Type:</b> ${escapeHtml(lifestyleCategoryLabel(p.LifestyleCategory))}</p><p><b>Subcategory:</b> ${escapeHtml(p.Subcategory || '—')}</p><p><b>Location:</b> ${escapeHtml([p.City, p.State].filter(Boolean).join(', ') || '—')}</p><p><b>Submarket:</b> ${escapeHtml(p.SubmarketName || 'Outside submarket boundary')}</p><p><b>Source:</b> ${escapeHtml(p.Source || 'OpenStreetMap')}</p></div>`;
+}
+
+function assignLifestyleToSubmarket(feature) {
+  const coords = feature.geometry.coordinates;
+  const match = state.features.find(f => pointInFeature(coords, f));
+  if (match) {
+    feature.properties.SubmarketID = match.properties.SubmarketID;
+    feature.properties.SubmarketName = match.properties.DisplayName;
+    feature.properties.Hub = match.properties.Hub;
+  } else {
+    feature.properties.SubmarketID = '';
+    feature.properties.SubmarketName = '';
+    feature.properties.Hub = '';
+  }
+}
+
+function passesLifestyleFilter(feature) {
+  const p = feature.properties || {};
+  const filters = state.lifestyleFilters || {};
+  return !!filters[p.LifestyleCategory || 'Other'];
+}
+
+function activeLifestyleAmenities() {
+  return state.lifestyle.filter(passesLifestyleFilter);
+}
+
+function lifestyleSummary(pois, areaSqMi = 0) {
+  const out = { total: pois.length, Golf: 0, Tennis: 0, Pickleball: 0, Fitness: 0, Center: 0, Other: 0, density: 0 };
+  pois.forEach(p => {
+    const key = p.properties.LifestyleCategory || 'Other';
+    if (out[key] !== undefined) out[key] += 1;
+  });
+  out.density = areaSqMi ? out.total / Number(areaSqMi) : 0;
+  return out;
+}
+
+function lifestyleSummaryForSubmarket(submarketID, areaSqMi) {
+  return lifestyleSummary(activeLifestyleAmenities().filter(p => p.properties.SubmarketID === submarketID), areaSqMi);
+}
+
+function lifestyleSummaryForFeatures(features) {
+  const ids = new Set(features.map(f => f.properties.SubmarketID));
+  const area = features.reduce((sum, f) => sum + Number(f.properties.AreaSqMi || 0), 0);
+  return lifestyleSummary(activeLifestyleAmenities().filter(p => ids.has(p.properties.SubmarketID)), area);
+}
+
+function renderLifestyleCard(summary) {
+  if (!state.lifestyleLoaded) return `<div class="lifestyle-card"><b>Lifestyle & Amenities</b><br>Turn on the layer to load golf, tennis, pickleball, and fitness amenities.</div>`;
+  const filtered = activeLifestyleAmenities().length !== state.lifestyle.length;
+  return `<div class="lifestyle-card">
+    <div class="lifestyle-head"><b>Lifestyle & Amenities</b><span>${summary.total.toLocaleString()} visible POIs</span></div>
+    ${filtered ? `<div class="retail-filter-note">Filtered from ${state.lifestyle.length.toLocaleString()} total amenities</div>` : ''}
+    <div class="lifestyle-grid">
+      <div><span>Golf</span><b>${summary.Golf.toLocaleString()}</b></div>
+      <div><span>Tennis</span><b>${summary.Tennis.toLocaleString()}</b></div>
+      <div><span>Pickleball</span><b>${summary.Pickleball.toLocaleString()}</b></div>
+      <div><span>Gyms / Fitness</span><b>${summary.Fitness.toLocaleString()}</b></div>
+      <div><span>Sports / Community</span><b>${summary.Center.toLocaleString()}</b></div>
+      <div><span>Others</span><b>${summary.Other.toLocaleString()}</b></div>
+    </div>
+    <div class="lifestyle-nearest"><span>Density</span><b>${summary.density ? summary.density.toFixed(2) : '0.00'} per sq mi</b></div>
+  </div>`;
+}
+
+function lifestyleOverpassQuery() {
+  const [west, south, east, north] = bboxForSubmarkets();
+  const bbox = `${south},${west},${north},${east}`;
+  return `[out:json][timeout:90];(
+    node["leisure"="golf_course"](${bbox});
+    way["leisure"="golf_course"](${bbox});
+    relation["leisure"="golf_course"](${bbox});
+
+    node["amenity"~"^(fitness_centre|gym|community_centre)$"](${bbox});
+    way["amenity"~"^(fitness_centre|gym|community_centre)$"](${bbox});
+    relation["amenity"~"^(fitness_centre|gym|community_centre)$"](${bbox});
+
+    node["leisure"="sports_centre"](${bbox});
+    way["leisure"="sports_centre"](${bbox});
+    relation["leisure"="sports_centre"](${bbox});
+
+    node["sport"~"^(tennis|pickleball)$"](${bbox});
+    way["sport"~"^(tennis|pickleball)$"](${bbox});
+    relation["sport"~"^(tennis|pickleball)$"](${bbox});
+
+    node["leisure"="pitch"]["sport"~"^(tennis|pickleball)$"](${bbox});
+    way["leisure"="pitch"]["sport"~"^(tennis|pickleball)$"](${bbox});
+    relation["leisure"="pitch"]["sport"~"^(tennis|pickleball)$"](${bbox});
+  );out center tags;`;
+}
+
+function lifestyleOverpassElementToFeature(el) {
+  const lon = el.lon !== undefined ? el.lon : el.center && el.center.lon;
+  const lat = el.lat !== undefined ? el.lat : el.center && el.center.lat;
+  if (lon === undefined || lat === undefined) return null;
+  const tags = el.tags || {};
+  const category = lifestyleCategory(tags);
+  return {
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [lon, lat] },
+    properties: {
+      OSMID: `${el.type}/${el.id}`,
+      Name: tags.name || tags.brand || lifestyleCategoryLabel(category),
+      Brand: tags.brand || '',
+      LifestyleCategory: category,
+      Subcategory: tags.amenity || tags.leisure || tags.sport || '',
+      City: tags['addr:city'] || '',
+      State: tags['addr:state'] || '',
+      Source: 'OpenStreetMap'
+    }
+  };
+}
+
+function buildLifestyleLayer() {
+  const wasVisible = state.lifestyleLayer && state.map && state.map.hasLayer(state.lifestyleLayer);
+  if (state.lifestyleLayer && state.map && state.map.hasLayer(state.lifestyleLayer)) state.map.removeLayer(state.lifestyleLayer);
+  state.lifestyleMarkerIndex = new Map();
+  state.lifestyleLayer = L.markerClusterGroup({
+    chunkedLoading: true,
+    chunkInterval: 120,
+    chunkDelay: 30,
+    showCoverageOnHover: false,
+    spiderfyOnMaxZoom: true,
+    disableClusteringAtZoom: 14,
+    maxClusterRadius: 55
+  });
+  activeLifestyleAmenities().forEach(feature => {
+    const coords = feature.geometry && feature.geometry.coordinates;
+    if (!coords || coords.length < 2) return;
+    const p = feature.properties;
+    const marker = L.marker([coords[1], coords[0]], { icon: lifestyleIcon(p.LifestyleCategory) });
+    marker.feature = feature;
+    marker.bindPopup(lifestylePopupHtml(p));
+    marker.on('click', () => selectLifestyleAmenity(feature));
+    state.lifestyleMarkerIndex.set(p.OSMID, marker);
+    state.lifestyleLayer.addLayer(marker);
+  });
+  if (wasVisible) state.lifestyleLayer.addTo(state.map);
+}
+
+async function loadLifestyle(showLayer = false) {
+  if (state.lifestyleLoaded) {
+    if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
+    return;
+  }
+  const badge = document.getElementById('lifestyleCountBadge');
+  if (badge) badge.textContent = 'Loading...';
+  const data = await fetchOverpass(lifestyleOverpassQuery());
+  const seen = new Set();
+  state.lifestyle = (data.elements || []).map(lifestyleOverpassElementToFeature).filter(Boolean).filter(f => {
+    if (seen.has(f.properties.OSMID)) return false;
+    seen.add(f.properties.OSMID);
+    assignLifestyleToSubmarket(f);
+    return !!f.properties.SubmarketID;
+  });
+  buildLifestyleLayer();
+  state.lifestyleLoaded = true;
+  if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
+  if (badge) badge.textContent = `${state.lifestyle.length.toLocaleString()} loaded`;
+  updateLifestyleFilterPanel();
+  buildSearchIndex();
+  renderSearchResults(document.getElementById('searchInput').value || '');
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
+function applyLifestyleFilters() {
+  if (!state.lifestyleLoaded) return;
+  buildLifestyleLayer();
+  if (document.getElementById('toggleLifestyle')?.checked && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
+  const visibleCount = activeLifestyleAmenities().length;
+  const badge = document.getElementById('lifestyleCountBadge');
+  if (badge) badge.textContent = `${visibleCount.toLocaleString()} shown`;
+  updateLifestyleFilterPanel();
+  if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+}
+
+function updateLifestyleFilterPanel() {
+  const panel = document.getElementById('lifestyleFilterPanel');
+  if (!panel) return;
+  const visibleCount = state.lifestyleLoaded ? activeLifestyleAmenities().length : 0;
+  panel.classList.toggle('active', !!state.lifestyleLoaded);
+  const count = document.getElementById('lifestyleFilterCount');
+  if (count) count.textContent = state.lifestyleLoaded ? `${visibleCount.toLocaleString()} of ${state.lifestyle.length.toLocaleString()} visible` : 'Load Lifestyle & Amenities';
+}
+
+function selectLifestyleAmenity(feature) {
+  if (state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
+  const toggle = document.getElementById('toggleLifestyle');
+  if (toggle) toggle.checked = true;
+  const target = state.lifestyleMarkerIndex ? state.lifestyleMarkerIndex.get(feature.properties.OSMID) : null;
+  if (target) {
+    state.map.setView(target.getLatLng(), Math.max(state.map.getZoom(), 14));
+    if (state.lifestyleLayer.zoomToShowLayer) {
+      state.lifestyleLayer.zoomToShowLayer(target, () => target.openPopup());
+    } else {
+      target.openPopup();
+    }
+  }
 }
 
 
@@ -1886,14 +2125,22 @@ function selectHealthcare(facility) {
 function styleFeature(feature) {
   const p = feature.properties;
   const selected = state.selected && state.selected.properties.SubmarketID === p.SubmarketID;
+  let fillColor = p.HubColor || p.HubBaseColor || '#8ea0ad';
+  if (state.mapTheme === 'schools') fillColor = colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall);
+  else if (state.mapTheme === 'retail') fillColor = colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'healthcare') fillColor = colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'builders') fillColor = colorForBuilderDensity(builderSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'lifestyle') fillColor = colorForLifestyleDensity(lifestyleSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'income') fillColor = colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income);
+  else if (state.mapTheme === 'popgrowth') fillColor = colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct);
+  else if (state.mapTheme === 'population') fillColor = colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population);
   return {
     color: selected ? '#061827' : '#26384f',
     weight: selected ? 3.5 : 1.4,
-    fillColor: state.mapTheme === 'schools' ? colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall) : (state.mapTheme === 'retail' ? colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'healthcare' ? colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'builders' ? colorForBuilderDensity(builderSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density) : (state.mapTheme === 'income' ? colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income) : (state.mapTheme === 'popgrowth' ? colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct) : (state.mapTheme === 'population' ? colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population) : (p.HubColor || p.HubBaseColor || '#8ea0ad'))))))),
+    fillColor,
     fillOpacity: selected ? 0.72 : 0.48
   };
 }
-
 
 function legendHtml() {
   if (state.mapTheme === 'schools') {
@@ -1904,6 +2151,11 @@ function legendHtml() {
   if (state.mapTheme === 'retail') {
     return `<b>Retail Density</b><div class="legend-subtitle">POIs per sq mi</div>` + [
       ['#0f766e','Very High','4.0+'], ['#14b8a6','High','2.0-3.9'], ['#5eead4','Moderate','1.0-1.9'], ['#ccfbf1','Low','0.1-0.9'], ['#e5e7eb','None','0']
+    ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
+  }
+  if (state.mapTheme === 'lifestyle') {
+    return `<b>Lifestyle Amenities</b><div class="legend-subtitle">Amenities per sq mi</div>` + [
+      ['#9a3412','Very High','4.0+'], ['#ea580c','High','2.0-3.9'], ['#fb923c','Moderate','1.0-1.9'], ['#fed7aa','Low','0.1-0.9'], ['#e5e7eb','None','0']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'healthcare') {
@@ -2024,9 +2276,10 @@ function renderRelease(meta) {
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
     Demographics: <b>${state.demographicsLoaded ? 'ACS 2020-2024 loaded' : 'Pending'}</b><br>
     Healthcare: <b>${healthcareDatasetBuilt() ? state.healthcare.length + ' loaded' : 'Builder ready'}</b><br>
+    Lifestyle: <b>${state.lifestyleLoaded ? state.lifestyle.length + ' loaded' : 'Layer ready'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
   `;
-  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, and healthcare framework ready`;
+  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, healthcare, builder, retail, and lifestyle framework ready`;
 }
 
 function renderHubList(meta) {
@@ -2118,6 +2371,7 @@ function renderHubSummary(hub) {
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
+    ${renderLifestyleCard(lifestyleSummaryForFeatures(items))}
     ${renderBuilderCard(builderSummaryForFeatures(items))}
     <div class="focus-list">
       ${items.map(f => `<div class="focus-row"><span>${f.properties.DisplayName}</span><b>${f.properties.SubmarketID}</b></div>`).join('')}
@@ -2148,11 +2402,13 @@ function renderHomeSummary() {
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
+    ${renderLifestyleCard(lifestyleSummaryForSubmarket(p.SubmarketID, p.AreaSqMi))}
     ${renderBuilderCard(builder)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>Hub color model</span><b>Active</b></div>
       <div class="focus-row"><span>School layer</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
+      <div class="focus-row"><span>Lifestyle & Amenities</span><b>${state.lifestyleLoaded ? 'Loaded' : 'Ready'}</b></div>
     </div>
   `;
   updateBuilderFilterPanel();
@@ -2220,7 +2476,19 @@ function buildSearchIndex() {
       poi
     };
   });
-  state.searchIndex = submarkets.concat(schools).concat(healthcare).concat(builders).concat(pois);
+  const lifestyle = state.lifestyle.map(item => {
+    const p = item.properties || {};
+    return {
+      type: 'Lifestyle',
+      icon: p.LifestyleCategory === 'Golf' ? 'G' : p.LifestyleCategory === 'Tennis' ? 'T' : p.LifestyleCategory === 'Pickleball' ? 'P' : p.LifestyleCategory === 'Fitness' ? 'F' : p.LifestyleCategory === 'Center' ? 'C' : 'O',
+      id: p.OSMID,
+      title: p.Name || lifestyleCategoryLabel(p.LifestyleCategory),
+      subtitle: `${lifestyleCategoryLabel(p.LifestyleCategory)} • ${p.SubmarketName || ''}`,
+      keywords: `${p.Name || ''} ${p.Brand || ''} ${p.LifestyleCategory || ''} ${p.Subcategory || ''} ${p.City || ''} ${p.SubmarketName || ''}`.toLowerCase(),
+      lifestyle: item
+    };
+  });
+  state.searchIndex = submarkets.concat(schools).concat(healthcare).concat(builders).concat(pois).concat(lifestyle);
 }
 
 function selectFeature(feature, layer, shouldZoom = false) {
@@ -2264,12 +2532,14 @@ function renderSelected(p) {
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
+    ${renderLifestyleCard(lifestyleSummaryForFeatures(state.features))}
     ${renderBuilderCard(builder)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
       <div class="focus-row"><span>School Rating</span><b>${state.schoolsLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Healthcare</span><b>${healthcareDatasetBuilt() ? 'Loaded' : 'Layer Ready'}</b></div>
       <div class="focus-row"><span>Retail & Dining</span><b>${state.poisLoaded ? 'Loaded' : 'Ready'}</b></div>
+      <div class="focus-row"><span>Lifestyle & Amenities</span><b>${state.lifestyleLoaded ? 'Loaded' : 'Ready'}</b></div>
       <div class="focus-row"><span>Demographics</span><b>${demo ? 'Loaded' : 'No Data'}</b></div>
       <div class="focus-row"><span>Builder Subdivisions</span><b>${state.buildersLoaded ? 'Loaded' : 'Ready'}</b></div>
     </div>
@@ -2308,7 +2578,7 @@ function renderSearchResults(query) {
       <span><b>${item.title}</b><small>${item.subtitle}</small></span>
     </button>
   `).join('') + `
-    <div class="future-search-note">Search now includes submarkets${state.schoolsLoaded ? ' and schools' : ''}. Additional city, builder, and retail search will be added as those layers are loaded.</div>
+    <div class="future-search-note">Search now includes submarkets${state.schoolsLoaded ? ' and schools' : ''}. Additional city, builder, retail, and lifestyle search will be added as those layers are loaded.</div>
   `;
 
   box.querySelectorAll('.result-item').forEach(btn => {
@@ -2318,6 +2588,7 @@ function renderSearchResults(query) {
       if (item.type === 'School') selectSchool(item.school);
       else if (item.type === 'POI') selectPOI(item.poi);
       else if (item.type === 'Healthcare') selectHealthcare(item.facility);
+      else if (item.type === 'Lifestyle') selectLifestyleAmenity(item.lifestyle);
       else if (item.type === 'Builder') selectBuilderSubdivision(item.builder);
       else selectFeature(item.feature, findLayerForFeature(item.feature), true);
     });
@@ -2333,6 +2604,7 @@ function performSearch() {
   if (first.type === 'School') selectSchool(first.school);
   else if (first.type === 'POI') selectPOI(first.poi);
   else if (first.type === 'Healthcare') selectHealthcare(first.facility);
+  else if (first.type === 'Lifestyle') selectLifestyleAmenity(first.lifestyle);
   else if (first.type === 'Builder') selectBuilderSubdivision(first.builder);
   else selectFeature(first.feature, findLayerForFeature(first.feature), true);
 }
@@ -2631,8 +2903,10 @@ function bindUI() {
         setMapTheme('retail');
       } else if (state.poiLayer) {
         state.map.removeLayer(state.poiLayer);
-        document.getElementById('mapThemeSelect').value = 'hub';
-        setMapTheme('hub');
+        if (document.getElementById('mapThemeSelect').value === 'retail') {
+          document.getElementById('mapThemeSelect').value = 'hub';
+          setMapTheme('hub');
+        }
       }
     } catch (err) {
       console.error(err);
@@ -2647,6 +2921,35 @@ function bindUI() {
       if (!key) return;
       state.retailFilters[key] = e.target.checked;
       applyRetailFilters();
+    });
+  });
+  document.getElementById('toggleLifestyle').addEventListener('change', async e => {
+    try {
+      if (e.target.checked) {
+        await loadLifestyle(true);
+        if (state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
+        document.getElementById('mapThemeSelect').value = 'lifestyle';
+        setMapTheme('lifestyle');
+      } else if (state.lifestyleLayer) {
+        state.map.removeLayer(state.lifestyleLayer);
+        if (document.getElementById('mapThemeSelect').value === 'lifestyle') {
+          document.getElementById('mapThemeSelect').value = 'hub';
+          setMapTheme('hub');
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      e.target.checked = false;
+      document.getElementById('lifestyleCountBadge').textContent = 'Error';
+      alert('Lifestyle & Amenities could not be loaded from OpenStreetMap right now. Try again later.');
+    }
+  });
+  document.querySelectorAll('.lifestyle-filter').forEach(input => {
+    input.addEventListener('change', e => {
+      const key = e.target.dataset.lifestyleFilter;
+      if (!key) return;
+      state.lifestyleFilters[key] = e.target.checked;
+      applyLifestyleFilters();
     });
   });
 
