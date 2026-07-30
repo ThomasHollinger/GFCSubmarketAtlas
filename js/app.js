@@ -34,6 +34,7 @@ const state = {
   healthcare: [],
   healthcareLoaded: false,
   healthcareSummary: null,
+  returnTheme: 'hub',
   builders: [],
   buildersLoaded: false,
   builderSummary: null,
@@ -52,6 +53,8 @@ const hubBaseColors = {
   'Panama City Hub': '#8CCB6E',
   'Growth Markets': '#A7A7A7'
 };
+
+const overlayThemes = new Set(['schools', 'retail', 'healthcare', 'builders', 'lifestyle']);
 
 const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
 const OVERPASS_URLS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
@@ -570,6 +573,7 @@ const schoolRatingRecords = [
 {"County":"Covington County","City":"Lockhart","SchoolName":"Ws Harlan Elementary School","SchoolType":"Elementary","Rating":3,"NCESID":"10093000364","State":"","Excluded":false,"ExcludedReason":""}
 ];
 state.mapTheme = 'hub';
+state.returnTheme = 'hub';
 
 function normalizeName(name) {
   return String(name || '')
@@ -2125,8 +2129,14 @@ function selectHealthcare(facility) {
 function styleFeature(feature) {
   const p = feature.properties;
   const selected = state.selected && state.selected.properties.SubmarketID === p.SubmarketID;
+  const isOutline = state.mapTheme === 'outline';
   let fillColor = p.HubColor || p.HubBaseColor || '#8ea0ad';
-  if (state.mapTheme === 'schools') fillColor = colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall);
+  let fillOpacity = selected ? 0.72 : 0.48;
+  let fill = true;
+  if (isOutline) {
+    fill = false;
+    fillOpacity = 0;
+  } else if (state.mapTheme === 'schools') fillColor = colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall);
   else if (state.mapTheme === 'retail') fillColor = colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
   else if (state.mapTheme === 'healthcare') fillColor = colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
   else if (state.mapTheme === 'builders') fillColor = colorForBuilderDensity(builderSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
@@ -2135,14 +2145,22 @@ function styleFeature(feature) {
   else if (state.mapTheme === 'popgrowth') fillColor = colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct);
   else if (state.mapTheme === 'population') fillColor = colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population);
   return {
-    color: selected ? '#061827' : '#26384f',
-    weight: selected ? 3.5 : 1.4,
+    color: selected ? '#061827' : (isOutline ? (p.HubColor || p.HubBaseColor || '#26384f') : '#26384f'),
+    weight: selected ? 3.5 : (isOutline ? 1.8 : 1.4),
     fillColor,
-    fillOpacity: selected ? 0.72 : 0.48
+    fillOpacity,
+    fill,
+    opacity: 1
   };
 }
 
 function legendHtml() {
+  if (state.mapTheme === 'outline') {
+    return `<b>Outline View</b><div class="legend-subtitle">Submarket boundaries only</div>` + hubOrder.map(hub => {
+      const count = state.features.filter(f => f.properties.Hub === hub).length;
+      return `<div class="legend-row"><i class="legend-swatch" style="background:transparent;border:2px solid ${hubBaseColors[hub]};box-sizing:border-box"></i><span>${hub.replace(' Hub','')}</span><small>${count}</small></div>`;
+    }).join('');
+  }
   if (state.mapTheme === 'schools') {
     return `<b>School Rating</b><div class="legend-subtitle">GreatSchools Average</div>` + [
       ['#1f8f4d','A','9.0-10.0'], ['#74b816','B','8.0-8.9'], ['#f2c94c','C','7.0-7.9'], ['#f2994a','D','6.0-6.9'], ['#d64545','F','Below 6.0'], ['#d0d5dd','Not Rated','Excluded / no rating']
@@ -2154,29 +2172,23 @@ function legendHtml() {
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'lifestyle') {
-    return `<b>Lifestyle Amenities</b><div class="legend-subtitle">Amenities per sq mi</div>` + [
-      ['#9a3412','Very High','4.0+'], ['#ea580c','High','2.0-3.9'], ['#fb923c','Moderate','1.0-1.9'], ['#fed7aa','Low','0.1-0.9'], ['#e5e7eb','None','0']
+    return `<b>Lifestyle & Amenities</b><div class="legend-subtitle">POIs per sq mi</div>` + [
+      ['#7c3aed','Very High','3.0+'], ['#8b5cf6','High','1.5-2.9'], ['#a78bfa','Moderate','0.5-1.4'], ['#ddd6fe','Low','0.1-0.4'], ['#e5e7eb','None','0']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'healthcare') {
     return `<b>Healthcare Access</b><div class="legend-subtitle">Facilities per sq mi</div>` + [
-      ['#7f1d1d','Very High','1.2+'], ['#dc2626','High','0.6-1.19'], ['#f87171','Moderate','0.25-0.59'], ['#fecaca','Low','0.01-0.24'], ['#e5e7eb','None','0']
+      ['#be123c','Very High','2.0+'], ['#ef4444','High','1.0-1.9'], ['#fca5a5','Moderate','0.5-0.9'], ['#fecaca','Low','0.1-0.4'], ['#e5e7eb','None','0']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
-
   if (state.mapTheme === 'builders') {
-    return `<b>Builder Activity</b><div class="legend-subtitle">Visible communities per sq mi</div>` + [
-      ['#581c87','Very High','1.2+'], ['#7e22ce','High','0.6-1.19'], ['#a855f7','Moderate','0.25-0.59'], ['#e9d5ff','Low','0.01-0.24'], ['#e5e7eb','None','0']
+    return `<b>Builder Activity</b><div class="legend-subtitle">Starts per sq mi</div>` + [
+      ['#6d28d9','Very High','5.0+'], ['#7c3aed','High','2.5-4.9'], ['#a855f7','Moderate','1.0-2.4'], ['#d8b4fe','Low','0.1-0.9'], ['#e5e7eb','None','0']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'income') {
     return `<b>Median Income</b><div class="legend-subtitle">ACS 2020-2024 Current Estimate</div>` + [
-      ['#064e3b','$100k+','Very High'], ['#047857','$85k-$99k','High'], ['#10b981','$70k-$84k','Strong'], ['#a7f3d0','$55k-$69k','Moderate'], ['#d1fae5','<$55k','Lower'], ['#e5e7eb','N/A','No data']
-    ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
-  }
-  if (state.mapTheme === 'popgrowth') {
-    return `<b>Population Growth</b><div class="legend-subtitle">Prior 5-Year ACS trend</div>` + [
-      ['#7c2d12','40%+','Very High'], ['#ea580c','20%-39%','High'], ['#fb923c','10%-19%','Growth'], ['#fed7aa','0%-9%','Stable'], ['#cbd5e1','Negative','Decline'], ['#e5e7eb','N/A','No data']
+      ['#7c3aed','Very High','$90k+'], ['#8b5cf6','High','$75k-$89k'], ['#a78bfa','Moderate','$60k-$74k'], ['#c4b5fd','Low','$45k-$59k'], ['#e5e7eb','Very Low','Under $45k']
     ].map(r => `<div class="legend-row"><i class="legend-swatch" style="background:${r[0]}"></i><span>${r[1]}</span><small>${r[2]}</small></div>`).join('');
   }
   if (state.mapTheme === 'population') {
@@ -2191,12 +2203,14 @@ function legendHtml() {
 }
 
 function updateLegend() {
+
   const el = document.querySelector('.legend');
   if (el) el.innerHTML = legendHtml();
 }
 
 function setMapTheme(theme) {
   state.mapTheme = theme;
+  if (!overlayThemes.has(theme)) state.returnTheme = theme;
   if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
   updateLegend();
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
@@ -2870,8 +2884,8 @@ function bindUI() {
       } else if (state.schoolLayer) {
         state.map.removeLayer(state.schoolLayer);
         // When the school layer is turned off, return the map to the standard Hub View.
-        document.getElementById('mapThemeSelect').value = 'hub';
-        setMapTheme('hub');
+        document.getElementById('mapThemeSelect').value = state.returnTheme || 'hub';
+        setMapTheme(state.returnTheme || 'hub');
       }
       refreshSchoolFilterSummary();
     } catch (err) {
@@ -2904,8 +2918,8 @@ function bindUI() {
       } else if (state.poiLayer) {
         state.map.removeLayer(state.poiLayer);
         if (document.getElementById('mapThemeSelect').value === 'retail') {
-          document.getElementById('mapThemeSelect').value = 'hub';
-          setMapTheme('hub');
+          document.getElementById('mapThemeSelect').value = state.returnTheme || 'hub';
+          setMapTheme(state.returnTheme || 'hub');
         }
       }
     } catch (err) {
@@ -2933,8 +2947,8 @@ function bindUI() {
       } else if (state.lifestyleLayer) {
         state.map.removeLayer(state.lifestyleLayer);
         if (document.getElementById('mapThemeSelect').value === 'lifestyle') {
-          document.getElementById('mapThemeSelect').value = 'hub';
-          setMapTheme('hub');
+          document.getElementById('mapThemeSelect').value = state.returnTheme || 'hub';
+          setMapTheme(state.returnTheme || 'hub');
         }
       }
     } catch (err) {
@@ -2963,8 +2977,8 @@ function bindUI() {
         setMapTheme('builders');
       } else if (state.builderLayer) {
         state.map.removeLayer(state.builderLayer);
-        document.getElementById('mapThemeSelect').value = 'hub';
-        setMapTheme('hub');
+        document.getElementById('mapThemeSelect').value = state.returnTheme || 'hub';
+        setMapTheme(state.returnTheme || 'hub');
       }
     } catch (err) {
       console.error(err);
@@ -2991,8 +3005,8 @@ function bindUI() {
         setMapTheme('healthcare');
       } else if (state.healthcareLayer) {
         state.map.removeLayer(state.healthcareLayer);
-        document.getElementById('mapThemeSelect').value = 'hub';
-        setMapTheme('hub');
+        document.getElementById('mapThemeSelect').value = state.returnTheme || 'hub';
+        setMapTheme(state.returnTheme || 'hub');
       }
     } catch (err) {
       console.error(err);
@@ -3004,12 +3018,13 @@ function bindUI() {
   const demoToggle = document.getElementById('toggleDemographics');
   if (demoToggle) {
     demoToggle.addEventListener('change', e => {
-      document.getElementById('mapThemeSelect').value = e.target.checked ? 'income' : 'hub';
-      setMapTheme(e.target.checked ? 'income' : 'hub');
+      document.getElementById('mapThemeSelect').value = e.target.checked ? 'income' : (state.returnTheme || 'hub');
+      setMapTheme(e.target.checked ? 'income' : (state.returnTheme || 'hub'));
     });
   }
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
     if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
+    state.returnTheme = e.target.value;
     setMapTheme(e.target.value);
   });
   document.getElementById('basemapSelect').addEventListener('change', e => {
