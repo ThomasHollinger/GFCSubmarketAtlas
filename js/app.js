@@ -100,6 +100,20 @@ function submarketNumberForFeature(feature) {
   return null;
 }
 
+function submarketNumberAnchorForFeature(feature, layer) {
+  const p = feature && feature.properties ? feature.properties : {};
+  const labelPoint = Array.isArray(p.LabelPoint) && p.LabelPoint.length === 2 ? p.LabelPoint : null;
+  if (labelPoint) {
+    return L.latLng(labelPoint[1], labelPoint[0]);
+  }
+  try {
+    const center = layer && layer.getBounds ? layer.getBounds().getCenter() : null;
+    return center ? L.latLng(center.lat, center.lng) : null;
+  } catch (err) {
+    return null;
+  }
+}
+
 const overlayThemes = new Set(['schools', 'retail', 'healthcare', 'builders', 'lifestyle']);
 
 const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
@@ -2332,8 +2346,9 @@ async function loadData() {
 
       const submarketNumber = submarketNumberForFeature(feature);
       if (submarketNumber !== null && submarketNumber !== undefined) {
-        const center = layer.getBounds().getCenter();
-        submarketNumberMarkers.push(L.marker(center, {
+        const anchor = submarketNumberAnchorForFeature(feature, layer);
+        if (!anchor) return;
+        submarketNumberMarkers.push(L.marker(anchor, {
           interactive: false,
           keyboard: false,
           zIndexOffset: 900,
