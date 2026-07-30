@@ -2145,8 +2145,8 @@ function styleFeature(feature) {
   else if (state.mapTheme === 'popgrowth') fillColor = colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct);
   else if (state.mapTheme === 'population') fillColor = colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population);
   return {
-    color: selected ? '#061827' : (isOutline ? (p.HubColor || p.HubBaseColor || '#26384f') : '#26384f'),
-    weight: selected ? 3.5 : (isOutline ? 1.8 : 1.4),
+    color: isOutline ? '#000000' : (selected ? '#061827' : '#26384f'),
+    weight: isOutline ? 1.8 : (selected ? 3.5 : 1.4),
     fillColor,
     fillOpacity,
     fill,
@@ -2158,7 +2158,7 @@ function legendHtml() {
   if (state.mapTheme === 'outline') {
     return `<b>Outline View</b><div class="legend-subtitle">Submarket boundaries only</div>` + hubOrder.map(hub => {
       const count = state.features.filter(f => f.properties.Hub === hub).length;
-      return `<div class="legend-row"><i class="legend-swatch" style="background:transparent;border:2px solid ${hubBaseColors[hub]};box-sizing:border-box"></i><span>${hub.replace(' Hub','')}</span><small>${count}</small></div>`;
+      return `<div class="legend-row"><i class="legend-swatch" style="background:transparent;border:2px solid #000000;box-sizing:border-box"></i><span>${hub.replace(' Hub','')}</span><small>${count}</small></div>`;
     }).join('');
   }
   if (state.mapTheme === 'schools') {
