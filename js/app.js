@@ -2402,7 +2402,7 @@ function renderHomeSummary() {
     ${renderSchoolCountCard(counts, scoreSummary)}
     ${renderHealthcareCard(healthcare)}
     ${renderRetailCard(retail)}
-    ${renderLifestyleCard(lifestyleSummaryForSubmarket(p.SubmarketID, p.AreaSqMi))}
+    ${renderLifestyleCard(lifestyleSummaryForFeatures(state.features))}
     ${renderBuilderCard(builder)}
     <div class="focus-list">
       <div class="focus-row"><span>Boundaries</span><b>Verified</b></div>
