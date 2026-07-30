@@ -106,6 +106,11 @@ function submarketNumberAnchorForFeature(feature, layer) {
   if (labelPoint) {
     return L.latLng(labelPoint[1], labelPoint[0]);
   }
+  const centroidLon = Number(p.CentroidLon);
+  const centroidLat = Number(p.CentroidLat);
+  if (Number.isFinite(centroidLon) && Number.isFinite(centroidLat)) {
+    return L.latLng(centroidLat, centroidLon);
+  }
   try {
     const center = layer && layer.getBounds ? layer.getBounds().getCenter() : null;
     return center ? L.latLng(center.lat, center.lng) : null;
@@ -980,11 +985,23 @@ async function exportSubmarketOutlinesKml() {
     alert('Submarket data is still loading. Please try again in a moment.');
     return;
   }
-  const styleBlocks = `
-    <Style id="atlasStyle">
+  const styleBlocks = Object.entries(hubBaseColors).map(([hub, hex], index) => {
+    const styleId = `hubStyle${index}`;
+    const fill = hexToKmlColor(hex, '66');
+    return `
+    <Style id="${styleId}">
       <LineStyle><color>${hexToKmlColor('#000000')}</color><width>2</width></LineStyle>
-      <PolyStyle><color>${hexToKmlColor('#ffffff', '00')}</color></PolyStyle>
+      <PolyStyle><color>${fill}</color><fill>1</fill><outline>1</outline></PolyStyle>
     </Style>`;
+  }).join('') + `
+    <Style id="hubStyleDefault">
+      <LineStyle><color>${hexToKmlColor('#000000')}</color><width>2</width></LineStyle>
+      <PolyStyle><color>${hexToKmlColor('#a7a7a7', '66')}</color><fill>1</fill><outline>1</outline></PolyStyle>
+    </Style>`;
+  const hubStyleId = hub => {
+    const idx = Object.keys(hubBaseColors).indexOf(hub);
+    return idx >= 0 ? `#hubStyle${idx}` : '#hubStyleDefault';
+  };
   const kml = buildKmlDocument({
     documentName: 'Gulf Coast Submarket Outlines',
     folderName: 'Submarket Outlines',
@@ -999,10 +1016,54 @@ async function exportSubmarketOutlinesKml() {
         `<div><b>Acres:</b> ${escapeXml(fmt(Math.round(Number(p.Acres || 0))))}</div>`,
         `<div><b>Area Sq Mi:</b> ${escapeXml(fmtOne(p.AreaSqMi))}</div>`
       ].join('');
-      return { name: p.DisplayName, description: `<div>${lines}</div>`, styleUrl: '#atlasStyle' };
+      return { name: p.DisplayName, description: `<div>${lines}</div>`, styleUrl: hubStyleId(p.Hub) };
     }
   });
   downloadKml('gulf_coast_submarket_outlines.kml', kml);
+}
+
+async function exportSubmarketNumbersKml() {
+  if (!state.features.length) {
+    alert('Submarket data is still loading. Please try again in a moment.');
+    return;
+  }
+  const numberedFeatures = state.features
+    .map(feature => {
+      const number = submarketNumberForFeature(feature);
+      const anchor = submarketNumberAnchorForFeature(feature, null);
+      const p = feature.properties || {};
+      if (number === null || number === undefined || !anchor) return null;
+      return {
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [anchor.lng, anchor.lat] },
+        properties: { ...p, Number: number }
+      };
+    })
+    .filter(Boolean);
+
+  const styleBlocks = `
+    <Style id="numberStyle">
+      <IconStyle><scale>0.9</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle>
+      <LabelStyle><scale>1.25</scale></LabelStyle>
+    </Style>`;
+
+  const kml = buildKmlDocument({
+    documentName: 'Gulf Coast Submarket Numbers',
+    folderName: 'Submarket Numbers',
+    features: numberedFeatures,
+    styleBlocks,
+    placemarkOptions: feature => {
+      const p = feature.properties || {};
+      const lines = [
+        `<div><b>Submarket:</b> ${escapeXml(p.DisplayName || '')}</div>`,
+        `<div><b>Submarket ID:</b> ${escapeXml(p.SubmarketID || '')}</div>`,
+        `<div><b>Hub:</b> ${escapeXml(p.Hub || '')}</div>`,
+        `<div><b>Number:</b> ${escapeXml(p.Number || '')}</div>`
+      ].join('');
+      return { name: String(p.Number || ''), description: `<div>${lines}</div>`, styleUrl: '#numberStyle' };
+    }
+  });
+  downloadKml('gulf_coast_submarket_numbers.kml', kml);
 }
 
 async function exportBuilderSubdivisionsKml() {
@@ -3278,6 +3339,7 @@ function bindUI() {
     });
   }
   document.getElementById('downloadSubmarketsKml')?.addEventListener('click', exportSubmarketOutlinesKml);
+  document.getElementById('downloadSubmarketNumbersKml')?.addEventListener('click', exportSubmarketNumbersKml);
   document.getElementById('downloadBuildersKml')?.addEventListener('click', exportBuilderSubdivisionsKml);
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
     if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
