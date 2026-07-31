@@ -1643,7 +1643,7 @@ function updateLifestyleFilterPanel() {
   const panel = document.getElementById('lifestyleFilterPanel');
   if (!panel) return;
   const visibleCount = state.lifestyleLoaded ? activeLifestyleAmenities().length : 0;
-  panel.classList.toggle('active', !!state.lifestyleLoaded);
+  panel.classList.toggle('active', !!document.getElementById('toggleLifestyle')?.checked);
   const count = document.getElementById('lifestyleFilterCount');
   if (count) count.textContent = state.lifestyleLoaded ? `${visibleCount.toLocaleString()} of ${state.lifestyle.length.toLocaleString()} visible` : 'Load Lifestyle & Amenities';
 }
@@ -2263,7 +2263,7 @@ function updateBuilderFilterPanel() {
   const panel = document.getElementById('builderFilterPanel');
   if (!panel) return;
   const visibleCount = state.buildersLoaded ? activeBuilderSubdivisions().length : 0;
-  panel.classList.toggle('active', !!state.buildersLoaded);
+  panel.classList.toggle('active', !!document.getElementById('toggleBuilders')?.checked);
   renderBuilderNameFilterList();
   renderBuilderTierFilterList();
   const selectedBuilderCount = Object.values((state.builderFilters.BuilderNames || {})).filter(Boolean).length;
@@ -2446,7 +2446,7 @@ function updateRetailFilterPanel() {
   const panel = document.getElementById('retailFilterPanel');
   if (!panel) return;
   const visibleCount = state.poisLoaded ? activeRetailPOIs().length : 0;
-  panel.classList.toggle('active', !!state.poisLoaded);
+  panel.classList.toggle('active', !!document.getElementById('toggleRetail')?.checked);
   const count = document.getElementById('retailFilterCount');
   if (count) count.textContent = state.poisLoaded ? `${visibleCount.toLocaleString()} of ${state.pois.length.toLocaleString()} visible` : 'Load Retail & Dining';
 }
@@ -3169,7 +3169,7 @@ function schoolFilterCounts() {
 function refreshSchoolFilterSummary() {
   const panel = document.getElementById('schoolFilterPanel');
   const countEl = document.getElementById('schoolFilterCount');
-  if (panel) panel.classList.toggle('active', !!state.schoolsLoaded || !!document.getElementById('toggleSchools')?.checked);
+  if (panel) panel.classList.toggle('active', !!document.getElementById('toggleSchools')?.checked);
   if (countEl) {
     const { total, visible } = schoolFilterCounts();
     if (!state.schoolsLoaded) countEl.textContent = 'Load Schools';
