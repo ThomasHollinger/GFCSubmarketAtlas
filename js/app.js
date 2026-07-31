@@ -2608,7 +2608,7 @@ function styleFeature(feature) {
     color: isOutline ? lineColor : (selected ? '#061827' : lineColor),
     fillColor: lineColor,
     weight: isOutline ? 1.8 : (selected ? 3.5 : 1.4),
-    fillOpacity: isOutline ? 0 : (selected ? 0.42 : 0.32),
+    fillOpacity: isOutline ? 0 : (selected ? 0.28 : 0.18),
     fill: !isOutline,
     opacity: 1
   };
@@ -2736,7 +2736,7 @@ async function loadData() {
     style: styleFeature,
     onEachFeature: (feature, layer) => {
       layer.on({
-        mouseover: () => layer.setStyle({ weight: 2.8, fillOpacity: 0.56 }),
+        mouseover: () => layer.setStyle({ weight: 2.8, fillOpacity: 0.24 }),
         mouseout: () => state.submarketLayer.resetStyle(layer),
         click: () => selectFeature(feature, layer, false),
         dblclick: () => selectFeature(feature, layer, true)
