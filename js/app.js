@@ -1211,17 +1211,18 @@ async function getBuilderSubdivisionExportFeatures() {
 
 async function exportBuilderSubdivisionsKml() {
   try {
-    const features = await getBuilderSubdivisionExportFeatures();
-    if (!features.length) {
-      alert('Builder subdivision data is unavailable. Please try again after the Builder source loads.');
-      return;
+    const response = await fetch('data/gulf_coast_builder_subdivisions_styled.kml', { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
-
-    const kml = buildBuilderSubdivisionsKml(features);
+    const kml = await response.text();
+    if (!kml || !kml.trim()) {
+      throw new Error('Builder KML file is empty');
+    }
     downloadKml('gulf_coast_builder_subdivisions_styled.kml', kml);
   } catch (err) {
     console.error(err);
-    alert('Builder subdivision export failed. Please refresh the page and try again.');
+    alert('Builder subdivision export is temporarily unavailable. Please reload the page and try again.');
   }
 }
 
