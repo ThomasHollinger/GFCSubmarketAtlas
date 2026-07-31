@@ -39,6 +39,8 @@ const state = {
   builders: [],
   buildersLoaded: false,
   builderSummary: null,
+  builderExportKml: null,
+  builderExportKmlCount: 0,
   demographics: null,
   demographicsLoaded: false,
   basemaps: {},
@@ -1113,21 +1115,9 @@ async function exportSubmarketNumbersKml() {
 
 
 
-async function exportBuilderSubdivisionsKml() {
-  let features = state.builders || [];
-  if (!features.length) {
-    try {
-      const communities = await fetch('data/builder_subdivisions.geojson').then(r => r.json());
-      features = communities.features || [];
-    } catch (err) {
-      console.error(err);
-      alert('Builder subdivision data could not be loaded for export.');
-      return;
-    }
-  }
-
+function buildBuilderSubdivisionsKml(features) {
   const styleBlocks = builderKmlStyleBlocks();
-  const kml = buildKmlDocument({
+  return buildKmlDocument({
     documentName: 'Gulf Coast Builder Subdivisions',
     folderName: 'Builder Subdivisions',
     features,
@@ -1161,8 +1151,30 @@ async function exportBuilderSubdivisionsKml() {
       return { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(primaryBuilder) };
     }
   });
+}
 
-  downloadKml('gulf_coast_builder_subdivisions_styled.kml', kml);
+function exportBuilderSubdivisionsKml() {
+  try {
+    const features = Array.isArray(state.builders) ? state.builders : [];
+    if (!state.buildersLoaded && !features.length) {
+      alert('Builder subdivision data is still loading. Please try again in a moment.');
+      return;
+    }
+    if (!features.length) {
+      alert('Builder subdivision data is unavailable. Turn on Builder Subdivisions and try again.');
+      return;
+    }
+
+    if (!state.builderExportKml || state.builderExportKmlCount !== features.length) {
+      state.builderExportKml = buildBuilderSubdivisionsKml(features);
+      state.builderExportKmlCount = features.length;
+    }
+
+    downloadKml('gulf_coast_builder_subdivisions_styled.kml', state.builderExportKml);
+  } catch (err) {
+    console.error(err);
+    alert('Builder subdivision export failed. Please try again after the Builder layer finishes loading.');
+  }
 }
 
 function colorForIncome(v) {
@@ -2187,12 +2199,22 @@ async function loadBuilders(showLayer = false) {
       ]);
       state.builders = communities.features || [];
       state.builderSummary = summary;
+      state.builderExportKml = null;
+      state.builderExportKmlCount = 0;
     } catch (err) {
       console.warn('Builder subdivision data not available', err);
       state.builders = [];
       state.builderSummary = { metadata: { status: 'not_built' }, submarkets: {} };
     }
     buildBuilderLayer();
+    try {
+      state.builderExportKml = buildBuilderSubdivisionsKml(state.builders);
+      state.builderExportKmlCount = state.builders.length;
+    } catch (cacheErr) {
+      console.warn('Builder KML cache build failed', cacheErr);
+      state.builderExportKml = null;
+      state.builderExportKmlCount = 0;
+    }
     state.buildersLoaded = true;
     if (badge) badge.textContent = state.builders.length ? `${state.builders.length.toLocaleString()} loaded` : 'No data';
     updateBuilderFilterPanel();
