@@ -1193,27 +1193,35 @@ async function ensureBuildersLoaded() {
   return state.buildersLoaded;
 }
 
+
+async function getBuilderSubdivisionExportFeatures() {
+  try {
+    const response = await fetch('data/builder_subdivisions.geojson', { cache: 'no-store' });
+    if (response.ok) {
+      const data = await response.json();
+      if (data && Array.isArray(data.features) && data.features.length) {
+        return data.features;
+      }
+    }
+  } catch (err) {
+    console.warn('Builder export source fetch failed, falling back to in-memory layer if available.', err);
+  }
+  return Array.isArray(state.builders) ? state.builders : [];
+}
+
 async function exportBuilderSubdivisionsKml() {
   try {
-    if (!state.buildersLoaded) {
-      await ensureBuildersLoaded();
-    }
-
-    const features = Array.isArray(state.builders) ? state.builders : [];
+    const features = await getBuilderSubdivisionExportFeatures();
     if (!features.length) {
-      alert('Builder subdivision data is unavailable. Turn on Builder Subdivisions and try again.');
+      alert('Builder subdivision data is unavailable. Please try again after the Builder source loads.');
       return;
     }
 
-    if (!state.builderExportKml || state.builderExportKmlCount !== features.length) {
-      state.builderExportKml = buildBuilderSubdivisionsKml(features);
-      state.builderExportKmlCount = features.length;
-    }
-
-    downloadKml('gulf_coast_builder_subdivisions_styled.kml', state.builderExportKml);
+    const kml = buildBuilderSubdivisionsKml(features);
+    downloadKml('gulf_coast_builder_subdivisions_styled.kml', kml);
   } catch (err) {
     console.error(err);
-    alert('Builder subdivision export failed. Please wait for the Builder layer to finish loading, then try again.');
+    alert('Builder subdivision export failed. Please refresh the page and try again.');
   }
 }
 
@@ -2247,14 +2255,8 @@ async function loadBuilders(showLayer = false) {
       state.builderSummary = { metadata: { status: 'not_built' }, submarkets: {} };
     }
     buildBuilderLayer();
-    try {
-      state.builderExportKml = buildBuilderSubdivisionsKml(state.builders);
-      state.builderExportKmlCount = state.builders.length;
-    } catch (cacheErr) {
-      console.warn('Builder KML cache build failed', cacheErr);
-      state.builderExportKml = null;
-      state.builderExportKmlCount = 0;
-    }
+    state.builderExportKml = null;
+    state.builderExportKmlCount = 0;
     state.buildersLoaded = true;
     if (badge) badge.textContent = state.builders.length ? `${state.builders.length.toLocaleString()} loaded` : 'No data';
     updateBuilderFilterPanel();
