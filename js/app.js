@@ -38,6 +38,7 @@ const state = {
   returnTheme: 'hub',
   builders: [],
   buildersLoaded: false,
+  buildersLoadPromise: null,
   builderSummary: null,
   builderExportKml: null,
   builderExportKmlCount: 0,
@@ -1153,13 +1154,24 @@ function buildBuilderSubdivisionsKml(features) {
   });
 }
 
-function exportBuilderSubdivisionsKml() {
+async function ensureBuildersLoaded() {
+  if (state.buildersLoaded) return true;
+  if (!state.buildersLoadPromise) {
+    state.buildersLoadPromise = loadBuilders(false).finally(() => {
+      state.buildersLoadPromise = null;
+    });
+  }
+  await state.buildersLoadPromise;
+  return state.buildersLoaded;
+}
+
+async function exportBuilderSubdivisionsKml() {
   try {
-    const features = Array.isArray(state.builders) ? state.builders : [];
-    if (!state.buildersLoaded && !features.length) {
-      alert('Builder subdivision data is still loading. Please try again in a moment.');
-      return;
+    if (!state.buildersLoaded) {
+      await ensureBuildersLoaded();
     }
+
+    const features = Array.isArray(state.builders) ? state.builders : [];
     if (!features.length) {
       alert('Builder subdivision data is unavailable. Turn on Builder Subdivisions and try again.');
       return;
@@ -1173,7 +1185,7 @@ function exportBuilderSubdivisionsKml() {
     downloadKml('gulf_coast_builder_subdivisions_styled.kml', state.builderExportKml);
   } catch (err) {
     console.error(err);
-    alert('Builder subdivision export failed. Please try again after the Builder layer finishes loading.');
+    alert('Builder subdivision export failed. Please wait for the Builder layer to finish loading, then try again.');
   }
 }
 
@@ -3424,7 +3436,7 @@ function bindUI() {
   }
   document.getElementById('downloadSubmarketsKml')?.addEventListener('click', exportSubmarketOutlinesKml);
   document.getElementById('downloadSubmarketNumbersKml')?.addEventListener('click', exportSubmarketNumbersKml);
-  document.getElementById('downloadBuildersKml')?.addEventListener('click', exportBuilderSubdivisionsKml);
+  document.getElementById('downloadBuildersKml')?.addEventListener('click', async () => { await exportBuilderSubdivisionsKml(); });
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
     if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
     state.returnTheme = e.target.value;
