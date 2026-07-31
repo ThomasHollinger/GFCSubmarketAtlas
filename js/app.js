@@ -980,6 +980,40 @@ function downloadKml(filename, kmlText) {
   downloadBlob(filename, new Blob([kmlText], { type: 'application/vnd.google-earth.kml+xml;charset=utf-8' }));
 }
 
+const BUILDER_KML_STYLES = {
+  'builder-lennar': { color: '#2563eb', label: 'Lennar Homes' },
+  'builder-drhorton': { color: '#dc2626', label: 'D.R. Horton' },
+  'builder-adams': { color: '#16a34a', label: 'Adams Homes' },
+  'builder-dsld': { color: '#7c3aed', label: 'DSLD Homes' },
+  'builder-holiday': { color: '#111827', label: 'Holiday Builders' },
+  'builder-meritage': { color: '#facc15', label: 'Meritage Homes' },
+  'builder-maronda': { color: '#92400e', label: 'Maronda Homes' },
+  'builder-century': { color: '#7f1d1d', label: 'Century Complete' },
+  'builder-valor': { color: '#ec4899', label: 'Valor Homes' },
+  'builder-other': { color: '#f97316', label: 'Other' }
+};
+
+function builderKmlStyleClass(builder) {
+  const cls = builderColorClass(builder);
+  return BUILDER_KML_STYLES[cls] ? cls : 'builder-other';
+}
+
+function builderKmlStyleId(builder) {
+  return `#${builderKmlStyleClass(builder)}`;
+}
+
+function builderKmlStyleBlocks() {
+  return Object.entries(BUILDER_KML_STYLES).map(([styleId, cfg]) => `
+    <Style id="${styleId}">
+      <IconStyle>
+        <color>${hexToKmlColor(cfg.color)}</color>
+        <scale>1.15</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png</href></Icon>
+      </IconStyle>
+      <LabelStyle><scale>1.0</scale></LabelStyle>
+    </Style>`).join('');
+}
+
 async function exportSubmarketOutlinesKml() {
   if (!state.features.length) {
     alert('Submarket data is still loading. Please try again in a moment.');
@@ -1078,11 +1112,17 @@ async function exportBuilderSubdivisionsKml() {
       return;
     }
   }
-  const styleBlocks = `
-    <Style id="atlasStyle">
-      <LineStyle><color>${hexToKmlColor('#6d28d9')}</color><width>2</width></LineStyle>
-      <PolyStyle><color>${hexToKmlColor('#ffffff', '00')}</color></PolyStyle>
+
+  const styleBlocks = builderKmlStyleBlocks() + `
+    <Style id="builder-default">
+      <IconStyle>
+        <color>${hexToKmlColor('#f97316')}</color>
+        <scale>1.15</scale>
+        <Icon><href>http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png</href></Icon>
+      </IconStyle>
+      <LabelStyle><scale>1.0</scale></LabelStyle>
     </Style>`;
+
   const kml = buildKmlDocument({
     documentName: 'Gulf Coast Builder Subdivisions',
     folderName: 'Builder Subdivisions',
@@ -1090,6 +1130,7 @@ async function exportBuilderSubdivisionsKml() {
     styleBlocks,
     placemarkOptions: feature => {
       const p = feature.properties || {};
+      const builder = primaryBuilderForFeature(feature);
       const lines = [
         `<div><b>Subdivision:</b> ${escapeXml(p.Subdivision || '')}</div>`,
         `<div><b>Builder:</b> ${escapeXml(p.Builder || '')}</div>`,
@@ -1098,7 +1139,7 @@ async function exportBuilderSubdivisionsKml() {
         `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
         `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`
       ].join('');
-      return { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: '#atlasStyle' };
+      return { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(builder) };
     }
   });
   downloadKml('gulf_coast_builder_subdivisions.kml', kml);
