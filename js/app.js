@@ -891,6 +891,15 @@ function downloadBlob(filename, blob) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+function csvEscape(value) {
+  const text = String(value ?? '');
+  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+function rowsToCsv(rows) {
+  return (rows || []).map(row => (row || []).map(csvEscape).join(',')).join('\n');
+}
+
 function escapeXml(text) {
   return String(text ?? '')
     .replace(/&/g, '&amp;')
@@ -980,17 +989,19 @@ function downloadKml(filename, kmlText) {
   downloadBlob(filename, new Blob([kmlText], { type: 'application/vnd.google-earth.kml+xml;charset=utf-8' }));
 }
 
+const KML_ICON_BASE = 'https://thomashollinger.github.io/GFCSubmarketAtlas/assets/kml-icons';
+
 const BUILDER_KML_STYLES = {
-  'builder-lennar': { color: '#2563eb', label: 'Lennar Homes' },
-  'builder-drhorton': { color: '#dc2626', label: 'D.R. Horton' },
-  'builder-adams': { color: '#16a34a', label: 'Adams Homes' },
-  'builder-dsld': { color: '#7c3aed', label: 'DSLD Homes' },
-  'builder-holiday': { color: '#111827', label: 'Holiday Builders' },
-  'builder-meritage': { color: '#facc15', label: 'Meritage Homes' },
-  'builder-maronda': { color: '#92400e', label: 'Maronda Homes' },
-  'builder-century': { color: '#7f1d1d', label: 'Century Complete' },
-  'builder-valor': { color: '#ec4899', label: 'Valor Homes' },
-  'builder-other': { color: '#f97316', label: 'Other' }
+  'builder-lennar': { color: '#2563eb', label: 'Lennar Homes', icon: 'builder-lennar.png' },
+  'builder-drhorton': { color: '#dc2626', label: 'D.R. Horton', icon: 'builder-drhorton.png' },
+  'builder-adams': { color: '#16a34a', label: 'Adams Homes', icon: 'builder-adams.png' },
+  'builder-dsld': { color: '#7c3aed', label: 'DSLD Homes', icon: 'builder-dsld.png' },
+  'builder-holiday': { color: '#111827', label: 'Holiday Builders', icon: 'builder-holiday.png' },
+  'builder-meritage': { color: '#facc15', label: 'Meritage Homes', icon: 'builder-meritage.png' },
+  'builder-maronda': { color: '#92400e', label: 'Maronda Homes', icon: 'builder-maronda.png' },
+  'builder-century': { color: '#7f1d1d', label: 'Century Complete', icon: 'builder-century.png' },
+  'builder-valor': { color: '#ec4899', label: 'Valor Homes', icon: 'builder-valor.png' },
+  'builder-other': { color: '#f97316', label: 'Other', icon: 'builder-other.png' }
 };
 
 function builderKmlStyleClass(builder) {
@@ -1006,9 +1017,9 @@ function builderKmlStyleBlocks() {
   return Object.entries(BUILDER_KML_STYLES).map(([styleId, cfg]) => `
     <Style id="${styleId}">
       <IconStyle>
-        <color>${hexToKmlColor(cfg.color)}</color>
-        <scale>1.15</scale>
-        <Icon><href>http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png</href></Icon>
+        <scale>1.10</scale>
+        <Icon><href>${KML_ICON_BASE}/${cfg.icon}</href></Icon>
+        <hotSpot x="32" y="32" xunits="pixels" yunits="pixels"/>
       </IconStyle>
       <LabelStyle><scale>1.0</scale></LabelStyle>
     </Style>`).join('');
@@ -1100,6 +1111,7 @@ async function exportSubmarketNumbersKml() {
   downloadKml('gulf_coast_submarket_numbers.kml', kml);
 }
 
+
 async function exportBuilderSubdivisionsKml() {
   let features = state.builders || [];
   if (!features.length) {
@@ -1113,39 +1125,86 @@ async function exportBuilderSubdivisionsKml() {
     }
   }
 
-  const styleBlocks = builderKmlStyleBlocks() + `
-    <Style id="builder-default">
-      <IconStyle>
-        <color>${hexToKmlColor('#f97316')}</color>
-        <scale>1.15</scale>
-        <Icon><href>http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png</href></Icon>
-      </IconStyle>
-      <LabelStyle><scale>1.0</scale></LabelStyle>
-    </Style>`;
+  const header = [
+    'Name',
+    'PrimaryBuilder',
+    'Builder',
+    'BuilderStyleClass',
+    'BuilderColor',
+    'BuilderLetter',
+    'Latitude',
+    'Longitude',
+    'Status',
+    'Product',
+    'Submarket',
+    'Hub',
+    'City',
+    'County',
+    'State',
+    'ZipCode',
+    'PriceMin',
+    'PriceMax',
+    'AvgPrice',
+    'UnitSizeMin',
+    'UnitSizeMax',
+    'SchoolElementary',
+    'SchoolMiddle',
+    'SchoolHigh',
+    'AnnualStarts',
+    'UnitsRemaining',
+    'Source',
+    'SuggestedIcon'
+  ];
 
-  const kml = buildKmlDocument({
-    documentName: 'Gulf Coast Builder Subdivisions',
-    folderName: 'Builder Subdivisions',
-    features,
-    styleBlocks,
-    placemarkOptions: feature => {
-      const p = feature.properties || {};
-      const builder = primaryBuilderForFeature(feature);
-      const lines = [
-        `<div><b>Subdivision:</b> ${escapeXml(p.Subdivision || '')}</div>`,
-        `<div><b>Builder:</b> ${escapeXml(p.Builder || '')}</div>`,
-        `<div><b>Status:</b> ${escapeXml(p.Status || '')}</div>`,
-        `<div><b>Product:</b> ${escapeXml(p.ProductStyle || '')}</div>`,
-        `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
-        `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`
-      ].join('');
-      return { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(builder) };
-    }
+  const rows = [header];
+  features.forEach(feature => {
+    const p = feature.properties || {};
+    const geom = feature.geometry || {};
+    const coords = Array.isArray(geom.coordinates) ? geom.coordinates : [];
+    const lon = Number(coords[0]);
+    const lat = Number(coords[1]);
+    const primaryBuilder = primaryBuilderForFeature(feature);
+    const builderClass = builderColorClass(primaryBuilder);
+    const styleInfo = BUILDER_KML_STYLES[builderClass] || BUILDER_KML_STYLES['builder-other'];
+    const subdivisionName = p.Subdivision || p.Builder || 'Builder Subdivision';
+    rows.push([
+      subdivisionName,
+      primaryBuilder,
+      displayBuilderList(p.Builder || primaryBuilder),
+      builderClass,
+      styleInfo.color,
+      builderDisplayLetter(primaryBuilder),
+      Number.isFinite(lat) ? lat.toFixed(6) : '',
+      Number.isFinite(lon) ? lon.toFixed(6) : '',
+      p.Status || '',
+      p.ProductStyle || '',
+      p.SubmarketName || '',
+      p.Hub || '',
+      p.City || '',
+      p.County || '',
+      p.State || '',
+      p.ZipCode || '',
+      Number.isFinite(Number(p.PriceMin)) ? String(Math.round(Number(p.PriceMin))) : '',
+      Number.isFinite(Number(p.PriceMax)) ? String(Math.round(Number(p.PriceMax))) : '',
+      Number.isFinite(Number(p.AvgPrice)) ? String(Math.round(Number(p.AvgPrice))) : '',
+      Number.isFinite(Number(p.UnitSizeMin)) ? String(Math.round(Number(p.UnitSizeMin))) : '',
+      Number.isFinite(Number(p.UnitSizeMax)) ? String(Math.round(Number(p.UnitSizeMax))) : '',
+      p.SchoolElementary || '',
+      p.SchoolMiddle || '',
+      p.SchoolHigh || '',
+      Number.isFinite(Number(p.AnnualStarts)) ? String(Number(p.AnnualStarts)) : '',
+      Number.isFinite(Number(p.UnitsRemaining)) ? String(Math.round(Number(p.UnitsRemaining))) : '',
+      p.Source || '',
+      'house'
+    ]);
   });
-  downloadKml('gulf_coast_builder_subdivisions.kml', kml);
+
+  const csv = rowsToCsv(rows);
+  downloadBlob('gulf_coast_builder_subdivisions_mymaps.csv', new Blob([csv], { type: 'text/csv;charset=utf-8' }));
 }
 
 function colorForIncome(v) {
+
   if (!v || Number.isNaN(Number(v))) return '#e5e7eb';
   if (v >= 100000) return '#064e3b';
   if (v >= 85000) return '#047857';
