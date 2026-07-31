@@ -2784,12 +2784,13 @@ function renderRelease(meta) {
 }
 
 function renderHubList(meta) {
+  const box = document.getElementById('hubList');
+  if (!box) return;
   const hubCounts = hubOrder.map(hub => ({
     name: hub,
     color: hubBaseColors[hub],
     count: state.features.filter(f => f.properties.Hub === hub).length
   }));
-  const box = document.getElementById('hubList');
   box.innerHTML = hubCounts.map(h => `
     <button class="hub-item" data-hub="${h.name}">
       <i class="hub-swatch" style="background:${h.color}"></i>
