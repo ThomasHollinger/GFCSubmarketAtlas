@@ -3410,6 +3410,7 @@ function bindUI() {
           setMapTheme(state.returnTheme || 'hub');
         }
       }
+      updateRetailFilterPanel();
     } catch (err) {
       console.error(err);
       e.target.checked = false;
@@ -3439,6 +3440,7 @@ function bindUI() {
           setMapTheme(state.returnTheme || 'hub');
         }
       }
+      updateLifestyleFilterPanel();
     } catch (err) {
       console.error(err);
       e.target.checked = false;
