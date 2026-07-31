@@ -990,6 +990,7 @@ function downloadKml(filename, kmlText) {
 }
 
 const KML_ICON_BASE = 'https://thomashollinger.github.io/GFCSubmarketAtlas/assets/kml-icons';
+const KML_BUILDER_HOUSE_ICON = 'http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png';
 
 const BUILDER_KML_STYLES = {
   'builder-lennar': { color: '#2563eb', label: 'Lennar Homes', icon: 'builder-lennar.png' },
@@ -1017,9 +1018,9 @@ function builderKmlStyleBlocks() {
   return Object.entries(BUILDER_KML_STYLES).map(([styleId, cfg]) => `
     <Style id="${styleId}">
       <IconStyle>
+        <color>${hexToKmlColor(cfg.color)}</color>
         <scale>1.10</scale>
-        <Icon><href>${KML_ICON_BASE}/${cfg.icon}</href></Icon>
-        <hotSpot x="32" y="32" xunits="pixels" yunits="pixels"/>
+        <Icon><href>${KML_BUILDER_HOUSE_ICON}</href></Icon>
       </IconStyle>
       <LabelStyle><scale>1.0</scale></LabelStyle>
     </Style>`).join('');
@@ -1112,7 +1113,60 @@ async function exportSubmarketNumbersKml() {
 }
 
 
+
+
 async function exportBuilderSubdivisionsKml() {
+  let features = state.builders || [];
+  if (!features.length) {
+    try {
+      const communities = await fetch('data/builder_subdivisions.geojson').then(r => r.json());
+      features = communities.features || [];
+    } catch (err) {
+      console.error(err);
+      alert('Builder subdivision data could not be loaded for export.');
+      return;
+    }
+  }
+
+  const styleBlocks = builderKmlStyleBlocks();
+  const kml = buildKmlDocument({
+    documentName: 'Gulf Coast Builder Subdivisions',
+    folderName: 'Builder Subdivisions',
+    features,
+    styleBlocks,
+    placemarkOptions: feature => {
+      const p = feature.properties || {};
+      const primaryBuilder = primaryBuilderForFeature(feature);
+      const builderClass = builderColorClass(primaryBuilder);
+      const styleInfo = BUILDER_KML_STYLES[builderClass] || BUILDER_KML_STYLES['builder-other'];
+      const priceText = builderRangeText(p.PriceMin, p.PriceMax, 'money');
+      const sizeText = builderRangeText(p.UnitSizeMin, p.UnitSizeMax, 'number');
+      const schoolElementary = formatSchoolRatingLabel(p.SchoolElementary);
+      const schoolMiddle = formatSchoolRatingLabel(p.SchoolMiddle);
+      const schoolHigh = formatSchoolRatingLabel(p.SchoolHigh);
+      const lines = [
+        `<div><b>Builder:</b> ${escapeXml(displayBuilderList(p.Builder || primaryBuilder) || primaryBuilder)}</div>`,
+        `<div><b>Style Class:</b> ${escapeXml(builderClass)}</div>`,
+        `<div><b>Color:</b> ${escapeXml(styleInfo.color)}</div>`,
+        `<div><b>Status:</b> ${escapeXml(p.Status || '')}</div>`,
+        `<div><b>Product:</b> ${escapeXml(p.ProductStyle || '')}</div>`,
+        `<div><b>Price:</b> ${escapeXml(priceText)}</div>`,
+        `<div><b>Square Foot:</b> ${escapeXml(sizeText)}</div>`,
+        `<div><b>Elementary:</b> ${escapeXml(schoolElementary)}</div>`,
+        `<div><b>Middle:</b> ${escapeXml(schoolMiddle)}</div>`,
+        `<div><b>High:</b> ${escapeXml(schoolHigh)}</div>`,
+        `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`,
+        `<div><b>Hub:</b> ${escapeXml(p.Hub || '')}</div>`,
+        `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
+        `<div><b>Source:</b> ${escapeXml(p.Source || '')}</div>`
+      ].join('');
+      return { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(primaryBuilder) };
+    }
+  });
+  downloadKml('gulf_coast_builder_subdivisions_styled.kml', kml);
+}
+
+async function exportBuilderSubdivisionsCsv() {
   let features = state.builders || [];
   if (!features.length) {
     try {
@@ -3441,6 +3495,7 @@ function bindUI() {
   document.getElementById('downloadSubmarketsKml')?.addEventListener('click', exportSubmarketOutlinesKml);
   document.getElementById('downloadSubmarketNumbersKml')?.addEventListener('click', exportSubmarketNumbersKml);
   document.getElementById('downloadBuildersKml')?.addEventListener('click', exportBuilderSubdivisionsKml);
+  document.getElementById('downloadBuildersCsv')?.addEventListener('click', exportBuilderSubdivisionsCsv);
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
     if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
     state.returnTheme = e.target.value;
