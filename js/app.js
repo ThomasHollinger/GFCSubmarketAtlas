@@ -972,18 +972,20 @@ function featureToPlacemark(feature, opts = {}) {
     </Placemark>`;
 }
 
-function buildKmlDocument({ documentName, folderName, features, placemarkOptions, styleBlocks }) {
+function buildKmlDocument({ documentName, folderName, features, placemarkOptions, styleBlocks, folderXml }) {
   const placemarks = (features || []).map(feature => featureToPlacemark(feature, typeof placemarkOptions === 'function' ? placemarkOptions(feature) : placemarkOptions)).filter(Boolean).join('');
+  const body = folderXml || `
+    <Folder>
+      <name>${escapeXml(folderName)}</name>
+      ${placemarks}
+    </Folder>`;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
     <name>${escapeXml(documentName)}</name>
     <open>1</open>
     ${styleBlocks || ''}
-    <Folder>
-      <name>${escapeXml(folderName)}</name>
-      ${placemarks}
-    </Folder>
+    ${body}
   </Document>
 </kml>`;
 }
@@ -1034,7 +1036,7 @@ async function exportSubmarketOutlinesKml() {
   }
   const styleBlocks = Object.entries(hubBaseColors).map(([hub, hex], index) => {
     const styleId = `hubStyle${index}`;
-    const fill = hexToKmlColor(hex, '66');
+    const fill = hexToKmlColor(hex, '4D');
     return `
     <Style id="${styleId}">
       <LineStyle><color>${hexToKmlColor('#000000')}</color><width>2</width></LineStyle>
@@ -1043,7 +1045,7 @@ async function exportSubmarketOutlinesKml() {
   }).join('') + `
     <Style id="hubStyleDefault">
       <LineStyle><color>${hexToKmlColor('#000000')}</color><width>2</width></LineStyle>
-      <PolyStyle><color>${hexToKmlColor('#a7a7a7', '66')}</color><fill>1</fill><outline>1</outline></PolyStyle>
+      <PolyStyle><color>${hexToKmlColor('#a7a7a7', '4D')}</color><fill>1</fill><outline>1</outline></PolyStyle>
     </Style>`;
   const hubStyleId = hub => {
     const idx = Object.keys(hubBaseColors).indexOf(hub);
@@ -1116,44 +1118,70 @@ async function exportSubmarketNumbersKml() {
 
 
 
+function builderFolderSortKey(builderName) {
+  const name = displayBuilderName(builderName || '?');
+  if (/^lennar/i.test(name)) return `0_${name}`;
+  return `1_${name.toLowerCase()}`;
+}
+
 function buildBuilderSubdivisionsKml(features) {
   const styleBlocks = builderKmlStyleBlocks();
+  const grouped = new Map();
+  (features || []).forEach(feature => {
+    const p = feature.properties || {};
+    const primaryBuilder = displayBuilderName(primaryBuilderForFeature(feature));
+    if (!grouped.has(primaryBuilder)) grouped.set(primaryBuilder, []);
+    grouped.get(primaryBuilder).push(feature);
+  });
+  const folderXml = [...grouped.entries()]
+    .sort((a, b) => builderFolderSortKey(a[0]).localeCompare(builderFolderSortKey(b[0])))
+    .map(([builderName, builderFeatures]) => {
+      const placemarks = builderFeatures.map(feature => {
+        const p = feature.properties || {};
+        const primaryBuilder = primaryBuilderForFeature(feature);
+        const builderClass = builderColorClass(primaryBuilder);
+        const styleInfo = BUILDER_KML_STYLES[builderClass] || BUILDER_KML_STYLES['builder-other'];
+        const priceText = builderRangeText(p.PriceMin, p.PriceMax, 'money');
+        const sizeText = builderRangeText(p.UnitSizeMin, p.UnitSizeMax, 'number');
+        const schoolElementary = formatSchoolRatingLabel(p.SchoolElementary);
+        const schoolMiddle = formatSchoolRatingLabel(p.SchoolMiddle);
+        const schoolHigh = formatSchoolRatingLabel(p.SchoolHigh);
+        const lines = [
+          `<div><b>Builder:</b> ${escapeXml(displayBuilderList(p.Builder || primaryBuilder) || primaryBuilder)}</div>`,
+          `<div><b>Style Class:</b> ${escapeXml(builderClass)}</div>`,
+          `<div><b>Color:</b> ${escapeXml(styleInfo.color)}</div>`,
+          `<div><b>Status:</b> ${escapeXml(p.Status || '')}</div>`,
+          `<div><b>Product:</b> ${escapeXml(p.ProductStyle || '')}</div>`,
+          `<div><b>Price:</b> ${escapeXml(priceText)}</div>`,
+          `<div><b>Square Foot:</b> ${escapeXml(sizeText)}</div>`,
+          `<div><b>Elementary:</b> ${escapeXml(schoolElementary)}</div>`,
+          `<div><b>Middle:</b> ${escapeXml(schoolMiddle)}</div>`,
+          `<div><b>High:</b> ${escapeXml(schoolHigh)}</div>`,
+          `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`,
+          `<div><b>Hub:</b> ${escapeXml(p.Hub || '')}</div>`,
+          `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
+          `<div><b>Source:</b> ${escapeXml(p.Source || '')}</div>`
+        ].join('');
+        return featureToPlacemark(feature, { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(primaryBuilder) });
+      }).join('');
+      return `
+    <Folder>
+      <name>${escapeXml(builderName)}</name>
+      ${placemarks}
+    </Folder>`;
+    }).join('');
+
   return buildKmlDocument({
     documentName: 'Gulf Coast Builder Subdivisions',
     folderName: 'Builder Subdivisions',
-    features,
+    features: [],
     styleBlocks,
-    placemarkOptions: feature => {
-      const p = feature.properties || {};
-      const primaryBuilder = primaryBuilderForFeature(feature);
-      const builderClass = builderColorClass(primaryBuilder);
-      const styleInfo = BUILDER_KML_STYLES[builderClass] || BUILDER_KML_STYLES['builder-other'];
-      const priceText = builderRangeText(p.PriceMin, p.PriceMax, 'money');
-      const sizeText = builderRangeText(p.UnitSizeMin, p.UnitSizeMax, 'number');
-      const schoolElementary = formatSchoolRatingLabel(p.SchoolElementary);
-      const schoolMiddle = formatSchoolRatingLabel(p.SchoolMiddle);
-      const schoolHigh = formatSchoolRatingLabel(p.SchoolHigh);
-      const lines = [
-        `<div><b>Builder:</b> ${escapeXml(displayBuilderList(p.Builder || primaryBuilder) || primaryBuilder)}</div>`,
-        `<div><b>Style Class:</b> ${escapeXml(builderClass)}</div>`,
-        `<div><b>Color:</b> ${escapeXml(styleInfo.color)}</div>`,
-        `<div><b>Status:</b> ${escapeXml(p.Status || '')}</div>`,
-        `<div><b>Product:</b> ${escapeXml(p.ProductStyle || '')}</div>`,
-        `<div><b>Price:</b> ${escapeXml(priceText)}</div>`,
-        `<div><b>Square Foot:</b> ${escapeXml(sizeText)}</div>`,
-        `<div><b>Elementary:</b> ${escapeXml(schoolElementary)}</div>`,
-        `<div><b>Middle:</b> ${escapeXml(schoolMiddle)}</div>`,
-        `<div><b>High:</b> ${escapeXml(schoolHigh)}</div>`,
-        `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`,
-        `<div><b>Hub:</b> ${escapeXml(p.Hub || '')}</div>`,
-        `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
-        `<div><b>Source:</b> ${escapeXml(p.Source || '')}</div>`
-      ].join('');
-      return { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(primaryBuilder) };
-    }
+    folderXml: `
+    <Folder>
+      <name>Builder Subdivisions</name>${folderXml}
+    </Folder>`
   });
 }
-
 async function ensureBuildersLoaded() {
   if (state.buildersLoaded) return true;
   if (!state.buildersLoadPromise) {
@@ -1167,13 +1195,25 @@ async function ensureBuildersLoaded() {
 
 async function exportBuilderSubdivisionsKml() {
   try {
-    const response = await fetch('data/builder_subdivisions_styled.kml', { cache: 'no-store' });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const blob = await response.blob();
-    downloadKml('gulf_coast_builder_subdivisions_styled.kml', blob);
+    if (!state.buildersLoaded) {
+      await ensureBuildersLoaded();
+    }
+
+    const features = Array.isArray(state.builders) ? state.builders : [];
+    if (!features.length) {
+      alert('Builder subdivision data is unavailable. Turn on Builder Subdivisions and try again.');
+      return;
+    }
+
+    if (!state.builderExportKml || state.builderExportKmlCount !== features.length) {
+      state.builderExportKml = buildBuilderSubdivisionsKml(features);
+      state.builderExportKmlCount = features.length;
+    }
+
+    downloadKml('gulf_coast_builder_subdivisions_styled.kml', state.builderExportKml);
   } catch (err) {
-    console.error('Builder KML download failed', err);
-    alert('Builder subdivision export failed. The styled KML file could not be loaded.');
+    console.error(err);
+    alert('Builder subdivision export failed. Please wait for the Builder layer to finish loading, then try again.');
   }
 }
 
@@ -2207,8 +2247,14 @@ async function loadBuilders(showLayer = false) {
       state.builderSummary = { metadata: { status: 'not_built' }, submarkets: {} };
     }
     buildBuilderLayer();
-    state.builderExportKml = null;
-    state.builderExportKmlCount = 0;
+    try {
+      state.builderExportKml = buildBuilderSubdivisionsKml(state.builders);
+      state.builderExportKmlCount = state.builders.length;
+    } catch (cacheErr) {
+      console.warn('Builder KML cache build failed', cacheErr);
+      state.builderExportKml = null;
+      state.builderExportKmlCount = 0;
+    }
     state.buildersLoaded = true;
     if (badge) badge.textContent = state.builders.length ? `${state.builders.length.toLocaleString()} loaded` : 'No data';
     updateBuilderFilterPanel();
@@ -2498,7 +2544,7 @@ function styleFeature(feature) {
   const selected = state.selected && state.selected.properties.SubmarketID === p.SubmarketID;
   const isOutline = state.mapTheme === 'outline';
   let fillColor = p.HubColor || p.HubBaseColor || '#8ea0ad';
-  let fillOpacity = selected ? 0.72 : 0.48;
+  let fillOpacity = selected ? 0.54 : 0.36;
   let fill = true;
   if (isOutline) {
     fill = false;
