@@ -1148,50 +1148,34 @@ function builderFolderSortKey(builderName) {
 
 function buildBuilderSubdivisionsKml(features) {
   const styleBlocks = builderKmlStyleBlocks();
-  const grouped = new Map();
-  (features || []).forEach(feature => {
+  const placemarks = (features || []).map(feature => {
     const p = feature.properties || {};
-    const primaryBuilder = displayBuilderName(primaryBuilderForFeature(feature));
-    if (!grouped.has(primaryBuilder)) grouped.set(primaryBuilder, []);
-    grouped.get(primaryBuilder).push(feature);
-  });
-  const folderXml = [...grouped.entries()]
-    .sort((a, b) => builderFolderSortKey(a[0]).localeCompare(builderFolderSortKey(b[0])))
-    .map(([builderName, builderFeatures]) => {
-      const placemarks = builderFeatures.map(feature => {
-        const p = feature.properties || {};
-        const primaryBuilder = primaryBuilderForFeature(feature);
-        const builderClass = builderColorClass(primaryBuilder);
-        const styleInfo = BUILDER_KML_STYLES[builderClass] || BUILDER_KML_STYLES['builder-other'];
-        const priceText = builderRangeText(p.PriceMin, p.PriceMax, 'money');
-        const sizeText = builderRangeText(p.UnitSizeMin, p.UnitSizeMax, 'number');
-        const schoolElementary = formatSchoolRatingLabel(p.SchoolElementary);
-        const schoolMiddle = formatSchoolRatingLabel(p.SchoolMiddle);
-        const schoolHigh = formatSchoolRatingLabel(p.SchoolHigh);
-        const lines = [
-          `<div><b>Builder:</b> ${escapeXml(displayBuilderList(p.Builder || primaryBuilder) || primaryBuilder)}</div>`,
-          `<div><b>Style Class:</b> ${escapeXml(builderClass)}</div>`,
-          `<div><b>Color:</b> ${escapeXml(styleInfo.color)}</div>`,
-          `<div><b>Status:</b> ${escapeXml(p.Status || '')}</div>`,
-          `<div><b>Product:</b> ${escapeXml(p.ProductStyle || '')}</div>`,
-          `<div><b>Price:</b> ${escapeXml(priceText)}</div>`,
-          `<div><b>Square Foot:</b> ${escapeXml(sizeText)}</div>`,
-          `<div><b>Elementary:</b> ${escapeXml(schoolElementary)}</div>`,
-          `<div><b>Middle:</b> ${escapeXml(schoolMiddle)}</div>`,
-          `<div><b>High:</b> ${escapeXml(schoolHigh)}</div>`,
-          `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`,
-          `<div><b>Hub:</b> ${escapeXml(p.Hub || '')}</div>`,
-          `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
-          `<div><b>Source:</b> ${escapeXml(p.Source || '')}</div>`
-        ].join('');
-        return featureToPlacemark(feature, { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(primaryBuilder) });
-      }).join('');
-      return `
-    <Folder>
-      <name>${escapeXml(builderName)}</name>
-      ${placemarks}
-    </Folder>`;
-    }).join('');
+    const primaryBuilder = primaryBuilderForFeature(feature);
+    const builderClass = builderColorClass(primaryBuilder);
+    const styleInfo = BUILDER_KML_STYLES[builderClass] || BUILDER_KML_STYLES['builder-other'];
+    const priceText = builderRangeText(p.PriceMin, p.PriceMax, 'money');
+    const sizeText = builderRangeText(p.UnitSizeMin, p.UnitSizeMax, 'number');
+    const schoolElementary = formatSchoolRatingLabel(p.SchoolElementary);
+    const schoolMiddle = formatSchoolRatingLabel(p.SchoolMiddle);
+    const schoolHigh = formatSchoolRatingLabel(p.SchoolHigh);
+    const lines = [
+      `<div><b>Builder:</b> ${escapeXml(displayBuilderList(p.Builder || primaryBuilder) || primaryBuilder)}</div>`,
+      `<div><b>Style Class:</b> ${escapeXml(builderClass)}</div>`,
+      `<div><b>Color:</b> ${escapeXml(styleInfo.color)}</div>`,
+      `<div><b>Status:</b> ${escapeXml(p.Status || '')}</div>`,
+      `<div><b>Product:</b> ${escapeXml(p.ProductStyle || '')}</div>`,
+      `<div><b>Price:</b> ${escapeXml(priceText)}</div>`,
+      `<div><b>Square Foot:</b> ${escapeXml(sizeText)}</div>`,
+      `<div><b>Elementary:</b> ${escapeXml(schoolElementary)}</div>`,
+      `<div><b>Middle:</b> ${escapeXml(schoolMiddle)}</div>`,
+      `<div><b>High:</b> ${escapeXml(schoolHigh)}</div>`,
+      `<div><b>Submarket:</b> ${escapeXml(p.SubmarketName || '')}</div>`,
+      `<div><b>Hub:</b> ${escapeXml(p.Hub || '')}</div>`,
+      `<div><b>City:</b> ${escapeXml(p.City || '')}</div>`,
+      `<div><b>Source:</b> ${escapeXml(p.Source || '')}</div>`
+    ].join('');
+    return featureToPlacemark(feature, { name: p.Subdivision || p.Builder || 'Builder Subdivision', description: `<div>${lines}</div>`, styleUrl: builderKmlStyleId(primaryBuilder) });
+  }).filter(Boolean).join('');
 
   return buildKmlDocument({
     documentName: 'Gulf Coast Builder Subdivisions',
@@ -1200,10 +1184,12 @@ function buildBuilderSubdivisionsKml(features) {
     styleBlocks,
     folderXml: `
     <Folder>
-      <name>Builder Subdivisions</name>${folderXml}
+      <name>Builder Subdivisions</name>
+      ${placemarks}
     </Folder>`
   });
 }
+
 async function ensureBuildersLoaded() {
   if (state.buildersLoaded) return true;
   if (!state.buildersLoadPromise) {
