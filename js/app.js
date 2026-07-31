@@ -994,7 +994,7 @@ function downloadKml(filename, kmlText) {
   downloadBlob(filename, new Blob([kmlText], { type: 'application/vnd.google-earth.kml+xml;charset=utf-8' }));
 }
 
-const KML_ICON_BASE = 'http://maps.google.com/mapfiles/kml/paddle';
+const KML_ICON_BASE = 'https://maps.google.com/mapfiles/kml/paddle';
 
 const BUILDER_KML_STYLES = {
   'builder-lennar': { color: '#2563eb', label: 'Lennar Homes', icon: 'blue-circle.png' },
@@ -1006,8 +1006,30 @@ const BUILDER_KML_STYLES = {
   'builder-maronda': { color: '#92400e', label: 'Maronda Homes', icon: 'orange-circle.png' },
   'builder-century': { color: '#7f1d1d', label: 'Century Complete', icon: 'pink-circle.png' },
   'builder-valor': { color: '#ec4899', label: 'Valor Homes', icon: 'ltblu-circle.png' },
-  'builder-other': { color: '#f97316', label: 'Other', icon: 'wht-circle.png' }
+  'builder-other': { color: '#f97316', label: 'Other', icon: 'orange-circle.png' }
 };
+
+const BUILDER_COLOR_CLASSES = [
+  'builder-lennar',
+  'builder-drhorton',
+  'builder-adams',
+  'builder-dsld',
+  'builder-holiday',
+  'builder-meritage',
+  'builder-maronda',
+  'builder-century',
+  'builder-valor'
+];
+
+function hashStringToInt(value) {
+  let hash = 0;
+  const text = String(value || '');
+  for (let i = 0; i < text.length; i++) {
+    hash = ((hash << 5) - hash) + text.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
 
 function builderKmlStyleClass(builder) {
   const cls = builderColorClass(builder);
@@ -1211,18 +1233,23 @@ async function getBuilderSubdivisionExportFeatures() {
 
 async function exportBuilderSubdivisionsKml() {
   try {
-    const response = await fetch('data/gulf_coast_builder_subdivisions_styled.kml', { cache: 'no-store' });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    let features = [];
+    if (Array.isArray(state.builders) && state.builders.length) {
+      features = state.builders;
+    } else {
+      features = await getBuilderSubdivisionExportFeatures();
     }
-    const kml = await response.text();
+    if (!features.length) {
+      throw new Error('No builder subdivision features available');
+    }
+    const kml = buildBuilderSubdivisionsKml(features);
     if (!kml || !kml.trim()) {
-      throw new Error('Builder KML file is empty');
+      throw new Error('Builder KML generation returned empty output');
     }
     downloadKml('gulf_coast_builder_subdivisions_styled.kml', kml);
   } catch (err) {
     console.error(err);
-    alert('Builder subdivision export is temporarily unavailable. Please reload the page and try again.');
+    alert('Builder subdivision export failed. Please refresh the page and try again.');
   }
 }
 
@@ -1900,8 +1927,10 @@ function builderDisplayLetter(builder) {
 }
 
 function builderColorClass(builder) {
-  const b = normalizeBuilderName(builder).toLowerCase();
-  if (b.toLowerCase().startsWith('lennar')) return 'builder-lennar';
+  const normalized = normalizeBuilderName(builder);
+  const b = normalized.toLowerCase();
+  if (!b || b === '?' || b === '—' || /^unknown$/i.test(b)) return 'builder-other';
+  if (b.startsWith('lennar')) return 'builder-lennar';
   if (/^d\.?\s*r\.?\s*horton/.test(b)) return 'builder-drhorton';
   if (/^adams/.test(b)) return 'builder-adams';
   if (/^dsld/.test(b)) return 'builder-dsld';
@@ -1910,7 +1939,8 @@ function builderColorClass(builder) {
   if (/^maronda/.test(b)) return 'builder-maronda';
   if (/^century/.test(b)) return 'builder-century';
   if (/^valor/.test(b)) return 'builder-valor';
-  return 'builder-other';
+  const idx = hashStringToInt(canonicalBuilderKey(normalized)) % BUILDER_COLOR_CLASSES.length;
+  return BUILDER_COLOR_CLASSES[idx];
 }
 
 function builderIcon(builder, status) {
