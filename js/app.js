@@ -1623,7 +1623,7 @@ async function loadLifestyle(showLayer = false) {
   if (badge) badge.textContent = `${state.lifestyle.length.toLocaleString()} loaded`;
   updateLifestyleFilterPanel();
   buildSearchIndex();
-  renderSearchResults(document.getElementById('searchInput').value || '');
+  { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
@@ -2311,7 +2311,7 @@ async function loadBuilders(showLayer = false) {
     if (badge) badge.textContent = state.builders.length ? `${state.builders.length.toLocaleString()} loaded` : 'No data';
     updateBuilderFilterPanel();
     buildSearchIndex();
-    renderSearchResults(document.getElementById('searchInput').value || '');
+    { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
     renderRelease(state.metadata);
   }
   if (showLayer && state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
@@ -2400,7 +2400,7 @@ async function loadPOIs() {
   badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
   updateRetailFilterPanel();
   buildSearchIndex();
-  renderSearchResults(document.getElementById('searchInput').value || '');
+  { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
   if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
@@ -2573,7 +2573,7 @@ async function loadHealthcare(showLayer = false) {
     state.healthcareLoaded = true;
     if (badge) badge.textContent = state.healthcare.length ? `${state.healthcare.length.toLocaleString()} loaded` : 'No data';
     buildSearchIndex();
-    renderSearchResults(document.getElementById('searchInput').value || '');
+    { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
     renderRelease(state.metadata);
   }
   if (showLayer && state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
@@ -3071,6 +3071,7 @@ function scoreSearch(item, q) {
 
 function renderSearchResults(query) {
   const box = document.getElementById('searchResults');
+  if (!box) return;
   const q = (query || '').trim().toLowerCase();
   const results = getSearchResults(q);
   const title = q ? 'Results' : 'Quick search';
@@ -3098,7 +3099,9 @@ function renderSearchResults(query) {
 }
 
 function performSearch() {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const input = document.getElementById('searchInput');
+  if (!input) return;
+  const q = input.value.trim().toLowerCase();
   if (!q) return;
   const results = getSearchResults(q);
   if (!results.length) return alert('No matching result found.');
@@ -3310,7 +3313,7 @@ async function loadSchools(showLayer = false) {
   if (showLayer && state.schoolLayer && !state.map.hasLayer(state.schoolLayer)) state.schoolLayer.addTo(state.map);
   state.schoolsLoaded = true;
   buildSearchIndex();
-  renderSearchResults(document.getElementById('searchInput').value || '');
+  { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
   document.getElementById('schoolCountBadge').textContent = `${state.schools.length} loaded`;
   refreshSchoolFilterSummary();
   renderRelease(state.metadata);
@@ -3345,16 +3348,24 @@ function bindUI() {
     document.getElementById('appShell').classList.toggle('collapsed');
     setTimeout(() => state.map && state.map.invalidateSize(), 260);
   });
-  document.getElementById('topSearchBtn').addEventListener('click', () => {
-    document.getElementById('appShell').classList.remove('collapsed');
-    setTimeout(() => {
-      state.map && state.map.invalidateSize();
-      document.getElementById('searchInput').focus();
-    }, 250);
-  });
-  document.getElementById('searchBtn').addEventListener('click', performSearch);
-  document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(); });
-  document.getElementById('searchInput').addEventListener('input', e => renderSearchResults(e.target.value));
+  const topSearchBtn = document.getElementById('topSearchBtn');
+  if (topSearchBtn) {
+    topSearchBtn.addEventListener('click', () => {
+      document.getElementById('appShell').classList.remove('collapsed');
+      setTimeout(() => {
+        state.map && state.map.invalidateSize();
+        const input = document.getElementById('searchInput');
+        if (input) input.focus();
+      }, 250);
+    });
+  }
+  const searchBtn = document.getElementById('searchBtn');
+  if (searchBtn) searchBtn.addEventListener('click', performSearch);
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') performSearch(); });
+    searchInput.addEventListener('input', e => renderSearchResults(e.target.value));
+  }
   document.getElementById('resetBtn').addEventListener('click', resetView);
   document.getElementById('toggleSubmarkets').addEventListener('change', e => {
     if (e.target.checked) state.submarketLayer.addTo(state.map);
