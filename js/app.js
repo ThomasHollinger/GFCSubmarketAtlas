@@ -1167,25 +1167,13 @@ async function ensureBuildersLoaded() {
 
 async function exportBuilderSubdivisionsKml() {
   try {
-    if (!state.buildersLoaded) {
-      await ensureBuildersLoaded();
-    }
-
-    const features = Array.isArray(state.builders) ? state.builders : [];
-    if (!features.length) {
-      alert('Builder subdivision data is unavailable. Turn on Builder Subdivisions and try again.');
-      return;
-    }
-
-    if (!state.builderExportKml || state.builderExportKmlCount !== features.length) {
-      state.builderExportKml = buildBuilderSubdivisionsKml(features);
-      state.builderExportKmlCount = features.length;
-    }
-
-    downloadKml('gulf_coast_builder_subdivisions_styled.kml', state.builderExportKml);
+    const response = await fetch('data/builder_subdivisions_styled.kml', { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const blob = await response.blob();
+    downloadKml('gulf_coast_builder_subdivisions_styled.kml', blob);
   } catch (err) {
-    console.error(err);
-    alert('Builder subdivision export failed. Please wait for the Builder layer to finish loading, then try again.');
+    console.error('Builder KML download failed', err);
+    alert('Builder subdivision export failed. The styled KML file could not be loaded.');
   }
 }
 
@@ -2219,14 +2207,8 @@ async function loadBuilders(showLayer = false) {
       state.builderSummary = { metadata: { status: 'not_built' }, submarkets: {} };
     }
     buildBuilderLayer();
-    try {
-      state.builderExportKml = buildBuilderSubdivisionsKml(state.builders);
-      state.builderExportKmlCount = state.builders.length;
-    } catch (cacheErr) {
-      console.warn('Builder KML cache build failed', cacheErr);
-      state.builderExportKml = null;
-      state.builderExportKmlCount = 0;
-    }
+    state.builderExportKml = null;
+    state.builderExportKmlCount = 0;
     state.buildersLoaded = true;
     if (badge) badge.textContent = state.builders.length ? `${state.builders.length.toLocaleString()} loaded` : 'No data';
     updateBuilderFilterPanel();
