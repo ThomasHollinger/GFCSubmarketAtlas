@@ -2892,7 +2892,7 @@ function renderHomeSummary() {
   const demo = aggregateDemographics(state.features);
   document.getElementById('selectedPanel').classList.remove('empty');
   document.getElementById('selectedPanel').innerHTML = `
-    <h3 class="selected-title">Enterprise Snapshot</h3>
+    <h3 class="selected-title">Gulf Coast Snapshot</h3>
     <p class="selected-meta">Market intelligence foundation</p>
     <div class="metric-grid">
       <div class="metric"><div class="label">Submarkets</div><div class="value">${total}</div></div>
