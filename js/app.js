@@ -989,170 +989,19 @@ function downloadKml(filename, kmlText) {
   downloadBlob(filename, new Blob([kmlText], { type: 'application/vnd.google-earth.kml+xml;charset=utf-8' }));
 }
 
-const ZIP_UTF8 = new TextEncoder();
-const CRC32_TABLE = (() => {
-  const table = new Uint32Array(256);
-  for (let i = 0; i < 256; i += 1) {
-    let c = i;
-    for (let k = 0; k < 8; k += 1) {
-      c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
-    }
-    table[i] = c >>> 0;
-  }
-  return table;
-})();
-
-function bytesFromString(value) {
-  return ZIP_UTF8.encode(String(value ?? ''));
-}
-
-function crc32(bytes) {
-  let crc = 0xFFFFFFFF;
-  for (let i = 0; i < bytes.length; i += 1) {
-    crc = CRC32_TABLE[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8);
-  }
-  return (~crc) >>> 0;
-}
-
-function dateToDos(date = new Date()) {
-  const year = Math.max(1980, date.getFullYear());
-  const dosTime = ((date.getHours() & 0x1F) << 11) | ((date.getMinutes() & 0x3F) << 5) | ((Math.floor(date.getSeconds() / 2)) & 0x1F);
-  const dosDate = (((year - 1980) & 0x7F) << 9) | (((date.getMonth() + 1) & 0x0F) << 5) | (date.getDate() & 0x1F);
-  return { dosTime, dosDate };
-}
-
-function concatUint8Arrays(chunks) {
-  const total = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
-  const out = new Uint8Array(total);
-  let offset = 0;
-  chunks.forEach(chunk => {
-    out.set(chunk, offset);
-    offset += chunk.length;
-  });
-  return out;
-}
-
-function makeZipStoreEntry(name, dataBytes, offset, date = new Date()) {
-  const fileNameBytes = bytesFromString(name);
-  const crc = crc32(dataBytes);
-  const size = dataBytes.length >>> 0;
-  const { dosTime, dosDate } = dateToDos(date);
-
-  const localHeader = new Uint8Array(30 + fileNameBytes.length);
-  const localView = new DataView(localHeader.buffer);
-  localView.setUint32(0, 0x04034b50, true);
-  localView.setUint16(4, 20, true);
-  localView.setUint16(6, 0x0800, true);
-  localView.setUint16(8, 0, true);
-  localView.setUint16(10, dosTime, true);
-  localView.setUint16(12, dosDate, true);
-  localView.setUint32(14, crc, true);
-  localView.setUint32(18, size, true);
-  localView.setUint32(22, size, true);
-  localView.setUint16(26, fileNameBytes.length, true);
-  localView.setUint16(28, 0, true);
-  localHeader.set(fileNameBytes, 30);
-
-  const centralHeader = new Uint8Array(46 + fileNameBytes.length);
-  const centralView = new DataView(centralHeader.buffer);
-  centralView.setUint32(0, 0x02014b50, true);
-  centralView.setUint16(4, 20, true);
-  centralView.setUint16(6, 20, true);
-  centralView.setUint16(8, 0x0800, true);
-  centralView.setUint16(10, 0, true);
-  centralView.setUint16(12, dosTime, true);
-  centralView.setUint16(14, dosDate, true);
-  centralView.setUint32(16, crc, true);
-  centralView.setUint32(20, size, true);
-  centralView.setUint32(24, size, true);
-  centralView.setUint16(28, fileNameBytes.length, true);
-  centralView.setUint16(30, 0, true);
-  centralView.setUint16(32, 0, true);
-  centralView.setUint16(34, 0, true);
-  centralView.setUint16(36, 0, true);
-  centralView.setUint32(38, 0, true);
-  centralView.setUint32(42, offset, true);
-  centralHeader.set(fileNameBytes, 46);
-
-  return { localHeader, centralHeader, dataBytes };
-}
-
-async function buildKmzBlob(entries) {
-  const localChunks = [];
-  const centralChunks = [];
-  let offset = 0;
-
-  for (const entry of entries) {
-    const dataBytes = entry.data instanceof Uint8Array ? entry.data : new Uint8Array(entry.data);
-    const zipEntry = makeZipStoreEntry(entry.name, dataBytes, offset, entry.date || new Date());
-    localChunks.push(zipEntry.localHeader, dataBytes);
-    centralChunks.push(zipEntry.centralHeader);
-    offset += zipEntry.localHeader.length + dataBytes.length;
-  }
-
-  const centralDirectory = concatUint8Arrays(centralChunks);
-  const centralOffset = offset;
-  const centralSize = centralDirectory.length;
-  const eocd = new Uint8Array(22);
-  const eocdView = new DataView(eocd.buffer);
-  eocdView.setUint32(0, 0x06054b50, true);
-  eocdView.setUint16(4, 0, true);
-  eocdView.setUint16(6, 0, true);
-  eocdView.setUint16(8, entries.length, true);
-  eocdView.setUint16(10, entries.length, true);
-  eocdView.setUint32(12, centralSize, true);
-  eocdView.setUint32(16, centralOffset, true);
-  eocdView.setUint16(20, 0, true);
-
-  return new Blob([...localChunks, centralDirectory, eocd], { type: 'application/vnd.google-earth.kmz' });
-}
-
-async function createBuilderCircleIconBlob(color) {
-  const size = 36;
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas not available for icon generation');
-  ctx.clearRect(0, 0, size, size);
-  ctx.beginPath();
-  ctx.arc(size / 2, size / 2, 12.5, 0, Math.PI * 2);
-  ctx.fillStyle = color;
-  ctx.fill();
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = 'rgba(255,255,255,0.95)';
-  ctx.stroke();
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = 'rgba(17,24,39,0.95)';
-  ctx.stroke();
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(blob => {
-      if (blob) resolve(blob);
-      else reject(new Error('Failed to create builder icon blob'));
-    }, 'image/png');
-  });
-}
-
-async function buildBuilderKmz() {
-  return Promise.all(Object.entries(BUILDER_KML_STYLES).map(async ([styleId, cfg]) => {
-    const blob = await createBuilderCircleIconBlob(cfg.color);
-    return { name: `${KML_ICON_BASE}/${cfg.icon}`, data: new Uint8Array(await blob.arrayBuffer()) };
-  }));
-}
-
-const KML_ICON_BASE = 'icons';
+const KML_ICON_BASE = 'http://maps.google.com/mapfiles/kml/paddle';
 
 const BUILDER_KML_STYLES = {
-  'builder-lennar': { color: '#2563eb', label: 'Lennar Homes', icon: 'builder-lennar-circle.png' },
-  'builder-drhorton': { color: '#dc2626', label: 'D.R. Horton', icon: 'builder-drhorton-circle.png' },
-  'builder-adams': { color: '#16a34a', label: 'Adams Homes', icon: 'builder-adams-circle.png' },
-  'builder-dsld': { color: '#7c3aed', label: 'DSLD Homes', icon: 'builder-dsld-circle.png' },
-  'builder-holiday': { color: '#111827', label: 'Holiday Builders', icon: 'builder-holiday-circle.png' },
-  'builder-meritage': { color: '#facc15', label: 'Meritage Homes', icon: 'builder-meritage-circle.png' },
-  'builder-maronda': { color: '#92400e', label: 'Maronda Homes', icon: 'builder-maronda-circle.png' },
-  'builder-century': { color: '#7f1d1d', label: 'Century Complete', icon: 'builder-century-circle.png' },
-  'builder-valor': { color: '#ec4899', label: 'Valor Homes', icon: 'builder-valor-circle.png' },
-  'builder-other': { color: '#f97316', label: 'Other', icon: 'builder-other-circle.png' }
+  'builder-lennar': { color: '#2563eb', label: 'Lennar Homes', icon: 'blue-circle.png' },
+  'builder-drhorton': { color: '#dc2626', label: 'D.R. Horton', icon: 'red-circle.png' },
+  'builder-adams': { color: '#16a34a', label: 'Adams Homes', icon: 'grn-circle.png' },
+  'builder-dsld': { color: '#7c3aed', label: 'DSLD Homes', icon: 'purple-circle.png' },
+  'builder-holiday': { color: '#111827', label: 'Holiday Builders', icon: 'wht-circle.png' },
+  'builder-meritage': { color: '#facc15', label: 'Meritage Homes', icon: 'ylw-circle.png' },
+  'builder-maronda': { color: '#92400e', label: 'Maronda Homes', icon: 'orange-circle.png' },
+  'builder-century': { color: '#7f1d1d', label: 'Century Complete', icon: 'pink-circle.png' },
+  'builder-valor': { color: '#ec4899', label: 'Valor Homes', icon: 'ltblu-circle.png' },
+  'builder-other': { color: '#f97316', label: 'Other', icon: 'wht-circle.png' }
 };
 
 function builderKmlStyleClass(builder) {
@@ -1168,7 +1017,6 @@ function builderKmlStyleBlocks() {
   return Object.entries(BUILDER_KML_STYLES).map(([styleId, cfg]) => `
     <Style id="${styleId}">
       <IconStyle>
-        <color>ffffffff</color>
         <scale>1.10</scale>
         <Icon><href>${KML_ICON_BASE}/${cfg.icon}</href></Icon>
       </IconStyle>
@@ -1265,7 +1113,7 @@ async function exportSubmarketNumbersKml() {
 
 
 
-async function exportBuilderSubdivisionsKmz() {
+async function exportBuilderSubdivisionsKml() {
   let features = state.builders || [];
   if (!features.length) {
     try {
@@ -1314,12 +1162,7 @@ async function exportBuilderSubdivisionsKmz() {
     }
   });
 
-  const iconEntries = await buildBuilderKmz();
-  const kmzBlob = await buildKmzBlob([
-    { name: 'doc.kml', data: bytesFromString(kml) },
-    ...iconEntries
-  ]);
-  downloadBlob('gulf_coast_builder_subdivisions_styled.kmz', kmzBlob);
+  downloadKml('gulf_coast_builder_subdivisions_styled.kml', kml);
 }
 
 function colorForIncome(v) {
@@ -3559,8 +3402,7 @@ function bindUI() {
   }
   document.getElementById('downloadSubmarketsKml')?.addEventListener('click', exportSubmarketOutlinesKml);
   document.getElementById('downloadSubmarketNumbersKml')?.addEventListener('click', exportSubmarketNumbersKml);
-  document.getElementById('downloadBuildersKmz')?.addEventListener('click', exportBuilderSubdivisionsKmz);
-  document.getElementById('downloadBuildersCsv')?.addEventListener('click', exportBuilderSubdivisionsCsv);
+  document.getElementById('downloadBuildersKml')?.addEventListener('click', exportBuilderSubdivisionsKml);
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
     if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
     state.returnTheme = e.target.value;
