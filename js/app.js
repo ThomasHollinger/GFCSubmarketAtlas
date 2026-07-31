@@ -1232,6 +1232,36 @@ async function getBuilderSubdivisionExportFeatures() {
 }
 
 async function exportBuilderSubdivisionsKml() {
+  const filename = 'gulf_coast_builder_subdivisions_styled.kml';
+  const staticKmlPath = 'data/gulf_coast_builder_subdivisions_styled.kml';
+  try {
+    const directLink = document.createElement('a');
+    directLink.href = staticKmlPath;
+    directLink.download = filename;
+    directLink.rel = 'noopener';
+    directLink.style.display = 'none';
+    document.body.appendChild(directLink);
+    directLink.click();
+    directLink.remove();
+    return;
+  } catch (directErr) {
+    console.warn('Direct builder KML download failed, falling back to fetched content.', directErr);
+  }
+
+  try {
+    const response = await fetch(staticKmlPath, { cache: 'no-store' });
+    if (response.ok) {
+      const kml = await response.text();
+      if (kml && kml.trim()) {
+        downloadKml(filename, kml);
+        return;
+      }
+    }
+    throw new Error(`Static KML unavailable at ${staticKmlPath}`);
+  } catch (staticErr) {
+    console.warn('Static builder KML fetch failed, rebuilding from source features.', staticErr);
+  }
+
   try {
     let features = [];
     if (Array.isArray(state.builders) && state.builders.length) {
@@ -1240,15 +1270,19 @@ async function exportBuilderSubdivisionsKml() {
       features = await getBuilderSubdivisionExportFeatures();
     }
     if (!features.length) {
+      await ensureBuildersLoaded();
+      features = Array.isArray(state.builders) ? state.builders : [];
+    }
+    if (!features.length) {
       throw new Error('No builder subdivision features available');
     }
     const kml = buildBuilderSubdivisionsKml(features);
     if (!kml || !kml.trim()) {
       throw new Error('Builder KML generation returned empty output');
     }
-    downloadKml('gulf_coast_builder_subdivisions_styled.kml', kml);
+    downloadKml(filename, kml);
   } catch (err) {
-    console.error(err);
+    console.error('Builder subdivision export failed.', err);
     alert('Builder subdivision export failed. Please refresh the page and try again.');
   }
 }
