@@ -2606,9 +2606,10 @@ function styleFeature(feature) {
   else if (state.mapTheme === 'population') lineColor = colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population);
   return {
     color: isOutline ? lineColor : (selected ? '#061827' : lineColor),
+    fillColor: lineColor,
     weight: isOutline ? 1.8 : (selected ? 3.5 : 1.4),
-    fillOpacity: 0,
-    fill: false,
+    fillOpacity: isOutline ? 0 : (selected ? 0.42 : 0.32),
+    fill: !isOutline,
     opacity: 1
   };
 }
@@ -2735,7 +2736,7 @@ async function loadData() {
     style: styleFeature,
     onEachFeature: (feature, layer) => {
       layer.on({
-        mouseover: () => layer.setStyle({ weight: 2.8, fillOpacity: 0.64 }),
+        mouseover: () => layer.setStyle({ weight: 2.8, fillOpacity: 0.56 }),
         mouseout: () => state.submarketLayer.resetStyle(layer),
         click: () => selectFeature(feature, layer, false),
         dblclick: () => selectFeature(feature, layer, true)
