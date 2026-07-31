@@ -1058,16 +1058,15 @@ async function exportSubmarketOutlinesKml() {
   }
   const styleBlocks = Object.entries(hubBaseColors).map(([hub, hex], index) => {
     const styleId = `hubStyle${index}`;
-    const fill = hexToKmlColor(hex, '4D');
     return `
     <Style id="${styleId}">
-      <LineStyle><color>${hexToKmlColor('#000000')}</color><width>2</width></LineStyle>
-      <PolyStyle><color>${fill}</color><fill>1</fill><outline>1</outline></PolyStyle>
+      <LineStyle><color>${hexToKmlColor(hex)}</color><width>2</width></LineStyle>
+      <PolyStyle><fill>0</fill><outline>1</outline></PolyStyle>
     </Style>`;
   }).join('') + `
     <Style id="hubStyleDefault">
-      <LineStyle><color>${hexToKmlColor('#000000')}</color><width>2</width></LineStyle>
-      <PolyStyle><color>${hexToKmlColor('#a7a7a7', '4D')}</color><fill>1</fill><outline>1</outline></PolyStyle>
+      <LineStyle><color>${hexToKmlColor('#a7a7a7')}</color><width>2</width></LineStyle>
+      <PolyStyle><fill>0</fill><outline>1</outline></PolyStyle>
     </Style>`;
   const hubStyleId = hub => {
     const idx = Object.keys(hubBaseColors).indexOf(hub);
@@ -2596,26 +2595,20 @@ function styleFeature(feature) {
   const p = feature.properties;
   const selected = state.selected && state.selected.properties.SubmarketID === p.SubmarketID;
   const isOutline = state.mapTheme === 'outline';
-  let fillColor = p.HubColor || p.HubBaseColor || '#8ea0ad';
-  let fillOpacity = selected ? 0.54 : 0.36;
-  let fill = true;
-  if (isOutline) {
-    fill = false;
-    fillOpacity = 0;
-  } else if (state.mapTheme === 'schools') fillColor = colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall);
-  else if (state.mapTheme === 'retail') fillColor = colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
-  else if (state.mapTheme === 'healthcare') fillColor = colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
-  else if (state.mapTheme === 'builders') fillColor = colorForBuilderDensity(builderSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
-  else if (state.mapTheme === 'lifestyle') fillColor = colorForLifestyleDensity(lifestyleSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
-  else if (state.mapTheme === 'income') fillColor = colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income);
-  else if (state.mapTheme === 'popgrowth') fillColor = colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct);
-  else if (state.mapTheme === 'population') fillColor = colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population);
+  let lineColor = p.HubColor || p.HubBaseColor || '#8ea0ad';
+  if (state.mapTheme === 'schools') lineColor = colorForSchoolScore(scoreSummaryForSubmarket(p.DisplayName).overall);
+  else if (state.mapTheme === 'retail') lineColor = colorForRetailDensity(retailSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'healthcare') lineColor = colorForHealthcareDensity(healthcareSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'builders') lineColor = colorForBuilderDensity(builderSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'lifestyle') lineColor = colorForLifestyleDensity(lifestyleSummaryForSubmarket(p.SubmarketID, p.AreaSqMi).density);
+  else if (state.mapTheme === 'income') lineColor = colorForIncome((demoForSubmarket(p.DisplayName)?.current || {}).median_household_income);
+  else if (state.mapTheme === 'popgrowth') lineColor = colorForPopGrowth((demoForSubmarket(p.DisplayName)?.current || {}).population_growth_prior_5yr_pct);
+  else if (state.mapTheme === 'population') lineColor = colorForPopulation((demoForSubmarket(p.DisplayName)?.current || {}).population);
   return {
-    color: isOutline ? '#000000' : (selected ? '#061827' : '#26384f'),
+    color: isOutline ? lineColor : (selected ? '#061827' : lineColor),
     weight: isOutline ? 1.8 : (selected ? 3.5 : 1.4),
-    fillColor,
-    fillOpacity,
-    fill,
+    fillOpacity: 0,
+    fill: false,
     opacity: 1
   };
 }
