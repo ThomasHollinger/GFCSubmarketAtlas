@@ -22,6 +22,21 @@
       </div>
 
       <section class="control-block">
+        <h2>Market Snapshot</h2>
+        <button id="marketSnapshotToggle" class="snapshot-btn" type="button">Market Snapshot</button>
+        <div id="marketSnapshotRadiusPanel" class="snapshot-radius-panel">
+          <div class="filter-title">Choose Radius</div>
+          <div class="snapshot-radius-buttons">
+            <button type="button" class="market-snapshot-radius" data-radius="1">1 Mile</button>
+            <button type="button" class="market-snapshot-radius" data-radius="3">3 Miles</button>
+            <button type="button" class="market-snapshot-radius" data-radius="5">5 Miles</button>
+            <button type="button" class="market-snapshot-radius" data-radius="10">10 Miles</button>
+          </div>
+          <div id="marketSnapshotHint" class="snapshot-hint">Click Market Snapshot to begin.</div>
+        </div>
+      </section>
+
+      <section class="control-block">
         <h2>Market Data</h2>
 
         <label for="mapThemeSelect">Map Theme</label>
@@ -135,6 +150,19 @@
       </header>
       <div id="map"></div>
     </main>
+
+  <div id="marketSnapshotModal" class="snapshot-modal-overlay" aria-hidden="true">
+    <div class="snapshot-modal" role="dialog" aria-modal="true" aria-labelledby="marketSnapshotModalTitle">
+      <div class="snapshot-modal-header">
+        <div>
+          <h3 id="marketSnapshotModalTitle">Market Snapshot</h3>
+          <p id="marketSnapshotModalSubtitle"></p>
+        </div>
+        <button id="marketSnapshotClose" type="button" class="snapshot-close-btn">Close</button>
+      </div>
+      <div id="marketSnapshotModalBody" class="snapshot-modal-body"></div>
+    </div>
+  </div>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
