@@ -147,6 +147,7 @@ body.snapshot-mode #map{cursor:crosshair}
 .snapshot-table-row:nth-child(even){background:#fcfdff}
 .snapshot-empty{padding:12px;font-size:12px;color:#667085;background:#f8fafc;border:1px dashed #dbeafe;border-radius:12px}
 .snapshot-subnote{margin-top:8px}
+.snapshot-loading-placeholder{display:flex;align-items:center;justify-content:center;min-height:72px;font-weight:900;letter-spacing:.04em;color:#0b2f4d}
 @media(max-width:900px){
   .snapshot-modal{width:96vw;max-height:88vh}
   .snapshot-metric-grid,.snapshot-metric-grid.four-up{grid-template-columns:repeat(2,minmax(0,1fr))}

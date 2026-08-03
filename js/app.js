@@ -37,6 +37,7 @@ const state = {
   healthcareSummary: null,
   returnTheme: 'hub',
   builders: [],
+  lifestyleLoadPromise: null,
   buildersLoaded: false,
   buildersLoadPromise: null,
   builderSummary: null,
@@ -1020,6 +1021,15 @@ function closeMarketSnapshotModal() {
   overlay.setAttribute('aria-hidden', 'true');
 }
 
+function refreshOpenMarketSnapshotModal() {
+  const overlay = document.getElementById('marketSnapshotModal');
+  if (!overlay || !overlay.classList.contains('active')) return;
+  const report = state.marketSnapshot && state.marketSnapshot.report;
+  if (!report || !report.centerLatLng || !report.radiusMiles) return;
+  const center = L.latLng(report.centerLatLng.lat, report.centerLatLng.lng);
+  openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(report.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, buildMarketSnapshotHtml(center, report.radiusMiles));
+}
+
 function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
   const radiusLabel = marketSnapshotRadiusLabel(radiusMiles);
   const competition = featuresWithinRadius(state.buildersLoaded ? state.builders : [], centerLatLng, radiusMiles)
@@ -1064,6 +1074,7 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
       if (ab !== bb) return ab ? -1 : 1;
       return a.distance - b.distance || String(a.feature.properties.Name || '').localeCompare(String(b.feature.properties.Name || ''));
     });
+  const lifestyleLoading = !state.lifestyleLoaded || !!state.lifestyleLoadPromise;
   const lifestyle = featuresWithinRadius(state.lifestyleLoaded ? state.lifestyle : [], centerLatLng, radiusMiles)
     .map(({ feature, distance }) => ({ feature, distance }));
 
@@ -1129,8 +1140,10 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     </section>
 
     <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Lifestyle & Amenities</h4><span>${lifestyle.length.toLocaleString()} places</span></div>
-      ${renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyleRows, '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>')}
+      <div class="snapshot-section-head"><h4>Lifestyle & Amenities</h4><span>${lifestyleLoading ? 'Loading...' : `${lifestyle.length.toLocaleString()} places`}</span></div>
+      ${lifestyleLoading
+        ? `<div class="snapshot-empty snapshot-loading-placeholder">Amenities Still Loading</div>`
+        : renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyleRows, '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>')}
     </section>
   `;
 }
@@ -1140,7 +1153,14 @@ async function ensureSnapshotDataLoaded() {
   if (!state.buildersLoaded) tasks.push(ensureBuildersLoaded().catch(err => console.warn('Builders not available for snapshot', err)));
   if (!state.schoolsLoaded) tasks.push(loadSchools(false).catch(err => console.warn('Schools not available for snapshot', err)));
   if (!state.poisLoaded) tasks.push(loadPOIs(false).catch(err => console.warn('Retail not available for snapshot', err)));
-  if (!state.lifestyleLoaded) tasks.push(loadLifestyle(false).catch(err => console.warn('Lifestyle not available for snapshot', err)));
+  if (!state.lifestyleLoaded && !state.lifestyleLoadPromise) {
+    state.lifestyleLoadPromise = loadLifestyle(false)
+      .catch(err => console.warn('Lifestyle not available for snapshot', err))
+      .finally(() => {
+        state.lifestyleLoadPromise = null;
+        refreshOpenMarketSnapshotModal();
+      });
+  }
   await Promise.allSettled(tasks);
 }
 
@@ -1152,8 +1172,17 @@ async function handleMarketSnapshotPoint(latlng) {
   try {
     await ensureSnapshotDataLoaded();
     const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
+    state.marketSnapshot.report = { centerLatLng: { lat: center.lat, lng: center.lng }, radiusMiles: state.marketSnapshot.radiusMiles };
     const html = buildMarketSnapshotHtml(center, state.marketSnapshot.radiusMiles);
     openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(state.marketSnapshot.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
+    if (!state.lifestyleLoaded && !state.lifestyleLoadPromise) {
+      state.lifestyleLoadPromise = loadLifestyle(false)
+        .catch(err => console.warn('Lifestyle not available for snapshot', err))
+        .finally(() => {
+          state.lifestyleLoadPromise = null;
+          refreshOpenMarketSnapshotModal();
+        });
+    }
   } catch (err) {
     console.error('Market snapshot generation failed', err);
     alert('Market Snapshot could not be generated right now. Please try again.');
@@ -1886,24 +1915,32 @@ async function loadLifestyle(showLayer = false) {
     if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
     return;
   }
-  const badge = document.getElementById('lifestyleCountBadge');
-  if (badge) badge.textContent = 'Loading...';
-  const data = await fetchOverpass(lifestyleOverpassQuery());
-  const seen = new Set();
-  state.lifestyle = (data.elements || []).map(lifestyleOverpassElementToFeature).filter(Boolean).filter(f => {
-    if (seen.has(f.properties.OSMID)) return false;
-    seen.add(f.properties.OSMID);
-    assignLifestyleToSubmarket(f);
-    return !!f.properties.SubmarketID;
+  if (state.lifestyleLoadPromise) return state.lifestyleLoadPromise;
+  const loadPromise = (async () => {
+    const badge = document.getElementById('lifestyleCountBadge');
+    if (badge) badge.textContent = 'Loading...';
+    const data = await fetchOverpass(lifestyleOverpassQuery());
+    const seen = new Set();
+    state.lifestyle = (data.elements || []).map(lifestyleOverpassElementToFeature).filter(Boolean).filter(f => {
+      if (seen.has(f.properties.OSMID)) return false;
+      seen.add(f.properties.OSMID);
+      assignLifestyleToSubmarket(f);
+      return !!f.properties.SubmarketID;
+    });
+    buildLifestyleLayer();
+    state.lifestyleLoaded = true;
+    if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
+    if (badge) badge.textContent = `${state.lifestyle.length.toLocaleString()} loaded`;
+    updateLifestyleFilterPanel();
+    buildSearchIndex();
+    { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
+    if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+    refreshOpenMarketSnapshotModal();
+  })();
+  state.lifestyleLoadPromise = loadPromise.finally(() => {
+    state.lifestyleLoadPromise = null;
   });
-  buildLifestyleLayer();
-  state.lifestyleLoaded = true;
-  if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
-  if (badge) badge.textContent = `${state.lifestyle.length.toLocaleString()} loaded`;
-  updateLifestyleFilterPanel();
-  buildSearchIndex();
-  { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
-  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+  return state.lifestyleLoadPromise;
 }
 
 function applyLifestyleFilters() {
