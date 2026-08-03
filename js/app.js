@@ -2896,7 +2896,7 @@ function renderHomeSummary() {
     <p class="selected-meta">Market intelligence foundation</p>
     <div class="metric-grid">
       <div class="metric"><div class="label">Submarkets</div><div class="value">${total}</div></div>
-      <div class="metric"><div class="label">Hubs</div><div class="value">4</div></div>
+      <div class="metric"><div class="label">Hubs</div><div class="value">${hubOrder.filter(h => h !== 'Growth Markets').length}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Population</div><div class="value">${fmt(demo?.current?.population)}</div></div>
     </div>
