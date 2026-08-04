@@ -32,8 +32,10 @@ const state = {
   },
   pois: [],
   poisLoaded: false,
+  poisLoadPromise: null,
   healthcare: [],
   healthcareLoaded: false,
+  healthcareLoadPromise: null,
   healthcareSummary: null,
   returnTheme: 'hub',
   builders: [],
@@ -1001,6 +1003,13 @@ function renderSnapshotTable(headers, rows, emptyHtml) {
   return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${rows.join('')}</div>`;
 }
 
+function renderSnapshotSection(title, subtitle, content, open = false) {
+  return `<details class="snapshot-section"${open ? ' open' : ''}>
+    <summary class="snapshot-section-head"><h4>${escapeHtml(title)}</h4><span>${escapeHtml(subtitle || '')}</span></summary>
+    <div class="snapshot-section-content">${content}</div>
+  </details>`;
+}
+
 function openMarketSnapshotModal(title, subtitle, bodyHtml) {
   const overlay = document.getElementById('marketSnapshotModal');
   const titleEl = document.getElementById('marketSnapshotModalTitle');
@@ -1043,7 +1052,6 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         html: `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Subdivision || 'Builder Community')}</b></div><div>${escapeHtml(builder)}</div><div>${escapeHtml(builderRangeText(p.UnitSizeMin, p.UnitSizeMax, 'number'))}</div><div>${escapeHtml(builderRangeText(p.PriceMin, p.PriceMax, 'money'))}</div><div>${escapeHtml(tier)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`
       };
     });
-  const competitionRows = competition.map(r => r.html);
   const compStatusCounts = competition.reduce((acc, row) => {
     const s = String(row.feature?.properties?.Status || '').toLowerCase();
     acc.total += 1;
@@ -1059,13 +1067,44 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
   const demographicRows = demographicSubmarkets.map(({ feature, distance }) => {
     const demo = demoForSubmarket(feature.properties.DisplayName);
     if (!demo) return null;
-    const c = demo.current || {};
     return { feature, distance, demo };
   }).filter(Boolean);
   const demographics = demographicRows.length ? aggregateDemographics(demographicRows.map(r => r.feature)) : null;
 
   const schools = featuresWithinRadius(state.schoolsLoaded ? state.schools : [], centerLatLng, radiusMiles)
     .map(({ feature, distance }) => ({ feature, distance }));
+
+  const healthcareLoading = !state.healthcareLoaded || !!state.healthcareLoadPromise;
+  const healthcare = featuresWithinRadius(state.healthcareLoaded ? state.healthcare : [], centerLatLng, radiusMiles)
+    .map(({ feature, distance }) => ({ feature, distance }))
+    .sort((a, b) => {
+      const at = String(a.feature.properties.FacilityType || '').toLowerCase();
+      const bt = String(b.feature.properties.FacilityType || '').toLowerCase();
+      const aHosp = at.includes('hospital') ? 0 : 1;
+      const bHosp = bt.includes('hospital') ? 0 : 1;
+      if (aHosp !== bHosp) return aHosp - bHosp;
+      return a.distance - b.distance || String(a.feature.properties.Name || '').localeCompare(String(b.feature.properties.Name || ''));
+    });
+  const healthcareCounts = healthcare.reduce((acc, { feature }) => {
+    const t = String(feature.properties.FacilityType || '').toLowerCase();
+    acc.total += 1;
+    if (t.includes('hospital')) acc.hospitals += 1;
+    else if (t.includes('urgent')) acc.urgent += 1;
+    else if (t.includes('pharmacy')) acc.pharmacies += 1;
+    else acc.clinics += 1;
+    return acc;
+  }, { total: 0, hospitals: 0, urgent: 0, clinics: 0, pharmacies: 0 });
+  const nearestHospital = healthcare
+    .filter(({ feature }) => String(feature.properties.FacilityType || '').toLowerCase().includes('hospital'))
+    .slice()
+    .sort((a, b) => a.distance - b.distance)[0] || null;
+  const healthcareRows = healthcare.map(({ feature, distance }) => {
+    const p = feature.properties || {};
+    const type = p.FacilityType || 'Healthcare';
+    return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Name || 'Healthcare Facility')}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(type)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
+  });
+
+  const retailLoading = !state.poisLoaded || !!state.poisLoadPromise;
   const retail = featuresWithinRadius(state.poisLoaded ? state.pois : [], centerLatLng, radiusMiles)
     .map(({ feature, distance }) => ({ feature, distance }))
     .sort((a, b) => {
@@ -1084,27 +1123,27 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.NAME || 'School')}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(p.SchoolType || 'School')}</div><div>${escapeHtml(rating === null ? 'NR' : `${rating}/10`)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
   });
 
-  const retailRows = retail.map(({ feature, distance }) => {
-    const p = feature.properties || {};
-    const brand = p.NationalBrand ? (p.Brand || p.Name || 'National Brand') : (p.Name || p.Brand || 'Retail');
-    const label = p.NationalBrand ? 'National Brand' : (p.Category || 'Retail');
-    return `<div class="snapshot-table-row"><div><b>${escapeHtml(brand)}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(label)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
-  });
-
-  const lifestyleRows = lifestyle.map(({ feature, distance }) => {
-    const p = feature.properties || {};
-    return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Name || lifestyleCategoryLabel(p.LifestyleCategory))}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(lifestyleCategoryLabel(p.LifestyleCategory))}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
-  });
+  const healthcareSection = healthcareLoading
+    ? renderSnapshotSection('Healthcare', `${healthcare.length.toLocaleString()} places`, '<div class="snapshot-empty snapshot-loading-placeholder">Healthcare Still Loading</div>', false)
+    : renderSnapshotSection('Healthcare', `${healthcare.length.toLocaleString()} places`, `
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Facilities', String(healthcareCounts.total))}
+          ${renderSnapshotMetric('Hospitals', String(healthcareCounts.hospitals))}
+          ${renderSnapshotMetric('Urgent Care', String(healthcareCounts.urgent))}
+          ${renderSnapshotMetric('Clinics / Offices', String(healthcareCounts.clinics + healthcareCounts.pharmacies))}
+        </div>
+        <div class="snapshot-subnote">${nearestHospital ? `Nearest hospital: ${escapeHtml(nearestHospital.feature.properties.Name || 'Hospital')} • ${escapeHtml(fmtDistanceMiles(nearestHospital.distance))}` : 'No hospitals fall inside this radius.'}</div>
+        ${renderSnapshotTable(['Facility', 'Type', 'Distance'], healthcareRows, '<div class="snapshot-empty">No healthcare facilities fall inside this radius.</div>')}
+      `, false);
 
   return `
     <div class="snapshot-intro">
       <div class="snapshot-ribbon">${escapeHtml(radiusLabel)} Radius</div>
       <div class="snapshot-center">Center point: ${escapeHtml(centerLatLng.lat.toFixed(5))}, ${escapeHtml(centerLatLng.lng.toFixed(5))}</div>
-      <div class="snapshot-note">Communities, schools, retail, and amenities are shown by straight-line distance from the clicked point.</div>
+      <div class="snapshot-note">Communities, schools, retail, healthcare, and amenities are shown by straight-line distance from the clicked point.</div>
     </div>
 
-    <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Competition</h4><span>${competition.length.toLocaleString()} communities</span></div>
+    ${renderSnapshotSection('Competition', `${competition.length.toLocaleString()} communities`, `
       <div class="snapshot-metric-grid">
         ${renderSnapshotMetric('Communities', String(compStatusCounts.total))}
         ${renderSnapshotMetric('Active', String(compStatusCounts.active))}
@@ -1113,38 +1152,34 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         ${renderSnapshotMetric('Annual Starts', String(Math.round(compStatusCounts.starts).toLocaleString()))}
         ${renderSnapshotMetric('Units Remaining', String(Math.round(compStatusCounts.remaining).toLocaleString()))}
       </div>
-      ${renderSnapshotTable(['Community', 'Builder', 'Sq Ft Range', 'Price Range', 'Tier', 'Distance'], competitionRows, '<div class="snapshot-empty">No builder communities fall inside this radius.</div>')}
-    </section>
+      ${renderSnapshotTable(['Community', 'Builder', 'Sq Ft Range', 'Price Range', 'Tier', 'Distance'], competition.map(r => r.html), '<div class="snapshot-empty">No builder communities fall inside this radius.</div>')}
+    `, true)}
 
-    <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Demographics</h4><span>${demographics ? demographicRows.length.toLocaleString() + ' submarkets' : 'No data'}</span></div>
-      ${demographics ? `
-        <div class="snapshot-metric-grid four-up">
-          ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
-          ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
-          ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
-          ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
-        </div>
-        <div class="snapshot-subnote">Aggregated from submarkets whose centroids fall within the selected radius.</div>
-      ` : '<div class="snapshot-empty">No demographic overlap was found for this radius.</div>'}
-    </section>
+    ${renderSnapshotSection('Demographics', demographics ? `${demographicRows.length.toLocaleString()} submarkets` : 'No data', demographics ? `
+      <div class="snapshot-metric-grid four-up">
+        ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
+        ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
+        ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
+        ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
+      </div>
+      <div class="snapshot-subnote">Aggregated from submarkets whose centroids fall within the selected radius.</div>
+    ` : '<div class="snapshot-empty">No demographic overlap was found for this radius.</div>', false)}
 
-    <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Schools</h4><span>${schools.length.toLocaleString()} schools</span></div>
-      ${renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>')}
-    </section>
+    ${renderSnapshotSection('Schools', `${schools.length.toLocaleString()} schools`, renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>'), false)}
 
-    <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Retail & Dining</h4><span>${retail.length.toLocaleString()} places</span></div>
-      ${renderSnapshotTable(['Place', 'Category', 'Distance'], retailRows, '<div class="snapshot-empty">No retail or dining POIs fall inside this radius.</div>')}
-    </section>
+    ${healthcareSection}
 
-    <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Lifestyle & Amenities</h4><span>${lifestyleLoading ? 'Loading...' : `${lifestyle.length.toLocaleString()} places`}</span></div>
-      ${lifestyleLoading
-        ? `<div class="snapshot-empty snapshot-loading-placeholder">Amenities Still Loading</div>`
-        : renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyleRows, '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>')}
-    </section>
+    ${renderSnapshotSection('Retail & Dining', retailLoading ? 'Loading...' : `${retail.length.toLocaleString()} places`, retailLoading ? '<div class="snapshot-empty snapshot-loading-placeholder">Retail & Dining Still Loading</div>' : renderSnapshotTable(['Place', 'Category', 'Distance'], retail.map(({ feature, distance }) => {
+      const p = feature.properties || {};
+      const brand = p.NationalBrand ? (p.Brand || p.Name || 'National Brand') : (p.Name || p.Brand || 'Retail');
+      const label = p.NationalBrand ? 'National Brand' : (p.Category || 'Retail');
+      return `<div class="snapshot-table-row"><div><b>${escapeHtml(brand)}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(label)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
+    }), '<div class="snapshot-empty">No retail or dining POIs fall inside this radius.</div>'), false)}
+
+    ${renderSnapshotSection('Lifestyle & Amenities', lifestyleLoading ? 'Loading...' : `${lifestyle.length.toLocaleString()} places`, lifestyleLoading ? '<div class="snapshot-empty snapshot-loading-placeholder">Amenities Still Loading</div>' : renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyle.map(({ feature, distance }) => {
+      const p = feature.properties || {};
+      return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Name || lifestyleCategoryLabel(p.LifestyleCategory))}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(lifestyleCategoryLabel(p.LifestyleCategory))}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
+    }), '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>'), false)}
   `;
 }
 
@@ -1152,7 +1187,12 @@ async function ensureSnapshotDataLoaded() {
   const tasks = [];
   if (!state.buildersLoaded) tasks.push(ensureBuildersLoaded().catch(err => console.warn('Builders not available for snapshot', err)));
   if (!state.schoolsLoaded) tasks.push(loadSchools(false).catch(err => console.warn('Schools not available for snapshot', err)));
-  if (!state.poisLoaded) tasks.push(loadPOIs(false).catch(err => console.warn('Retail not available for snapshot', err)));
+  if (!state.healthcareLoaded && !state.healthcareLoadPromise) {
+    loadHealthcare(false).catch(err => console.warn('Healthcare not available for snapshot', err));
+  }
+  if (!state.poisLoaded && !state.poisLoadPromise) {
+    loadPOIs(false).catch(err => console.warn('Retail not available for snapshot', err));
+  }
   if (!state.lifestyleLoaded && !state.lifestyleLoadPromise) {
     state.lifestyleLoadPromise = loadLifestyle(false)
       .catch(err => console.warn('Lifestyle not available for snapshot', err))
@@ -1163,7 +1203,6 @@ async function ensureSnapshotDataLoaded() {
   }
   await Promise.allSettled(tasks);
 }
-
 async function handleMarketSnapshotPoint(latlng) {
   if (!marketSnapshotModeActive() || !state.marketSnapshot.radiusMiles) return;
   if (state.marketSnapshot.busy) return;
@@ -2703,24 +2742,37 @@ async function loadPOIs(showLayer = false) {
     if (showLayer && state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
     return;
   }
-  const badge = document.getElementById('retailCountBadge');
-  badge.textContent = 'Loading...';
-  const data = await fetchOverpass(overpassQuery());
-  const seen = new Set();
-  state.pois = (data.elements || []).map(overpassElementToFeature).filter(Boolean).filter(f => {
-    if (seen.has(f.properties.OSMID)) return false;
-    seen.add(f.properties.OSMID);
-    assignPoiToSubmarket(f);
-    return !!f.properties.SubmarketID;
+  if (state.poisLoadPromise) {
+    if (showLayer) state.poisLoadPromise.then(() => {
+      if (state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
+    }).catch(() => {});
+    return state.poisLoadPromise;
+  }
+  const loadPromise = (async () => {
+    const badge = document.getElementById('retailCountBadge');
+    if (badge) badge.textContent = 'Loading...';
+    const data = await fetchOverpass(overpassQuery());
+    const seen = new Set();
+    state.pois = (data.elements || []).map(overpassElementToFeature).filter(Boolean).filter(f => {
+      if (seen.has(f.properties.OSMID)) return false;
+      seen.add(f.properties.OSMID);
+      assignPoiToSubmarket(f);
+      return !!f.properties.SubmarketID;
+    });
+    buildPOILayer();
+    state.poisLoaded = true;
+    if (showLayer && state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
+    if (badge) badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
+    updateRetailFilterPanel();
+    buildSearchIndex();
+    { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
+    if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+  })();
+  state.poisLoadPromise = loadPromise.finally(() => {
+    state.poisLoadPromise = null;
+    refreshOpenMarketSnapshotModal();
   });
-  buildPOILayer();
-  state.poisLoaded = true;
-  if (showLayer && state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
-  badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
-  updateRetailFilterPanel();
-  buildSearchIndex();
-  { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
-  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+  return state.poisLoadPromise;
 }
 
 function buildPOILayer() {
@@ -2864,7 +2916,17 @@ function renderHealthcareCard(summary) {
 }
 
 async function loadHealthcare(showLayer = false) {
-  if (!state.healthcareLoaded) {
+  if (state.healthcareLoaded) {
+    if (showLayer && state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
+    return;
+  }
+  if (state.healthcareLoadPromise) {
+    if (showLayer) state.healthcareLoadPromise.then(() => {
+      if (state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
+    }).catch(() => {});
+    return state.healthcareLoadPromise;
+  }
+  const loadPromise = (async () => {
     const badge = document.getElementById('healthcareCountBadge');
     if (badge) badge.textContent = 'Loading...';
     if (!state.healthcareSummary || !Array.isArray(state.healthcare)) {
@@ -2894,9 +2956,15 @@ async function loadHealthcare(showLayer = false) {
     buildSearchIndex();
     { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
     renderRelease(state.metadata);
-  }
-  if (showLayer && state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
-  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
+  })();
+  state.healthcareLoadPromise = loadPromise.finally(() => {
+    state.healthcareLoadPromise = null;
+    refreshOpenMarketSnapshotModal();
+  });
+  if (showLayer) state.healthcareLoadPromise.then(() => {
+    if (state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
+  }).catch(() => {});
+  return state.healthcareLoadPromise;
 }
 
 function selectHealthcare(facility) {
