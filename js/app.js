@@ -47,6 +47,9 @@ const state = {
   builderExportKmlCount: 0,
   demographics: null,
   demographicsLoaded: false,
+  demographicsBlockGroups: [],
+  demographicsBlockGroupsLoaded: false,
+  demographicsBlockGroupsLoadPromise: null,
   basemaps: {},
   searchIndex: [],
   metadata: null,
@@ -817,7 +820,7 @@ function fmt(v, suffix = '') {
 
 function submarketDemoKey(name) {
   if (!name) return '';
-  if (name === 'Eglin AFB') return 'Egland AFB';
+  if (name === 'Eglin AFB') return 'Eglin AFB';
   return name;
 }
 
@@ -828,6 +831,66 @@ function demoForSubmarket(name) {
 
 function demosForFeatures(features) {
   return features.map(f => demoForSubmarket(f.properties.DisplayName)).filter(Boolean);
+}
+
+function snapshotWeightedRowsFromGeometry(features, centerLatLng, radiusMiles, getDemo) {
+  return (features || [])
+    .map(feature => {
+      const overlap = snapshotEstimatePolygonOverlapFraction(feature && feature.geometry, centerLatLng, radiusMiles);
+      if (!(overlap > 0)) return null;
+      const demo = getDemo(feature);
+      if (!demo) return null;
+      return {
+        feature,
+        distance: marketSnapshotDistanceMiles(feature, centerLatLng),
+        overlap,
+        demo
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.overlap - a.overlap || a.distance - b.distance);
+}
+
+function nearestSnapshotRows(features, centerLatLng, radiusMiles, getDemo, limit = 4) {
+  const fallback = (features || [])
+    .map(feature => {
+      const demo = getDemo(feature);
+      const distance = marketSnapshotDistanceMiles(feature, centerLatLng);
+      if (!demo || !Number.isFinite(distance)) return null;
+      return {
+        feature,
+        distance,
+        overlap: 0,
+        syntheticWeight: Math.max(0.15, Math.min(1, radiusMiles ? (radiusMiles / Math.max(distance, radiusMiles)) : 0.3)),
+        demo
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, limit);
+  return fallback;
+}
+
+function weightedRowsFromDemographicSource(centerLatLng, radiusMiles) {
+  const blockGroupsLoaded = state.demographicsBlockGroupsLoaded && Array.isArray(state.demographicsBlockGroups) && state.demographicsBlockGroups.length;
+  if (blockGroupsLoaded) {
+    const rows = snapshotWeightedRowsFromGeometry(state.demographicsBlockGroups, centerLatLng, radiusMiles, feature => ({ current: feature.properties || {}, forecast_5yr: null }));
+    if (rows.length) {
+      return { rows, source: 'block_groups', note: 'Area-weighted overlap between the selected radius and Census block groups.' };
+    }
+  }
+
+  const overlapRows = snapshotWeightedRowsFromGeometry(state.features, centerLatLng, radiusMiles, feature => demoForSubmarket(feature.properties.DisplayName));
+  if (overlapRows.length) {
+    return { rows: overlapRows, source: 'submarkets', note: 'Area-weighted overlap between the selected radius and submarket polygons.' };
+  }
+
+  const fallbackRows = nearestSnapshotRows(state.features, centerLatLng, radiusMiles, feature => demoForSubmarket(feature.properties.DisplayName));
+  return {
+    rows: fallbackRows,
+    source: 'nearest_submarkets',
+    note: fallbackRows.length ? 'No submarket polygons overlap this radius; using the nearest submarket estimates.' : 'No demographic data is available for this radius.'
+  };
 }
 
 function weightedAvg(rows, field, weightField='population') {
@@ -1304,11 +1367,16 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     return acc;
   }, { total: 0, active: 0, future: 0, builtOut: 0, starts: 0, remaining: 0 });
 
-  const demographicSubmarkets = demographicFeaturesWithinRadius(state.features, centerLatLng, radiusMiles);
-  const demographicRows = demographicSubmarkets.map(({ feature, distance, overlap }) => {
-    const demo = demoForSubmarket(feature.properties.DisplayName);
+  const demographicSource = weightedRowsFromDemographicSource(centerLatLng, radiusMiles);
+  const demographicRows = demographicSource.rows.map(row => {
+    const demo = row.demo || demoForSubmarket(row.feature && row.feature.properties ? row.feature.properties.DisplayName : null);
     if (!demo) return null;
-    return { feature, distance, demo, weight: overlap };
+    return {
+      feature: row.feature,
+      distance: row.distance,
+      demo,
+      weight: row.syntheticWeight || row.overlap || 0
+    };
   }).filter(Boolean);
   const demographics = demographicRows.length ? aggregateDemographicsWeighted(demographicRows) : null;
 
@@ -1396,15 +1464,15 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
       ${renderSnapshotTable(['Community', 'Builder', 'Sq Ft Range', 'Price Range', 'Tier', 'Distance'], competition.map(r => r.html), '<div class="snapshot-empty">No builder communities fall inside this radius.</div>')}
     `, true)}
 
-    ${renderSnapshotSection('Demographics', demographics ? `${demographicRows.length.toLocaleString()} submarkets` : 'No data', demographics ? `
+    ${renderSnapshotSection('Demographics', demographics ? `${demographicRows.length.toLocaleString()} geographies` : 'No data', demographics ? `
       <div class="snapshot-metric-grid four-up">
         ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
         ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
         ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
         ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
       </div>
-      <div class="snapshot-subnote">Area-weighted overlap between the selected radius and submarket polygons.</div>
-    ` : '<div class="snapshot-empty">No demographic overlap was found for this radius.</div>', false)}
+      <div class="snapshot-subnote">${escapeHtml(demographicSource.note)}</div>
+    ` : '<div class="snapshot-empty">No demographic data is available for this radius.</div>', false)}
 
     ${renderSnapshotSection('Schools', `${schools.length.toLocaleString()} schools`, renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>'), false)}
 
@@ -3317,10 +3385,11 @@ function initMap() {
 }
 
 async function loadData() {
-  const [geojson, meta, demographics, healthcareFacilities, healthcareSummary] = await Promise.all([
+  const [geojson, meta, demographics, demographicsBlockGroups, healthcareFacilities, healthcareSummary] = await Promise.all([
     fetch('data/submarkets.geojson').then(r => r.json()),
     fetch('data/metadata.json').then(r => r.json()),
     fetch('data/submarket_demographics_combined.json').then(r => r.json()),
+    fetch('data/demographics_block_groups.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/healthcare_facilities.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/submarket_healthcare_summary.json').then(r => r.json()).catch(() => ({ metadata: { status: 'not_built' }, submarkets: {} }))
   ]);
@@ -3329,6 +3398,8 @@ async function loadData() {
   state.metadata = meta;
   state.demographics = demographics;
   state.demographicsLoaded = true;
+  state.demographicsBlockGroups = demographicsBlockGroups.features || [];
+  state.demographicsBlockGroupsLoaded = true;
   state.healthcare = healthcareFacilities.features || [];
   state.healthcareSummary = healthcareSummary;
   // healthcareLoaded tracks whether the Leaflet marker layer has been constructed.

@@ -554,11 +554,27 @@ def main() -> int:
     wide_path = out_dir / "submarket_demographics_current_and_forecast.csv"
     audit_path = out_dir / "submarket_demographics_audit.csv"
     metadata_path = out_dir / "submarket_demographics_metadata.json"
+    block_groups_path = out_dir / "demographics_block_groups.geojson"
 
     combined_path.write_text(json.dumps(combined, indent=2), encoding="utf-8")
     wide.to_csv(wide_path, index=False)
     pd.concat([current_audit, prior_audit], ignore_index=True).to_csv(audit_path, index=False)
     metadata_path.write_text(json.dumps(combined["metadata"], indent=2), encoding="utf-8")
+
+    # Save the underlying block-group geometry and current ACS values so the
+    # Market Snapshot can calculate true radius-based demographic overlap.
+    bg_focus = bg_current.merge(counties.assign(_keep=1), on=["STATEFP", "COUNTYFP"], how="inner")
+    bg_snapshot = bg_focus.merge(current_acs, on="GEOID", how="left")
+    bg_snapshot = gpd.GeoDataFrame(bg_snapshot, geometry="geometry", crs=bg_current.crs)
+    keep_cols = [
+        "GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE", "geometry",
+        "population", "households", "median_household_income", "median_age",
+        "occupied_housing_units", "owner_occupied_units", "renter_occupied_units",
+        "population_25_plus", "bachelors_plus_count", "owner_occupancy_pct",
+        "renter_occupancy_pct", "bachelors_plus_pct",
+    ]
+    existing_cols = [c for c in keep_cols if c in bg_snapshot.columns]
+    bg_snapshot[existing_cols].to_file(block_groups_path, driver="GeoJSON")
 
     log("Done. Created outputs:")
     for path in [combined_path, wide_path, audit_path, metadata_path]:
