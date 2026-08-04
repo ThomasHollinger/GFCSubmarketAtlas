@@ -157,3 +157,13 @@ body.snapshot-mode #map{cursor:crosshair}
   .snapshot-table{overflow-x:auto}
   .snapshot-table-row{min-width:720px}
 }
+
+.market-snapshot-prompt{display:grid;gap:8px;min-width:220px;padding:6px 2px}
+.market-snapshot-prompt-kicker{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#0b2f4d}
+.market-snapshot-prompt-title{font-size:17px;font-weight:900;color:#0f2437;line-height:1.1}
+.market-snapshot-prompt-center{font-size:11px;color:#667085;font-weight:700;line-height:1.35}
+.market-snapshot-prompt-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.market-snapshot-prompt-actions button{flex:1 1 92px;padding:8px 10px;border-radius:10px;font-size:12px;font-weight:900}
+.market-snapshot-prompt-actions .secondary{background:#eef5fb;color:#0b2f4d;border:1px solid #cfd6df}
+.market-snapshot-prompt-popup .leaflet-popup-content-wrapper{border-radius:16px;box-shadow:0 12px 36px rgba(15,23,42,.22)}
+.market-snapshot-prompt-popup .leaflet-popup-content{margin:12px 14px}
