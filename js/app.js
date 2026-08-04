@@ -1022,13 +1022,10 @@ async function confirmMarketSnapshotYes() {
     const center = L.latLng(snapshot.centerLatLng.lat, snapshot.centerLatLng.lng);
     snapshot.report = { centerLatLng: { lat: center.lat, lng: center.lng }, radiusMiles: snapshot.radiusMiles };
     const html = buildMarketSnapshotHtml(center, snapshot.radiusMiles);
-    clearMarketSnapshotOverlay();
     openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(snapshot.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
   } catch (err) {
     console.error('Market snapshot generation failed', err);
     alert('Market Snapshot could not be generated right now. Please try again.');
-  } finally {
-    resetMarketSnapshotMode();
   }
 }
 
