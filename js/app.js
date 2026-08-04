@@ -873,6 +873,60 @@ function aggregateDemographics(features) {
   };
 }
 
+function aggregateDemographicsWeighted(rows) {
+  const valid = (rows || []).map(row => ({
+    feature: row.feature,
+    demo: row.demo || demoForSubmarket(row.feature && row.feature.properties ? row.feature.properties.DisplayName : null),
+    weight: Math.max(0, Math.min(1, Number(row.weight || row.overlap || 0)))
+  })).filter(row => row.demo && row.weight > 0);
+  if (!valid.length) return null;
+  const sumWeighted = (arr, field, weightField) => Math.round(arr.reduce((acc, row) => {
+    const value = Number(row.demo?.current?.[field] || 0);
+    const weight = Number(row.demo?.current?.[weightField] || 0) * row.weight;
+    return acc + (Number.isFinite(value) && Number.isFinite(weight) ? value * row.weight : 0);
+  }, 0));
+  const sumWeightedForecast = (arr, field, weightField) => Math.round(arr.reduce((acc, row) => {
+    const value = Number(row.demo?.forecast_5yr?.[field] || 0);
+    const weight = Number(row.demo?.forecast_5yr?.[weightField] || 0) * row.weight;
+    return acc + (Number.isFinite(value) && Number.isFinite(weight) ? value * row.weight : 0);
+  }, 0));
+  const weightedAverage = (arr, field, weightField, section = 'current') => {
+    let totalWeight = 0;
+    let totalValue = 0;
+    arr.forEach(row => {
+      const source = section === 'forecast_5yr' ? row.demo?.forecast_5yr : row.demo?.current;
+      const value = Number(source?.[field]);
+      const baseWeight = Number(source?.[weightField] || 0) * row.weight;
+      if (Number.isFinite(value) && Number.isFinite(baseWeight) && baseWeight > 0) {
+        totalWeight += baseWeight;
+        totalValue += value * baseWeight;
+      }
+    });
+    return totalWeight ? totalValue / totalWeight : null;
+  };
+  return {
+    current: {
+      population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.population || 0) * row.weight, 0)),
+      households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.households || 0) * row.weight, 0)),
+      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'population') || 0),
+      median_age: weightedAverage(valid, 'median_age', 'population'),
+      owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units'),
+      bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus'),
+      population_growth_prior_5yr_pct: weightedAverage(valid, 'population_growth_prior_5yr_pct', 'population')
+    },
+    forecast_5yr: {
+      population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.population || 0) * row.weight, 0)),
+      households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.households || 0) * row.weight, 0)),
+      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'population', 'forecast_5yr') || 0),
+      median_age: weightedAverage(valid, 'median_age', 'population', 'forecast_5yr'),
+      owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units', 'forecast_5yr'),
+      bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus', 'forecast_5yr'),
+      population_growth_next_5yr_pct: weightedAverage(valid, 'population_growth_next_5yr_pct', 'population', 'forecast_5yr')
+    },
+    audit: { submarkets_with_data: valid.length, submarkets_total: rows.length }
+  };
+}
+
 function fmtMoney(v) {
   if (v === null || v === undefined || Number.isNaN(Number(v)) || Number(v) <= 0) return 'N/A';
   return '$' + Math.round(Number(v)).toLocaleString();
@@ -1085,6 +1139,94 @@ function featuresWithinRadius(features, centerLatLng, radiusMiles) {
     .sort((a, b) => a.distance - b.distance);
 }
 
+const SNAPSHOT_MILES_PER_DEGREE_LAT = 69.172;
+
+function snapshotProjectPoint(lat, lng, origin) {
+  const lat0 = Number(origin && origin.lat);
+  const lng0 = Number(origin && origin.lng);
+  const cosLat = Math.cos((Number.isFinite(lat0) ? lat0 : 0) * Math.PI / 180);
+  return {
+    x: (Number(lng) - lng0) * SNAPSHOT_MILES_PER_DEGREE_LAT * cosLat,
+    y: (Number(lat) - lat0) * SNAPSHOT_MILES_PER_DEGREE_LAT
+  };
+}
+
+function snapshotPointInRing(point, ring) {
+  if (!Array.isArray(ring) || ring.length < 3) return false;
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = Number(ring[i][0]);
+    const yi = Number(ring[i][1]);
+    const xj = Number(ring[j][0]);
+    const yj = Number(ring[j][1]);
+    const intersect = ((yi > point.y) !== (yj > point.y)) && (point.x < ((xj - xi) * (point.y - yi)) / ((yj - yi) || 1e-12) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+function snapshotGeometryProjectedPolygons(geometry, origin) {
+  if (!geometry || !Array.isArray(geometry.coordinates)) return [];
+  const polygons = [];
+  const mapRing = ring => (Array.isArray(ring) ? ring.map(pt => snapshotProjectPoint(pt[1], pt[0], origin)) : []);
+  if (geometry.type === 'Polygon') {
+    polygons.push((geometry.coordinates || []).map(mapRing));
+  } else if (geometry.type === 'MultiPolygon') {
+    (geometry.coordinates || []).forEach(poly => polygons.push((poly || []).map(mapRing)));
+  }
+  return polygons.filter(poly => Array.isArray(poly) && poly.length && Array.isArray(poly[0]) && poly[0].length >= 3);
+}
+
+function snapshotEstimatePolygonOverlapFraction(geometry, centerLatLng, radiusMiles) {
+  const polygons = snapshotGeometryProjectedPolygons(geometry, centerLatLng);
+  if (!polygons.length) return 0;
+  const radiusSq = Number(radiusMiles) * Number(radiusMiles);
+  let polygonSamples = 0;
+  let overlapSamples = 0;
+  polygons.forEach(poly => {
+    const outer = poly[0];
+    if (!Array.isArray(outer) || outer.length < 3) return;
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    outer.forEach(pt => {
+      if (!pt || !Number.isFinite(pt.x) || !Number.isFinite(pt.y)) return;
+      if (pt.x < minX) minX = pt.x;
+      if (pt.x > maxX) maxX = pt.x;
+      if (pt.y < minY) minY = pt.y;
+      if (pt.y > maxY) maxY = pt.y;
+    });
+    if (!Number.isFinite(minX) || !Number.isFinite(minY)) return;
+    const width = Math.max(0.05, maxX - minX);
+    const height = Math.max(0.05, maxY - minY);
+    const grid = Math.max(14, Math.min(60, Math.ceil(Math.max(width, height) / 0.2)));
+    const stepX = width / grid;
+    const stepY = height / grid;
+    for (let ix = 0; ix < grid; ix += 1) {
+      for (let iy = 0; iy < grid; iy += 1) {
+        const point = { x: minX + (ix + 0.5) * stepX, y: minY + (iy + 0.5) * stepY };
+        if (!snapshotPointInRing(point, outer)) continue;
+        polygonSamples += 1;
+        if ((point.x * point.x) + (point.y * point.y) <= radiusSq) overlapSamples += 1;
+      }
+    }
+  });
+  return polygonSamples ? overlapSamples / polygonSamples : 0;
+}
+
+function demographicFeaturesWithinRadius(features, centerLatLng, radiusMiles) {
+  return (features || [])
+    .map(feature => {
+      const overlap = snapshotEstimatePolygonOverlapFraction(feature && feature.geometry, centerLatLng, radiusMiles);
+      if (!(overlap > 0)) return null;
+      return {
+        feature,
+        distance: marketSnapshotDistanceMiles(feature, centerLatLng),
+        overlap
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.overlap - a.overlap || a.distance - b.distance);
+}
+
 function formatBuilderTierLabel(feature) {
   const tierKey = builderTierForFeature(feature);
   if (!tierKey) return '—';
@@ -1162,13 +1304,13 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     return acc;
   }, { total: 0, active: 0, future: 0, builtOut: 0, starts: 0, remaining: 0 });
 
-  const demographicSubmarkets = featuresWithinRadius(state.features, centerLatLng, radiusMiles);
-  const demographicRows = demographicSubmarkets.map(({ feature, distance }) => {
+  const demographicSubmarkets = demographicFeaturesWithinRadius(state.features, centerLatLng, radiusMiles);
+  const demographicRows = demographicSubmarkets.map(({ feature, distance, overlap }) => {
     const demo = demoForSubmarket(feature.properties.DisplayName);
     if (!demo) return null;
-    return { feature, distance, demo };
+    return { feature, distance, demo, weight: overlap };
   }).filter(Boolean);
-  const demographics = demographicRows.length ? aggregateDemographics(demographicRows.map(r => r.feature)) : null;
+  const demographics = demographicRows.length ? aggregateDemographicsWeighted(demographicRows) : null;
 
   const schools = featuresWithinRadius(state.schoolsLoaded ? state.schools : [], centerLatLng, radiusMiles)
     .map(({ feature, distance }) => ({ feature, distance }));
@@ -1261,7 +1403,7 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
         ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
       </div>
-      <div class="snapshot-subnote">Aggregated from submarkets whose centroids fall within the selected radius.</div>
+      <div class="snapshot-subnote">Area-weighted overlap between the selected radius and submarket polygons.</div>
     ` : '<div class="snapshot-empty">No demographic overlap was found for this radius.</div>', false)}
 
     ${renderSnapshotSection('Schools', `${schools.length.toLocaleString()} schools`, renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>'), false)}
