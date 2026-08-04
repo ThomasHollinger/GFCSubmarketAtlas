@@ -878,18 +878,17 @@ function weightedRowsFromDemographicSource(centerLatLng, radiusMiles) {
     if (rows.length) {
       return { rows, source: 'block_groups', note: 'Area-weighted overlap between the selected radius and Census block groups.' };
     }
+    return {
+      rows: [],
+      source: 'block_groups_empty',
+      note: 'No Census block groups overlap this radius yet. Rebuild the block-group dataset or use a larger radius.'
+    };
   }
 
-  const overlapRows = snapshotWeightedRowsFromGeometry(state.features, centerLatLng, radiusMiles, feature => demoForSubmarket(feature.properties.DisplayName));
-  if (overlapRows.length) {
-    return { rows: overlapRows, source: 'submarkets', note: 'Area-weighted overlap between the selected radius and submarket polygons.' };
-  }
-
-  const fallbackRows = nearestSnapshotRows(state.features, centerLatLng, radiusMiles, feature => demoForSubmarket(feature.properties.DisplayName));
   return {
-    rows: fallbackRows,
-    source: 'nearest_submarkets',
-    note: fallbackRows.length ? 'No submarket polygons overlap this radius; using the nearest submarket estimates.' : 'No demographic data is available for this radius.'
+    rows: [],
+    source: 'block_groups_unavailable',
+    note: 'Demographic block-group data is not loaded yet. Rebuild the Census block-group dataset to enable 1-mile estimates.'
   };
 }
 
@@ -1472,7 +1471,9 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
       </div>
       <div class="snapshot-subnote">${escapeHtml(demographicSource.note)}</div>
-    ` : '<div class="snapshot-empty">No demographic data is available for this radius.</div>', false)}
+    ` : `
+      <div class="snapshot-empty">${escapeHtml(demographicSource.note || 'No demographic data is available for this radius.')}</div>
+    `, false)}
 
     ${renderSnapshotSection('Schools', `${schools.length.toLocaleString()} schools`, renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>'), false)}
 
