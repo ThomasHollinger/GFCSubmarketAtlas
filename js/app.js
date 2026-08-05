@@ -1000,8 +1000,9 @@ function renderSnapshotMetric(label, value, sublabel = '') {
 function renderSnapshotTable(headers, rows, emptyHtml) {
   const cols = `repeat(${Math.max(1, headers.length)}, minmax(0, 1fr))`;
   const head = `<div class="snapshot-table-row snapshot-table-head" style="--snapshot-cols:${cols}">${headers.map(h => `<div>${escapeHtml(h)}</div>`).join('')}</div>`;
-  if (!rows.length) return emptyHtml;
-  return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${rows.join('')}</div>`;
+  const body = Array.isArray(rows) ? rows.join('') : String(rows || '');
+  if (!body) return emptyHtml;
+  return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${body}</div>`;
 }
 
 function quickviewSignedValueHtml(value, kind = 'int') {
@@ -1169,7 +1170,7 @@ function buildMarketQuickviewHtml(data) {
         </div>
         <div class="snapshot-subnote">Household income bands below are aggregated from the block ZIP exports; 2029 is the current growth proxy in the pilot data.</div>
         <div style="margin-top:12px;">
-          ${renderSnapshotTable(['Income Band', '2024 HH', '2024 %', '2029 HH', '2029 %', 'Change', 'Δ %'], incomeBandRows(incomeBand2024, true), '<div class="snapshot-empty">No income-band detail available.</div>')}
+          ${renderSnapshotTable(['Income Band', '2024 HH', '2024 %', '2029 HH', '2029 %', 'Change', 'Δ %'], incomeBandRows(incomeBand2024, true), '<div class="snapshot-empty">Income-band data is still loading.</div>')}
         </div>
       </div>
     </details>
@@ -1208,7 +1209,7 @@ function buildMarketQuickviewHtml(data) {
         <div class="snapshot-section-head quickview-head"><h4>Consumer Segments</h4><span>Top household profiles</span></div>
       </summary>
       <div class="quickview-body">
-        ${renderSnapshotTable(['Segment', 'Households', 'Share'], segmentRows, '<div class="snapshot-empty">No consumer segment detail available.</div>')}
+        ${renderSnapshotTable(['Segment', 'Households', 'Share'], segmentRows, '<div class="snapshot-empty">Consumer segment data is still loading.</div>')}
       </div>
     </details>
 
@@ -1643,6 +1644,7 @@ function quickviewAggregateBlocks(features) {
 
 function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
   const radiusLabel = marketQuickviewRadiusLabel(radiusMiles);
+  const quickviewLoaded = !!state.quickviewBlocksLoaded;
   const selectedBlocks = featuresWithinRadius(state.quickviewBlocks || [], centerLatLng, radiusMiles);
   const summaryData = quickviewAggregateBlocks(selectedBlocks.map(entry => entry.feature));
   const s = summaryData.summary;
@@ -1650,11 +1652,13 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
   const usableCount = summaryData.usableBlocksInRadius;
   const anomalousCount = summaryData.anomalousBlocksInRadius;
   const coveragePct = selectedCount ? (usableCount / selectedCount) * 100 : 0;
-  const selectedNote = selectedCount ? `${selectedCount.toLocaleString()} analysis blocks inside the radius` : 'No quickview blocks found in this radius.';
+  const selectedNote = quickviewLoaded
+    ? (selectedCount ? `${selectedCount.toLocaleString()} analysis blocks inside the radius` : 'No quickview blocks found in this radius.')
+    : 'Quickview data is still loading.';
 
   const totalIncome2024 = Number(s.households_2024 || 0) || null;
   const totalIncome2029 = Number(s.households_2029 || 0) || null;
-  const incomeRowsHtml = summaryData.incomeRows.map(row => {
+  const incomeRowsHtml = quickviewLoaded ? summaryData.incomeRows.map(row => {
     const pct2024 = totalIncome2024 ? (Number(row.households || 0) / totalIncome2024) * 100 : null;
     const pct2029 = totalIncome2029 ? (Number(row.future || 0) / totalIncome2029) * 100 : null;
     return `
@@ -1667,14 +1671,14 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
       <div>${quickviewSignedValueHtml(row.change, 'int')}</div>
       <div>${quickviewSignedValueHtml(row.pct, 'pct')}</div>
     </div>`;
-  }).join('');
+  }).join('') : '';
 
-  const consumerRows = summaryData.consumerSegments.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
-  const educationRows = summaryData.educationRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
-  const employmentRows = summaryData.employmentRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
-  const occupationRows = summaryData.occupationRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
-  const raceRows = summaryData.raceRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
-  const ethnicityRows = summaryData.ethnicityRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
+  const consumerRows = quickviewLoaded ? summaryData.consumerSegments.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('') : '';
+  const educationRows = quickviewLoaded ? summaryData.educationRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('') : '';
+  const employmentRows = quickviewLoaded ? summaryData.employmentRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('') : '';
+  const occupationRows = quickviewLoaded ? summaryData.occupationRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('') : '';
+  const raceRows = quickviewLoaded ? summaryData.raceRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('') : '';
+  const ethnicityRows = quickviewLoaded ? summaryData.ethnicityRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('') : '';
 
   return `
     <div class="snapshot-intro">
@@ -1723,7 +1727,7 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
       </summary>
       <div class="quickview-body">
         <div class="snapshot-subnote">Pilot data currently provides 2024 and 2029 snapshots. The table below shows projected household counts by income band for the selected radius.</div>
-        ${renderSnapshotTable(['Income Band', '2024 HH', '2024 %', '2029 HH', '2029 %', 'Change', 'Δ %'], incomeRowsHtml, '<div class="snapshot-empty">No income-band detail available.</div>')}
+        ${renderSnapshotTable(['Income Band', '2024 HH', '2024 %', '2029 HH', '2029 %', 'Change', 'Δ %'], incomeRowsHtml, '<div class="snapshot-empty">Income-band data is still loading.</div>')}
       </div>
     </details>
 
@@ -1732,7 +1736,7 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
         <div class="snapshot-section-head quickview-head"><h4>Consumer Segments</h4><span>${summaryData.consumerSegments.length.toLocaleString()} segments</span></div>
       </summary>
       <div class="quickview-body">
-        ${renderSnapshotTable(['Segment', 'Households', 'Share'], consumerRows, '<div class="snapshot-empty">No consumer segment detail available.</div>')}
+        ${renderSnapshotTable(['Segment', 'Households', 'Share'], consumerRows, '<div class="snapshot-empty">Consumer segment data is still loading.</div>')}
       </div>
     </details>
 
@@ -1742,8 +1746,8 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
       </summary>
       <div class="quickview-body">
         <div class="snapshot-subnote">Employment status and occupation are pulled from the underlying block export tables.</div>
-        <div style="margin-top:12px;">${renderSnapshotTable(['Employment Status', 'Count', 'Share'], employmentRows, '<div class="snapshot-empty">No employment detail available.</div>')}</div>
-        <div style="margin-top:12px;">${renderSnapshotTable(['Occupation', 'Count', 'Share'], occupationRows, '<div class="snapshot-empty">No occupation detail available.</div>')}</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Employment Status', 'Count', 'Share'], employmentRows, '<div class="snapshot-empty">Employment data is still loading.</div>')}</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Occupation', 'Count', 'Share'], occupationRows, '<div class="snapshot-empty">Occupation data is still loading.</div>')}</div>
       </div>
     </details>
 
@@ -1752,7 +1756,7 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
         <div class="snapshot-section-head quickview-head"><h4>Education Level</h4><span>${quickviewStatValue(s.education_total, 'int')} observations</span></div>
       </summary>
       <div class="quickview-body">
-        ${renderSnapshotTable(['Attainment', 'Count', 'Share'], educationRows, '<div class="snapshot-empty">No education detail available.</div>')}
+        ${renderSnapshotTable(['Attainment', 'Count', 'Share'], educationRows, '<div class="snapshot-empty">Education data is still loading.</div>')}
       </div>
     </details>
 
@@ -1762,8 +1766,8 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
       </summary>
       <div class="quickview-body">
         <div class="snapshot-subnote">Race mix uses the standard race categories; ethnicity is shown separately below.</div>
-        <div style="margin-top:12px;">${renderSnapshotTable(['Race', 'Count', 'Share'], raceRows, '<div class="snapshot-empty">No race detail available.</div>')}</div>
-        <div style="margin-top:12px;">${renderSnapshotTable(['Ethnicity', 'Count', 'Share'], ethnicityRows, '<div class="snapshot-empty">No ethnicity detail available.</div>')}</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Race', 'Count', 'Share'], raceRows, '<div class="snapshot-empty">Race data is still loading.</div>')}</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Ethnicity', 'Count', 'Share'], ethnicityRows, '<div class="snapshot-empty">Ethnicity data is still loading.</div>')}</div>
       </div>
     </details>
 
@@ -1822,17 +1826,14 @@ async function handleMarketQuickviewPoint(latlng) {
   state.marketQuickview.busy = true;
   updateMarketQuickviewUI();
   try {
-    await ensureQuickviewDataLoaded();
-    if (!state.quickviewBlocksLoaded) {
-      alert('Market Quickview data is not loaded yet.');
-      return;
-    }
+    void ensureQuickviewDataLoaded();
     const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
     const html = buildMarketQuickviewHtml(center, state.marketQuickview.radiusMiles);
     openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
   } catch (err) {
     console.error('Market quickview generation failed', err);
-    alert('Market Quickview could not be generated right now. Please try again.');
+    const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
+    openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, '<div class="snapshot-empty">Market Quickview could not be generated right now. Please try again.</div>');
   } finally {
     resetMarketQuickviewMode();
   }
@@ -1911,6 +1912,36 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Name || lifestyleCategoryLabel(p.LifestyleCategory))}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(lifestyleCategoryLabel(p.LifestyleCategory))}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
   });
 
+  const buildersLoaded = !!state.buildersLoaded;
+  const demographicsLoaded = !!state.demographicsLoaded;
+  const schoolsLoaded = !!state.schoolsLoaded;
+  const retailLoaded = !!state.poisLoaded;
+  const lifestyleLoaded = !!state.lifestyleLoaded;
+
+  const competitionSectionHtml = buildersLoaded
+    ? renderSnapshotTable(['Community', 'Builder', 'Sq Ft Range', 'Price Range', 'Tier', 'Distance'], competitionRows, '<div class="snapshot-empty">No builder communities fall inside this radius.</div>')
+    : '<div class="snapshot-empty">Builder data is still loading.</div>';
+  const demographicsSectionHtml = !demographicsLoaded
+    ? '<div class="snapshot-empty">Demographic data is still loading.</div>'
+    : (demographics
+      ? `<div class="snapshot-metric-grid">
+          ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
+          ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
+          ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
+          ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
+        </div>
+        <div class="snapshot-subnote">Aggregated from submarkets whose centroids fall within the selected radius.</div>`
+      : '<div class="snapshot-empty">No demographic overlap was found for this radius.</div>');
+  const schoolsSectionHtml = !schoolsLoaded
+    ? '<div class="snapshot-empty">Schools are still loading.</div>'
+    : renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>');
+  const retailSectionHtml = !retailLoaded
+    ? '<div class="snapshot-empty">Retail & dining are still loading.</div>'
+    : renderSnapshotTable(['Place', 'Category', 'Distance'], retailRows, '<div class="snapshot-empty">No retail or dining POIs fall inside this radius.</div>');
+  const lifestyleSectionHtml = !lifestyleLoaded
+    ? '<div class="snapshot-empty">Lifestyle & amenities are still loading.</div>'
+    : renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyleRows, '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>');
+
   return `
     <div class="snapshot-intro">
       <div class="snapshot-ribbon">${escapeHtml(radiusLabel)} Radius</div>
@@ -1919,7 +1950,7 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     </div>
 
     <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Competition</h4><span>${competition.length.toLocaleString()} communities</span></div>
+      <div class="snapshot-section-head"><h4>Competition</h4><span>${buildersLoaded ? competition.length.toLocaleString() : 'Still loading' } communities</span></div>
       <div class="snapshot-metric-grid">
         ${renderSnapshotMetric('Communities', String(compStatusCounts.total))}
         ${renderSnapshotMetric('Active', String(compStatusCounts.active))}
@@ -1928,35 +1959,27 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         ${renderSnapshotMetric('Annual Starts', String(Math.round(compStatusCounts.starts).toLocaleString()))}
         ${renderSnapshotMetric('Units Remaining', String(Math.round(compStatusCounts.remaining).toLocaleString()))}
       </div>
-      ${renderSnapshotTable(['Community', 'Builder', 'Sq Ft Range', 'Price Range', 'Tier', 'Distance'], competitionRows, '<div class="snapshot-empty">No builder communities fall inside this radius.</div>')}
+      ${competitionSectionHtml}
     </section>
 
     <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Demographics</h4><span>${demographics ? demographicRows.length.toLocaleString() + ' submarkets' : 'No data'}</span></div>
-      ${demographics ? `
-        <div class="snapshot-metric-grid four-up">
-          ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
-          ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
-          ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
-          ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
-        </div>
-        <div class="snapshot-subnote">Aggregated from submarkets whose centroids fall within the selected radius.</div>
-      ` : '<div class="snapshot-empty">No demographic overlap was found for this radius.</div>'}
+      <div class="snapshot-section-head"><h4>Demographics</h4><span>${demographicsLoaded ? (demographics ? demographicRows.length.toLocaleString() + ' submarkets' : 'No data') : 'Still loading'}</span></div>
+      ${demographicsSectionHtml}
     </section>
 
     <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Schools</h4><span>${schools.length.toLocaleString()} schools</span></div>
-      ${renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>')}
+      <div class="snapshot-section-head"><h4>Schools</h4><span>${schoolsLoaded ? schools.length.toLocaleString() : 'Still loading'} schools</span></div>
+      ${schoolsSectionHtml}
     </section>
 
     <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Retail & Dining</h4><span>${retail.length.toLocaleString()} places</span></div>
-      ${renderSnapshotTable(['Place', 'Category', 'Distance'], retailRows, '<div class="snapshot-empty">No retail or dining POIs fall inside this radius.</div>')}
+      <div class="snapshot-section-head"><h4>Retail & Dining</h4><span>${retailLoaded ? retail.length.toLocaleString() : 'Still loading'} places</span></div>
+      ${retailSectionHtml}
     </section>
 
     <section class="snapshot-section">
-      <div class="snapshot-section-head"><h4>Lifestyle & Amenities</h4><span>${lifestyle.length.toLocaleString()} places</span></div>
-      ${renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyleRows, '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>')}
+      <div class="snapshot-section-head"><h4>Lifestyle & Amenities</h4><span>${lifestyleLoaded ? lifestyle.length.toLocaleString() : 'Still loading'} places</span></div>
+      ${lifestyleSectionHtml}
     </section>
   `;
 }
@@ -1976,13 +1999,13 @@ async function handleMarketSnapshotPoint(latlng) {
   state.marketSnapshot.busy = true;
   updateMarketSnapshotUI();
   try {
-    await ensureSnapshotDataLoaded();
+    void ensureSnapshotDataLoaded();
     const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
     const html = buildMarketSnapshotHtml(center, state.marketSnapshot.radiusMiles);
     openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(state.marketSnapshot.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
   } catch (err) {
     console.error('Market snapshot generation failed', err);
-    alert('Market Snapshot could not be generated right now. Please try again.');
+    openMarketSnapshotModal('Market Snapshot', 'Snapshot is loading', '<div class="snapshot-empty">Market Snapshot could not be generated right now. Please try again.</div>');
   } finally {
     resetMarketSnapshotMode();
   }
