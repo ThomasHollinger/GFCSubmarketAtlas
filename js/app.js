@@ -903,7 +903,7 @@ function weightedRowsFromDemographicSource(centerLatLng, radiusMiles) {
         rows,
         source: usePointCenters ? 'block_group_centers' : 'block_groups',
         note: usePointCenters
-          ? 'Radius estimates use Census block-group population centers with block-group demographic data.'
+          ? 'Radius estimates use Census block-group population centers with household-weighted demographic data.'
           : 'Area-weighted overlap between the selected radius and Census block groups.'
       };
     }
@@ -935,6 +935,25 @@ function weightedAvg(rows, field, weightField='population') {
     }
   });
   return totalWeight ? totalValue / totalWeight : null;
+}
+
+function weightedMedian(rows, field, weightField='population') {
+  const values = [];
+  rows.forEach(row => {
+    const v = Number(row[field]);
+    const w = Math.max(0, Number(row[weightField] || 0));
+    if (Number.isFinite(v) && Number.isFinite(w) && w > 0) values.push({ v, w });
+  });
+  if (!values.length) return null;
+  values.sort((a, b) => a.v - b.v);
+  const totalWeight = values.reduce((acc, item) => acc + item.w, 0);
+  if (!(totalWeight > 0)) return null;
+  let cumulative = 0;
+  for (const item of values) {
+    cumulative += item.w;
+    if (cumulative >= totalWeight / 2) return item.v;
+  }
+  return values[values.length - 1].v;
 }
 
 function aggregateDemographics(features) {
@@ -973,16 +992,6 @@ function aggregateDemographicsWeighted(rows) {
     weight: Math.max(0, Math.min(1, Number(row.weight || row.overlap || 0)))
   })).filter(row => row.demo && row.weight > 0);
   if (!valid.length) return null;
-  const sumWeighted = (arr, field, weightField) => Math.round(arr.reduce((acc, row) => {
-    const value = Number(row.demo?.current?.[field] || 0);
-    const weight = Number(row.demo?.current?.[weightField] || 0) * row.weight;
-    return acc + (Number.isFinite(value) && Number.isFinite(weight) ? value * row.weight : 0);
-  }, 0));
-  const sumWeightedForecast = (arr, field, weightField) => Math.round(arr.reduce((acc, row) => {
-    const value = Number(row.demo?.forecast_5yr?.[field] || 0);
-    const weight = Number(row.demo?.forecast_5yr?.[weightField] || 0) * row.weight;
-    return acc + (Number.isFinite(value) && Number.isFinite(weight) ? value * row.weight : 0);
-  }, 0));
   const weightedAverage = (arr, field, weightField, section = 'current') => {
     let totalWeight = 0;
     let totalValue = 0;
@@ -997,11 +1006,29 @@ function aggregateDemographicsWeighted(rows) {
     });
     return totalWeight ? totalValue / totalWeight : null;
   };
+  const weightedMedianLocal = (arr, field, weightField, section = 'current') => {
+    const values = [];
+    arr.forEach(row => {
+      const source = section === 'forecast_5yr' ? row.demo?.forecast_5yr : row.demo?.current;
+      const value = Number(source?.[field]);
+      const weight = Number(source?.[weightField] || 0) * row.weight;
+      if (Number.isFinite(value) && Number.isFinite(weight) && weight > 0) values.push({ v: value, w: weight });
+    });
+    if (!values.length) return null;
+    values.sort((a, b) => a.v - b.v);
+    const totalWeight = values.reduce((acc, item) => acc + item.w, 0);
+    let cumulative = 0;
+    for (const item of values) {
+      cumulative += item.w;
+      if (cumulative >= totalWeight / 2) return item.v;
+    }
+    return values[values.length - 1].v;
+  };
   return {
     current: {
       population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.population || 0) * row.weight, 0)),
       households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.households || 0) * row.weight, 0)),
-      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'households') || 0),
+      median_household_income: Math.round(weightedMedianLocal(valid, 'median_household_income', 'households') || 0),
       median_age: weightedAverage(valid, 'median_age', 'population'),
       owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus'),
@@ -1010,7 +1037,7 @@ function aggregateDemographicsWeighted(rows) {
     forecast_5yr: {
       population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.population || 0) * row.weight, 0)),
       households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.households || 0) * row.weight, 0)),
-      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'households', 'forecast_5yr') || 0),
+      median_household_income: Math.round(weightedMedianLocal(valid, 'median_household_income', 'households', 'forecast_5yr') || 0),
       median_age: weightedAverage(valid, 'median_age', 'population', 'forecast_5yr'),
       owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units', 'forecast_5yr'),
       bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus', 'forecast_5yr'),
@@ -1982,7 +2009,7 @@ function renderDemographicsCard(demo) {
       <div><span>Owner Occupancy</span><b>${fmtPct(c.owner_occupancy_pct)}</b><small>current estimate</small></div>
       <div><span>Bachelor's+</span><b>${fmtPct(c.bachelors_plus_pct)}</b><small>current estimate</small></div>
     </div>
-    <div class="demo-note">Current values use ACS 2020-2024 5-Year block-group estimates area-weighted to custom KML boundaries. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
+    <div class="demo-note">Current values use ACS block-group estimates with a household-weighted median income estimate across the overlapping radius. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
   </div>`;
 }
 

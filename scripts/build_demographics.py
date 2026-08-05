@@ -355,14 +355,8 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
     for col in additive_cols:
         df[f"alloc_{col}"] = df[col].fillna(0) * df["overlap_pct_of_bg"]
 
-    # Weighted medians/median-like estimates. This is not a true median recomputation,
-    # but it is a stable submarket estimate using block-group values weighted by overlap and relevant base.
-    # Median household income should be weighted by households, not population.
-    df["income_weight"] = df["alloc_households"].fillna(0)
-    df["age_weight"] = df["alloc_population"].fillna(0)
-    df["median_income_weighted"] = df["median_household_income"].fillna(0) * df["income_weight"]
-    df["median_age_weighted"] = df["median_age"].fillna(0) * df["age_weight"]
-
+    # Median household income is estimated as a household-weighted median of the
+    # overlapping block-group medians. That is more defensible than averaging medians.
     agg = df.groupby("submarket", dropna=False).agg(
         population=("alloc_population", "sum"),
         households=("alloc_households", "sum"),
@@ -371,20 +365,29 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         renter_occupied_units=("alloc_renter_occupied_units", "sum"),
         population_25_plus=("alloc_population_25_plus", "sum"),
         bachelors_plus_count=("alloc_bachelors_plus_count", "sum"),
-        income_weight=("income_weight", "sum"),
-        age_weight=("age_weight", "sum"),
-        median_income_weighted=("median_income_weighted", "sum"),
-        median_age_weighted=("median_age_weighted", "sum"),
-        contributing_block_groups=("GEOID", "nunique"),
         total_overlap_area_sqm=("overlap_area_sqm", "sum"),
+        contributing_block_groups=("GEOID", "nunique"),
     ).reset_index()
 
-    agg["median_household_income"] = agg.apply(lambda r: r["median_income_weighted"] / r["income_weight"] if r["income_weight"] > 0 else pd.NA, axis=1)
-    agg["median_age"] = agg.apply(lambda r: r["median_age_weighted"] / r["age_weight"] if r["age_weight"] > 0 else pd.NA, axis=1)
-    agg["owner_occupancy_pct"] = agg.apply(lambda r: 100 * r["owner_occupied_units"] / r["occupied_housing_units"] if r["occupied_housing_units"] > 0 else pd.NA, axis=1)
-    agg["renter_occupancy_pct"] = agg.apply(lambda r: 100 * r["renter_occupied_units"] / r["occupied_housing_units"] if r["occupied_housing_units"] > 0 else pd.NA, axis=1)
-    agg["bachelors_plus_pct"] = agg.apply(lambda r: 100 * r["bachelors_plus_count"] / r["population_25_plus"] if r["population_25_plus"] > 0 else pd.NA, axis=1)
-    agg["year"] = year
+    def _weighted_median(frame: pd.DataFrame, value_col: str, weight_col: str):
+        vals = frame[[value_col, weight_col]].dropna().copy()
+        vals = vals[vals[weight_col] > 0].sort_values(value_col)
+        if vals.empty:
+            return pd.NA
+        midpoint = vals[weight_col].sum() / 2.0
+        running = vals[weight_col].cumsum()
+        idx = running.ge(midpoint).idxmax()
+        return vals.loc[idx, value_col]
+
+    income_medians = []
+    age_medians = []
+    for submarket, frame in df.groupby("submarket", dropna=False):
+        income_medians.append((submarket, _weighted_median(frame, "median_household_income", "alloc_households")))
+        age_medians.append((submarket, _weighted_median(frame, "median_age", "alloc_population")))
+    income_map = dict(income_medians)
+    age_map = dict(age_medians)
+    agg["median_household_income"] = agg["submarket"].map(income_map)
+    agg["median_age"] = agg["submarket"].map(age_map)
 
     out_cols = [
         "submarket", "year", "population", "households", "median_household_income", "median_age",
