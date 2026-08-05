@@ -48,8 +48,8 @@ const state = {
   searchIndex: [],
   metadata: null,
   detailOpen: {},
-  marketSnapshot: { active: false, radiusMiles: null, awaitingPoint: false, busy: false },
-  marketQuickview: { active: false, loaded: false, data: null, submarket: 'Central Mobile', radiusMiles: null, awaitingPoint: false, busy: false },
+  marketSnapshot: { active: false, radiusMiles: null, awaitingPoint: false, busy: false, pendingCenter: null, radiusLayer: null, radiusCircle: null, promptMarker: null },
+  marketQuickview: { active: false, loaded: false, data: null, submarket: 'Central Mobile', radiusMiles: null, awaitingPoint: false, busy: false, pendingCenter: null, radiusLayer: null, radiusCircle: null, promptMarker: null },
   quickviewBlocks: [],
   quickviewBlocksLoaded: false
 };
@@ -923,15 +923,23 @@ function updateMarketSnapshotUI() {
 }
 
 function setMarketSnapshotMode(active, radiusMiles = null) {
-  state.marketSnapshot = state.marketSnapshot || { active: false, radiusMiles: null, awaitingPoint: false, busy: false };
+  state.marketSnapshot = state.marketSnapshot || { active: false, radiusMiles: null, awaitingPoint: false, busy: false, pendingCenter: null, radiusLayer: null, radiusCircle: null, promptMarker: null };
+  const prevRadius = state.marketSnapshot.radiusMiles;
   state.marketSnapshot.active = !!active;
   state.marketSnapshot.awaitingPoint = !!active;
   state.marketSnapshot.radiusMiles = active ? (radiusMiles === null || radiusMiles === undefined ? state.marketSnapshot.radiusMiles : Number(radiusMiles)) : null;
   state.marketSnapshot.busy = false;
+  if (!active) {
+    clearRadiusPromptOverlay('snapshot');
+  } else if (prevRadius !== null && prevRadius !== undefined && state.marketSnapshot.radiusMiles !== prevRadius) {
+    clearRadiusPromptOverlay('snapshot');
+  }
   updateMarketSnapshotUI();
 }
 
 function resetMarketSnapshotMode() {
+  state.marketSnapshot = state.marketSnapshot || { active: false, radiusMiles: null, awaitingPoint: false, busy: false, pendingCenter: null, radiusLayer: null, radiusCircle: null, promptMarker: null };
+  clearRadiusPromptOverlay('snapshot');
   state.marketSnapshot.active = false;
   state.marketSnapshot.awaitingPoint = false;
   state.marketSnapshot.radiusMiles = null;
@@ -1008,8 +1016,16 @@ function renderSnapshotTable(headers, rows, emptyHtml) {
 function quickviewSignedValueHtml(value, kind = 'int') {
   const num = Number(value);
   if (!Number.isFinite(num)) return '—';
-  const color = num > 0 ? 'var(--good)' : num < 0 ? 'var(--bad)' : 'inherit';
-  return `<span style="color:${color};font-weight:900;">${escapeHtml(quickviewStatValue(num, kind))}</span>`;
+  if (!num) return `<span class="quickview-neutral">${escapeHtml(quickviewStatValue(num, kind))}</span>`;
+  const abs = Math.min(Math.abs(num), kind === 'pct' ? 150 : 500);
+  const intensity = kind === 'pct'
+    ? Math.max(32, 58 - (abs / 150) * 22)
+    : Math.max(30, 56 - (abs / 500) * 20);
+  const color = num > 0
+    ? `hsl(142 68% ${intensity}%)`
+    : `hsl(0 72% ${intensity}%)`;
+  const cls = num > 0 ? 'quickview-positive' : 'quickview-negative';
+  return `<span class="${cls}" style="color:${color};font-weight:900;">${escapeHtml(quickviewStatValue(num, kind))}</span>`;
 }
 
 function openMarketSnapshotModal(title, subtitle, bodyHtml) {
@@ -1032,6 +1048,100 @@ function closeMarketSnapshotModal() {
   overlay.setAttribute('aria-hidden', 'true');
 }
 
+function radiusModeState(mode) {
+  return mode === 'quickview' ? state.marketQuickview : state.marketSnapshot;
+}
+
+function radiusPromptLabel(mode) {
+  return mode === 'quickview' ? 'See Market Quickview?' : 'See Market Snapshot?';
+}
+
+function radiusPromptButtonClass(mode) {
+  return mode === 'quickview' ? 'radius-prompt-yes quickview' : 'radius-prompt-yes snapshot';
+}
+
+function clearRadiusPromptOverlay(mode) {
+  const s = radiusModeState(mode);
+  if (!s) return;
+  if (s.radiusLayer && typeof s.radiusLayer.remove === 'function') s.radiusLayer.remove();
+  s.radiusLayer = null;
+  s.radiusCircle = null;
+  s.promptMarker = null;
+  s.pendingCenter = null;
+}
+
+function renderRadiusPromptHtml(mode) {
+  const yesLabel = mode === 'quickview' ? 'Open Quickview' : 'Open Snapshot';
+  const noLabel = 'No';
+  const title = radiusPromptLabel(mode);
+  return `
+    <div class="radius-prompt-card ${mode === 'quickview' ? 'radius-prompt-card-quickview' : 'radius-prompt-card-snapshot'}" onclick="event.stopPropagation()">
+      <div class="radius-prompt-title">${escapeHtml(title)}</div>
+      <div class="radius-prompt-actions">
+        <button type="button" class="${radiusPromptButtonClass(mode)}" onclick="event.stopPropagation(); window.GCSA_RADIUS_PROMPT_YES('${mode}')">${escapeHtml(yesLabel)}</button>
+        <button type="button" class="radius-prompt-no" onclick="event.stopPropagation(); window.GCSA_RADIUS_PROMPT_NO('${mode}')">${escapeHtml(noLabel)}</button>
+      </div>
+    </div>`;
+}
+
+function showRadiusPrompt(mode, centerLatLng, radiusMiles) {
+  const s = radiusModeState(mode);
+  if (!s || !state.map) return;
+  clearRadiusPromptOverlay(mode);
+  s.pendingCenter = centerLatLng instanceof L.LatLng ? centerLatLng : L.latLng(centerLatLng.lat, centerLatLng.lng);
+  s.radiusMiles = Number(radiusMiles);
+  s.awaitingPoint = false;
+  s.busy = false;
+  const layer = L.layerGroup().addTo(state.map);
+  s.radiusLayer = layer;
+  const circleColor = mode === 'quickview' ? '#2563eb' : '#f59e0b';
+  const fillColor = mode === 'quickview' ? '#93c5fd' : '#fde68a';
+  const circle = L.circle([s.pendingCenter.lat, s.pendingCenter.lng], {
+    radius: Number(radiusMiles) * 1609.344,
+    color: circleColor,
+    weight: 2.5,
+    fillColor,
+    fillOpacity: 0.08,
+    dashArray: '6 6',
+    interactive: false
+  }).addTo(layer);
+  s.radiusCircle = circle;
+  const bounds = circle.getBounds && circle.getBounds();
+  if (bounds && typeof bounds.isValid === 'function' ? bounds.isValid() : true) {
+    state.map.fitBounds(bounds, { padding: [60, 60], animate: true });
+  }
+  const marker = L.marker([s.pendingCenter.lat, s.pendingCenter.lng], {
+    interactive: true,
+    keyboard: false,
+    zIndexOffset: 2200,
+    icon: L.divIcon({
+      className: '',
+      html: renderRadiusPromptHtml(mode),
+      iconSize: [210, 86],
+      iconAnchor: [105, 43]
+    })
+  }).addTo(layer);
+  s.promptMarker = marker;
+}
+
+function openRadiusPromptReport(mode) {
+  if (mode === 'quickview') {
+    openMarketQuickviewReportFromPrompt();
+  } else {
+    openMarketSnapshotReportFromPrompt();
+  }
+}
+
+function cancelRadiusPrompt(mode) {
+  if (mode === 'quickview') {
+    resetMarketQuickviewMode();
+  } else {
+    resetMarketSnapshotMode();
+  }
+}
+
+window.GCSA_RADIUS_PROMPT_YES = openRadiusPromptReport;
+window.GCSA_RADIUS_PROMPT_NO = cancelRadiusPrompt;
 
 function quickviewSelectedSubmarket() {
   const select = document.getElementById('marketQuickviewSelect');
@@ -1304,6 +1414,15 @@ async function openMarketQuickview() {
   const subtitle = `${submarket} pilot dataset`;
   openMarketQuickviewModal(title, subtitle, buildMarketQuickviewHtml(data));
 }
+
+function openMarketQuickviewReportFromPrompt() {
+  const s = state.marketQuickview || {};
+  if (!s.pendingCenter || !s.radiusMiles) return;
+  void ensureQuickviewDataLoaded();
+  const center = s.pendingCenter instanceof L.LatLng ? s.pendingCenter : L.latLng(s.pendingCenter.lat, s.pendingCenter.lng);
+  const html = buildMarketQuickviewHtml(center, s.radiusMiles);
+  openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(s.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
+}
 function marketQuickviewRadiusLabel(radiusMiles) {
   return `${radiusMiles} mile${Number(radiusMiles) === 1 ? '' : 's'}`;
 }
@@ -1333,7 +1452,8 @@ function updateMarketQuickviewUI() {
 }
 
 function setMarketQuickviewMode(active, radiusMiles = null) {
-  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false };
+  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false, pendingCenter: null, radiusLayer: null, radiusCircle: null, promptMarker: null };
+  const prevRadius = state.marketQuickview.radiusMiles;
   state.marketQuickview.active = !!active;
   state.marketQuickview.awaitingPoint = !!active;
   if (radiusMiles !== null && radiusMiles !== undefined) state.marketQuickview.radiusMiles = Number(radiusMiles);
@@ -1341,12 +1461,16 @@ function setMarketQuickviewMode(active, radiusMiles = null) {
     state.marketQuickview.radiusMiles = null;
     state.marketQuickview.awaitingPoint = false;
     state.marketQuickview.busy = false;
+    clearRadiusPromptOverlay('quickview');
+  } else if (prevRadius !== null && prevRadius !== undefined && state.marketQuickview.radiusMiles !== prevRadius) {
+    clearRadiusPromptOverlay('quickview');
   }
   updateMarketQuickviewUI();
 }
 
 function resetMarketQuickviewMode() {
-  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false };
+  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false, pendingCenter: null, radiusLayer: null, radiusCircle: null, promptMarker: null };
+  clearRadiusPromptOverlay('quickview');
   state.marketQuickview.active = false;
   state.marketQuickview.awaitingPoint = false;
   state.marketQuickview.radiusMiles = null;
@@ -1822,21 +1946,8 @@ async function ensureQuickviewDataLoaded() {
 
 async function handleMarketQuickviewPoint(latlng) {
   if (!marketQuickviewModeActive() || !state.marketQuickview.radiusMiles) return;
-  if (state.marketQuickview.busy) return;
-  state.marketQuickview.busy = true;
-  updateMarketQuickviewUI();
-  try {
-    void ensureQuickviewDataLoaded();
-    const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
-    const html = buildMarketQuickviewHtml(center, state.marketQuickview.radiusMiles);
-    openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
-  } catch (err) {
-    console.error('Market quickview generation failed', err);
-    const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
-    openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, '<div class="snapshot-empty">Market Quickview could not be generated right now. Please try again.</div>');
-  } finally {
-    resetMarketQuickviewMode();
-  }
+  const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
+  showRadiusPrompt('quickview', center, state.marketQuickview.radiusMiles);
 }
 
 function toggleMarketQuickviewMode() {
@@ -1995,20 +2106,17 @@ async function ensureSnapshotDataLoaded() {
 
 async function handleMarketSnapshotPoint(latlng) {
   if (!marketSnapshotModeActive() || !state.marketSnapshot.radiusMiles) return;
-  if (state.marketSnapshot.busy) return;
-  state.marketSnapshot.busy = true;
-  updateMarketSnapshotUI();
-  try {
-    void ensureSnapshotDataLoaded();
-    const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
-    const html = buildMarketSnapshotHtml(center, state.marketSnapshot.radiusMiles);
-    openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(state.marketSnapshot.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
-  } catch (err) {
-    console.error('Market snapshot generation failed', err);
-    openMarketSnapshotModal('Market Snapshot', 'Snapshot is loading', '<div class="snapshot-empty">Market Snapshot could not be generated right now. Please try again.</div>');
-  } finally {
-    resetMarketSnapshotMode();
-  }
+  const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
+  showRadiusPrompt('snapshot', center, state.marketSnapshot.radiusMiles);
+}
+
+function openMarketSnapshotReportFromPrompt() {
+  const s = state.marketSnapshot || {};
+  if (!s.pendingCenter || !s.radiusMiles) return;
+  void ensureSnapshotDataLoaded();
+  const center = s.pendingCenter instanceof L.LatLng ? s.pendingCenter : L.latLng(s.pendingCenter.lat, s.pendingCenter.lng);
+  const html = buildMarketSnapshotHtml(center, s.radiusMiles);
+  openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(s.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
 }
 
 function downloadBlob(filename, blob) {
