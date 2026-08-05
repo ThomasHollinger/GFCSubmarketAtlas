@@ -61,13 +61,13 @@ def parse_income_age_csv(text):
     for line in lines[1:]:
         row = next(csv.reader([line]))
         label = row[0].strip()
-        if label in {'2020', '2024', '2029'} and len(row) <= 2:
+        if label in {'2020', '2024', '2029'} and all(not str(cell).strip() for cell in row[1:]):
             current_year = label
             data.setdefault(current_year, {})
             continue
         if current_year is None:
             continue
-        if label in {'Age Capture', 'Income Capture'}:
+        if label in {'Age Capture', 'Income Capture', 'Household Totals'} or label.startswith('%'):
             continue
         vals = {}
         for age, cell in zip(age_cols, row[1:]):
@@ -220,10 +220,10 @@ def parse_block_zip2(data: bytes):
             for line in lines[1:]:
                 row = next(csv.reader([line]))
                 label = row[0].strip()
-                if label in matrix and len(row) <= 2:
+                if label in matrix and all(not str(cell).strip() for cell in row[1:]):
                     current_year = label
                     continue
-                if current_year is None or label in {'Household Totals', 'Age Capture', 'Income Capture'}:
+                if current_year is None or label in {'Household Totals', 'Age Capture', 'Income Capture'} or label.startswith('%'):
                     continue
                 vals = {}
                 for age, cell in zip(age_cols, row[1:]):
