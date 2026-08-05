@@ -48,8 +48,8 @@ const state = {
   searchIndex: [],
   metadata: null,
   detailOpen: {},
-  marketSnapshot: { active: false, radiusMiles: null, awaitingPoint: false, busy: false, centerLatLng: null, selectionLayer: null, promptPopup: null },
-  marketQuickview: { active: false, loaded: false, data: null, submarket: 'Central Mobile', radiusMiles: null, awaitingPoint: false, busy: false, centerLatLng: null, selectionLayer: null, promptPopup: null },
+  marketSnapshot: { active: false, radiusMiles: null, awaitingPoint: false, busy: false },
+  marketQuickview: { active: false, loaded: false, data: null, submarket: 'Central Mobile', radiusMiles: null, awaitingPoint: false, busy: false },
   quickviewBlocks: [],
   quickviewBlocksLoaded: false
 };
@@ -1000,11 +1000,15 @@ function renderSnapshotMetric(label, value, sublabel = '') {
 function renderSnapshotTable(headers, rows, emptyHtml) {
   const cols = `repeat(${Math.max(1, headers.length)}, minmax(0, 1fr))`;
   const head = `<div class="snapshot-table-row snapshot-table-head" style="--snapshot-cols:${cols}">${headers.map(h => `<div>${escapeHtml(h)}</div>`).join('')}</div>`;
-  const normalizedRows = Array.isArray(rows)
-    ? rows
-    : (typeof rows === 'string' ? (rows.trim() ? [rows] : []) : []);
-  if (!normalizedRows.length) return emptyHtml;
-  return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${normalizedRows.join('')}</div>`;
+  if (!rows.length) return emptyHtml;
+  return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${rows.join('')}</div>`;
+}
+
+function quickviewSignedValueHtml(value, kind = 'int') {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return '—';
+  const color = num > 0 ? 'var(--good)' : num < 0 ? 'var(--bad)' : 'inherit';
+  return `<span style="color:${color};font-weight:900;">${escapeHtml(quickviewStatValue(num, kind))}</span>`;
 }
 
 function openMarketSnapshotModal(title, subtitle, bodyHtml) {
@@ -1027,164 +1031,6 @@ function closeMarketSnapshotModal() {
   overlay.setAttribute('aria-hidden', 'true');
 }
 
-
-
-function marketSelectionState(mode) {
-  return mode === 'quickview' ? state.marketQuickview : state.marketSnapshot;
-}
-
-function marketSelectionModeLabel(mode) {
-  return mode === 'quickview' ? 'Market Quickview' : 'Market Snapshot';
-}
-
-function marketSelectionRadiusLabel(mode, radiusMiles) {
-  return mode === 'quickview' ? marketQuickviewRadiusLabel(radiusMiles) : marketSnapshotRadiusLabel(radiusMiles);
-}
-
-function marketSelectionColor(mode) {
-  return mode === 'quickview' ? '#7c3aed' : '#2563eb';
-}
-
-function marketSelectionPopupClass(mode) {
-  return mode === 'quickview' ? 'market-quickview-selection-popup' : 'market-snapshot-selection-popup';
-}
-
-function marketSelectionPopupTitle(mode) {
-  return mode === 'quickview' ? 'See Market Quickview?' : 'See Market Snapshot?';
-}
-
-function marketSelectionPopupSubtitle(mode, centerLatLng, radiusMiles) {
-  return `${marketSelectionRadiusLabel(mode, radiusMiles)} centered at ${centerLatLng.lat.toFixed(5)}, ${centerLatLng.lng.toFixed(5)}`;
-}
-
-function marketSelectionPopupHtml(mode, centerLatLng, radiusMiles) {
-  const title = marketSelectionPopupTitle(mode);
-  const radius = marketSelectionRadiusLabel(mode, radiusMiles);
-  const subtitle = marketSelectionPopupSubtitle(mode, centerLatLng, radiusMiles);
-  return `
-    <div class="market-selection-popup-inner">
-      <div class="market-selection-popup-title">${escapeHtml(title)}</div>
-      <div class="market-selection-popup-subtitle">${escapeHtml(subtitle)}</div>
-      <div class="market-selection-popup-radius">Radius: <b>${escapeHtml(radius)}</b></div>
-      <div class="market-selection-popup-actions">
-        <button type="button" class="market-selection-action primary" data-market-action="open" data-market-mode="${escapeHtml(mode)}">Yes</button>
-        <button type="button" class="market-selection-action secondary" data-market-action="cancel" data-market-mode="${escapeHtml(mode)}">No</button>
-      </div>
-    </div>`;
-}
-
-function clearMarketSelection(mode, keepMode = false) {
-  const s = marketSelectionState(mode);
-  if (!s) return;
-  if (s.selectionLayer && state.map && state.map.hasLayer(s.selectionLayer)) {
-    state.map.removeLayer(s.selectionLayer);
-  }
-  if (s.promptPopup) {
-    try { s.promptPopup.remove(); } catch (err) { try { state.map.closePopup(s.promptPopup); } catch (err2) {} }
-  }
-  s.selectionLayer = null;
-  s.promptPopup = null;
-  s.centerLatLng = null;
-  s.awaitingPoint = !!keepMode;
-  s.busy = false;
-  if (!keepMode) {
-    s.active = false;
-    s.radiusMiles = null;
-  }
-  if (mode === 'quickview') updateMarketQuickviewUI(); else updateMarketSnapshotUI();
-}
-
-function showMarketSelection(mode, centerLatLng, radiusMiles) {
-  const s = marketSelectionState(mode);
-  if (!s || !state.map) return;
-  clearMarketSelection(mode, true);
-  const color = marketSelectionColor(mode);
-  const circle = L.circle(centerLatLng, {
-    radius: Number(radiusMiles) * 1609.344,
-    color,
-    weight: 2.5,
-    opacity: 0.95,
-    fillColor: color,
-    fillOpacity: 0.08,
-    dashArray: '6 5'
-  });
-  const centerMarker = L.circleMarker(centerLatLng, {
-    radius: 6,
-    color: '#ffffff',
-    weight: 2,
-    opacity: 1,
-    fillColor: color,
-    fillOpacity: 1
-  });
-  s.centerLatLng = centerLatLng;
-  s.radiusMiles = Number(radiusMiles);
-  s.awaitingPoint = false;
-  s.selectionLayer = L.layerGroup([circle, centerMarker]).addTo(state.map);
-  s.promptPopup = L.popup({
-    closeButton: false,
-    autoClose: false,
-    closeOnClick: false,
-    className: marketSelectionPopupClass(mode),
-    offset: [0, -12],
-    maxWidth: 280
-  }).setLatLng(centerLatLng).setContent(marketSelectionPopupHtml(mode, centerLatLng, radiusMiles)).openOn(state.map);
-  s.busy = false;
-  if (mode === 'quickview') updateMarketQuickviewUI(); else updateMarketSnapshotUI();
-}
-
-async function openMarketSelectionReport(mode) {
-  const s = marketSelectionState(mode);
-  if (!s || !s.centerLatLng || !s.radiusMiles) return;
-  if (mode === 'quickview') {
-    await ensureQuickviewDataLoaded();
-    if (!state.quickviewBlocksLoaded || !Array.isArray(state.quickviewBlocks) || !state.quickviewBlocks.length) {
-      openMarketQuickviewModal('Market Quickview', 'Pilot data unavailable', '<div class="snapshot-empty">Market Quickview data is not loaded yet. Please rebuild or reload the Central Mobile quickview dataset.</div>');
-      return;
-    }
-    const html = buildMarketQuickviewHtml(s.centerLatLng, s.radiusMiles);
-    openMarketQuickviewModal('Market Quickview', `${marketSelectionRadiusLabel(mode, s.radiusMiles)} centered at ${s.centerLatLng.lat.toFixed(5)}, ${s.centerLatLng.lng.toFixed(5)}`, html);
-    return;
-  }
-  await ensureSnapshotDataLoaded();
-  const html = buildMarketSnapshotHtml(s.centerLatLng, s.radiusMiles);
-  openMarketSnapshotModal('Market Snapshot', `${marketSelectionRadiusLabel(mode, s.radiusMiles)} centered at ${s.centerLatLng.lat.toFixed(5)}, ${s.centerLatLng.lng.toFixed(5)}`, html);
-}
-
-function cancelMarketSelection(mode) {
-  clearMarketSelection(mode, false);
-  if (mode === 'quickview') resetMarketQuickviewMode(); else resetMarketSnapshotMode();
-}
-
-function confirmMarketSelection(mode) {
-  return openMarketSelectionReport(mode).catch(err => {
-    console.error(`${marketSelectionModeLabel(mode)} generation failed`, err);
-    const msg = mode === 'quickview'
-      ? 'Market Quickview could not be generated for that radius. Please try another point or rebuild the quickview dataset.'
-      : 'Market Snapshot could not be generated right now. Please try again.';
-    if (mode === 'quickview') {
-      openMarketQuickviewModal('Market Quickview', 'Generation error', `<div class="snapshot-empty">${escapeHtml(msg)}</div>`);
-    } else {
-      openMarketSnapshotModal('Market Snapshot', 'Generation error', `<div class="snapshot-empty">${escapeHtml(msg)}</div>`);
-    }
-  });
-}
-
-function handleMarketSelectionPoint(mode, latlng) {
-  const s = marketSelectionState(mode);
-  if (!s || !s.active || !s.radiusMiles) return;
-  if (s.busy) return;
-  s.busy = true;
-  if (mode === 'quickview') updateMarketQuickviewUI(); else updateMarketSnapshotUI();
-  try {
-    const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
-    showMarketSelection(mode, center, s.radiusMiles);
-  } catch (err) {
-    console.error(`${marketSelectionModeLabel(mode)} selection failed`, err);
-  } finally {
-    s.busy = false;
-    if (mode === 'quickview') updateMarketQuickviewUI(); else updateMarketSnapshotUI();
-  }
-}
 
 function quickviewSelectedSubmarket() {
   const select = document.getElementById('marketQuickviewSelect');
@@ -1269,12 +1115,16 @@ function buildMarketQuickviewHtml(data) {
 
   const incomeBandRows = (yearBands, showChange = false) => (yearBands || []).map(b => {
     const future = incomeBand2029Map.get(String(b.label || '')) || {};
+    const total2024 = (yearBands || []).reduce((sum, row) => sum + Number(row.households || 0), 0) || null;
+    const total2029 = Array.from(incomeBand2029Map.values()).reduce((sum, row) => sum + Number(row.households || 0), 0) || null;
+    const pct2024 = total2024 ? (Number(b.households || 0) / total2024) * 100 : null;
+    const pct2029 = total2029 ? (Number(future.households || 0) / total2029) * 100 : null;
     return `
     <div class="snapshot-table-row">
       <div><b>${escapeHtml(String(b.label || 'Band'))}</b></div>
       <div>${escapeHtml(quickviewStatValue(b.households, 'int'))}</div>
-      <div>${escapeHtml(quickviewStatValue(b.pct_of_households, 'pct'))}</div>
-      ${showChange ? `<div>${escapeHtml(quickviewStatValue(future.households, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.change_from_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.change_from_2024_pct, 'pct'))}</div>` : ''}
+      <div>${escapeHtml(quickviewStatValue(pct2024, 'pct'))}</div>
+      ${showChange ? `<div>${escapeHtml(quickviewStatValue(future.households, 'int'))}</div><div>${escapeHtml(quickviewStatValue(pct2029, 'pct'))}</div><div>${quickviewSignedValueHtml(b.change_from_2024, 'int')}</div><div>${quickviewSignedValueHtml(b.change_from_2024_pct, 'pct')}</div>` : ''}
     </div>`;
   }).join('');
 
@@ -1319,7 +1169,7 @@ function buildMarketQuickviewHtml(data) {
         </div>
         <div class="snapshot-subnote">Household income bands below are aggregated from the block ZIP exports; 2029 is the current growth proxy in the pilot data.</div>
         <div style="margin-top:12px;">
-          ${renderSnapshotTable(['Income Band', '2024 HH', '2024 Share', '2029 HH', 'Change', 'Δ %'], incomeBandRows(incomeBand2024, true), '<div class="snapshot-empty">No income-band detail available.</div>')}
+          ${renderSnapshotTable(['Income Band', '2024 HH', '2024 %', '2029 HH', '2029 %', 'Change', 'Δ %'], incomeBandRows(incomeBand2024, true), '<div class="snapshot-empty">No income-band detail available.</div>')}
         </div>
       </div>
     </details>
@@ -1802,14 +1652,22 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
   const coveragePct = selectedCount ? (usableCount / selectedCount) * 100 : 0;
   const selectedNote = selectedCount ? `${selectedCount.toLocaleString()} analysis blocks inside the radius` : 'No quickview blocks found in this radius.';
 
-  const incomeRowsHtml = summaryData.incomeRows.map(row => `
+  const totalIncome2024 = Number(s.households_2024 || 0) || null;
+  const totalIncome2029 = Number(s.households_2029 || 0) || null;
+  const incomeRowsHtml = summaryData.incomeRows.map(row => {
+    const pct2024 = totalIncome2024 ? (Number(row.households || 0) / totalIncome2024) * 100 : null;
+    const pct2029 = totalIncome2029 ? (Number(row.future || 0) / totalIncome2029) * 100 : null;
+    return `
     <div class="snapshot-table-row">
       <div><b>${escapeHtml(row.label)}</b></div>
       <div>${escapeHtml(quickviewStatValue(row.households, 'int'))}</div>
+      <div>${escapeHtml(quickviewStatValue(pct2024, 'pct'))}</div>
       <div>${escapeHtml(quickviewStatValue(row.future, 'int'))}</div>
-      <div>${escapeHtml(quickviewStatValue(row.change, 'int'))}</div>
-      <div>${escapeHtml(quickviewStatValue(row.pct, 'pct'))}</div>
-    </div>`).join('');
+      <div>${escapeHtml(quickviewStatValue(pct2029, 'pct'))}</div>
+      <div>${quickviewSignedValueHtml(row.change, 'int')}</div>
+      <div>${quickviewSignedValueHtml(row.pct, 'pct')}</div>
+    </div>`;
+  }).join('');
 
   const consumerRows = summaryData.consumerSegments.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
   const educationRows = summaryData.educationRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
@@ -1865,7 +1723,7 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
       </summary>
       <div class="quickview-body">
         <div class="snapshot-subnote">Pilot data currently provides 2024 and 2029 snapshots. The table below shows projected household counts by income band for the selected radius.</div>
-        ${renderSnapshotTable(['Income Band', '2024 HH', '2029 HH', 'Change', 'Δ %'], incomeRowsHtml, '<div class="snapshot-empty">No income-band detail available.</div>')}
+        ${renderSnapshotTable(['Income Band', '2024 HH', '2024 %', '2029 HH', '2029 %', 'Change', 'Δ %'], incomeRowsHtml, '<div class="snapshot-empty">No income-band detail available.</div>')}
       </div>
     </details>
 
@@ -1965,26 +1823,18 @@ async function handleMarketQuickviewPoint(latlng) {
   updateMarketQuickviewUI();
   try {
     await ensureQuickviewDataLoaded();
-    if (!state.quickviewBlocksLoaded || !Array.isArray(state.quickviewBlocks) || !state.quickviewBlocks.length) {
-      openMarketQuickviewModal(
-        'Market Quickview',
-        'Pilot data unavailable',
-        '<div class="snapshot-empty">Market Quickview data is not loaded yet. Please rebuild or reload the Central Mobile quickview dataset.</div>'
-      );
+    if (!state.quickviewBlocksLoaded) {
+      alert('Market Quickview data is not loaded yet.');
       return;
     }
     const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
-    showMarketSelection('quickview', center, state.marketQuickview.radiusMiles);
+    const html = buildMarketQuickviewHtml(center, state.marketQuickview.radiusMiles);
+    openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
   } catch (err) {
     console.error('Market quickview generation failed', err);
-    openMarketQuickviewModal(
-      'Market Quickview',
-      'Generation error',
-      '<div class="snapshot-empty">Market Quickview could not be generated for that radius. Please try another point or rebuild the quickview dataset.</div>'
-    );
+    alert('Market Quickview could not be generated right now. Please try again.');
   } finally {
-    state.marketQuickview.busy = false;
-    updateMarketQuickviewUI();
+    resetMarketQuickviewMode();
   }
 }
 
@@ -2128,13 +1978,13 @@ async function handleMarketSnapshotPoint(latlng) {
   try {
     await ensureSnapshotDataLoaded();
     const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
-    showMarketSelection('snapshot', center, state.marketSnapshot.radiusMiles);
+    const html = buildMarketSnapshotHtml(center, state.marketSnapshot.radiusMiles);
+    openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(state.marketSnapshot.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
   } catch (err) {
     console.error('Market snapshot generation failed', err);
     alert('Market Snapshot could not be generated right now. Please try again.');
   } finally {
-    state.marketSnapshot.busy = false;
-    updateMarketSnapshotUI();
+    resetMarketSnapshotMode();
   }
 }
 
@@ -4831,24 +4681,10 @@ function bindUI() {
     if (e.target && e.target.id === 'marketQuickviewModal') closeMarketQuickviewModal();
   });
 
-  document.addEventListener('click', e => {
-    const btn = e.target.closest && e.target.closest('[data-market-action]');
-    if (!btn) return;
-    const mode = String(btn.dataset.marketMode || 'snapshot');
-    const action = String(btn.dataset.marketAction || '');
-    e.preventDefault();
-    e.stopPropagation();
-    if (action === 'open') {
-      confirmMarketSelection(mode);
-    } else if (action === 'cancel') {
-      cancelMarketSelection(mode);
-    }
-  });
-
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       closeMarketSnapshotModal();
-      closeMarketQuickviewModal();
+      if (marketSnapshotModeActive()) resetMarketSnapshotMode();
     }
   });
   updateMarketSnapshotUI();
