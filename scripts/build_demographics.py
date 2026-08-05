@@ -599,9 +599,10 @@ def main() -> int:
     bg_focus = bg_current.merge(counties.assign(_keep=1), on=["STATEFP", "COUNTYFP"], how="inner")
     bg_snapshot = bg_focus.merge(current_acs, on="GEOID", how="left")
     bg_snapshot = gpd.GeoDataFrame(bg_snapshot, geometry="geometry", crs=bg_current.crs)
+    bg_snapshot["mean_household_income"] = bg_snapshot["aggregate_household_income"] / bg_snapshot["households"].replace({0: pd.NA})
     keep_cols = [
         "GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE", "geometry",
-        "population", "households", "median_household_income", "aggregate_household_income", "median_age",
+        "population", "households", "median_household_income", "mean_household_income", "aggregate_household_income", "median_age",
         "occupied_housing_units", "owner_occupied_units", "renter_occupied_units",
         "population_25_plus", "bachelors_plus_count", "owner_occupancy_pct",
         "renter_occupancy_pct", "bachelors_plus_pct",

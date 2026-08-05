@@ -1,3 +1,7 @@
+## Unreleased
+- Added mean household income to the demographics build and Market Snapshot block-group export so the atlas can render mean income once the demographics data is rebuilt.
+- Normalized loaded demographic records so mean income can be derived from aggregate household income when present.
+
 # v2.9.6
 - Added a new Builder Display Tier filter based on community Price Max.
 - Tier buckets are editable in the atlas and persist in the browser.

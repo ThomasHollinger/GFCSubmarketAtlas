@@ -824,9 +824,32 @@ function submarketDemoKey(name) {
   return name;
 }
 
+function normalizeIncomeSection(section) {
+  if (!section || typeof section !== 'object') return section;
+  const out = { ...section };
+  const hh = Number(out.households);
+  const directMean = Number(out.mean_household_income);
+  const aggregate = Number(out.aggregate_household_income);
+  if ((!Number.isFinite(directMean) || directMean <= 0) && Number.isFinite(aggregate) && Number.isFinite(hh) && hh > 0) {
+    out.mean_household_income = aggregate / hh;
+  }
+  return out;
+}
+
+function normalizeDemographicRecord(record) {
+  if (!record || typeof record !== 'object') return record;
+  return {
+    ...record,
+    current: normalizeIncomeSection(record.current),
+    prior: normalizeIncomeSection(record.prior),
+    forecast_5yr: normalizeIncomeSection(record.forecast_5yr)
+  };
+}
+
 function demoForSubmarket(name) {
   if (!state.demographics || !state.demographics.submarkets) return null;
-  return state.demographics.submarkets[submarketDemoKey(name)] || null;
+  const raw = state.demographics.submarkets[submarketDemoKey(name)] || null;
+  return normalizeDemographicRecord(raw);
 }
 
 function demosForFeatures(features) {
@@ -895,9 +918,10 @@ function weightedRowsFromDemographicSource(centerLatLng, radiusMiles) {
   if (blockGroupsLoaded) {
     const firstGeometry = state.demographicsBlockGroups.find(feature => feature && feature.geometry && feature.geometry.type)?.geometry?.type || null;
     const usePointCenters = firstGeometry === 'Point' || firstGeometry === 'MultiPoint';
+    const demoFromProps = feature => ({ current: normalizeIncomeSection(feature.properties || {}), forecast_5yr: null });
     const rows = usePointCenters
-      ? snapshotWeightedRowsFromPointFeatures(state.demographicsBlockGroups, centerLatLng, radiusMiles, feature => ({ current: feature.properties || {}, forecast_5yr: null }))
-      : snapshotWeightedRowsFromGeometry(state.demographicsBlockGroups, centerLatLng, radiusMiles, feature => ({ current: feature.properties || {}, forecast_5yr: null }));
+      ? snapshotWeightedRowsFromPointFeatures(state.demographicsBlockGroups, centerLatLng, radiusMiles, demoFromProps)
+      : snapshotWeightedRowsFromGeometry(state.demographicsBlockGroups, centerLatLng, radiusMiles, demoFromProps);
     if (rows.length) {
       return {
         rows,
