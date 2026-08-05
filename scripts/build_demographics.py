@@ -391,6 +391,19 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
     agg["median_household_income"] = agg["submarket"].map(income_map)
     agg["median_age"] = agg["submarket"].map(age_map)
     agg["mean_household_income"] = agg["aggregate_household_income"] / agg["households"].replace({0: pd.NA})
+    agg["year"] = year
+    agg["owner_occupancy_pct"] = agg.apply(
+        lambda r: (100.0 * r["owner_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r["occupied_housing_units"]) and r["occupied_housing_units"] > 0 else pd.NA,
+        axis=1,
+    )
+    agg["renter_occupancy_pct"] = agg.apply(
+        lambda r: (100.0 * r["renter_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r["occupied_housing_units"]) and r["occupied_housing_units"] > 0 else pd.NA,
+        axis=1,
+    )
+    agg["bachelors_plus_pct"] = agg.apply(
+        lambda r: (100.0 * r["bachelors_plus_count"] / r["population_25_plus"]) if pd.notna(r["population_25_plus"]) and r["population_25_plus"] > 0 else pd.NA,
+        axis=1,
+    )
 
     out_cols = [
         "submarket", "year", "population", "households", "median_household_income", "mean_household_income", "aggregate_household_income", "median_age",
@@ -403,9 +416,9 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         "overlap_area_sqm", "overlap_pct_of_bg", "population", "households",
         "median_household_income", "aggregate_household_income", "median_age", "owner_occupied_units", "occupied_housing_units"
     ]
-    audit = df[audit_cols].copy()
+    audit = df[[c for c in audit_cols if c in df.columns]].copy()
     audit["year"] = year
-    return agg[out_cols], audit
+    return agg.reindex(columns=out_cols), audit
 
 
 def round_or_none(value, digits=0):
