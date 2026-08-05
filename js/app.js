@@ -967,6 +967,7 @@ function aggregateDemographics(features) {
       population: sum(cur, 'population'),
       households: sum(cur, 'households'),
       median_household_income: Math.round(weightedAvg(cur, 'median_household_income', 'households') || 0),
+      mean_household_income: Math.round(weightedAvg(cur, 'mean_household_income', 'households') || 0),
       median_age: weightedAvg(cur, 'median_age'),
       owner_occupancy_pct: weightedAvg(cur, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAvg(cur, 'bachelors_plus_pct', 'population_25_plus'),
@@ -976,6 +977,7 @@ function aggregateDemographics(features) {
       population: sum(fc, 'population'),
       households: sum(fc, 'households'),
       median_household_income: Math.round(weightedAvg(fc, 'median_household_income', 'households') || 0),
+      mean_household_income: Math.round(weightedAvg(fc, 'mean_household_income', 'households') || 0),
       median_age: weightedAvg(fc, 'median_age'),
       owner_occupancy_pct: weightedAvg(fc, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAvg(fc, 'bachelors_plus_pct', 'population_25_plus'),
@@ -1029,6 +1031,7 @@ function aggregateDemographicsWeighted(rows) {
       population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.population || 0) * row.weight, 0)),
       households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.households || 0) * row.weight, 0)),
       median_household_income: Math.round(weightedMedianLocal(valid, 'median_household_income', 'households') || 0),
+      mean_household_income: Math.round(weightedAverage(valid, 'mean_household_income', 'households') || 0),
       median_age: weightedAverage(valid, 'median_age', 'population'),
       owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus'),
@@ -1038,6 +1041,7 @@ function aggregateDemographicsWeighted(rows) {
       population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.population || 0) * row.weight, 0)),
       households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.households || 0) * row.weight, 0)),
       median_household_income: Math.round(weightedMedianLocal(valid, 'median_household_income', 'households', 'forecast_5yr') || 0),
+      mean_household_income: Math.round(weightedAverage(valid, 'mean_household_income', 'households', 'forecast_5yr') || 0),
       median_age: weightedAverage(valid, 'median_age', 'population', 'forecast_5yr'),
       owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units', 'forecast_5yr'),
       bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus', 'forecast_5yr'),
@@ -1526,6 +1530,7 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
         ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
         ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
+        ${renderSnapshotMetric('Mean Income', fmtMoney(demographics.current.mean_household_income))}
         ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
       </div>
       <div class="snapshot-subnote">${escapeHtml(demographicSource.note)}</div>
@@ -2005,11 +2010,12 @@ function renderDemographicsCard(demo) {
       <div><span>Population</span><b>${fmt(c.population)}</b><small>current estimate</small></div>
       <div><span>Households</span><b>${fmt(c.households)}</b><small>current estimate</small></div>
       <div><span>Median Income</span><b>${fmtMoney(c.median_household_income)}</b><small>current estimate</small></div>
+      <div><span>Mean Income</span><b>${fmtMoney(c.mean_household_income)}</b><small>current estimate</small></div>
       <div><span>Median Age</span><b>${fmtOne(c.median_age)}</b><small>current estimate</small></div>
       <div><span>Owner Occupancy</span><b>${fmtPct(c.owner_occupancy_pct)}</b><small>current estimate</small></div>
       <div><span>Bachelor's+</span><b>${fmtPct(c.bachelors_plus_pct)}</b><small>current estimate</small></div>
     </div>
-    <div class="demo-note">Current values use ACS block-group estimates with a household-weighted median income estimate across the overlapping radius. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
+    <div class="demo-note">Current values use ACS block-group estimates with a household-weighted median income estimate and an aggregate-based mean income estimate across the overlapping radius. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
   </div>`;
 }
 
@@ -3608,6 +3614,7 @@ function renderHubSummary(hub) {
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(acres))}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Median Income</div><div class="value">${fmtMoney(demo?.current?.median_household_income)}</div></div>
+      <div class="metric"><div class="label">Mean Income</div><div class="value">${fmtMoney(demo?.current?.mean_household_income)}</div></div>
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -3639,6 +3646,7 @@ function renderHomeSummary() {
       <div class="metric"><div class="label">Hubs</div><div class="value">${hubOrder.filter(h => h !== 'Growth Markets').length}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Population</div><div class="value">${fmt(demo?.current?.population)}</div></div>
+      <div class="metric"><div class="label">Mean Income</div><div class="value">${fmtMoney(demo?.current?.mean_household_income)}</div></div>
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -3769,6 +3777,7 @@ function renderSelected(p) {
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(Number(p.Acres || 0)))}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Median Income</div><div class="value">${fmtMoney(demo?.current?.median_household_income)}</div></div>
+      <div class="metric"><div class="label">Mean Income</div><div class="value">${fmtMoney(demo?.current?.mean_household_income)}</div></div>
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
