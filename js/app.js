@@ -1000,8 +1000,11 @@ function renderSnapshotMetric(label, value, sublabel = '') {
 function renderSnapshotTable(headers, rows, emptyHtml) {
   const cols = `repeat(${Math.max(1, headers.length)}, minmax(0, 1fr))`;
   const head = `<div class="snapshot-table-row snapshot-table-head" style="--snapshot-cols:${cols}">${headers.map(h => `<div>${escapeHtml(h)}</div>`).join('')}</div>`;
-  if (!rows.length) return emptyHtml;
-  return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${rows.join('')}</div>`;
+  const normalizedRows = Array.isArray(rows)
+    ? rows
+    : (typeof rows === 'string' ? (rows.trim() ? [rows] : []) : []);
+  if (!normalizedRows.length) return emptyHtml;
+  return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${normalizedRows.join('')}</div>`;
 }
 
 function openMarketSnapshotModal(title, subtitle, bodyHtml) {
@@ -1804,8 +1807,12 @@ async function handleMarketQuickviewPoint(latlng) {
   updateMarketQuickviewUI();
   try {
     await ensureQuickviewDataLoaded();
-    if (!state.quickviewBlocksLoaded) {
-      alert('Market Quickview data is not loaded yet.');
+    if (!state.quickviewBlocksLoaded || !Array.isArray(state.quickviewBlocks) || !state.quickviewBlocks.length) {
+      openMarketQuickviewModal(
+        'Market Quickview',
+        'Pilot data unavailable',
+        '<div class="snapshot-empty">Market Quickview data is not loaded yet. Please rebuild or reload the Central Mobile quickview dataset.</div>'
+      );
       return;
     }
     const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
@@ -1813,7 +1820,11 @@ async function handleMarketQuickviewPoint(latlng) {
     openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
   } catch (err) {
     console.error('Market quickview generation failed', err);
-    alert('Market Quickview could not be generated right now. Please try again.');
+    openMarketQuickviewModal(
+      'Market Quickview',
+      'Generation error',
+      '<div class="snapshot-empty">Market Quickview could not be generated for that radius. Please try another point or rebuild the quickview dataset.</div>'
+    );
   } finally {
     resetMarketQuickviewMode();
   }
