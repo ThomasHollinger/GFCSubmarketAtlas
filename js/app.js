@@ -851,6 +851,25 @@ function snapshotWeightedRowsFromGeometry(features, centerLatLng, radiusMiles, g
     .sort((a, b) => b.overlap - a.overlap || a.distance - b.distance);
 }
 
+function snapshotWeightedRowsFromPointFeatures(features, centerLatLng, radiusMiles, getDemo) {
+  return (features || [])
+    .map(feature => {
+      const demo = getDemo(feature);
+      const latLng = marketSnapshotFeatureLatLng(feature);
+      if (!demo || !latLng) return null;
+      const distance = centerLatLng.distanceTo(latLng) / 1609.344;
+      if (!Number.isFinite(distance) || distance > radiusMiles) return null;
+      return {
+        feature,
+        distance,
+        overlap: Math.max(0.15, 1 - (distance / Math.max(radiusMiles, 0.25))),
+        demo
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.overlap - a.overlap || a.distance - b.distance);
+}
+
 function nearestSnapshotRows(features, centerLatLng, radiusMiles, getDemo, limit = 4) {
   const fallback = (features || [])
     .map(feature => {
@@ -874,14 +893,26 @@ function nearestSnapshotRows(features, centerLatLng, radiusMiles, getDemo, limit
 function weightedRowsFromDemographicSource(centerLatLng, radiusMiles) {
   const blockGroupsLoaded = state.demographicsBlockGroupsLoaded && Array.isArray(state.demographicsBlockGroups) && state.demographicsBlockGroups.length;
   if (blockGroupsLoaded) {
-    const rows = snapshotWeightedRowsFromGeometry(state.demographicsBlockGroups, centerLatLng, radiusMiles, feature => ({ current: feature.properties || {}, forecast_5yr: null }));
+    const firstGeometry = state.demographicsBlockGroups.find(feature => feature && feature.geometry && feature.geometry.type)?.geometry?.type || null;
+    const usePointCenters = firstGeometry === 'Point' || firstGeometry === 'MultiPoint';
+    const rows = usePointCenters
+      ? snapshotWeightedRowsFromPointFeatures(state.demographicsBlockGroups, centerLatLng, radiusMiles, feature => ({ current: feature.properties || {}, forecast_5yr: null }))
+      : snapshotWeightedRowsFromGeometry(state.demographicsBlockGroups, centerLatLng, radiusMiles, feature => ({ current: feature.properties || {}, forecast_5yr: null }));
     if (rows.length) {
-      return { rows, source: 'block_groups', note: 'Area-weighted overlap between the selected radius and Census block groups.' };
+      return {
+        rows,
+        source: usePointCenters ? 'block_group_centers' : 'block_groups',
+        note: usePointCenters
+          ? 'Radius estimates use Census block-group population centers with block-group demographic data.'
+          : 'Area-weighted overlap between the selected radius and Census block groups.'
+      };
     }
     return {
       rows: [],
-      source: 'block_groups_empty',
-      note: 'No Census block groups overlap this radius yet. Rebuild the block-group dataset or use a larger radius.'
+      source: usePointCenters ? 'block_group_centers_empty' : 'block_groups_empty',
+      note: usePointCenters
+        ? 'No block-group population centers fall inside this radius yet. Try a larger radius.'
+        : 'No Census block groups overlap this radius yet. Rebuild the block-group dataset or use a larger radius.'
     };
   }
 
