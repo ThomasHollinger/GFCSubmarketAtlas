@@ -20,7 +20,261 @@
     "four_person_households_2024": 13582,
     "five_plus_person_households_2024": 9859,
     "households_growth_2024_2029": 0.003,
-    "population_growth_2024_2029": -0.014
+    "population_growth_2024_2029": -0.014,
+    "income_bands": {
+      "2020": [
+        {
+          "label": "Less than $25,000",
+          "households": 20860.0,
+          "pct_of_households": 19.77,
+          "change_from_2024": 2645.0,
+          "change_from_2024_pct": 14.52
+        },
+        {
+          "label": "$25,000 - $49,999",
+          "households": 23361.0,
+          "pct_of_households": 22.14,
+          "change_from_2024": 1209.0,
+          "change_from_2024_pct": 5.46
+        },
+        {
+          "label": "$50,000 - $74,999",
+          "households": 18985.0,
+          "pct_of_households": 17.99,
+          "change_from_2024": 334.0,
+          "change_from_2024_pct": 1.79
+        },
+        {
+          "label": "$75,000 - $99,999",
+          "households": 13223.0,
+          "pct_of_households": 12.53,
+          "change_from_2024": -765.0,
+          "change_from_2024_pct": -5.47
+        },
+        {
+          "label": "$100,000 - $124,999",
+          "households": 9263.0,
+          "pct_of_households": 8.78,
+          "change_from_2024": -744.0,
+          "change_from_2024_pct": -7.43
+        },
+        {
+          "label": "$125,000 - $149,999",
+          "households": 6492.0,
+          "pct_of_households": 6.15,
+          "change_from_2024": -76.0,
+          "change_from_2024_pct": -1.16
+        },
+        {
+          "label": "$150,000 - $199,999",
+          "households": 7320.0,
+          "pct_of_households": 6.94,
+          "change_from_2024": -971.0,
+          "change_from_2024_pct": -11.71
+        },
+        {
+          "label": "$200,000 or more",
+          "households": 6034.0,
+          "pct_of_households": 5.72,
+          "change_from_2024": -1756.0,
+          "change_from_2024_pct": -22.54
+        }
+      ],
+      "2024": [
+        {
+          "label": "Less than $25,000",
+          "households": 18215.0,
+          "pct_of_households": 17.24,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        },
+        {
+          "label": "$25,000 - $49,999",
+          "households": 22152.0,
+          "pct_of_households": 20.96,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        },
+        {
+          "label": "$50,000 - $74,999",
+          "households": 18651.0,
+          "pct_of_households": 17.65,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        },
+        {
+          "label": "$75,000 - $99,999",
+          "households": 13988.0,
+          "pct_of_households": 13.24,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        },
+        {
+          "label": "$100,000 - $124,999",
+          "households": 10007.0,
+          "pct_of_households": 9.47,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        },
+        {
+          "label": "$125,000 - $149,999",
+          "households": 6568.0,
+          "pct_of_households": 6.22,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        },
+        {
+          "label": "$150,000 - $199,999",
+          "households": 8291.0,
+          "pct_of_households": 7.85,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        },
+        {
+          "label": "$200,000 or more",
+          "households": 7790.0,
+          "pct_of_households": 7.37,
+          "change_from_2024": null,
+          "change_from_2024_pct": null
+        }
+      ],
+      "2029": [
+        {
+          "label": "Less than $25,000",
+          "households": 14306.0,
+          "pct_of_households": 13.52,
+          "change_from_2024": -3909.0,
+          "change_from_2024_pct": -21.46
+        },
+        {
+          "label": "$25,000 - $49,999",
+          "households": 18048.0,
+          "pct_of_households": 17.06,
+          "change_from_2024": -4104.0,
+          "change_from_2024_pct": -18.53
+        },
+        {
+          "label": "$50,000 - $74,999",
+          "households": 18048.0,
+          "pct_of_households": 17.06,
+          "change_from_2024": -603.0,
+          "change_from_2024_pct": -3.23
+        },
+        {
+          "label": "$75,000 - $99,999",
+          "households": 14138.0,
+          "pct_of_households": 13.37,
+          "change_from_2024": 150.0,
+          "change_from_2024_pct": 1.07
+        },
+        {
+          "label": "$100,000 - $124,999",
+          "households": 10340.0,
+          "pct_of_households": 9.78,
+          "change_from_2024": 333.0,
+          "change_from_2024_pct": 3.33
+        },
+        {
+          "label": "$125,000 - $149,999",
+          "households": 8040.0,
+          "pct_of_households": 7.6,
+          "change_from_2024": 1472.0,
+          "change_from_2024_pct": 22.41
+        },
+        {
+          "label": "$150,000 - $199,999",
+          "households": 10091.0,
+          "pct_of_households": 9.54,
+          "change_from_2024": 1800.0,
+          "change_from_2024_pct": 21.71
+        },
+        {
+          "label": "$200,000 or more",
+          "households": 12767.0,
+          "pct_of_households": 12.07,
+          "change_from_2024": 4977.0,
+          "change_from_2024_pct": 63.89
+        }
+      ],
+      "totals": {
+        "2020": 105538.0,
+        "2024": 105662.0,
+        "2029": 105778.0
+      }
+    },
+    "consumer_segments": [
+      {
+        "name": "Entry Level Suburban",
+        "households": 13515.0,
+        "pct_of_households": 14.55
+      },
+      {
+        "name": "Renters",
+        "households": 12782.0,
+        "pct_of_households": 13.76
+      },
+      {
+        "name": "Active Adult Feature and Location",
+        "households": 11933.0,
+        "pct_of_households": 12.85
+      },
+      {
+        "name": "Elite",
+        "households": 9378.0,
+        "pct_of_households": 10.1
+      },
+      {
+        "name": "Renters Near Term Buyers",
+        "households": 8505.0,
+        "pct_of_households": 9.16
+      },
+      {
+        "name": "Family Life Young Children",
+        "households": 5886.0,
+        "pct_of_households": 6.34
+      },
+      {
+        "name": "Entry Level Urban",
+        "households": 5516.0,
+        "pct_of_households": 5.94
+      },
+      {
+        "name": "Active Adult Entry Level",
+        "households": 4700.0,
+        "pct_of_households": 5.06
+      },
+      {
+        "name": "Simple Life Moderate Income With Children",
+        "households": 4559.0,
+        "pct_of_households": 4.91
+      },
+      {
+        "name": "Active Adult Elite",
+        "households": 3789.0,
+        "pct_of_households": 4.08
+      },
+      {
+        "name": "Simple Life Moderate Income No Children",
+        "households": 3638.0,
+        "pct_of_households": 3.92
+      },
+      {
+        "name": "Family Life School Age Children",
+        "households": 3504.0,
+        "pct_of_households": 3.77
+      },
+      {
+        "name": "Simple Life Affluent No Children",
+        "households": 2940.0,
+        "pct_of_households": 3.17
+      },
+      {
+        "name": "Feature and Location",
+        "households": 2241.0,
+        "pct_of_households": 2.41
+      }
+    ],
+    "pilot_data_notes": "Current pilot includes income bands and consumer segments only. Employment, occupation, race, and ethnicity are not present in the block ZIP exports yet."
   },
   "blocks": [
     {

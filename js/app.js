@@ -1075,9 +1075,20 @@ function quickviewStatValue(v, kind = 'number') {
   return Number(v).toLocaleString();
 }
 
+
 function buildMarketQuickviewHtml(data) {
   const meta = data?.metadata || {};
   const blocks = Array.isArray(data?.blocks) ? data.blocks : [];
+  const submarketName = meta.submarket || state.marketQuickview.submarket || MARKET_QUICKVIEW_DEFAULT_SUBMARKET;
+  const demo = demoForSubmarket(submarketName) || null;
+  const currentDemo = demo?.current || {};
+  const priorDemo = demo?.prior || {};
+  const forecastDemo = demo?.forecast_5yr || {};
+  const incomeBands = meta.income_bands || {};
+  const incomeBand2024 = Array.isArray(incomeBands['2024']) ? incomeBands['2024'] : [];
+  const incomeBand2029 = Array.isArray(incomeBands['2029']) ? incomeBands['2029'] : [];
+  const incomeBand2029Map = new Map(incomeBand2029.map(b => [String(b.label || ''), b]));
+  const consumerSegments = Array.isArray(meta.consumer_segments) ? meta.consumer_segments : [];
   const totalBlocks = Number(meta.uploaded_blocks || blocks.length || 0);
   const usableBlocks = Number(meta.usable_blocks || blocks.length || 0);
   const anomalousBlocks = Number(meta.anomalous_blocks || 0);
@@ -1093,44 +1104,87 @@ function buildMarketQuickviewHtml(data) {
   const popTopRows = popRows.map(b => `<div class="snapshot-table-row"><div><b>${escapeHtml(String(b.block).padStart(3, '0'))}</b></div><div>${escapeHtml(quickviewStatValue(b.population_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.households_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.median_household_income, 'money'))}</div></div>`);
   const incomeTopRows = incomeRows.map(b => `<div class="snapshot-table-row"><div><b>${escapeHtml(String(b.block).padStart(3, '0'))}</b></div><div>${escapeHtml(quickviewStatValue(b.median_household_income, 'money'))}</div><div>${escapeHtml(quickviewStatValue(b.mean_household_income, 'money'))}</div><div>${escapeHtml(quickviewStatValue(b.households_2024, 'int'))}</div></div>`);
 
-  const ageUnder19Pct = meta.population_2024 ? (Number(meta.population_under_19_2024 || 0) / Number(meta.population_2024 || 1)) : null;
-  const age20_64Pct = meta.population_2024 ? (Number(meta.population_20_64_2024 || 0) / Number(meta.population_2024 || 1)) : null;
-  const age65PlusPct = meta.population_2024 ? (Number(meta.population_65_plus_2024 || 0) / Number(meta.population_2024 || 1)) : null;
+  const incomeBandRows = (yearBands, showChange = false) => (yearBands || []).map(b => {
+    const future = incomeBand2029Map.get(String(b.label || '')) || {};
+    return `
+    <div class="snapshot-table-row">
+      <div><b>${escapeHtml(String(b.label || 'Band'))}</b></div>
+      <div>${escapeHtml(quickviewStatValue(b.households, 'int'))}</div>
+      <div>${escapeHtml(quickviewStatValue(b.pct_of_households, 'pct'))}</div>
+      ${showChange ? `<div>${escapeHtml(quickviewStatValue(future.households, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.change_from_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.change_from_2024_pct, 'pct'))}</div>` : ''}
+    </div>`;
+  }).join('');
 
-  const hh1Pct = meta.households_2024 ? (Number(meta.one_person_households_2024 || 0) / Number(meta.households_2024 || 1)) : null;
-  const hh2Pct = meta.households_2024 ? (Number(meta.two_person_households_2024 || 0) / Number(meta.households_2024 || 1)) : null;
+  const segmentRows = consumerSegments.slice(0, 12).map(seg => `<div class="snapshot-table-row"><div><b>${escapeHtml(String(seg.name || 'Segment'))}</b></div><div>${escapeHtml(quickviewStatValue(seg.households, 'int'))}</div><div>${escapeHtml(quickviewStatValue(seg.pct_of_households, 'pct'))}</div></div>`).join('');
+
+  const ageUnder19Pct = meta.population_2024 ? (Number(meta.population_under_19_2024 || 0) / Number(meta.population_2024 || 1)) * 100 : null;
+  const age20_64Pct = meta.population_2024 ? (Number(meta.population_20_64_2024 || 0) / Number(meta.population_2024 || 1)) * 100 : null;
+  const age65PlusPct = meta.population_2024 ? (Number(meta.population_65_plus_2024 || 0) / Number(meta.population_2024 || 1)) * 100 : null;
+
+  const hh1Pct = meta.households_2024 ? (Number(meta.one_person_households_2024 || 0) / Number(meta.households_2024 || 1)) * 100 : null;
+  const hh2Pct = meta.households_2024 ? (Number(meta.two_person_households_2024 || 0) / Number(meta.households_2024 || 1)) * 100 : null;
   const hh3Plus = Number(meta.three_person_households_2024 || 0) + Number(meta.four_person_households_2024 || 0) + Number(meta.five_plus_person_households_2024 || 0);
-  const hh3PlusPct = meta.households_2024 ? (hh3Plus / Number(meta.households_2024 || 1)) : null;
+  const hh3PlusPct = meta.households_2024 ? (hh3Plus / Number(meta.households_2024 || 1)) * 100 : null;
 
   const growthNote = Number.isFinite(Number(meta.population_growth_2024_2029)) && Number(meta.population_growth_2024_2029) < 0
     ? 'Population is projected to decline slightly in the current pilot dataset.'
     : 'Population is projected to grow in the current pilot dataset.';
 
+  const hasEmploymentData = false;
+  const hasRaceEthnicityData = false;
+  const pilotNotes = meta.pilot_data_notes || 'Pilot data is being expanded section by section.';
+
   return `
     <div class="snapshot-intro">
       <div class="snapshot-ribbon">Market Quickview</div>
-      <div class="snapshot-center">${escapeHtml(meta.submarket || state.marketQuickview.submarket || MARKET_QUICKVIEW_DEFAULT_SUBMARKET)} Pilot</div>
-      <div class="snapshot-note">Compiled from the uploaded Central Mobile block dataset. This is a pilot workflow and does not change the existing atlas demographics layer.</div>
+      <div class="snapshot-center">${escapeHtml(submarketName)} Pilot</div>
+      <div class="snapshot-note">Built from the Central Mobile block dataset. This does not change the existing atlas demographics layer.</div>
     </div>
 
     <details class="quickview-details" open>
       <summary>
-        <div class="snapshot-section-head quickview-head"><h4>Overview</h4><span>${usableBlocks.toLocaleString()} usable blocks</span></div>
+        <div class="snapshot-section-head quickview-head"><h4>Income</h4><span>Median and mean household income</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid">
+          ${renderSnapshotMetric('Median Income', quickviewStatValue(meta.median_household_income, 'money'))}
+          ${renderSnapshotMetric('Mean Income', quickviewStatValue(meta.mean_household_income, 'money'))}
+          ${renderSnapshotMetric('Prior Median', quickviewStatValue(priorDemo.median_household_income, 'money'))}
+          ${renderSnapshotMetric('Forecast Median', quickviewStatValue(forecastDemo.median_household_income, 'money'))}
+          ${renderSnapshotMetric('Prior Mean', quickviewStatValue(priorDemo.mean_household_income, 'money'))}
+          ${renderSnapshotMetric('Forecast HH Growth', quickviewStatValue(forecastDemo.household_growth_next_5yr_pct, 'pct'))}
+        </div>
+        <div class="snapshot-subnote">Household income bands below are aggregated from the block ZIP exports; 2029 is the current growth proxy in the pilot data.</div>
+        <div style="margin-top:12px;">
+          ${renderSnapshotTable(['Income Band', '2024 HH', '2024 Share', '2029 HH', 'Change', 'Δ %'], incomeBandRows(incomeBand2024, true), '<div class="snapshot-empty">No income-band detail available.</div>')}
+        </div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Population Growth & Households</h4><span>${quickviewStatValue(meta.population_2024, 'int')} people</span></div>
       </summary>
       <div class="quickview-body">
         <div class="snapshot-metric-grid">
           ${renderSnapshotMetric('Population', quickviewStatValue(meta.population_2024, 'int'))}
           ${renderSnapshotMetric('Households', quickviewStatValue(meta.households_2024, 'int'))}
-          ${renderSnapshotMetric('Median Income', quickviewStatValue(meta.median_household_income, 'money'))}
-          ${renderSnapshotMetric('Mean Income', quickviewStatValue(meta.mean_household_income, 'money'))}
+          ${renderSnapshotMetric('Population Growth', quickviewStatValue(meta.population_growth_2024_2029, 'pct'))}
+          ${renderSnapshotMetric('Household Growth', quickviewStatValue(meta.households_growth_2024_2029, 'pct'))}
           ${renderSnapshotMetric('Median Age', quickviewStatValue(meta.median_age_2024, 'one'))}
-          ${renderSnapshotMetric('Home Value', quickviewStatValue(meta.median_home_value_2024, 'money'))}
+          ${renderSnapshotMetric('Avg HH Size', quickviewStatValue(meta.average_household_size_2024, 'one'))}
         </div>
         <div class="snapshot-metric-grid four-up">
-          ${renderSnapshotMetric('Uploaded Blocks', String(totalBlocks))}
-          ${renderSnapshotMetric('Usable Blocks', String(usableBlocks))}
-          ${renderSnapshotMetric('Anomalous Blocks', String(anomalousBlocks))}
+          ${renderSnapshotMetric('Under 19', quickviewStatValue(meta.population_under_19_2024, 'int'), quickviewStatValue(ageUnder19Pct, 'pct'))}
+          ${renderSnapshotMetric('20 to 64', quickviewStatValue(meta.population_20_64_2024, 'int'), quickviewStatValue(age20_64Pct, 'pct'))}
+          ${renderSnapshotMetric('65 Plus', quickviewStatValue(meta.population_65_plus_2024, 'int'), quickviewStatValue(age65PlusPct, 'pct'))}
           ${renderSnapshotMetric('Coverage', `${coveragePct.toFixed(1)}%`)}
+        </div>
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('1 Person HH', quickviewStatValue(meta.one_person_households_2024, 'int'), quickviewStatValue(hh1Pct, 'pct'))}
+          ${renderSnapshotMetric('2 Person HH', quickviewStatValue(meta.two_person_households_2024, 'int'), quickviewStatValue(hh2Pct, 'pct'))}
+          ${renderSnapshotMetric('3+ Person HH', quickviewStatValue(hh3Plus, 'int'), quickviewStatValue(hh3PlusPct, 'pct'))}
+          ${renderSnapshotMetric('Coverage Note', 'Pilot only')}
         </div>
         <div class="snapshot-subnote">${escapeHtml(growthNote)}</div>
       </div>
@@ -1138,49 +1192,45 @@ function buildMarketQuickviewHtml(data) {
 
     <details class="quickview-details">
       <summary>
-        <div class="snapshot-section-head quickview-head"><h4>Population & Age</h4><span>${quickviewStatValue(meta.population_2024, 'int')} people</span></div>
+        <div class="snapshot-section-head quickview-head"><h4>Consumer Segments</h4><span>Top household profiles</span></div>
       </summary>
       <div class="quickview-body">
-        <div class="snapshot-metric-grid">
-          ${renderSnapshotMetric('Under 19', quickviewStatValue(meta.population_under_19_2024, 'int'), quickviewStatValue(ageUnder19Pct, 'pct'))}
-          ${renderSnapshotMetric('20 to 64', quickviewStatValue(meta.population_20_64_2024, 'int'), quickviewStatValue(age20_64Pct, 'pct'))}
-          ${renderSnapshotMetric('65 Plus', quickviewStatValue(meta.population_65_plus_2024, 'int'), quickviewStatValue(age65PlusPct, 'pct'))}
-          ${renderSnapshotMetric('Avg HH Size', quickviewStatValue(meta.average_household_size_2024, 'one'))}
-          ${renderSnapshotMetric('HH Growth', quickviewStatValue(meta.households_growth_2024_2029, 'pct'))}
-          ${renderSnapshotMetric('Pop Growth', quickviewStatValue(meta.population_growth_2024_2029, 'pct'))}
-        </div>
+        ${renderSnapshotTable(['Segment', 'Households', 'Share'], segmentRows, '<div class="snapshot-empty">No consumer segment detail available.</div>')}
       </div>
     </details>
 
     <details class="quickview-details">
       <summary>
-        <div class="snapshot-section-head quickview-head"><h4>Households & Housing</h4><span>${quickviewStatValue(meta.households_2024, 'int')} households</span></div>
+        <div class="snapshot-section-head quickview-head"><h4>Education Level</h4><span>${fmtPct(currentDemo.bachelors_plus_pct)} bachelor&apos;s+</span></div>
       </summary>
       <div class="quickview-body">
         <div class="snapshot-metric-grid">
-          ${renderSnapshotMetric('1 Person HH', quickviewStatValue(meta.one_person_households_2024, 'int'), quickviewStatValue(hh1Pct, 'pct'))}
-          ${renderSnapshotMetric('2 Person HH', quickviewStatValue(meta.two_person_households_2024, 'int'), quickviewStatValue(hh2Pct, 'pct'))}
-          ${renderSnapshotMetric('3+ Person HH', quickviewStatValue(hh3Plus, 'int'), quickviewStatValue(hh3PlusPct, 'pct'))}
-          ${renderSnapshotMetric('Median Home Value', quickviewStatValue(meta.median_home_value_2024, 'money'))}
-          ${renderSnapshotMetric('Median Income', quickviewStatValue(meta.median_household_income, 'money'))}
-          ${renderSnapshotMetric('Mean Income', quickviewStatValue(meta.mean_household_income, 'money'))}
+          ${renderSnapshotMetric('Bachelor\'s+', quickviewStatValue(currentDemo.bachelors_plus_pct, 'pct'), quickviewStatValue(currentDemo.bachelors_plus_count, 'int'))}
+          ${renderSnapshotMetric('Owner Occupancy', quickviewStatValue(currentDemo.owner_occupancy_pct, 'pct'), quickviewStatValue(currentDemo.owner_occupied_units, 'int'))}
+          ${renderSnapshotMetric('Renter Occupancy', quickviewStatValue(currentDemo.renter_occupancy_pct, 'pct'), quickviewStatValue(currentDemo.renter_occupied_units, 'int'))}
+          ${renderSnapshotMetric('Population 25+', quickviewStatValue(currentDemo.population_25_plus, 'int'))}
+          ${renderSnapshotMetric('Prior Bachelor\'s+', quickviewStatValue(priorDemo.bachelors_plus_pct, 'pct'))}
+          ${renderSnapshotMetric('Forecast Bachelor\'s+', quickviewStatValue(forecastDemo.bachelors_plus_pct, 'pct'))}
         </div>
+        <div class="snapshot-subnote">Education detail is drawn from the submarket-level model because the pilot block ZIP exports do not yet carry full education tables.</div>
       </div>
     </details>
 
     <details class="quickview-details">
       <summary>
-        <div class="snapshot-section-head quickview-head"><h4>Income & Growth</h4><span>Trend and value signals</span></div>
+        <div class="snapshot-section-head quickview-head"><h4>Employment / Occupation</h4><span>Awaiting source table</span></div>
       </summary>
       <div class="quickview-body">
-        <div class="snapshot-metric-grid">
-          ${renderSnapshotMetric('Median Income', quickviewStatValue(meta.median_household_income, 'money'))}
-          ${renderSnapshotMetric('Mean Income', quickviewStatValue(meta.mean_household_income, 'money'))}
-          ${renderSnapshotMetric('Home Value', quickviewStatValue(meta.median_home_value_2024, 'money'))}
-          ${renderSnapshotMetric('Household Growth', quickviewStatValue(meta.households_growth_2024_2029, 'pct'))}
-          ${renderSnapshotMetric('Population Growth', quickviewStatValue(meta.population_growth_2024_2029, 'pct'))}
-          ${renderSnapshotMetric('Growth View', Number(meta.population_growth_2024_2029 || 0) >= 0 ? 'Expanding' : 'Softening')}
-        </div>
+        ${hasEmploymentData ? '<div class="snapshot-empty">Employment data available.</div>' : '<div class="snapshot-empty">Employment / occupation tables are not present in the current pilot ZIP exports yet. Add those source tables and this section will populate automatically.</div>'}
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Race / Ethnicity</h4><span>Awaiting source table</span></div>
+      </summary>
+      <div class="quickview-body">
+        ${hasRaceEthnicityData ? '<div class="snapshot-empty">Race / ethnicity data available.</div>' : '<div class="snapshot-empty">Race / ethnicity tables are not present in the current pilot ZIP exports yet. Add those source tables and this section will populate automatically.</div>'}
       </div>
     </details>
 
@@ -1222,13 +1272,14 @@ function buildMarketQuickviewHtml(data) {
           ${renderSnapshotMetric('Anomalous', String(anomalousBlocks))}
           ${renderSnapshotMetric('Coverage', `${coveragePct.toFixed(1)}%`)}
         </div>
-        <div class="snapshot-subnote">Central Mobile is the initial pilot. As more block ZIPs are added, the Market Quickview dataset can expand without changing the base atlas demographics.</div>
+        <div class="snapshot-subnote">${escapeHtml(pilotNotes)}</div>
       </div>
     </details>
   `;
 }
 
 async function openMarketQuickview() {
+
   if (!state.marketQuickview?.loaded || !state.marketQuickview.data) {
     alert('Market Quickview data is not loaded yet.');
     return;
