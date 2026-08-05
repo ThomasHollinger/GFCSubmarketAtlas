@@ -42,6 +42,7 @@ ACS_CORE_VARS = {
     "population": "B01003_001E",
     "households": "B11001_001E",
     "median_age": "B01002_001E",
+    "median_household_income": "B19013_001E",
     "occupied_housing_units": "B25003_001E",
     "owner_occupied_units": "B25003_002E",
     "renter_occupied_units": "B25003_003E",
@@ -493,7 +494,8 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         "overlap_area_sqm", "overlap_pct_of_bg", "population", "households",
         "median_household_income", "median_age", "owner_occupied_units", "occupied_housing_units"
     ]
-    audit = df[audit_cols].copy()
+    # Keep audit resilient if a future column gets removed from the ACS schema.
+    audit = df[[c for c in audit_cols if c in df.columns]].copy()
     audit["year"] = year
     return agg[out_cols], audit
 
