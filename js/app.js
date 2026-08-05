@@ -32,14 +32,11 @@ const state = {
   },
   pois: [],
   poisLoaded: false,
-  poisLoadPromise: null,
   healthcare: [],
   healthcareLoaded: false,
-  healthcareLoadPromise: null,
   healthcareSummary: null,
   returnTheme: 'hub',
   builders: [],
-  lifestyleLoadPromise: null,
   buildersLoaded: false,
   buildersLoadPromise: null,
   builderSummary: null,
@@ -47,14 +44,12 @@ const state = {
   builderExportKmlCount: 0,
   demographics: null,
   demographicsLoaded: false,
-  demographicsBlockGroups: [],
-  demographicsBlockGroupsLoaded: false,
-  demographicsBlockGroupsLoadPromise: null,
   basemaps: {},
   searchIndex: [],
   metadata: null,
   detailOpen: {},
-  marketSnapshot: { active: false, radiusMiles: null, awaitingPoint: false, busy: false, promptOpen: false, centerLatLng: null, circleLayer: null, promptPopup: null, report: null }
+  marketSnapshot: { active: false, radiusMiles: null, awaitingPoint: false, busy: false },
+  marketQuickview: { active: false, loaded: false, data: null, submarket: 'Central Mobile' }
 };
 
 const hubOrder = ['Alabama Hub', 'Pensacola Hub', 'Panama City Hub', 'Growth Markets'];
@@ -137,6 +132,7 @@ const tierOneBrands = ['publix','walmart','walmart supercenter','aldi','costco',
 const BUILDER_TIER_STORAGE_KEY = 'gcsa-builder-tier-state-v1';
 const BUILDER_TIER_ORDER = ['Tier0', 'Tier1', 'Tier2', 'Tier3', 'Tier4Plus'];
 const MARKET_SNAPSHOT_RADII = [1, 3, 5, 10];
+const MARKET_QUICKVIEW_DEFAULT_SUBMARKET = 'Central Mobile';
 
 const schoolRatingRecords = [
 {"County":"Escambia County","City":"Atmore","SchoolName":"A C Moore Primary School","SchoolType":"Elementary","Rating":null,"NCESID":"10135002667","State":"","Excluded":true,"ExcludedReason":"Thomas Verified Grade: Unranked"},
@@ -820,131 +816,17 @@ function fmt(v, suffix = '') {
 
 function submarketDemoKey(name) {
   if (!name) return '';
-  if (name === 'Eglin AFB') return 'Eglin AFB';
+  if (name === 'Eglin AFB') return 'Egland AFB';
   return name;
-}
-
-function normalizeIncomeSection(section) {
-  if (!section || typeof section !== 'object') return section;
-  const out = { ...section };
-  const hh = Number(out.households);
-  const directMean = Number(out.mean_household_income);
-  const aggregate = Number(out.aggregate_household_income);
-  if ((!Number.isFinite(directMean) || directMean <= 0) && Number.isFinite(aggregate) && Number.isFinite(hh) && hh > 0) {
-    out.mean_household_income = aggregate / hh;
-  }
-  return out;
-}
-
-function normalizeDemographicRecord(record) {
-  if (!record || typeof record !== 'object') return record;
-  return {
-    ...record,
-    current: normalizeIncomeSection(record.current),
-    prior: normalizeIncomeSection(record.prior),
-    forecast_5yr: normalizeIncomeSection(record.forecast_5yr)
-  };
 }
 
 function demoForSubmarket(name) {
   if (!state.demographics || !state.demographics.submarkets) return null;
-  const raw = state.demographics.submarkets[submarketDemoKey(name)] || null;
-  return normalizeDemographicRecord(raw);
+  return state.demographics.submarkets[submarketDemoKey(name)] || null;
 }
 
 function demosForFeatures(features) {
   return features.map(f => demoForSubmarket(f.properties.DisplayName)).filter(Boolean);
-}
-
-function snapshotWeightedRowsFromGeometry(features, centerLatLng, radiusMiles, getDemo) {
-  return (features || [])
-    .map(feature => {
-      const overlap = snapshotEstimatePolygonOverlapFraction(feature && feature.geometry, centerLatLng, radiusMiles);
-      if (!(overlap > 0)) return null;
-      const demo = getDemo(feature);
-      if (!demo) return null;
-      return {
-        feature,
-        distance: marketSnapshotDistanceMiles(feature, centerLatLng),
-        overlap,
-        demo
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.overlap - a.overlap || a.distance - b.distance);
-}
-
-function snapshotWeightedRowsFromPointFeatures(features, centerLatLng, radiusMiles, getDemo) {
-  return (features || [])
-    .map(feature => {
-      const demo = getDemo(feature);
-      const latLng = marketSnapshotFeatureLatLng(feature);
-      if (!demo || !latLng) return null;
-      const distance = centerLatLng.distanceTo(latLng) / 1609.344;
-      if (!Number.isFinite(distance) || distance > radiusMiles) return null;
-      return {
-        feature,
-        distance,
-        overlap: Math.max(0.15, 1 - (distance / Math.max(radiusMiles, 0.25))),
-        demo
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.overlap - a.overlap || a.distance - b.distance);
-}
-
-function nearestSnapshotRows(features, centerLatLng, radiusMiles, getDemo, limit = 4) {
-  const fallback = (features || [])
-    .map(feature => {
-      const demo = getDemo(feature);
-      const distance = marketSnapshotDistanceMiles(feature, centerLatLng);
-      if (!demo || !Number.isFinite(distance)) return null;
-      return {
-        feature,
-        distance,
-        overlap: 0,
-        syntheticWeight: Math.max(0.15, Math.min(1, radiusMiles ? (radiusMiles / Math.max(distance, radiusMiles)) : 0.3)),
-        demo
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, limit);
-  return fallback;
-}
-
-function weightedRowsFromDemographicSource(centerLatLng, radiusMiles) {
-  const blockGroupsLoaded = state.demographicsBlockGroupsLoaded && Array.isArray(state.demographicsBlockGroups) && state.demographicsBlockGroups.length;
-  if (blockGroupsLoaded) {
-    const firstGeometry = state.demographicsBlockGroups.find(feature => feature && feature.geometry && feature.geometry.type)?.geometry?.type || null;
-    const usePointCenters = firstGeometry === 'Point' || firstGeometry === 'MultiPoint';
-    const demoFromProps = feature => ({ current: normalizeIncomeSection(feature.properties || {}), forecast_5yr: null });
-    const rows = usePointCenters
-      ? snapshotWeightedRowsFromPointFeatures(state.demographicsBlockGroups, centerLatLng, radiusMiles, demoFromProps)
-      : snapshotWeightedRowsFromGeometry(state.demographicsBlockGroups, centerLatLng, radiusMiles, demoFromProps);
-    if (rows.length) {
-      return {
-        rows,
-        source: usePointCenters ? 'block_group_centers' : 'block_groups',
-        note: usePointCenters
-          ? 'Radius estimates use Census block-group population centers with household-weighted demographic data.'
-          : 'Area-weighted overlap between the selected radius and Census block groups.'
-      };
-    }
-    return {
-      rows: [],
-      source: usePointCenters ? 'block_group_centers_empty' : 'block_groups_empty',
-      note: usePointCenters
-        ? 'No block-group population centers fall inside this radius yet. Try a larger radius.'
-        : 'No Census block groups overlap this radius yet. Rebuild the block-group dataset or use a larger radius.'
-    };
-  }
-
-  return {
-    rows: [],
-    source: 'block_groups_unavailable',
-    note: 'Demographic block-group data is not loaded yet. Rebuild the Census block-group dataset to enable 1-mile estimates.'
-  };
 }
 
 function weightedAvg(rows, field, weightField='population') {
@@ -961,25 +843,6 @@ function weightedAvg(rows, field, weightField='population') {
   return totalWeight ? totalValue / totalWeight : null;
 }
 
-function weightedMedian(rows, field, weightField='population') {
-  const values = [];
-  rows.forEach(row => {
-    const v = Number(row[field]);
-    const w = Math.max(0, Number(row[weightField] || 0));
-    if (Number.isFinite(v) && Number.isFinite(w) && w > 0) values.push({ v, w });
-  });
-  if (!values.length) return null;
-  values.sort((a, b) => a.v - b.v);
-  const totalWeight = values.reduce((acc, item) => acc + item.w, 0);
-  if (!(totalWeight > 0)) return null;
-  let cumulative = 0;
-  for (const item of values) {
-    cumulative += item.w;
-    if (cumulative >= totalWeight / 2) return item.v;
-  }
-  return values[values.length - 1].v;
-}
-
 function aggregateDemographics(features) {
   const rows = demosForFeatures(features);
   if (!rows.length) return null;
@@ -990,8 +853,7 @@ function aggregateDemographics(features) {
     current: {
       population: sum(cur, 'population'),
       households: sum(cur, 'households'),
-      median_household_income: Math.round(weightedAvg(cur, 'median_household_income', 'households') || 0),
-      mean_household_income: Math.round(weightedAvg(cur, 'mean_household_income', 'households') || 0),
+      median_household_income: Math.round(weightedAvg(cur, 'median_household_income') || 0),
       median_age: weightedAvg(cur, 'median_age'),
       owner_occupancy_pct: weightedAvg(cur, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAvg(cur, 'bachelors_plus_pct', 'population_25_plus'),
@@ -1000,78 +862,13 @@ function aggregateDemographics(features) {
     forecast_5yr: {
       population: sum(fc, 'population'),
       households: sum(fc, 'households'),
-      median_household_income: Math.round(weightedAvg(fc, 'median_household_income', 'households') || 0),
-      mean_household_income: Math.round(weightedAvg(fc, 'mean_household_income', 'households') || 0),
+      median_household_income: Math.round(weightedAvg(fc, 'median_household_income') || 0),
       median_age: weightedAvg(fc, 'median_age'),
       owner_occupancy_pct: weightedAvg(fc, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAvg(fc, 'bachelors_plus_pct', 'population_25_plus'),
       population_growth_next_5yr_pct: weightedAvg(fc, 'population_growth_next_5yr_pct')
     },
     audit: { submarkets_with_data: rows.length, submarkets_total: features.length }
-  };
-}
-
-function aggregateDemographicsWeighted(rows) {
-  const valid = (rows || []).map(row => ({
-    feature: row.feature,
-    demo: row.demo || demoForSubmarket(row.feature && row.feature.properties ? row.feature.properties.DisplayName : null),
-    weight: Math.max(0, Math.min(1, Number(row.weight || row.overlap || 0)))
-  })).filter(row => row.demo && row.weight > 0);
-  if (!valid.length) return null;
-  const weightedAverage = (arr, field, weightField, section = 'current') => {
-    let totalWeight = 0;
-    let totalValue = 0;
-    arr.forEach(row => {
-      const source = section === 'forecast_5yr' ? row.demo?.forecast_5yr : row.demo?.current;
-      const value = Number(source?.[field]);
-      const baseWeight = Number(source?.[weightField] || 0) * row.weight;
-      if (Number.isFinite(value) && Number.isFinite(baseWeight) && baseWeight > 0) {
-        totalWeight += baseWeight;
-        totalValue += value * baseWeight;
-      }
-    });
-    return totalWeight ? totalValue / totalWeight : null;
-  };
-  const weightedMedianLocal = (arr, field, weightField, section = 'current') => {
-    const values = [];
-    arr.forEach(row => {
-      const source = section === 'forecast_5yr' ? row.demo?.forecast_5yr : row.demo?.current;
-      const value = Number(source?.[field]);
-      const weight = Number(source?.[weightField] || 0) * row.weight;
-      if (Number.isFinite(value) && Number.isFinite(weight) && weight > 0) values.push({ v: value, w: weight });
-    });
-    if (!values.length) return null;
-    values.sort((a, b) => a.v - b.v);
-    const totalWeight = values.reduce((acc, item) => acc + item.w, 0);
-    let cumulative = 0;
-    for (const item of values) {
-      cumulative += item.w;
-      if (cumulative >= totalWeight / 2) return item.v;
-    }
-    return values[values.length - 1].v;
-  };
-  return {
-    current: {
-      population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.population || 0) * row.weight, 0)),
-      households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.households || 0) * row.weight, 0)),
-      median_household_income: Math.round(weightedMedianLocal(valid, 'median_household_income', 'households') || 0),
-      mean_household_income: Math.round(weightedAverage(valid, 'mean_household_income', 'households') || 0),
-      median_age: weightedAverage(valid, 'median_age', 'population'),
-      owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units'),
-      bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus'),
-      population_growth_prior_5yr_pct: weightedAverage(valid, 'population_growth_prior_5yr_pct', 'population')
-    },
-    forecast_5yr: {
-      population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.population || 0) * row.weight, 0)),
-      households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.households || 0) * row.weight, 0)),
-      median_household_income: Math.round(weightedMedianLocal(valid, 'median_household_income', 'households', 'forecast_5yr') || 0),
-      mean_household_income: Math.round(weightedAverage(valid, 'mean_household_income', 'households', 'forecast_5yr') || 0),
-      median_age: weightedAverage(valid, 'median_age', 'population', 'forecast_5yr'),
-      owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units', 'forecast_5yr'),
-      bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus', 'forecast_5yr'),
-      population_growth_next_5yr_pct: weightedAverage(valid, 'population_growth_next_5yr_pct', 'population', 'forecast_5yr')
-    },
-    audit: { submarkets_with_data: valid.length, submarkets_total: rows.length }
   };
 }
 
@@ -1108,136 +905,37 @@ function updateMarketSnapshotUI() {
   const button = document.getElementById('marketSnapshotToggle');
   const hint = document.getElementById('marketSnapshotHint');
   const active = marketSnapshotModeActive();
-  const snapshot = state.marketSnapshot || {};
   if (panel) {
     panel.classList.toggle('active', active);
     panel.querySelectorAll('.market-snapshot-radius').forEach(btn => {
-      btn.classList.toggle('active', active && Number(btn.dataset.radius) === Number(snapshot.radiusMiles));
+      btn.classList.toggle('active', active && Number(btn.dataset.radius) === Number(state.marketSnapshot.radiusMiles));
     });
   }
   if (button) button.textContent = active ? 'Cancel Market Snapshot' : 'Market Snapshot';
   if (hint) {
-    if (!active) {
-      hint.textContent = 'Click Market Snapshot to begin.';
-    } else if (snapshot.promptOpen) {
-      hint.textContent = 'Circle drawn on the map. Use the Yes/No prompt in the center.';
-    } else if (snapshot.radiusMiles) {
-      hint.textContent = `Radius selected: ${marketSnapshotRadiusLabel(snapshot.radiusMiles)}. Click a point on the map.`;
-    } else {
-      hint.textContent = 'Choose a radius, then click a point on the map.';
-    }
+    hint.textContent = active
+      ? (state.marketSnapshot.radiusMiles ? `Radius selected: ${marketSnapshotRadiusLabel(state.marketSnapshot.radiusMiles)}. Click a point on the map.` : 'Choose a radius, then click a point on the map.')
+      : 'Click Market Snapshot to begin.';
   }
-  document.body.classList.toggle('snapshot-mode', active && !!snapshot.radiusMiles);
-}
-
-function clearMarketSnapshotOverlay() {
-  const snapshot = state.marketSnapshot || {};
-  if (snapshot.circleLayer && state.map && state.map.hasLayer(snapshot.circleLayer)) {
-    state.map.removeLayer(snapshot.circleLayer);
-  }
-  if (snapshot.promptPopup && state.map) {
-    state.map.closePopup(snapshot.promptPopup);
-  } else if (state.map) {
-    state.map.closePopup();
-  }
-  snapshot.circleLayer = null;
-  snapshot.promptPopup = null;
-  snapshot.centerLatLng = null;
-  snapshot.promptOpen = false;
+  document.body.classList.toggle('snapshot-mode', active && !!state.marketSnapshot.radiusMiles);
 }
 
 function setMarketSnapshotMode(active, radiusMiles = null) {
-  state.marketSnapshot = state.marketSnapshot || { active: false, radiusMiles: null, awaitingPoint: false, busy: false, promptOpen: false, centerLatLng: null, circleLayer: null, promptPopup: null, report: null };
-  if (active) {
-    state.marketSnapshot.active = true;
-    state.marketSnapshot.awaitingPoint = true;
-    state.marketSnapshot.radiusMiles = radiusMiles === null || radiusMiles === undefined ? state.marketSnapshot.radiusMiles : Number(radiusMiles);
-    state.marketSnapshot.busy = false;
-    state.marketSnapshot.promptOpen = false;
-    state.marketSnapshot.centerLatLng = null;
-    clearMarketSnapshotOverlay();
-  } else {
-    clearMarketSnapshotOverlay();
-    state.marketSnapshot.active = false;
-    state.marketSnapshot.awaitingPoint = false;
-    state.marketSnapshot.radiusMiles = null;
-    state.marketSnapshot.busy = false;
-  }
+  state.marketSnapshot = state.marketSnapshot || { active: false, radiusMiles: null, awaitingPoint: false, busy: false };
+  state.marketSnapshot.active = !!active;
+  state.marketSnapshot.awaitingPoint = !!active;
+  state.marketSnapshot.radiusMiles = active ? (radiusMiles === null || radiusMiles === undefined ? state.marketSnapshot.radiusMiles : Number(radiusMiles)) : null;
+  state.marketSnapshot.busy = false;
   updateMarketSnapshotUI();
 }
 
 function resetMarketSnapshotMode() {
-  clearMarketSnapshotOverlay();
   state.marketSnapshot.active = false;
   state.marketSnapshot.awaitingPoint = false;
   state.marketSnapshot.radiusMiles = null;
   state.marketSnapshot.busy = false;
   updateMarketSnapshotUI();
 }
-
-function renderMarketSnapshotPromptHtml(centerLatLng, radiusMiles) {
-  const radiusLabel = marketSnapshotRadiusLabel(radiusMiles);
-  return `
-    <div class="market-snapshot-prompt">
-      <div class="market-snapshot-prompt-kicker">${escapeHtml(radiusLabel)} Radius</div>
-      <div class="market-snapshot-prompt-title">See Market Snapshot?</div>
-      <div class="market-snapshot-prompt-center">Center: ${escapeHtml(centerLatLng.lat.toFixed(5))}, ${escapeHtml(centerLatLng.lng.toFixed(5))}</div>
-      <div class="market-snapshot-prompt-actions">
-        <button type="button" class="market-snapshot-prompt-yes" onclick="window.GCSAMarketSnapshotConfirmYes();">Yes</button>
-        <button type="button" class="market-snapshot-prompt-no secondary" onclick="window.GCSAMarketSnapshotConfirmNo();">No</button>
-      </div>
-    </div>`;
-}
-
-function showMarketSnapshotPrompt(centerLatLng, radiusMiles) {
-  clearMarketSnapshotOverlay();
-  const snapshot = state.marketSnapshot;
-  const radiusMeters = Number(radiusMiles) * 1609.344;
-  snapshot.centerLatLng = { lat: centerLatLng.lat, lng: centerLatLng.lng };
-  snapshot.promptOpen = true;
-  snapshot.awaitingPoint = false;
-  snapshot.circleLayer = L.circle(centerLatLng, {
-    radius: radiusMeters,
-    color: '#0b2f4d',
-    weight: 2,
-    fillColor: '#0b2f4d',
-    fillOpacity: 0.08
-  }).addTo(state.map);
-  snapshot.promptPopup = L.popup({
-    closeButton: false,
-    autoClose: false,
-    closeOnClick: false,
-    closeOnEscapeKey: false,
-    className: 'market-snapshot-prompt-popup',
-    offset: L.point(0, 0),
-    maxWidth: 320
-  }).setLatLng(centerLatLng).setContent(renderMarketSnapshotPromptHtml(centerLatLng, radiusMiles));
-  snapshot.promptPopup.openOn(state.map);
-  updateMarketSnapshotUI();
-}
-
-async function confirmMarketSnapshotYes() {
-  const snapshot = state.marketSnapshot || {};
-  if (!snapshot.centerLatLng || !snapshot.radiusMiles) return;
-  try {
-    await ensureSnapshotDataLoaded();
-    const center = L.latLng(snapshot.centerLatLng.lat, snapshot.centerLatLng.lng);
-    snapshot.report = { centerLatLng: { lat: center.lat, lng: center.lng }, radiusMiles: snapshot.radiusMiles };
-    const html = buildMarketSnapshotHtml(center, snapshot.radiusMiles);
-    openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(snapshot.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
-  } catch (err) {
-    console.error('Market snapshot generation failed', err);
-    alert('Market Snapshot could not be generated right now. Please try again.');
-  }
-}
-
-function confirmMarketSnapshotNo() {
-  clearMarketSnapshotOverlay();
-  resetMarketSnapshotMode();
-}
-
-window.GCSAMarketSnapshotConfirmYes = () => { void confirmMarketSnapshotYes(); };
-window.GCSAMarketSnapshotConfirmNo = () => { confirmMarketSnapshotNo(); };
 
 function marketSnapshotFeatureLatLng(feature) {
   if (!feature) return null;
@@ -1287,94 +985,6 @@ function featuresWithinRadius(features, centerLatLng, radiusMiles) {
     .sort((a, b) => a.distance - b.distance);
 }
 
-const SNAPSHOT_MILES_PER_DEGREE_LAT = 69.172;
-
-function snapshotProjectPoint(lat, lng, origin) {
-  const lat0 = Number(origin && origin.lat);
-  const lng0 = Number(origin && origin.lng);
-  const cosLat = Math.cos((Number.isFinite(lat0) ? lat0 : 0) * Math.PI / 180);
-  return {
-    x: (Number(lng) - lng0) * SNAPSHOT_MILES_PER_DEGREE_LAT * cosLat,
-    y: (Number(lat) - lat0) * SNAPSHOT_MILES_PER_DEGREE_LAT
-  };
-}
-
-function snapshotPointInRing(point, ring) {
-  if (!Array.isArray(ring) || ring.length < 3) return false;
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const xi = Number(ring[i][0]);
-    const yi = Number(ring[i][1]);
-    const xj = Number(ring[j][0]);
-    const yj = Number(ring[j][1]);
-    const intersect = ((yi > point.y) !== (yj > point.y)) && (point.x < ((xj - xi) * (point.y - yi)) / ((yj - yi) || 1e-12) + xi);
-    if (intersect) inside = !inside;
-  }
-  return inside;
-}
-
-function snapshotGeometryProjectedPolygons(geometry, origin) {
-  if (!geometry || !Array.isArray(geometry.coordinates)) return [];
-  const polygons = [];
-  const mapRing = ring => (Array.isArray(ring) ? ring.map(pt => snapshotProjectPoint(pt[1], pt[0], origin)) : []);
-  if (geometry.type === 'Polygon') {
-    polygons.push((geometry.coordinates || []).map(mapRing));
-  } else if (geometry.type === 'MultiPolygon') {
-    (geometry.coordinates || []).forEach(poly => polygons.push((poly || []).map(mapRing)));
-  }
-  return polygons.filter(poly => Array.isArray(poly) && poly.length && Array.isArray(poly[0]) && poly[0].length >= 3);
-}
-
-function snapshotEstimatePolygonOverlapFraction(geometry, centerLatLng, radiusMiles) {
-  const polygons = snapshotGeometryProjectedPolygons(geometry, centerLatLng);
-  if (!polygons.length) return 0;
-  const radiusSq = Number(radiusMiles) * Number(radiusMiles);
-  let polygonSamples = 0;
-  let overlapSamples = 0;
-  polygons.forEach(poly => {
-    const outer = poly[0];
-    if (!Array.isArray(outer) || outer.length < 3) return;
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    outer.forEach(pt => {
-      if (!pt || !Number.isFinite(pt.x) || !Number.isFinite(pt.y)) return;
-      if (pt.x < minX) minX = pt.x;
-      if (pt.x > maxX) maxX = pt.x;
-      if (pt.y < minY) minY = pt.y;
-      if (pt.y > maxY) maxY = pt.y;
-    });
-    if (!Number.isFinite(minX) || !Number.isFinite(minY)) return;
-    const width = Math.max(0.05, maxX - minX);
-    const height = Math.max(0.05, maxY - minY);
-    const grid = Math.max(14, Math.min(60, Math.ceil(Math.max(width, height) / 0.2)));
-    const stepX = width / grid;
-    const stepY = height / grid;
-    for (let ix = 0; ix < grid; ix += 1) {
-      for (let iy = 0; iy < grid; iy += 1) {
-        const point = { x: minX + (ix + 0.5) * stepX, y: minY + (iy + 0.5) * stepY };
-        if (!snapshotPointInRing(point, outer)) continue;
-        polygonSamples += 1;
-        if ((point.x * point.x) + (point.y * point.y) <= radiusSq) overlapSamples += 1;
-      }
-    }
-  });
-  return polygonSamples ? overlapSamples / polygonSamples : 0;
-}
-
-function demographicFeaturesWithinRadius(features, centerLatLng, radiusMiles) {
-  return (features || [])
-    .map(feature => {
-      const overlap = snapshotEstimatePolygonOverlapFraction(feature && feature.geometry, centerLatLng, radiusMiles);
-      if (!(overlap > 0)) return null;
-      return {
-        feature,
-        distance: marketSnapshotDistanceMiles(feature, centerLatLng),
-        overlap
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.overlap - a.overlap || a.distance - b.distance);
-}
-
 function formatBuilderTierLabel(feature) {
   const tierKey = builderTierForFeature(feature);
   if (!tierKey) return '—';
@@ -1390,13 +1000,6 @@ function renderSnapshotTable(headers, rows, emptyHtml) {
   const head = `<div class="snapshot-table-row snapshot-table-head" style="--snapshot-cols:${cols}">${headers.map(h => `<div>${escapeHtml(h)}</div>`).join('')}</div>`;
   if (!rows.length) return emptyHtml;
   return `<div class="snapshot-table" style="--snapshot-cols:${cols}">${head}${rows.join('')}</div>`;
-}
-
-function renderSnapshotSection(title, subtitle, content, open = false) {
-  return `<details class="snapshot-section"${open ? ' open' : ''}>
-    <summary class="snapshot-section-head"><h4>${escapeHtml(title)}</h4><span>${escapeHtml(subtitle || '')}</span></summary>
-    <div class="snapshot-section-content">${content}</div>
-  </details>`;
 }
 
 function openMarketSnapshotModal(title, subtitle, bodyHtml) {
@@ -1419,15 +1022,223 @@ function closeMarketSnapshotModal() {
   overlay.setAttribute('aria-hidden', 'true');
 }
 
-function refreshOpenMarketSnapshotModal() {
-  const overlay = document.getElementById('marketSnapshotModal');
-  if (!overlay || !overlay.classList.contains('active')) return;
-  const report = state.marketSnapshot && state.marketSnapshot.report;
-  if (!report || !report.centerLatLng || !report.radiusMiles) return;
-  const center = L.latLng(report.centerLatLng.lat, report.centerLatLng.lng);
-  openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(report.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, buildMarketSnapshotHtml(center, report.radiusMiles));
+
+function quickviewSelectedSubmarket() {
+  const select = document.getElementById('marketQuickviewSelect');
+  const value = String(select?.value || state.marketQuickview?.submarket || MARKET_QUICKVIEW_DEFAULT_SUBMARKET);
+  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET };
+  state.marketQuickview.submarket = value || MARKET_QUICKVIEW_DEFAULT_SUBMARKET;
+  return state.marketQuickview.submarket;
 }
 
+function quickviewDataForSubmarket(submarketName) {
+  const data = state.marketQuickview && state.marketQuickview.data;
+  if (!data) return null;
+  if (!submarketName) return data;
+  if (data.submarket && normalizeSubmarketName(data.submarket) === normalizeSubmarketName(submarketName)) return data;
+  if (data.metadata && data.metadata.submarket && normalizeSubmarketName(data.metadata.submarket) === normalizeSubmarketName(submarketName)) return data;
+  return data.submarket ? data : data;
+}
+
+function openMarketQuickviewModal(title, subtitle, bodyHtml) {
+  const overlay = document.getElementById('marketQuickviewModal');
+  const titleEl = document.getElementById('marketQuickviewModalTitle');
+  const subtitleEl = document.getElementById('marketQuickviewModalSubtitle');
+  const bodyEl = document.getElementById('marketQuickviewModalBody');
+  if (!overlay || !titleEl || !subtitleEl || !bodyEl) return;
+  titleEl.textContent = title || 'Market Quickview';
+  subtitleEl.textContent = subtitle || '';
+  bodyEl.innerHTML = bodyHtml || '';
+  overlay.classList.add('active');
+  overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closeMarketQuickviewModal() {
+  const overlay = document.getElementById('marketQuickviewModal');
+  if (!overlay) return;
+  overlay.classList.remove('active');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function quickviewRowsFromBlocks(blocks, sortKey, limit = null) {
+  return [...(blocks || [])]
+    .sort((a, b) => Number(b?.[sortKey] || 0) - Number(a?.[sortKey] || 0))
+    .slice(0, limit || blocks.length);
+}
+
+function quickviewStatValue(v, kind = 'number') {
+  if (v === null || v === undefined || Number.isNaN(Number(v))) return 'N/A';
+  if (kind === 'money') return fmtMoney(v);
+  if (kind === 'pct') return fmtPct(v);
+  if (kind === 'one') return fmtOne(v);
+  if (kind === 'int') return Number(v).toLocaleString();
+  return Number(v).toLocaleString();
+}
+
+function buildMarketQuickviewHtml(data) {
+  const meta = data?.metadata || {};
+  const blocks = Array.isArray(data?.blocks) ? data.blocks : [];
+  const totalBlocks = Number(meta.uploaded_blocks || blocks.length || 0);
+  const usableBlocks = Number(meta.usable_blocks || blocks.length || 0);
+  const anomalousBlocks = Number(meta.anomalous_blocks || 0);
+  const coveragePct = totalBlocks ? (usableBlocks / totalBlocks) * 100 : 0;
+
+  const popRows = quickviewRowsFromBlocks(blocks, 'population_2024', 10);
+  const incomeRows = quickviewRowsFromBlocks(blocks, 'median_household_income', 10);
+
+  const blockRows = [...blocks]
+    .sort((a, b) => Number(b.population_2024 || 0) - Number(a.population_2024 || 0))
+    .map(b => `<div class="snapshot-table-row"><div><b>${escapeHtml(String(b.block).padStart(3, '0'))}</b><small>${escapeHtml(String(b.data_status || 'usable'))}</small></div><div>${escapeHtml(quickviewStatValue(b.population_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.households_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.median_household_income, 'money'))}</div><div>${escapeHtml(quickviewStatValue(b.mean_household_income, 'money'))}</div><div>${escapeHtml(quickviewStatValue(b.median_age_2024, 'one'))}</div><div>${escapeHtml(quickviewStatValue(b.median_home_value_2024, 'money'))}</div><div>${escapeHtml(quickviewStatValue(b.average_household_size_2024, 'one'))}</div></div>`);
+
+  const popTopRows = popRows.map(b => `<div class="snapshot-table-row"><div><b>${escapeHtml(String(b.block).padStart(3, '0'))}</b></div><div>${escapeHtml(quickviewStatValue(b.population_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.households_2024, 'int'))}</div><div>${escapeHtml(quickviewStatValue(b.median_household_income, 'money'))}</div></div>`);
+  const incomeTopRows = incomeRows.map(b => `<div class="snapshot-table-row"><div><b>${escapeHtml(String(b.block).padStart(3, '0'))}</b></div><div>${escapeHtml(quickviewStatValue(b.median_household_income, 'money'))}</div><div>${escapeHtml(quickviewStatValue(b.mean_household_income, 'money'))}</div><div>${escapeHtml(quickviewStatValue(b.households_2024, 'int'))}</div></div>`);
+
+  const ageUnder19Pct = meta.population_2024 ? (Number(meta.population_under_19_2024 || 0) / Number(meta.population_2024 || 1)) : null;
+  const age20_64Pct = meta.population_2024 ? (Number(meta.population_20_64_2024 || 0) / Number(meta.population_2024 || 1)) : null;
+  const age65PlusPct = meta.population_2024 ? (Number(meta.population_65_plus_2024 || 0) / Number(meta.population_2024 || 1)) : null;
+
+  const hh1Pct = meta.households_2024 ? (Number(meta.one_person_households_2024 || 0) / Number(meta.households_2024 || 1)) : null;
+  const hh2Pct = meta.households_2024 ? (Number(meta.two_person_households_2024 || 0) / Number(meta.households_2024 || 1)) : null;
+  const hh3Plus = Number(meta.three_person_households_2024 || 0) + Number(meta.four_person_households_2024 || 0) + Number(meta.five_plus_person_households_2024 || 0);
+  const hh3PlusPct = meta.households_2024 ? (hh3Plus / Number(meta.households_2024 || 1)) : null;
+
+  const growthNote = Number.isFinite(Number(meta.population_growth_2024_2029)) && Number(meta.population_growth_2024_2029) < 0
+    ? 'Population is projected to decline slightly in the current pilot dataset.'
+    : 'Population is projected to grow in the current pilot dataset.';
+
+  return `
+    <div class="snapshot-intro">
+      <div class="snapshot-ribbon">Market Quickview</div>
+      <div class="snapshot-center">${escapeHtml(meta.submarket || state.marketQuickview.submarket || MARKET_QUICKVIEW_DEFAULT_SUBMARKET)} Pilot</div>
+      <div class="snapshot-note">Compiled from the uploaded Central Mobile block dataset. This is a pilot workflow and does not change the existing atlas demographics layer.</div>
+    </div>
+
+    <details class="quickview-details" open>
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Overview</h4><span>${usableBlocks.toLocaleString()} usable blocks</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid">
+          ${renderSnapshotMetric('Population', quickviewStatValue(meta.population_2024, 'int'))}
+          ${renderSnapshotMetric('Households', quickviewStatValue(meta.households_2024, 'int'))}
+          ${renderSnapshotMetric('Median Income', quickviewStatValue(meta.median_household_income, 'money'))}
+          ${renderSnapshotMetric('Mean Income', quickviewStatValue(meta.mean_household_income, 'money'))}
+          ${renderSnapshotMetric('Median Age', quickviewStatValue(meta.median_age_2024, 'one'))}
+          ${renderSnapshotMetric('Home Value', quickviewStatValue(meta.median_home_value_2024, 'money'))}
+        </div>
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Uploaded Blocks', String(totalBlocks))}
+          ${renderSnapshotMetric('Usable Blocks', String(usableBlocks))}
+          ${renderSnapshotMetric('Anomalous Blocks', String(anomalousBlocks))}
+          ${renderSnapshotMetric('Coverage', `${coveragePct.toFixed(1)}%`)}
+        </div>
+        <div class="snapshot-subnote">${escapeHtml(growthNote)}</div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Population & Age</h4><span>${quickviewStatValue(meta.population_2024, 'int')} people</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid">
+          ${renderSnapshotMetric('Under 19', quickviewStatValue(meta.population_under_19_2024, 'int'), quickviewStatValue(ageUnder19Pct, 'pct'))}
+          ${renderSnapshotMetric('20 to 64', quickviewStatValue(meta.population_20_64_2024, 'int'), quickviewStatValue(age20_64Pct, 'pct'))}
+          ${renderSnapshotMetric('65 Plus', quickviewStatValue(meta.population_65_plus_2024, 'int'), quickviewStatValue(age65PlusPct, 'pct'))}
+          ${renderSnapshotMetric('Avg HH Size', quickviewStatValue(meta.average_household_size_2024, 'one'))}
+          ${renderSnapshotMetric('HH Growth', quickviewStatValue(meta.households_growth_2024_2029, 'pct'))}
+          ${renderSnapshotMetric('Pop Growth', quickviewStatValue(meta.population_growth_2024_2029, 'pct'))}
+        </div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Households & Housing</h4><span>${quickviewStatValue(meta.households_2024, 'int')} households</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid">
+          ${renderSnapshotMetric('1 Person HH', quickviewStatValue(meta.one_person_households_2024, 'int'), quickviewStatValue(hh1Pct, 'pct'))}
+          ${renderSnapshotMetric('2 Person HH', quickviewStatValue(meta.two_person_households_2024, 'int'), quickviewStatValue(hh2Pct, 'pct'))}
+          ${renderSnapshotMetric('3+ Person HH', quickviewStatValue(hh3Plus, 'int'), quickviewStatValue(hh3PlusPct, 'pct'))}
+          ${renderSnapshotMetric('Median Home Value', quickviewStatValue(meta.median_home_value_2024, 'money'))}
+          ${renderSnapshotMetric('Median Income', quickviewStatValue(meta.median_household_income, 'money'))}
+          ${renderSnapshotMetric('Mean Income', quickviewStatValue(meta.mean_household_income, 'money'))}
+        </div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Income & Growth</h4><span>Trend and value signals</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid">
+          ${renderSnapshotMetric('Median Income', quickviewStatValue(meta.median_household_income, 'money'))}
+          ${renderSnapshotMetric('Mean Income', quickviewStatValue(meta.mean_household_income, 'money'))}
+          ${renderSnapshotMetric('Home Value', quickviewStatValue(meta.median_home_value_2024, 'money'))}
+          ${renderSnapshotMetric('Household Growth', quickviewStatValue(meta.households_growth_2024_2029, 'pct'))}
+          ${renderSnapshotMetric('Population Growth', quickviewStatValue(meta.population_growth_2024_2029, 'pct'))}
+          ${renderSnapshotMetric('Growth View', Number(meta.population_growth_2024_2029 || 0) >= 0 ? 'Expanding' : 'Softening')}
+        </div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Top Blocks by Population</h4><span>${Math.min(10, blocks.length).toLocaleString()} blocks</span></div>
+      </summary>
+      <div class="quickview-body">
+        ${renderSnapshotTable(['Block', 'Population', 'Households', 'Median Income'], popTopRows, '<div class="snapshot-empty">No block data available.</div>')}
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Top Blocks by Income</h4><span>${Math.min(10, blocks.length).toLocaleString()} blocks</span></div>
+      </summary>
+      <div class="quickview-body">
+        ${renderSnapshotTable(['Block', 'Median Income', 'Mean Income', 'Households'], incomeTopRows, '<div class="snapshot-empty">No block data available.</div>')}
+      </div>
+    </details>
+
+    <details class="quickview-details" open>
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>All Blocks</h4><span>${blocks.length.toLocaleString()} block rows</span></div>
+      </summary>
+      <div class="quickview-body">
+        ${renderSnapshotTable(['Block', 'Population', 'Households', 'Median Income', 'Mean Income', 'Median Age', 'Home Value', 'Avg HH Size'], blockRows, '<div class="snapshot-empty">No block data available.</div>')}
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Data Quality</h4><span>${coveragePct.toFixed(1)}% coverage</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Uploaded', String(totalBlocks))}
+          ${renderSnapshotMetric('Usable', String(usableBlocks))}
+          ${renderSnapshotMetric('Anomalous', String(anomalousBlocks))}
+          ${renderSnapshotMetric('Coverage', `${coveragePct.toFixed(1)}%`)}
+        </div>
+        <div class="snapshot-subnote">Central Mobile is the initial pilot. As more block ZIPs are added, the Market Quickview dataset can expand without changing the base atlas demographics.</div>
+      </div>
+    </details>
+  `;
+}
+
+async function openMarketQuickview() {
+  if (!state.marketQuickview?.loaded || !state.marketQuickview.data) {
+    alert('Market Quickview data is not loaded yet.');
+    return;
+  }
+  const submarket = quickviewSelectedSubmarket();
+  const data = quickviewDataForSubmarket(submarket);
+  const title = 'Market Quickview';
+  const subtitle = `${submarket} pilot dataset`;
+  openMarketQuickviewModal(title, subtitle, buildMarketQuickviewHtml(data));
+}
 function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
   const radiusLabel = marketSnapshotRadiusLabel(radiusMiles);
   const competition = featuresWithinRadius(state.buildersLoaded ? state.builders : [], centerLatLng, radiusMiles)
@@ -1441,6 +1252,7 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         html: `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Subdivision || 'Builder Community')}</b></div><div>${escapeHtml(builder)}</div><div>${escapeHtml(builderRangeText(p.UnitSizeMin, p.UnitSizeMax, 'number'))}</div><div>${escapeHtml(builderRangeText(p.PriceMin, p.PriceMax, 'money'))}</div><div>${escapeHtml(tier)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`
       };
     });
+  const competitionRows = competition.map(r => r.html);
   const compStatusCounts = competition.reduce((acc, row) => {
     const s = String(row.feature?.properties?.Status || '').toLowerCase();
     acc.total += 1;
@@ -1452,53 +1264,17 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     return acc;
   }, { total: 0, active: 0, future: 0, builtOut: 0, starts: 0, remaining: 0 });
 
-  const demographicSource = weightedRowsFromDemographicSource(centerLatLng, radiusMiles);
-  const demographicRows = demographicSource.rows.map(row => {
-    const demo = row.demo || demoForSubmarket(row.feature && row.feature.properties ? row.feature.properties.DisplayName : null);
+  const demographicSubmarkets = featuresWithinRadius(state.features, centerLatLng, radiusMiles);
+  const demographicRows = demographicSubmarkets.map(({ feature, distance }) => {
+    const demo = demoForSubmarket(feature.properties.DisplayName);
     if (!demo) return null;
-    return {
-      feature: row.feature,
-      distance: row.distance,
-      demo,
-      weight: row.syntheticWeight || row.overlap || 0
-    };
+    const c = demo.current || {};
+    return { feature, distance, demo };
   }).filter(Boolean);
-  const demographics = demographicRows.length ? aggregateDemographicsWeighted(demographicRows) : null;
+  const demographics = demographicRows.length ? aggregateDemographics(demographicRows.map(r => r.feature)) : null;
 
   const schools = featuresWithinRadius(state.schoolsLoaded ? state.schools : [], centerLatLng, radiusMiles)
     .map(({ feature, distance }) => ({ feature, distance }));
-
-  const healthcareLoading = !state.healthcareLoaded || !!state.healthcareLoadPromise;
-  const healthcare = featuresWithinRadius(state.healthcareLoaded ? state.healthcare : [], centerLatLng, radiusMiles)
-    .map(({ feature, distance }) => ({ feature, distance }))
-    .sort((a, b) => {
-      const at = String(a.feature.properties.FacilityType || '').toLowerCase();
-      const bt = String(b.feature.properties.FacilityType || '').toLowerCase();
-      const aHosp = at.includes('hospital') ? 0 : 1;
-      const bHosp = bt.includes('hospital') ? 0 : 1;
-      if (aHosp !== bHosp) return aHosp - bHosp;
-      return a.distance - b.distance || String(a.feature.properties.Name || '').localeCompare(String(b.feature.properties.Name || ''));
-    });
-  const healthcareCounts = healthcare.reduce((acc, { feature }) => {
-    const t = String(feature.properties.FacilityType || '').toLowerCase();
-    acc.total += 1;
-    if (t.includes('hospital')) acc.hospitals += 1;
-    else if (t.includes('urgent')) acc.urgent += 1;
-    else if (t.includes('pharmacy')) acc.pharmacies += 1;
-    else acc.clinics += 1;
-    return acc;
-  }, { total: 0, hospitals: 0, urgent: 0, clinics: 0, pharmacies: 0 });
-  const nearestHospital = healthcare
-    .filter(({ feature }) => String(feature.properties.FacilityType || '').toLowerCase().includes('hospital'))
-    .slice()
-    .sort((a, b) => a.distance - b.distance)[0] || null;
-  const healthcareRows = healthcare.map(({ feature, distance }) => {
-    const p = feature.properties || {};
-    const type = p.FacilityType || 'Healthcare';
-    return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Name || 'Healthcare Facility')}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(type)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
-  });
-
-  const retailLoading = !state.poisLoaded || !!state.poisLoadPromise;
   const retail = featuresWithinRadius(state.poisLoaded ? state.pois : [], centerLatLng, radiusMiles)
     .map(({ feature, distance }) => ({ feature, distance }))
     .sort((a, b) => {
@@ -1507,7 +1283,6 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
       if (ab !== bb) return ab ? -1 : 1;
       return a.distance - b.distance || String(a.feature.properties.Name || '').localeCompare(String(b.feature.properties.Name || ''));
     });
-  const lifestyleLoading = !state.lifestyleLoaded || !!state.lifestyleLoadPromise;
   const lifestyle = featuresWithinRadius(state.lifestyleLoaded ? state.lifestyle : [], centerLatLng, radiusMiles)
     .map(({ feature, distance }) => ({ feature, distance }));
 
@@ -1517,27 +1292,27 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
     return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.NAME || 'School')}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(p.SchoolType || 'School')}</div><div>${escapeHtml(rating === null ? 'NR' : `${rating}/10`)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
   });
 
-  const healthcareSection = healthcareLoading
-    ? renderSnapshotSection('Healthcare', `${healthcare.length.toLocaleString()} places`, '<div class="snapshot-empty snapshot-loading-placeholder">Healthcare Still Loading</div>', false)
-    : renderSnapshotSection('Healthcare', `${healthcare.length.toLocaleString()} places`, `
-        <div class="snapshot-metric-grid four-up">
-          ${renderSnapshotMetric('Facilities', String(healthcareCounts.total))}
-          ${renderSnapshotMetric('Hospitals', String(healthcareCounts.hospitals))}
-          ${renderSnapshotMetric('Urgent Care', String(healthcareCounts.urgent))}
-          ${renderSnapshotMetric('Clinics / Offices', String(healthcareCounts.clinics + healthcareCounts.pharmacies))}
-        </div>
-        <div class="snapshot-subnote">${nearestHospital ? `Nearest hospital: ${escapeHtml(nearestHospital.feature.properties.Name || 'Hospital')} • ${escapeHtml(fmtDistanceMiles(nearestHospital.distance))}` : 'No hospitals fall inside this radius.'}</div>
-        ${renderSnapshotTable(['Facility', 'Type', 'Distance'], healthcareRows, '<div class="snapshot-empty">No healthcare facilities fall inside this radius.</div>')}
-      `, false);
+  const retailRows = retail.map(({ feature, distance }) => {
+    const p = feature.properties || {};
+    const brand = p.NationalBrand ? (p.Brand || p.Name || 'National Brand') : (p.Name || p.Brand || 'Retail');
+    const label = p.NationalBrand ? 'National Brand' : (p.Category || 'Retail');
+    return `<div class="snapshot-table-row"><div><b>${escapeHtml(brand)}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(label)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
+  });
+
+  const lifestyleRows = lifestyle.map(({ feature, distance }) => {
+    const p = feature.properties || {};
+    return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Name || lifestyleCategoryLabel(p.LifestyleCategory))}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(lifestyleCategoryLabel(p.LifestyleCategory))}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
+  });
 
   return `
     <div class="snapshot-intro">
       <div class="snapshot-ribbon">${escapeHtml(radiusLabel)} Radius</div>
       <div class="snapshot-center">Center point: ${escapeHtml(centerLatLng.lat.toFixed(5))}, ${escapeHtml(centerLatLng.lng.toFixed(5))}</div>
-      <div class="snapshot-note">Communities, schools, retail, healthcare, and amenities are shown by straight-line distance from the clicked point.</div>
+      <div class="snapshot-note">Communities, schools, retail, and amenities are shown by straight-line distance from the clicked point.</div>
     </div>
 
-    ${renderSnapshotSection('Competition', `${competition.length.toLocaleString()} communities`, `
+    <section class="snapshot-section">
+      <div class="snapshot-section-head"><h4>Competition</h4><span>${competition.length.toLocaleString()} communities</span></div>
       <div class="snapshot-metric-grid">
         ${renderSnapshotMetric('Communities', String(compStatusCounts.total))}
         ${renderSnapshotMetric('Active', String(compStatusCounts.active))}
@@ -1546,37 +1321,36 @@ function buildMarketSnapshotHtml(centerLatLng, radiusMiles) {
         ${renderSnapshotMetric('Annual Starts', String(Math.round(compStatusCounts.starts).toLocaleString()))}
         ${renderSnapshotMetric('Units Remaining', String(Math.round(compStatusCounts.remaining).toLocaleString()))}
       </div>
-      ${renderSnapshotTable(['Community', 'Builder', 'Sq Ft Range', 'Price Range', 'Tier', 'Distance'], competition.map(r => r.html), '<div class="snapshot-empty">No builder communities fall inside this radius.</div>')}
-    `, true)}
+      ${renderSnapshotTable(['Community', 'Builder', 'Sq Ft Range', 'Price Range', 'Tier', 'Distance'], competitionRows, '<div class="snapshot-empty">No builder communities fall inside this radius.</div>')}
+    </section>
 
-    ${renderSnapshotSection('Demographics', demographics ? `${demographicRows.length.toLocaleString()} geographies` : 'No data', demographics ? `
-      <div class="snapshot-metric-grid four-up">
-        ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
-        ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
-        ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
-        ${renderSnapshotMetric('Mean Income', fmtMoney(demographics.current.mean_household_income))}
-        ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
-      </div>
-      <div class="snapshot-subnote">${escapeHtml(demographicSource.note)}</div>
-    ` : `
-      <div class="snapshot-empty">${escapeHtml(demographicSource.note || 'No demographic data is available for this radius.')}</div>
-    `, false)}
+    <section class="snapshot-section">
+      <div class="snapshot-section-head"><h4>Demographics</h4><span>${demographics ? demographicRows.length.toLocaleString() + ' submarkets' : 'No data'}</span></div>
+      ${demographics ? `
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Population', fmt(demographics.current.population))}
+          ${renderSnapshotMetric('Households', fmt(demographics.current.households))}
+          ${renderSnapshotMetric('Median Income', fmtMoney(demographics.current.median_household_income))}
+          ${renderSnapshotMetric('Median Age', fmtOne(demographics.current.median_age))}
+        </div>
+        <div class="snapshot-subnote">Aggregated from submarkets whose centroids fall within the selected radius.</div>
+      ` : '<div class="snapshot-empty">No demographic overlap was found for this radius.</div>'}
+    </section>
 
-    ${renderSnapshotSection('Schools', `${schools.length.toLocaleString()} schools`, renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>'), false)}
+    <section class="snapshot-section">
+      <div class="snapshot-section-head"><h4>Schools</h4><span>${schools.length.toLocaleString()} schools</span></div>
+      ${renderSnapshotTable(['School', 'Type', 'GreatSchools', 'Distance'], schoolRows, '<div class="snapshot-empty">No schools fall inside this radius.</div>')}
+    </section>
 
-    ${healthcareSection}
+    <section class="snapshot-section">
+      <div class="snapshot-section-head"><h4>Retail & Dining</h4><span>${retail.length.toLocaleString()} places</span></div>
+      ${renderSnapshotTable(['Place', 'Category', 'Distance'], retailRows, '<div class="snapshot-empty">No retail or dining POIs fall inside this radius.</div>')}
+    </section>
 
-    ${renderSnapshotSection('Retail & Dining', retailLoading ? 'Loading...' : `${retail.length.toLocaleString()} places`, retailLoading ? '<div class="snapshot-empty snapshot-loading-placeholder">Retail & Dining Still Loading</div>' : renderSnapshotTable(['Place', 'Category', 'Distance'], retail.map(({ feature, distance }) => {
-      const p = feature.properties || {};
-      const brand = p.NationalBrand ? (p.Brand || p.Name || 'National Brand') : (p.Name || p.Brand || 'Retail');
-      const label = p.NationalBrand ? 'National Brand' : (p.Category || 'Retail');
-      return `<div class="snapshot-table-row"><div><b>${escapeHtml(brand)}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(label)}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
-    }), '<div class="snapshot-empty">No retail or dining POIs fall inside this radius.</div>'), false)}
-
-    ${renderSnapshotSection('Lifestyle & Amenities', lifestyleLoading ? 'Loading...' : `${lifestyle.length.toLocaleString()} places`, lifestyleLoading ? '<div class="snapshot-empty snapshot-loading-placeholder">Amenities Still Loading</div>' : renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyle.map(({ feature, distance }) => {
-      const p = feature.properties || {};
-      return `<div class="snapshot-table-row"><div><b>${escapeHtml(p.Name || lifestyleCategoryLabel(p.LifestyleCategory))}</b><small>${escapeHtml(p.SubmarketName || '')}</small></div><div>${escapeHtml(lifestyleCategoryLabel(p.LifestyleCategory))}</div><div>${escapeHtml(fmtDistanceMiles(distance))}</div></div>`;
-    }), '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>'), false)}
+    <section class="snapshot-section">
+      <div class="snapshot-section-head"><h4>Lifestyle & Amenities</h4><span>${lifestyle.length.toLocaleString()} places</span></div>
+      ${renderSnapshotTable(['Amenity', 'Category', 'Distance'], lifestyleRows, '<div class="snapshot-empty">No lifestyle or amenity POIs fall inside this radius.</div>')}
+    </section>
   `;
 }
 
@@ -1584,28 +1358,27 @@ async function ensureSnapshotDataLoaded() {
   const tasks = [];
   if (!state.buildersLoaded) tasks.push(ensureBuildersLoaded().catch(err => console.warn('Builders not available for snapshot', err)));
   if (!state.schoolsLoaded) tasks.push(loadSchools(false).catch(err => console.warn('Schools not available for snapshot', err)));
-  if (!state.healthcareLoaded && !state.healthcareLoadPromise) {
-    loadHealthcare(false).catch(err => console.warn('Healthcare not available for snapshot', err));
-  }
-  if (!state.poisLoaded && !state.poisLoadPromise) {
-    loadPOIs(false).catch(err => console.warn('Retail not available for snapshot', err));
-  }
-  if (!state.lifestyleLoaded && !state.lifestyleLoadPromise) {
-    state.lifestyleLoadPromise = loadLifestyle(false)
-      .catch(err => console.warn('Lifestyle not available for snapshot', err))
-      .finally(() => {
-        state.lifestyleLoadPromise = null;
-        refreshOpenMarketSnapshotModal();
-      });
-  }
+  if (!state.poisLoaded) tasks.push(loadPOIs(false).catch(err => console.warn('Retail not available for snapshot', err)));
+  if (!state.lifestyleLoaded) tasks.push(loadLifestyle(false).catch(err => console.warn('Lifestyle not available for snapshot', err)));
   await Promise.allSettled(tasks);
 }
+
 async function handleMarketSnapshotPoint(latlng) {
   if (!marketSnapshotModeActive() || !state.marketSnapshot.radiusMiles) return;
-  if (state.marketSnapshot.promptOpen) return;
-  const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
-  showMarketSnapshotPrompt(center, state.marketSnapshot.radiusMiles);
-  void ensureSnapshotDataLoaded().catch(err => console.warn('Snapshot data could not be preloaded', err));
+  if (state.marketSnapshot.busy) return;
+  state.marketSnapshot.busy = true;
+  updateMarketSnapshotUI();
+  try {
+    await ensureSnapshotDataLoaded();
+    const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
+    const html = buildMarketSnapshotHtml(center, state.marketSnapshot.radiusMiles);
+    openMarketSnapshotModal('Market Snapshot', `${marketSnapshotRadiusLabel(state.marketSnapshot.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
+  } catch (err) {
+    console.error('Market snapshot generation failed', err);
+    alert('Market Snapshot could not be generated right now. Please try again.');
+  } finally {
+    resetMarketSnapshotMode();
+  }
 }
 
 function downloadBlob(filename, blob) {
@@ -2034,12 +1807,11 @@ function renderDemographicsCard(demo) {
       <div><span>Population</span><b>${fmt(c.population)}</b><small>current estimate</small></div>
       <div><span>Households</span><b>${fmt(c.households)}</b><small>current estimate</small></div>
       <div><span>Median Income</span><b>${fmtMoney(c.median_household_income)}</b><small>current estimate</small></div>
-      <div><span>Mean Income</span><b>${fmtMoney(c.mean_household_income)}</b><small>current estimate</small></div>
       <div><span>Median Age</span><b>${fmtOne(c.median_age)}</b><small>current estimate</small></div>
       <div><span>Owner Occupancy</span><b>${fmtPct(c.owner_occupancy_pct)}</b><small>current estimate</small></div>
       <div><span>Bachelor's+</span><b>${fmtPct(c.bachelors_plus_pct)}</b><small>current estimate</small></div>
     </div>
-    <div class="demo-note">Current values use ACS block-group estimates with a household-weighted median income estimate and an aggregate-based mean income estimate across the overlapping radius. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
+    <div class="demo-note">Current values use ACS 2020-2024 5-Year block-group estimates area-weighted to custom KML boundaries. Forecast values are temporarily hidden pending a separate calibrated forecast model.</div>
   </div>`;
 }
 
@@ -2333,32 +2105,24 @@ async function loadLifestyle(showLayer = false) {
     if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
     return;
   }
-  if (state.lifestyleLoadPromise) return state.lifestyleLoadPromise;
-  const loadPromise = (async () => {
-    const badge = document.getElementById('lifestyleCountBadge');
-    if (badge) badge.textContent = 'Loading...';
-    const data = await fetchOverpass(lifestyleOverpassQuery());
-    const seen = new Set();
-    state.lifestyle = (data.elements || []).map(lifestyleOverpassElementToFeature).filter(Boolean).filter(f => {
-      if (seen.has(f.properties.OSMID)) return false;
-      seen.add(f.properties.OSMID);
-      assignLifestyleToSubmarket(f);
-      return !!f.properties.SubmarketID;
-    });
-    buildLifestyleLayer();
-    state.lifestyleLoaded = true;
-    if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
-    if (badge) badge.textContent = `${state.lifestyle.length.toLocaleString()} loaded`;
-    updateLifestyleFilterPanel();
-    buildSearchIndex();
-    { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
-    if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
-    refreshOpenMarketSnapshotModal();
-  })();
-  state.lifestyleLoadPromise = loadPromise.finally(() => {
-    state.lifestyleLoadPromise = null;
+  const badge = document.getElementById('lifestyleCountBadge');
+  if (badge) badge.textContent = 'Loading...';
+  const data = await fetchOverpass(lifestyleOverpassQuery());
+  const seen = new Set();
+  state.lifestyle = (data.elements || []).map(lifestyleOverpassElementToFeature).filter(Boolean).filter(f => {
+    if (seen.has(f.properties.OSMID)) return false;
+    seen.add(f.properties.OSMID);
+    assignLifestyleToSubmarket(f);
+    return !!f.properties.SubmarketID;
   });
-  return state.lifestyleLoadPromise;
+  buildLifestyleLayer();
+  state.lifestyleLoaded = true;
+  if (showLayer && state.lifestyleLayer && !state.map.hasLayer(state.lifestyleLayer)) state.lifestyleLayer.addTo(state.map);
+  if (badge) badge.textContent = `${state.lifestyle.length.toLocaleString()} loaded`;
+  updateLifestyleFilterPanel();
+  buildSearchIndex();
+  { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
 function applyLifestyleFilters() {
@@ -3121,37 +2885,24 @@ async function loadPOIs(showLayer = false) {
     if (showLayer && state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
     return;
   }
-  if (state.poisLoadPromise) {
-    if (showLayer) state.poisLoadPromise.then(() => {
-      if (state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
-    }).catch(() => {});
-    return state.poisLoadPromise;
-  }
-  const loadPromise = (async () => {
-    const badge = document.getElementById('retailCountBadge');
-    if (badge) badge.textContent = 'Loading...';
-    const data = await fetchOverpass(overpassQuery());
-    const seen = new Set();
-    state.pois = (data.elements || []).map(overpassElementToFeature).filter(Boolean).filter(f => {
-      if (seen.has(f.properties.OSMID)) return false;
-      seen.add(f.properties.OSMID);
-      assignPoiToSubmarket(f);
-      return !!f.properties.SubmarketID;
-    });
-    buildPOILayer();
-    state.poisLoaded = true;
-    if (showLayer && state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
-    if (badge) badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
-    updateRetailFilterPanel();
-    buildSearchIndex();
-    { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
-    if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
-  })();
-  state.poisLoadPromise = loadPromise.finally(() => {
-    state.poisLoadPromise = null;
-    refreshOpenMarketSnapshotModal();
+  const badge = document.getElementById('retailCountBadge');
+  badge.textContent = 'Loading...';
+  const data = await fetchOverpass(overpassQuery());
+  const seen = new Set();
+  state.pois = (data.elements || []).map(overpassElementToFeature).filter(Boolean).filter(f => {
+    if (seen.has(f.properties.OSMID)) return false;
+    seen.add(f.properties.OSMID);
+    assignPoiToSubmarket(f);
+    return !!f.properties.SubmarketID;
   });
-  return state.poisLoadPromise;
+  buildPOILayer();
+  state.poisLoaded = true;
+  if (showLayer && state.poiLayer && !state.map.hasLayer(state.poiLayer)) state.poiLayer.addTo(state.map);
+  badge.textContent = `${state.pois.length.toLocaleString()} loaded`;
+  updateRetailFilterPanel();
+  buildSearchIndex();
+  { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
 function buildPOILayer() {
@@ -3295,17 +3046,7 @@ function renderHealthcareCard(summary) {
 }
 
 async function loadHealthcare(showLayer = false) {
-  if (state.healthcareLoaded) {
-    if (showLayer && state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
-    return;
-  }
-  if (state.healthcareLoadPromise) {
-    if (showLayer) state.healthcareLoadPromise.then(() => {
-      if (state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
-    }).catch(() => {});
-    return state.healthcareLoadPromise;
-  }
-  const loadPromise = (async () => {
+  if (!state.healthcareLoaded) {
     const badge = document.getElementById('healthcareCountBadge');
     if (badge) badge.textContent = 'Loading...';
     if (!state.healthcareSummary || !Array.isArray(state.healthcare)) {
@@ -3335,15 +3076,9 @@ async function loadHealthcare(showLayer = false) {
     buildSearchIndex();
     { const input = document.getElementById('searchInput'); if (input) renderSearchResults(input.value || ''); }
     renderRelease(state.metadata);
-  })();
-  state.healthcareLoadPromise = loadPromise.finally(() => {
-    state.healthcareLoadPromise = null;
-    refreshOpenMarketSnapshotModal();
-  });
-  if (showLayer) state.healthcareLoadPromise.then(() => {
-    if (state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
-  }).catch(() => {});
-  return state.healthcareLoadPromise;
+  }
+  if (showLayer && state.healthcareLayer && !state.map.hasLayer(state.healthcareLayer)) state.healthcareLayer.addTo(state.map);
+  if (state.selected) renderSelected(state.selected.properties); else renderHomeSummary();
 }
 
 function selectHealthcare(facility) {
@@ -3474,11 +3209,11 @@ function initMap() {
 }
 
 async function loadData() {
-  const [geojson, meta, demographics, demographicsBlockGroups, healthcareFacilities, healthcareSummary] = await Promise.all([
+  const [geojson, meta, demographics, quickview, healthcareFacilities, healthcareSummary] = await Promise.all([
     fetch('data/submarkets.geojson').then(r => r.json()),
     fetch('data/metadata.json').then(r => r.json()),
     fetch('data/submarket_demographics_combined.json').then(r => r.json()),
-    fetch('data/demographics_block_groups.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/central_mobile_quickview.json').then(r => r.json()).catch(() => null),
     fetch('data/healthcare_facilities.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/submarket_healthcare_summary.json').then(r => r.json()).catch(() => ({ metadata: { status: 'not_built' }, submarkets: {} }))
   ]);
@@ -3487,8 +3222,10 @@ async function loadData() {
   state.metadata = meta;
   state.demographics = demographics;
   state.demographicsLoaded = true;
-  state.demographicsBlockGroups = demographicsBlockGroups.features || [];
-  state.demographicsBlockGroupsLoaded = true;
+  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET };
+  state.marketQuickview.data = quickview;
+  state.marketQuickview.loaded = !!quickview;
+  if (quickview?.metadata?.submarket) state.marketQuickview.submarket = quickview.metadata.submarket;
   state.healthcare = healthcareFacilities.features || [];
   state.healthcareSummary = healthcareSummary;
   // healthcareLoaded tracks whether the Leaflet marker layer has been constructed.
@@ -3546,11 +3283,12 @@ function renderRelease(meta) {
     Health score: <b>${meta.healthScore}/100</b><br>
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
     Demographics: <b>${state.demographicsLoaded ? 'ACS 2020-2024 loaded' : 'Pending'}</b><br>
+    Quickview: <b>${state.marketQuickview?.loaded ? 'Central Mobile pilot loaded' : 'Pending'}</b><br>
     Healthcare: <b>${healthcareDatasetBuilt() ? state.healthcare.length + ' loaded' : 'Builder ready'}</b><br>
     Lifestyle: <b>${state.lifestyleLoaded ? state.lifestyle.length + ' loaded' : 'Layer ready'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
   `;
-  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, healthcare, builder, retail, and lifestyle framework ready`;
+  document.getElementById('statusText').textContent = `${meta.uniqueSubmarketsLoaded} submarkets • School, demographics, healthcare, builder, retail, lifestyle, and quickview framework ready`;
 }
 
 function renderHubList(meta) {
@@ -3638,7 +3376,6 @@ function renderHubSummary(hub) {
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(acres))}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Median Income</div><div class="value">${fmtMoney(demo?.current?.median_household_income)}</div></div>
-      <div class="metric"><div class="label">Mean Income</div><div class="value">${fmtMoney(demo?.current?.mean_household_income)}</div></div>
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -3670,7 +3407,6 @@ function renderHomeSummary() {
       <div class="metric"><div class="label">Hubs</div><div class="value">${hubOrder.filter(h => h !== 'Growth Markets').length}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Population</div><div class="value">${fmt(demo?.current?.population)}</div></div>
-      <div class="metric"><div class="label">Mean Income</div><div class="value">${fmtMoney(demo?.current?.mean_household_income)}</div></div>
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -3801,7 +3537,6 @@ function renderSelected(p) {
       <div class="metric"><div class="label">Acres</div><div class="value">${fmt(Math.round(Number(p.Acres || 0)))}</div></div>
       <div class="metric"><div class="label">School Rating</div><div class="value">${fmtScore(scoreSummary.overall)}</div></div>
       <div class="metric"><div class="label">Median Income</div><div class="value">${fmtMoney(demo?.current?.median_household_income)}</div></div>
-      <div class="metric"><div class="label">Mean Income</div><div class="value">${fmtMoney(demo?.current?.mean_household_income)}</div></div>
     </div>
     ${renderDemographicsCard(demo)}
     ${renderSchoolCountCard(counts, scoreSummary)}
@@ -4320,6 +4055,16 @@ function bindUI() {
   document.getElementById('marketSnapshotModal')?.addEventListener('click', e => {
     if (e.target && e.target.id === 'marketSnapshotModal') closeMarketSnapshotModal();
   });
+
+  document.getElementById('marketQuickviewToggle')?.addEventListener('click', openMarketQuickview);
+  document.getElementById('marketQuickviewClose')?.addEventListener('click', closeMarketQuickviewModal);
+  document.getElementById('marketQuickviewModal')?.addEventListener('click', e => {
+    if (e.target && e.target.id === 'marketQuickviewModal') closeMarketQuickviewModal();
+  });
+  document.getElementById('marketQuickviewSelect')?.addEventListener('change', () => {
+    quickviewSelectedSubmarket();
+  });
+
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       closeMarketSnapshotModal();

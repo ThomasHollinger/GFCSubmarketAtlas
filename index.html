@@ -22,6 +22,18 @@
       </div>
 
       <section class="control-block">
+        <h2>Market Quickview</h2>
+        <button id="marketQuickviewToggle" class="snapshot-btn quickview-btn" type="button">Open Market Quickview</button>
+        <div class="snapshot-radius-panel active" id="marketQuickviewPanel">
+          <div class="filter-title">Pilot Submarket</div>
+          <select id="marketQuickviewSelect" class="wide-select">
+            <option value="Central Mobile" selected>Central Mobile</option>
+          </select>
+          <div class="snapshot-hint">Pilot data is loaded for Central Mobile. The quickview report uses the uploaded block dataset.</div>
+        </div>
+      </section>
+
+      <section class="control-block">
         <h2>Market Snapshot</h2>
         <button id="marketSnapshotToggle" class="snapshot-btn" type="button">Market Snapshot</button>
         <div id="marketSnapshotRadiusPanel" class="snapshot-radius-panel">
@@ -161,6 +173,19 @@
         <button id="marketSnapshotClose" type="button" class="snapshot-close-btn">Close</button>
       </div>
       <div id="marketSnapshotModalBody" class="snapshot-modal-body"></div>
+    </div>
+  </div>
+
+  <div id="marketQuickviewModal" class="snapshot-modal-overlay" aria-hidden="true">
+    <div class="snapshot-modal" role="dialog" aria-modal="true" aria-labelledby="marketQuickviewModalTitle">
+      <div class="snapshot-modal-header">
+        <div>
+          <h3 id="marketQuickviewModalTitle">Market Quickview</h3>
+          <p id="marketQuickviewModalSubtitle"></p>
+        </div>
+        <button id="marketQuickviewClose" type="button" class="snapshot-close-btn">Close</button>
+      </div>
+      <div id="marketQuickviewModalBody" class="snapshot-modal-body"></div>
     </div>
   </div>
   </div>

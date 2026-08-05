@@ -42,7 +42,6 @@ ACS_VARS = {
     "population": "B01003_001E",
     "households": "B11001_001E",
     "median_household_income": "B19013_001E",
-    "aggregate_household_income": "B19025_001E",
     "median_age": "B01002_001E",
     "occupied_housing_units": "B25003_001E",
     "owner_occupied_units": "B25003_002E",
@@ -350,63 +349,44 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         log(f"Warning: {missing:,} intersections did not match ACS rows for {year}.")
 
     additive_cols = [
-        "population", "households", "aggregate_household_income", "occupied_housing_units", "owner_occupied_units",
+        "population", "households", "occupied_housing_units", "owner_occupied_units",
         "renter_occupied_units", "population_25_plus", "bachelors_plus_count"
     ]
     for col in additive_cols:
         df[f"alloc_{col}"] = df[col].fillna(0) * df["overlap_pct_of_bg"]
 
-    # Median household income is estimated as a household-weighted median of the
-    # overlapping block-group medians. That is more defensible than averaging medians.
+    # Weighted medians/median-like estimates. This is not a true median recomputation,
+    # but it is a stable submarket estimate using block-group values weighted by overlap and relevant base.
+    df["income_weight"] = df["alloc_households"].fillna(0)
+    df["age_weight"] = df["alloc_population"].fillna(0)
+    df["median_income_weighted"] = df["median_household_income"].fillna(0) * df["income_weight"]
+    df["median_age_weighted"] = df["median_age"].fillna(0) * df["age_weight"]
+
     agg = df.groupby("submarket", dropna=False).agg(
         population=("alloc_population", "sum"),
         households=("alloc_households", "sum"),
-        aggregate_household_income=("alloc_aggregate_household_income", "sum"),
         occupied_housing_units=("alloc_occupied_housing_units", "sum"),
         owner_occupied_units=("alloc_owner_occupied_units", "sum"),
         renter_occupied_units=("alloc_renter_occupied_units", "sum"),
         population_25_plus=("alloc_population_25_plus", "sum"),
         bachelors_plus_count=("alloc_bachelors_plus_count", "sum"),
-        total_overlap_area_sqm=("overlap_area_sqm", "sum"),
+        income_weight=("income_weight", "sum"),
+        age_weight=("age_weight", "sum"),
+        median_income_weighted=("median_income_weighted", "sum"),
+        median_age_weighted=("median_age_weighted", "sum"),
         contributing_block_groups=("GEOID", "nunique"),
+        total_overlap_area_sqm=("overlap_area_sqm", "sum"),
     ).reset_index()
 
-    def _weighted_median(frame: pd.DataFrame, value_col: str, weight_col: str):
-        vals = frame[[value_col, weight_col]].dropna().copy()
-        vals = vals[vals[weight_col] > 0].sort_values(value_col)
-        if vals.empty:
-            return pd.NA
-        midpoint = vals[weight_col].sum() / 2.0
-        running = vals[weight_col].cumsum()
-        idx = running.ge(midpoint).idxmax()
-        return vals.loc[idx, value_col]
-
-    income_medians = []
-    age_medians = []
-    for submarket, frame in df.groupby("submarket", dropna=False):
-        income_medians.append((submarket, _weighted_median(frame, "median_household_income", "alloc_households")))
-        age_medians.append((submarket, _weighted_median(frame, "median_age", "alloc_population")))
-    income_map = dict(income_medians)
-    age_map = dict(age_medians)
-    agg["median_household_income"] = agg["submarket"].map(income_map)
-    agg["median_age"] = agg["submarket"].map(age_map)
-    agg["mean_household_income"] = agg["aggregate_household_income"] / agg["households"].replace({0: pd.NA})
+    agg["median_household_income"] = agg.apply(lambda r: r["median_income_weighted"] / r["income_weight"] if r["income_weight"] > 0 else pd.NA, axis=1)
+    agg["median_age"] = agg.apply(lambda r: r["median_age_weighted"] / r["age_weight"] if r["age_weight"] > 0 else pd.NA, axis=1)
+    agg["owner_occupancy_pct"] = agg.apply(lambda r: 100 * r["owner_occupied_units"] / r["occupied_housing_units"] if r["occupied_housing_units"] > 0 else pd.NA, axis=1)
+    agg["renter_occupancy_pct"] = agg.apply(lambda r: 100 * r["renter_occupied_units"] / r["occupied_housing_units"] if r["occupied_housing_units"] > 0 else pd.NA, axis=1)
+    agg["bachelors_plus_pct"] = agg.apply(lambda r: 100 * r["bachelors_plus_count"] / r["population_25_plus"] if r["population_25_plus"] > 0 else pd.NA, axis=1)
     agg["year"] = year
-    agg["owner_occupancy_pct"] = agg.apply(
-        lambda r: (100.0 * r["owner_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r["occupied_housing_units"]) and r["occupied_housing_units"] > 0 else pd.NA,
-        axis=1,
-    )
-    agg["renter_occupancy_pct"] = agg.apply(
-        lambda r: (100.0 * r["renter_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r["occupied_housing_units"]) and r["occupied_housing_units"] > 0 else pd.NA,
-        axis=1,
-    )
-    agg["bachelors_plus_pct"] = agg.apply(
-        lambda r: (100.0 * r["bachelors_plus_count"] / r["population_25_plus"]) if pd.notna(r["population_25_plus"]) and r["population_25_plus"] > 0 else pd.NA,
-        axis=1,
-    )
 
     out_cols = [
-        "submarket", "year", "population", "households", "median_household_income", "mean_household_income", "aggregate_household_income", "median_age",
+        "submarket", "year", "population", "households", "median_household_income", "median_age",
         "owner_occupancy_pct", "renter_occupancy_pct", "bachelors_plus_pct", "occupied_housing_units",
         "owner_occupied_units", "renter_occupied_units", "population_25_plus", "bachelors_plus_count",
         "contributing_block_groups", "total_overlap_area_sqm"
@@ -414,11 +394,11 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
     audit_cols = [
         "submarket", "GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE",
         "overlap_area_sqm", "overlap_pct_of_bg", "population", "households",
-        "median_household_income", "aggregate_household_income", "median_age", "owner_occupied_units", "occupied_housing_units"
+        "median_household_income", "median_age", "owner_occupied_units", "occupied_housing_units"
     ]
-    audit = df[[c for c in audit_cols if c in df.columns]].copy()
+    audit = df[audit_cols].copy()
     audit["year"] = year
-    return agg.reindex(columns=out_cols), audit
+    return agg[out_cols], audit
 
 
 def round_or_none(value, digits=0):
@@ -450,15 +430,6 @@ def forecast_row(current: pd.Series, prior: pd.Series | None) -> Dict[str, float
         else:
             result[col] = c
 
-    c_agg_income = val(current, "aggregate_household_income")
-    p_agg_income = val(prior, "aggregate_household_income")
-    if c_agg_income is None:
-        result["aggregate_household_income"] = None
-    elif p_agg_income is not None and p_agg_income > 0:
-        result["aggregate_household_income"] = c_agg_income * (c_agg_income / p_agg_income)
-    else:
-        result["aggregate_household_income"] = c_agg_income
-
     for col in ["median_household_income", "median_age"]:
         c = val(current, col)
         p = val(prior, col)
@@ -478,10 +449,6 @@ def forecast_row(current: pd.Series, prior: pd.Series | None) -> Dict[str, float
             result[col] = max(0.0, min(100.0, c + (c - p)))
         else:
             result[col] = c
-
-    agg_income = result.get("aggregate_household_income")
-    hh = result.get("households")
-    result["mean_household_income"] = round_or_none(agg_income / hh, 0) if agg_income is not None and hh not in (None, 0) else None
     return result
 
 
@@ -502,7 +469,7 @@ def build_combined(current: pd.DataFrame, prior: pd.DataFrame) -> Tuple[dict, pd
     }
 
     metric_cols = [
-        "population", "households", "median_household_income", "mean_household_income", "aggregate_household_income", "median_age", "owner_occupancy_pct",
+        "population", "households", "median_household_income", "median_age", "owner_occupancy_pct",
         "renter_occupancy_pct", "bachelors_plus_pct", "occupied_housing_units", "owner_occupied_units",
         "renter_occupied_units", "population_25_plus", "bachelors_plus_count"
     ]
@@ -587,28 +554,11 @@ def main() -> int:
     wide_path = out_dir / "submarket_demographics_current_and_forecast.csv"
     audit_path = out_dir / "submarket_demographics_audit.csv"
     metadata_path = out_dir / "submarket_demographics_metadata.json"
-    block_groups_path = out_dir / "demographics_block_groups.geojson"
 
     combined_path.write_text(json.dumps(combined, indent=2), encoding="utf-8")
     wide.to_csv(wide_path, index=False)
     pd.concat([current_audit, prior_audit], ignore_index=True).to_csv(audit_path, index=False)
     metadata_path.write_text(json.dumps(combined["metadata"], indent=2), encoding="utf-8")
-
-    # Save the underlying block-group geometry and current ACS values so the
-    # Market Snapshot can calculate true radius-based demographic overlap.
-    bg_focus = bg_current.merge(counties.assign(_keep=1), on=["STATEFP", "COUNTYFP"], how="inner")
-    bg_snapshot = bg_focus.merge(current_acs, on="GEOID", how="left")
-    bg_snapshot = gpd.GeoDataFrame(bg_snapshot, geometry="geometry", crs=bg_current.crs)
-    bg_snapshot["mean_household_income"] = bg_snapshot["aggregate_household_income"] / bg_snapshot["households"].replace({0: pd.NA})
-    keep_cols = [
-        "GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE", "geometry",
-        "population", "households", "median_household_income", "mean_household_income", "aggregate_household_income", "median_age",
-        "occupied_housing_units", "owner_occupied_units", "renter_occupied_units",
-        "population_25_plus", "bachelors_plus_count", "owner_occupancy_pct",
-        "renter_occupancy_pct", "bachelors_plus_pct",
-    ]
-    existing_cols = [c for c in keep_cols if c in bg_snapshot.columns]
-    bg_snapshot[existing_cols].to_file(block_groups_path, driver="GeoJSON")
 
     log("Done. Created outputs:")
     for path in [combined_path, wide_path, audit_path, metadata_path]:

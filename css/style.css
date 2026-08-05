@@ -104,6 +104,7 @@
 
 
 .snapshot-btn{width:100%;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#0b2f4d,#123f67);box-shadow:0 8px 24px rgba(11,47,77,.16)}
+.quickview-btn{background:linear-gradient(180deg,#163d63,#20537f)}
 .snapshot-btn:hover{filter:brightness(1.04)}
 .snapshot-radius-panel{display:none;margin-top:6px;padding:10px;border:1px solid #dbeafe;border-radius:10px;background:#f8fbff;font-size:12px;color:#0f2437}
 .snapshot-radius-panel.active{display:block}
@@ -120,18 +121,24 @@ body.snapshot-mode #map{cursor:crosshair}
 .snapshot-modal-header h3{margin:0;font-size:22px;color:#0f2437}
 .snapshot-modal-header p{margin:4px 0 0;color:#667085;font-size:12px;font-weight:800}
 .snapshot-close-btn{flex:0 0 auto;background:#0b2f4d;color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:900}
+.quickview-details{border:1px solid #e4e7ec;border-radius:14px;background:#fff;margin-bottom:14px;overflow:hidden}
+.quickview-details > summary{cursor:pointer;list-style:none;padding:0}
+.quickview-details > summary::-webkit-details-marker{display:none}
+.quickview-head{padding:14px 14px 12px;margin-bottom:0}
+.quickview-details[open] > summary{background:#f8fafc;border-bottom:1px solid #e4e7ec}
+.quickview-body{padding:14px}
+.quickview-body .snapshot-metric-grid{margin-bottom:10px}
+.quickview-body .snapshot-table{overflow-x:auto}
+.quickview-body .snapshot-table-row{min-width:760px}
 .snapshot-modal-body{padding:16px 18px 20px;overflow:auto}
 .snapshot-intro{display:grid;gap:6px;margin-bottom:16px}
 .snapshot-ribbon{display:inline-flex;align-self:start;background:#eaf2fb;color:#0b2f4d;border:1px solid #cfe0f2;font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px}
 .snapshot-center{font-size:12px;font-weight:800;color:#344054}
 .snapshot-note,.snapshot-subnote{font-size:11px;color:#667085;line-height:1.35}
 .snapshot-section{padding:14px;border:1px solid #e4e7ec;border-radius:14px;background:#fff;margin-bottom:14px}
-.snapshot-section > summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.snapshot-section > summary::-webkit-details-marker{display:none}
+.snapshot-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
 .snapshot-section-head h4{margin:0;font-size:16px;color:#0f2437}
 .snapshot-section-head span{font-size:11px;font-weight:900;color:#667085;text-transform:uppercase;letter-spacing:.05em}
-.snapshot-section-content{margin-top:10px}
-.snapshot-section:not([open]) .snapshot-section-content{display:none}
 .snapshot-metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
 .snapshot-metric-grid.four-up{grid-template-columns:repeat(4,minmax(0,1fr))}
 .snapshot-metric{background:#f8fafc;border:1px solid #e4e7ec;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:2px}
@@ -150,20 +157,9 @@ body.snapshot-mode #map{cursor:crosshair}
 .snapshot-table-row:nth-child(even){background:#fcfdff}
 .snapshot-empty{padding:12px;font-size:12px;color:#667085;background:#f8fafc;border:1px dashed #dbeafe;border-radius:12px}
 .snapshot-subnote{margin-top:8px}
-.snapshot-loading-placeholder{display:flex;align-items:center;justify-content:center;min-height:72px;font-weight:900;letter-spacing:.04em;color:#0b2f4d}
 @media(max-width:900px){
   .snapshot-modal{width:96vw;max-height:88vh}
   .snapshot-metric-grid,.snapshot-metric-grid.four-up{grid-template-columns:repeat(2,minmax(0,1fr))}
   .snapshot-table{overflow-x:auto}
   .snapshot-table-row{min-width:720px}
 }
-
-.market-snapshot-prompt{display:grid;gap:8px;min-width:220px;padding:6px 2px}
-.market-snapshot-prompt-kicker{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#0b2f4d}
-.market-snapshot-prompt-title{font-size:17px;font-weight:900;color:#0f2437;line-height:1.1}
-.market-snapshot-prompt-center{font-size:11px;color:#667085;font-weight:700;line-height:1.35}
-.market-snapshot-prompt-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.market-snapshot-prompt-actions button{flex:1 1 92px;padding:8px 10px;border-radius:10px;font-size:12px;font-weight:900}
-.market-snapshot-prompt-actions .secondary{background:#eef5fb;color:#0b2f4d;border:1px solid #cfd6df}
-.market-snapshot-prompt-popup .leaflet-popup-content-wrapper{border-radius:16px;box-shadow:0 12px 36px rgba(15,23,42,.22)}
-.market-snapshot-prompt-popup .leaflet-popup-content{margin:12px 14px}
