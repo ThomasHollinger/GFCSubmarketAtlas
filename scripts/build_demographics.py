@@ -369,6 +369,22 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         contributing_block_groups=("GEOID", "nunique"),
     ).reset_index()
 
+    # Derived percentages are needed downstream in the combined JSON/CSV and
+    # should never be assumed to exist in the raw ACS input.
+    agg["year"] = year
+    agg["owner_occupancy_pct"] = agg.apply(
+        lambda r: (100.0 * r["owner_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r["occupied_housing_units"]) and r["occupied_housing_units"] > 0 else pd.NA,
+        axis=1,
+    )
+    agg["renter_occupancy_pct"] = agg.apply(
+        lambda r: (100.0 * r["renter_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r["occupied_housing_units"]) and r["occupied_housing_units"] > 0 else pd.NA,
+        axis=1,
+    )
+    agg["bachelors_plus_pct"] = agg.apply(
+        lambda r: (100.0 * r["bachelors_plus_count"] / r["population_25_plus"]) if pd.notna(r["population_25_plus"]) and r["population_25_plus"] > 0 else pd.NA,
+        axis=1,
+    )
+
     def _weighted_median(frame: pd.DataFrame, value_col: str, weight_col: str):
         vals = frame[[value_col, weight_col]].dropna().copy()
         vals = vals[vals[weight_col] > 0].sort_values(value_col)
@@ -570,6 +586,18 @@ def main() -> int:
     bg_focus = bg_current.merge(counties.assign(_keep=1), on=["STATEFP", "COUNTYFP"], how="inner")
     bg_snapshot = bg_focus.merge(current_acs, on="GEOID", how="left")
     bg_snapshot = gpd.GeoDataFrame(bg_snapshot, geometry="geometry", crs=bg_current.crs)
+    bg_snapshot["owner_occupancy_pct"] = bg_snapshot.apply(
+        lambda r: (100.0 * r["owner_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r.get("occupied_housing_units")) and r["occupied_housing_units"] > 0 else pd.NA,
+        axis=1,
+    )
+    bg_snapshot["renter_occupancy_pct"] = bg_snapshot.apply(
+        lambda r: (100.0 * r["renter_occupied_units"] / r["occupied_housing_units"]) if pd.notna(r.get("occupied_housing_units")) and r["occupied_housing_units"] > 0 else pd.NA,
+        axis=1,
+    )
+    bg_snapshot["bachelors_plus_pct"] = bg_snapshot.apply(
+        lambda r: (100.0 * r["bachelors_plus_count"] / r["population_25_plus"]) if pd.notna(r.get("population_25_plus")) and r["population_25_plus"] > 0 else pd.NA,
+        axis=1,
+    )
     keep_cols = [
         "GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE", "geometry",
         "population", "households", "median_household_income", "median_age",
