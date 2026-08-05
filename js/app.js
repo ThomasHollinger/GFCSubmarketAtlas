@@ -1935,8 +1935,12 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
 async function ensureQuickviewDataLoaded() {
   if (state.quickviewBlocksLoaded) return;
   try {
-    const quickviewBlocks = await fetch('data/market_quickview/central_mobile_quickview_blocks.geojson').then(r => r.json());
-    state.quickviewBlocks = quickviewBlocks.features || [];
+    const sources = [
+      'data/market_quickview/central_mobile_quickview_blocks.geojson',
+      'data/market_quickview/west_baldwin_quickview_blocks.geojson'
+    ];
+    const loaded = await Promise.all(sources.map(src => fetch(src).then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] }))));
+    state.quickviewBlocks = loaded.flatMap(fc => fc.features || []);
     state.quickviewBlocksLoaded = state.quickviewBlocks.length > 0;
     state.marketQuickview.loaded = state.quickviewBlocksLoaded;
   } catch (err) {
@@ -3947,12 +3951,13 @@ function initMap() {
 }
 
 async function loadData() {
-  const [geojson, meta, demographics, quickviewLegacy, quickviewBlocks, healthcareFacilities, healthcareSummary] = await Promise.all([
+  const [geojson, meta, demographics, quickviewLegacy, centralQuickviewBlocks, westQuickviewBlocks, healthcareFacilities, healthcareSummary] = await Promise.all([
     fetch('data/submarkets.geojson').then(r => r.json()),
     fetch('data/metadata.json').then(r => r.json()),
     fetch('data/submarket_demographics_combined.json').then(r => r.json()),
     fetch('data/market_quickview/central_mobile_quickview.json').then(r => r.json()).catch(() => null),
     fetch('data/market_quickview/central_mobile_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/west_baldwin_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/healthcare_facilities.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/submarket_healthcare_summary.json').then(r => r.json()).catch(() => ({ metadata: { status: 'not_built' }, submarkets: {} }))
   ]);
@@ -3963,8 +3968,12 @@ async function loadData() {
   state.demographicsLoaded = true;
   state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false };
   state.marketQuickview.data = quickviewLegacy;
-  state.marketQuickview.loaded = !!quickviewBlocks?.features?.length;
-  state.quickviewBlocks = quickviewBlocks.features || [];
+  const quickviewCombinedFeatures = [
+    ...(centralQuickviewBlocks?.features || []),
+    ...(westQuickviewBlocks?.features || [])
+  ];
+  state.marketQuickview.loaded = quickviewCombinedFeatures.length > 0;
+  state.quickviewBlocks = quickviewCombinedFeatures;
   state.quickviewBlocksLoaded = state.quickviewBlocks.length > 0;
   if (quickviewLegacy?.metadata?.submarket) state.marketQuickview.submarket = quickviewLegacy.metadata.submarket;
   state.healthcare = healthcareFacilities.features || [];
