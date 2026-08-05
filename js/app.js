@@ -947,7 +947,7 @@ function aggregateDemographics(features) {
     current: {
       population: sum(cur, 'population'),
       households: sum(cur, 'households'),
-      median_household_income: Math.round(weightedAvg(cur, 'median_household_income') || 0),
+      median_household_income: Math.round(weightedAvg(cur, 'median_household_income', 'households') || 0),
       median_age: weightedAvg(cur, 'median_age'),
       owner_occupancy_pct: weightedAvg(cur, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAvg(cur, 'bachelors_plus_pct', 'population_25_plus'),
@@ -956,7 +956,7 @@ function aggregateDemographics(features) {
     forecast_5yr: {
       population: sum(fc, 'population'),
       households: sum(fc, 'households'),
-      median_household_income: Math.round(weightedAvg(fc, 'median_household_income') || 0),
+      median_household_income: Math.round(weightedAvg(fc, 'median_household_income', 'households') || 0),
       median_age: weightedAvg(fc, 'median_age'),
       owner_occupancy_pct: weightedAvg(fc, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAvg(fc, 'bachelors_plus_pct', 'population_25_plus'),
@@ -1001,7 +1001,7 @@ function aggregateDemographicsWeighted(rows) {
     current: {
       population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.population || 0) * row.weight, 0)),
       households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.current?.households || 0) * row.weight, 0)),
-      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'population') || 0),
+      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'households') || 0),
       median_age: weightedAverage(valid, 'median_age', 'population'),
       owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units'),
       bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus'),
@@ -1010,7 +1010,7 @@ function aggregateDemographicsWeighted(rows) {
     forecast_5yr: {
       population: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.population || 0) * row.weight, 0)),
       households: Math.round(valid.reduce((acc, row) => acc + Number(row.demo.forecast_5yr?.households || 0) * row.weight, 0)),
-      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'population', 'forecast_5yr') || 0),
+      median_household_income: Math.round(weightedAverage(valid, 'median_household_income', 'households', 'forecast_5yr') || 0),
       median_age: weightedAverage(valid, 'median_age', 'population', 'forecast_5yr'),
       owner_occupancy_pct: weightedAverage(valid, 'owner_occupancy_pct', 'occupied_housing_units', 'forecast_5yr'),
       bachelors_plus_pct: weightedAverage(valid, 'bachelors_plus_pct', 'population_25_plus', 'forecast_5yr'),

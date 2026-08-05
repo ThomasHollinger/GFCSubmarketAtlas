@@ -357,6 +357,7 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
 
     # Weighted medians/median-like estimates. This is not a true median recomputation,
     # but it is a stable submarket estimate using block-group values weighted by overlap and relevant base.
+    # Median household income should be weighted by households, not population.
     df["income_weight"] = df["alloc_households"].fillna(0)
     df["age_weight"] = df["alloc_population"].fillna(0)
     df["median_income_weighted"] = df["median_household_income"].fillna(0) * df["income_weight"]
