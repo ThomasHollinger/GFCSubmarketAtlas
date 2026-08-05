@@ -38,10 +38,9 @@ PRIOR_YEAR = 2019
 STATES = {"01": "Alabama", "12": "Florida"}
 EA_CRS = "EPSG:5070"  # NAD83 / Conus Albers - appropriate for area weighting
 
-ACS_VARS = {
+ACS_CORE_VARS = {
     "population": "B01003_001E",
     "households": "B11001_001E",
-    "median_household_income": "B19013_001E",
     "median_age": "B01002_001E",
     "occupied_housing_units": "B25003_001E",
     "owner_occupied_units": "B25003_002E",
@@ -52,6 +51,44 @@ ACS_VARS = {
     "professional_degree": "B15003_024E",
     "doctorate_degree": "B15003_025E",
 }
+
+ACS_INCOME_BIN_VARS = {
+    "income_lt_10k": "B19001_002E",
+    "income_10k_15k": "B19001_003E",
+    "income_15k_20k": "B19001_004E",
+    "income_20k_25k": "B19001_005E",
+    "income_25k_30k": "B19001_006E",
+    "income_30k_35k": "B19001_007E",
+    "income_35k_40k": "B19001_008E",
+    "income_40k_45k": "B19001_009E",
+    "income_45k_50k": "B19001_010E",
+    "income_50k_60k": "B19001_011E",
+    "income_60k_75k": "B19001_012E",
+    "income_75k_100k": "B19001_013E",
+    "income_100k_125k": "B19001_014E",
+    "income_125k_150k": "B19001_015E",
+    "income_150k_200k": "B19001_016E",
+    "income_200k_plus": "B19001_017E",
+}
+
+INCOME_BIN_BOUNDS = [
+    ("income_lt_10k", 0.0, 10000.0),
+    ("income_10k_15k", 10000.0, 15000.0),
+    ("income_15k_20k", 15000.0, 20000.0),
+    ("income_20k_25k", 20000.0, 25000.0),
+    ("income_25k_30k", 25000.0, 30000.0),
+    ("income_30k_35k", 30000.0, 35000.0),
+    ("income_35k_40k", 35000.0, 40000.0),
+    ("income_40k_45k", 40000.0, 45000.0),
+    ("income_45k_50k", 45000.0, 50000.0),
+    ("income_50k_60k", 50000.0, 60000.0),
+    ("income_60k_75k", 60000.0, 75000.0),
+    ("income_75k_100k", 75000.0, 100000.0),
+    ("income_100k_125k", 100000.0, 125000.0),
+    ("income_125k_150k", 125000.0, 150000.0),
+    ("income_150k_200k", 150000.0, 200000.0),
+    ("income_200k_plus", 200000.0, None),
+]
 
 BAD_VALUE_CUTOFF = -1_000_000
 
@@ -284,7 +321,7 @@ def validate_census_key_or_fail() -> None:
 
 def fetch_acs_for_counties(year: int, counties: pd.DataFrame) -> pd.DataFrame:
     base_url = f"https://api.census.gov/data/{year}/acs/acs5"
-    variables = list(ACS_VARS.values())
+    variables = list(ACS_CORE_VARS.values()) + list(ACS_INCOME_BIN_VARS.values())
     get_clause = "NAME," + ",".join(variables)
     api_key = os.getenv("CENSUS_API_KEY", "").strip()
     # GitHub Actions may pass an empty or placeholder secret. Do not send a blank key.
@@ -312,10 +349,10 @@ def fetch_acs_for_counties(year: int, counties: pd.DataFrame) -> pd.DataFrame:
     if not rows:
         raise RuntimeError(f"No ACS rows returned for {year}.")
     df = pd.DataFrame(rows)
-    rename = {v: k for k, v in ACS_VARS.items()}
+    rename = {**{v: k for k, v in ACS_CORE_VARS.items()}, **{v: k for k, v in ACS_INCOME_BIN_VARS.items()}}
     df = df.rename(columns=rename)
     df["GEOID"] = df["state"].astype(str).str.zfill(2) + df["county"].astype(str).str.zfill(3) + df["tract"].astype(str).str.zfill(6) + df["block group"].astype(str).str.zfill(1)
-    for col in ACS_VARS.keys():
+    for col in list(ACS_CORE_VARS.keys()) + list(ACS_INCOME_BIN_VARS.keys()):
         df[col] = pd.to_numeric(df[col], errors="coerce")
         df.loc[df[col] <= BAD_VALUE_CUTOFF, col] = pd.NA
     df["bachelors_plus_count"] = df[["bachelors_degree", "masters_degree", "professional_degree", "doctorate_degree"]].sum(axis=1, min_count=1)
@@ -342,6 +379,38 @@ def find_intersecting_block_groups(submarkets: gpd.GeoDataFrame, bg: gpd.GeoData
     return inter
 
 
+def income_bin_median(bin_values: List[Tuple[str, float, float | None, float]]) -> float | pd.NA:
+    """Estimate a median from a weighted household-income histogram.
+
+    The ACS B19001 table provides counts across ordered income bins. We aggregate
+    those bin counts over the intersecting geography, then interpolate inside the
+    median bin so we do not average medians across geographies.
+    """
+    total = sum(max(0.0, float(v[3] or 0.0)) for v in bin_values)
+    if total <= 0:
+        return pd.NA
+    target = total / 2.0
+    running = 0.0
+    for _, lower, upper, count in bin_values:
+        c = max(0.0, float(count or 0.0))
+        if c <= 0:
+            continue
+        next_running = running + c
+        if target <= next_running:
+            if upper is None:
+                # Use the previous bin width as a conservative span for the open-ended top bin.
+                estimated_width = 50000.0
+                return lower + ((target - running) / c) * estimated_width
+            if upper <= lower:
+                return lower
+            return lower + ((target - running) / c) * (upper - lower)
+        running = next_running
+    # Numerical edge case: if target lands beyond cumulative due to rounding,
+    # return the lower bound of the last bin.
+    last_lower = bin_values[-1][1]
+    return last_lower
+
+
 def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tuple[pd.DataFrame, pd.DataFrame]:
     df = inter.drop(columns="geometry").merge(acs, on="GEOID", how="left", validate="many_to_one")
     missing = df["population"].isna().sum()
@@ -352,11 +421,12 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         "population", "households", "occupied_housing_units", "owner_occupied_units",
         "renter_occupied_units", "population_25_plus", "bachelors_plus_count"
     ]
+    income_bin_cols = list(ACS_INCOME_BIN_VARS.keys())
     for col in additive_cols:
         df[f"alloc_{col}"] = df[col].fillna(0) * df["overlap_pct_of_bg"]
+    for col in income_bin_cols:
+        df[f"alloc_{col}"] = df[col].fillna(0) * df["overlap_pct_of_bg"]
 
-    # Median household income is estimated as a household-weighted median of the
-    # overlapping block-group medians. That is more defensible than averaging medians.
     agg = df.groupby("submarket", dropna=False).agg(
         population=("alloc_population", "sum"),
         households=("alloc_households", "sum"),
@@ -368,6 +438,10 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         total_overlap_area_sqm=("overlap_area_sqm", "sum"),
         contributing_block_groups=("GEOID", "nunique"),
     ).reset_index()
+
+    income_agg = df.groupby("submarket", dropna=False)[[f"alloc_{c}" for c in income_bin_cols]].sum().reset_index()
+    income_agg = income_agg.rename(columns={f"alloc_{c}": c for c in income_bin_cols})
+    agg = agg.merge(income_agg, on="submarket", how="left")
 
     # Derived percentages are needed downstream in the combined JSON/CSV and
     # should never be assumed to exist in the raw ACS input.
@@ -395,14 +469,17 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         idx = running.ge(midpoint).idxmax()
         return vals.loc[idx, value_col]
 
-    income_medians = []
+    def _income_median_from_row(row: pd.Series):
+        bins = []
+        for name, lower, upper in INCOME_BIN_BOUNDS:
+            bins.append((name, lower, upper, row.get(name, 0)))
+        return income_bin_median(bins)
+
     age_medians = []
     for submarket, frame in df.groupby("submarket", dropna=False):
-        income_medians.append((submarket, _weighted_median(frame, "median_household_income", "alloc_households")))
         age_medians.append((submarket, _weighted_median(frame, "median_age", "alloc_population")))
-    income_map = dict(income_medians)
     age_map = dict(age_medians)
-    agg["median_household_income"] = agg["submarket"].map(income_map)
+    agg["median_household_income"] = agg.apply(_income_median_from_row, axis=1)
     agg["median_age"] = agg["submarket"].map(age_map)
 
     out_cols = [
@@ -410,7 +487,7 @@ def aggregate_year(inter: gpd.GeoDataFrame, acs: pd.DataFrame, year: int) -> Tup
         "owner_occupancy_pct", "renter_occupancy_pct", "bachelors_plus_pct", "occupied_housing_units",
         "owner_occupied_units", "renter_occupied_units", "population_25_plus", "bachelors_plus_count",
         "contributing_block_groups", "total_overlap_area_sqm"
-    ]
+    ] + income_bin_cols
     audit_cols = [
         "submarket", "GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE",
         "overlap_area_sqm", "overlap_pct_of_bg", "population", "households",
@@ -484,6 +561,7 @@ def build_combined(current: pd.DataFrame, prior: pd.DataFrame) -> Tuple[dict, pd
             "forecast_label": "5-Year Forecast",
             "forecast_method": "Repeats the observed prior-to-current five-year change/growth once more. Current values are ACS-derived; forecast values are model-based, not official Census projections.",
             "allocation_method": "Area-weighted overlap between Census block groups and custom KML submarket polygons using EPSG:5070 area calculations.",
+            "income_method": "Median household income is derived from ACS B19001 household-income distribution bins aggregated across overlapping block groups, then interpolated at the median bin. No broader-geography fallback is used.",
         },
         "submarkets": {},
     }
@@ -598,13 +676,16 @@ def main() -> int:
         lambda r: (100.0 * r["bachelors_plus_count"] / r["population_25_plus"]) if pd.notna(r.get("population_25_plus")) and r["population_25_plus"] > 0 else pd.NA,
         axis=1,
     )
+    for bin_name in ACS_INCOME_BIN_VARS.keys():
+        if bin_name not in bg_snapshot.columns:
+            bg_snapshot[bin_name] = pd.NA
     keep_cols = [
         "GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE", "geometry",
         "population", "households", "median_household_income", "median_age",
         "occupied_housing_units", "owner_occupied_units", "renter_occupied_units",
         "population_25_plus", "bachelors_plus_count", "owner_occupancy_pct",
         "renter_occupancy_pct", "bachelors_plus_pct",
-    ]
+    ] + list(ACS_INCOME_BIN_VARS.keys())
     existing_cols = [c for c in keep_cols if c in bg_snapshot.columns]
     bg_snapshot[existing_cols].to_file(block_groups_path, driver="GeoJSON")
 
