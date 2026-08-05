@@ -1,0 +1,534 @@
+function marketQuickviewRadiusLabel(radiusMiles) {
+  return `${radiusMiles} mile${Number(radiusMiles) === 1 ? '' : 's'}`;
+}
+
+function marketQuickviewModeActive() {
+  return !!(state.marketQuickview && state.marketQuickview.active);
+}
+
+function updateMarketQuickviewUI() {
+  const panel = document.getElementById('marketQuickviewPanel');
+  const button = document.getElementById('marketQuickviewToggle');
+  const hint = document.getElementById('marketQuickviewHint');
+  const active = marketQuickviewModeActive();
+  if (panel) {
+    panel.classList.toggle('active', active);
+    panel.querySelectorAll('.market-quickview-radius').forEach(btn => {
+      btn.classList.toggle('active', active && Number(btn.dataset.radius) === Number(state.marketQuickview.radiusMiles));
+    });
+  }
+  if (button) button.textContent = active ? 'Cancel Market Quickview' : 'Market Quickview';
+  if (hint) {
+    hint.textContent = active
+      ? (state.marketQuickview.radiusMiles ? `Radius selected: ${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)}. Click a point on the map.` : 'Choose a radius, then click a point on the map.')
+      : 'Click Market Quickview to begin.';
+  }
+  document.body.classList.toggle('quickview-mode', active && !!state.marketQuickview.radiusMiles);
+}
+
+function setMarketQuickviewMode(active, radiusMiles = null) {
+  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false };
+  state.marketQuickview.active = !!active;
+  state.marketQuickview.awaitingPoint = !!active;
+  if (radiusMiles !== null && radiusMiles !== undefined) state.marketQuickview.radiusMiles = Number(radiusMiles);
+  if (!active) {
+    state.marketQuickview.radiusMiles = null;
+    state.marketQuickview.awaitingPoint = false;
+    state.marketQuickview.busy = false;
+  }
+  updateMarketQuickviewUI();
+}
+
+function resetMarketQuickviewMode() {
+  state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false };
+  state.marketQuickview.active = false;
+  state.marketQuickview.awaitingPoint = false;
+  state.marketQuickview.radiusMiles = null;
+  state.marketQuickview.busy = false;
+  updateMarketQuickviewUI();
+}
+
+function quickviewNum(v) {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+function quickviewSumRowMap(target, source, valueKey = '2024') {
+  if (!source) return target;
+  Object.entries(source).forEach(([label, row]) => {
+    const n = quickviewNum(row && row[valueKey]);
+    if (!Number.isFinite(n)) return;
+    target[label] = (target[label] || 0) + n;
+  });
+  return target;
+}
+
+function quickviewWeightedMedian(pairs) {
+  const items = (pairs || [])
+    .filter(p => Number.isFinite(Number(p?.value)) && Number.isFinite(Number(p?.weight)) && Number(p.weight) > 0)
+    .map(p => ({ value: Number(p.value), weight: Number(p.weight) }))
+    .sort((a, b) => a.value - b.value);
+  if (!items.length) return null;
+  const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
+  let running = 0;
+  for (const item of items) {
+    running += item.weight;
+    if (running >= totalWeight / 2) return item.value;
+  }
+  return items[items.length - 1].value;
+}
+
+function quickviewWeightedAverage(pairs) {
+  const items = (pairs || []).filter(p => Number.isFinite(Number(p?.value)) && Number.isFinite(Number(p?.weight)) && Number(p.weight) > 0);
+  if (!items.length) return null;
+  const weighted = items.reduce((sum, item) => sum + Number(item.value) * Number(item.weight), 0);
+  const weight = items.reduce((sum, item) => sum + Number(item.weight), 0);
+  return weight ? weighted / weight : null;
+}
+
+function quickviewRoundPct(n) {
+  return Number.isFinite(Number(n)) ? Number(n) : null;
+}
+
+function quickviewSortedRows(map, total, limit = null, labelMap = null) {
+  return Object.entries(map || {})
+    .map(([label, value]) => ({ label, value: Number(value) }))
+    .filter(row => Number.isFinite(row.value) && row.value > 0)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, limit || undefined)
+    .map(row => {
+      const label = labelMap && labelMap[row.label] ? labelMap[row.label] : row.label;
+      const share = total ? (row.value / total) * 100 : null;
+      return { ...row, label, share };
+    });
+}
+
+function quickviewAggregateBlocks(features) {
+  const totals = {
+    selectedBlocks: 0,
+    usableBlocks: 0,
+    anomalousBlocks: 0,
+    population_2024: 0,
+    population_2029: 0,
+    households_2024: 0,
+    households_2029: 0,
+    owner_occupied_units_2024: 0,
+    renter_occupied_units_2024: 0,
+    median_home_value_2024: [],
+    median_income_2024: [],
+    mean_income_2024: [],
+    median_age_2024: [],
+    avg_hh_size_2024: [],
+    under19_2024: 0,
+    age20_64_2024: 0,
+    age65_plus_2024: 0,
+    hh1_2024: 0,
+    hh2_2024: 0,
+    hh3plus_2024: 0,
+    family_2024: 0,
+    married_family_2024: 0,
+    married_family_with_children_2024: 0,
+    married_family_without_children_2024: 0,
+    other_family_2024: 0,
+    consumerSegments: {},
+    employment: {},
+    occupation: {},
+    education: {},
+    raceMix: {},
+    ethnicitySplit: {},
+    incomeAge: { '2020': {}, '2024': {}, '2029': {} }
+  };
+
+  const raceMixLabels = new Set([
+    'White alone',
+    'Black alone',
+    'Black or African American alone',
+    'American Indian and Alaska Native alone',
+    'Asian alone',
+    'Native Hawaiian and OPI alone',
+    'Native Hawaiian and Other Pacific Islander alone',
+    'Some other race alone',
+    'Some Other Race alone',
+    'Two or more races alone',
+    'Two or More Races Alone'
+  ]);
+
+  const ethnicityGroups = {
+    Hispanic: {},
+    'Not Hispanic': {}
+  };
+
+  const validFeatures = (features || []).filter(feature => {
+    const p = feature.properties || {};
+    return p.data_status !== 'no data' && !p.is_anomalous;
+  });
+
+  for (const feature of validFeatures) {
+    const p = feature.properties || {};
+    totals.selectedBlocks += 1;
+    totals.usableBlocks += 1;
+
+    const ds = p.demographic_snapshot || {};
+    const pt = p.population_trends || {};
+    const ht = p.household_trends || {};
+    const inc = p.income_age || {};
+
+    const pop24 = quickviewNum(p.population_2024 ?? ds['Total Population']?.['2024'] ?? pt['Total Population']?.['2024']);
+    const pop29 = quickviewNum(p.population_2029 ?? ds['Total Population']?.['2029'] ?? pt['Total Population']?.['2029']);
+    const hh24 = quickviewNum(p.households_2024 ?? ds['Households']?.['2024'] ?? ht['Households']?.['2024']);
+    const hh29 = quickviewNum(p.households_2029 ?? ds['Households']?.['2029'] ?? ht['Households']?.['2029']);
+
+    totals.population_2024 += pop24 || 0;
+    totals.population_2029 += pop29 || 0;
+    totals.households_2024 += hh24 || 0;
+    totals.households_2029 += hh29 || 0;
+
+    const owner2024 = quickviewNum(ds['Owner Occupied Housing Units']?.['2024'] ?? ht['Owner Occupied Housing Units']?.['2024'] ?? p.owner_occupied_units_2024);
+    const renter2024 = quickviewNum(ds['Renter Occupied Housing Units']?.['2024'] ?? ht['Renter Occupied Housing Units']?.['2024'] ?? p.renter_occupied_units_2024);
+    totals.owner_occupied_units_2024 += owner2024 || 0;
+    totals.renter_occupied_units_2024 += renter2024 || 0;
+
+    const totalAge2024 = quickviewNum(ds['Total Population: Under 19 years']?.['2024']);
+    const total20_64_2024 = quickviewNum(ds['Total Population: 20 - 64 years']?.['2024']);
+    const total65Plus_2024 = quickviewNum(ds['Total Population: 65 years and over']?.['2024']);
+    totals.under19_2024 += totalAge2024 || 0;
+    totals.age20_64_2024 += total20_64_2024 || 0;
+    totals.age65_plus_2024 += total65Plus_2024 || 0;
+
+    const hh1 = quickviewNum(ht['1 Person Households']?.['2024']);
+    const hh2 = quickviewNum(ht['2 Person Households']?.['2024']);
+    const hh3 = quickviewNum(ht['3 Person Households']?.['2024']);
+    const hh4 = quickviewNum(ht['4 Person Households']?.['2024']);
+    const hh5 = quickviewNum(ht['5 Person Households']?.['2024']);
+    const hh6 = quickviewNum(ht['6 Person Households']?.['2024']);
+    const hh7 = quickviewNum(ht['7+ Person Households']?.['2024']);
+    totals.hh1_2024 += hh1 || 0;
+    totals.hh2_2024 += hh2 || 0;
+    totals.hh3plus_2024 += (hh3 || 0) + (hh4 || 0) + (hh5 || 0) + (hh6 || 0) + (hh7 || 0);
+    totals.family_2024 += quickviewNum(ht['Household Type: Family']?.['2024']) || 0;
+    totals.married_family_2024 += quickviewNum(ht['Household Type: Married Family']?.['2024']) || 0;
+    totals.married_family_with_children_2024 += quickviewNum(ht['Household Type: Married Family With Children']?.['2024']) || 0;
+    totals.married_family_without_children_2024 += quickviewNum(ht['Household Type: Married Family Without Children']?.['2024']) || 0;
+    totals.other_family_2024 += quickviewNum(ht['Household Type: Other Family']?.['2024']) || 0;
+
+    const medIncome = quickviewNum(p.median_household_income_2024 ?? ds['Household Income: Median']?.['2024'] ?? pt['Household Income: Median']?.['2024']);
+    const meanIncome = quickviewNum(p.mean_household_income_2024 ?? ds['Household Income: Mean']?.['2024'] ?? pt['Household Income: Mean']?.['2024']);
+    const medianAge = quickviewNum(p.median_age_2024 ?? ds['Total population: Median age']?.['2024'] ?? pt['Total population: Median Age']?.['2024']);
+    const avgHhSize = quickviewNum(p.average_household_size_2024 ?? ht['Average Household Size']?.['2024']);
+    const homeValue = quickviewNum(p.median_home_value_2024 ?? ds['Home Value: Median']?.['2024']);
+    if (medIncome !== null) totals.median_income_2024.push({ value: medIncome, weight: hh24 || 1 });
+    if (meanIncome !== null) totals.mean_income_2024.push({ value: meanIncome, weight: hh24 || 1 });
+    if (medianAge !== null) totals.median_age_2024.push({ value: medianAge, weight: pop24 || 1 });
+    if (avgHhSize !== null) totals.avg_hh_size_2024.push({ value: avgHhSize, weight: hh24 || 1 });
+    if (homeValue !== null) totals.median_home_value_2024.push({ value: homeValue, weight: hh24 || 1 });
+
+    quickviewSumRowMap(totals.consumerSegments, p.consumer_segments || {}, 'households');
+
+    Object.entries(ds).forEach(([label, row]) => {
+      if (!label || !label.startsWith('Educational Attainment:')) return;
+      totals.education[label.replace('Educational Attainment:', '').trim()] = (totals.education[label.replace('Educational Attainment:', '').trim()] || 0) + (quickviewNum(row?.['2024']) || 0);
+    });
+
+    Object.entries(pt).forEach(([label, row]) => {
+      if (!label) return;
+      if (label.startsWith('Employment Status:')) {
+        totals.employment[label.replace('Employment Status:', '').trim()] = (totals.employment[label.replace('Employment Status:', '').trim()] || 0) + (quickviewNum(row?.['2024']) || 0);
+      } else if (label.startsWith('Occupation:')) {
+        totals.occupation[label.replace('Occupation:', '').trim()] = (totals.occupation[label.replace('Occupation:', '').trim()] || 0) + (quickviewNum(row?.['2024']) || 0);
+      } else if (raceMixLabels.has(label)) {
+        totals.raceMix[label] = (totals.raceMix[label] || 0) + (quickviewNum(row?.['2024']) || 0);
+      } else if (label.startsWith('Hispanic:')) {
+        const key = label.replace('Hispanic:', '').trim() || 'Hispanic';
+        ethnicityGroups.Hispanic[key] = (ethnicityGroups.Hispanic[key] || 0) + (quickviewNum(row?.['2024']) || 0);
+      } else if (label.startsWith('Not Hispanic:')) {
+        const key = label.replace('Not Hispanic:', '').trim() || 'Not Hispanic';
+        ethnicityGroups['Not Hispanic'][key] = (ethnicityGroups['Not Hispanic'][key] || 0) + (quickviewNum(row?.['2024']) || 0);
+      }
+    });
+
+    Object.entries(inc).forEach(([year, bands]) => {
+      if (!totals.incomeAge[year]) totals.incomeAge[year] = {};
+      Object.entries(bands || {}).forEach(([bandLabel, ages]) => {
+        if (!totals.incomeAge[year][bandLabel]) totals.incomeAge[year][bandLabel] = {};
+        Object.entries(ages || {}).forEach(([ageLabel, value]) => {
+          totals.incomeAge[year][bandLabel][ageLabel] = (totals.incomeAge[year][bandLabel][ageLabel] || 0) + Number(value || 0);
+        });
+      });
+    });
+  }
+
+  totals.anomalousBlocks = (features || []).filter(feature => (feature.properties || {}).is_anomalous).length;
+
+  const educationTotal = Object.values(totals.education).reduce((sum, v) => sum + Number(v || 0), 0) || null;
+  const raceTotal = Object.values(totals.raceMix).reduce((sum, v) => sum + Number(v || 0), 0) || null;
+  const employmentTotal = Object.values(totals.employment).reduce((sum, v) => sum + Number(v || 0), 0) || null;
+  const occupationTotal = Object.values(totals.occupation).reduce((sum, v) => sum + Number(v || 0), 0) || null;
+  const consumerTotal = Object.values(totals.consumerSegments).reduce((sum, v) => sum + Number(v || 0), 0) || null;
+  const ethnicityTotal = {
+    Hispanic: Object.values(ethnicityGroups.Hispanic).reduce((sum, v) => sum + Number(v || 0), 0),
+    'Not Hispanic': Object.values(ethnicityGroups['Not Hispanic']).reduce((sum, v) => sum + Number(v || 0), 0)
+  };
+
+  const incomeBandRows = year => Object.entries(totals.incomeAge[year] || {})
+    .map(([label, ages]) => ({
+      label,
+      households: Object.values(ages || {}).reduce((sum, v) => sum + Number(v || 0), 0)
+    }))
+    .sort((a, b) => b.households - a.households);
+
+  const income2024 = incomeBandRows('2024');
+  const income2029 = incomeBandRows('2029');
+  const income2029Map = new Map(income2029.map(row => [row.label, row.households]));
+  const incomeRows = income2024.map(row => {
+    const future = income2029Map.get(row.label) || 0;
+    const change = future - row.households;
+    const pct = row.households ? (change / row.households) * 100 : null;
+    return { ...row, future, change, pct };
+  });
+
+  return {
+    totals,
+    summary: {
+      population_2024: totals.population_2024,
+      population_2029: totals.population_2029,
+      households_2024: totals.households_2024,
+      households_2029: totals.households_2029,
+      median_household_income: quickviewWeightedMedian(totals.median_income_2024),
+      mean_household_income: quickviewWeightedAverage(totals.mean_income_2024),
+      median_age: quickviewWeightedAverage(totals.median_age_2024),
+      median_home_value: quickviewWeightedMedian(totals.median_home_value_2024),
+      avg_household_size: quickviewWeightedAverage(totals.avg_hh_size_2024),
+      owner_occupancy_pct: totals.owner_occupied_units_2024 + totals.renter_occupied_units_2024 ? (totals.owner_occupied_units_2024 / (totals.owner_occupied_units_2024 + totals.renter_occupied_units_2024)) * 100 : null,
+      renter_occupancy_pct: totals.owner_occupied_units_2024 + totals.renter_occupied_units_2024 ? (totals.renter_occupied_units_2024 / (totals.owner_occupied_units_2024 + totals.renter_occupied_units_2024)) * 100 : null,
+      population_growth_2024_2029_pct: totals.population_2024 ? ((totals.population_2029 - totals.population_2024) / totals.population_2024) * 100 : null,
+      households_growth_2024_2029_pct: totals.households_2024 ? ((totals.households_2029 - totals.households_2024) / totals.households_2024) * 100 : null,
+      under19_pct: totals.population_2024 ? (totals.under19_2024 / totals.population_2024) * 100 : null,
+      age20_64_pct: totals.population_2024 ? (totals.age20_64_2024 / totals.population_2024) * 100 : null,
+      age65_plus_pct: totals.population_2024 ? (totals.age65_plus_2024 / totals.population_2024) * 100 : null,
+      hh1_pct: totals.households_2024 ? (totals.hh1_2024 / totals.households_2024) * 100 : null,
+      hh2_pct: totals.households_2024 ? (totals.hh2_2024 / totals.households_2024) * 100 : null,
+      hh3plus_pct: totals.households_2024 ? (totals.hh3plus_2024 / totals.households_2024) * 100 : null,
+      family_pct: totals.households_2024 ? (totals.family_2024 / totals.households_2024) * 100 : null,
+      married_family_pct: totals.households_2024 ? (totals.married_family_2024 / totals.households_2024) * 100 : null,
+      married_family_with_children_pct: totals.households_2024 ? (totals.married_family_with_children_2024 / totals.households_2024) * 100 : null,
+      married_family_without_children_pct: totals.households_2024 ? (totals.married_family_without_children_2024 / totals.households_2024) * 100 : null,
+      other_family_pct: totals.households_2024 ? (totals.other_family_2024 / totals.households_2024) * 100 : null,
+      education_total: educationTotal,
+      race_total: raceTotal,
+      employment_total: employmentTotal,
+      occupation_total: occupationTotal,
+      consumer_total: consumerTotal,
+      ethnicity_total: ethnicityTotal
+    },
+    consumerSegments: quickviewSortedRows(totals.consumerSegments, consumerTotal, 12),
+    educationRows: quickviewSortedRows(totals.education, educationTotal, 10),
+    employmentRows: quickviewSortedRows(totals.employment, employmentTotal, 10),
+    occupationRows: quickviewSortedRows(totals.occupation, occupationTotal, 12),
+    raceRows: quickviewSortedRows(totals.raceMix, raceTotal, 8),
+    ethnicityRows: [
+      { label: 'Hispanic', value: ethnicityTotal.Hispanic, share: totals.population_2024 ? (ethnicityTotal.Hispanic / totals.population_2024) * 100 : null },
+      { label: 'Not Hispanic', value: ethnicityTotal['Not Hispanic'], share: totals.population_2024 ? (ethnicityTotal['Not Hispanic'] / totals.population_2024) * 100 : null }
+    ],
+    incomeRows,
+    blocksInRadius: (features || []).length,
+    usableBlocksInRadius: validFeatures.length,
+    anomalousBlocksInRadius: totals.anomalousBlocks
+  };
+}
+
+function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
+  const radiusLabel = marketQuickviewRadiusLabel(radiusMiles);
+  const selectedBlocks = featuresWithinRadius(state.quickviewBlocks || [], centerLatLng, radiusMiles);
+  const summaryData = quickviewAggregateBlocks(selectedBlocks.map(entry => entry.feature));
+  const s = summaryData.summary;
+  const selectedCount = summaryData.blocksInRadius;
+  const usableCount = summaryData.usableBlocksInRadius;
+  const anomalousCount = summaryData.anomalousBlocksInRadius;
+  const coveragePct = selectedCount ? (usableCount / selectedCount) * 100 : 0;
+  const selectedNote = selectedCount ? `${selectedCount.toLocaleString()} analysis blocks inside the radius` : 'No quickview blocks found in this radius.';
+
+  const incomeRowsHtml = summaryData.incomeRows.map(row => `
+    <div class="snapshot-table-row">
+      <div><b>${escapeHtml(row.label)}</b></div>
+      <div>${escapeHtml(quickviewStatValue(row.households, 'int'))}</div>
+      <div>${escapeHtml(quickviewStatValue(row.future, 'int'))}</div>
+      <div>${escapeHtml(quickviewStatValue(row.change, 'int'))}</div>
+      <div>${escapeHtml(quickviewStatValue(row.pct, 'pct'))}</div>
+    </div>`).join('');
+
+  const consumerRows = summaryData.consumerSegments.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
+  const educationRows = summaryData.educationRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
+  const employmentRows = summaryData.employmentRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
+  const occupationRows = summaryData.occupationRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
+  const raceRows = summaryData.raceRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
+  const ethnicityRows = summaryData.ethnicityRows.map(row => `<div class="snapshot-table-row"><div><b>${escapeHtml(row.label)}</b></div><div>${escapeHtml(quickviewStatValue(row.value, 'int'))}</div><div>${escapeHtml(quickviewStatValue(row.share, 'pct'))}</div></div>`).join('');
+
+  return `
+    <div class="snapshot-intro">
+      <div class="snapshot-ribbon">Market Quickview</div>
+      <div class="snapshot-center">Radius center: ${escapeHtml(centerLatLng.lat.toFixed(5))}, ${escapeHtml(centerLatLng.lng.toFixed(5))}</div>
+      <div class="snapshot-note">Built from the Central Mobile block dataset. Sections summarize only the blocks that intersect the selected radius.</div>
+    </div>
+
+    <details class="quickview-details" open>
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Overview</h4><span>${selectedNote}</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid">
+          ${renderSnapshotMetric('Population', quickviewStatValue(s.population_2024, 'int'))}
+          ${renderSnapshotMetric('Households', quickviewStatValue(s.households_2024, 'int'))}
+          ${renderSnapshotMetric('Median Income', quickviewStatValue(s.median_household_income, 'money'))}
+          ${renderSnapshotMetric('Mean Income', quickviewStatValue(s.mean_household_income, 'money'))}
+          ${renderSnapshotMetric('Median Age', quickviewStatValue(s.median_age, 'one'))}
+          ${renderSnapshotMetric('Avg HH Size', quickviewStatValue(s.avg_household_size, 'one'))}
+        </div>
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Owner Occupancy', quickviewStatValue(s.owner_occupancy_pct, 'pct'))}
+          ${renderSnapshotMetric('Renter Occupancy', quickviewStatValue(s.renter_occupancy_pct, 'pct'))}
+          ${renderSnapshotMetric('Population Growth', quickviewStatValue(s.population_growth_2024_2029_pct, 'pct'))}
+          ${renderSnapshotMetric('Household Growth', quickviewStatValue(s.households_growth_2024_2029_pct, 'pct'))}
+        </div>
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Under 19', quickviewStatValue(s.under19_pct, 'pct'))}
+          ${renderSnapshotMetric('20 to 64', quickviewStatValue(s.age20_64_pct, 'pct'))}
+          ${renderSnapshotMetric('65 Plus', quickviewStatValue(s.age65_plus_pct, 'pct'))}
+          ${renderSnapshotMetric('Coverage', `${coveragePct.toFixed(1)}%`)}
+        </div>
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('1 Person HH', quickviewStatValue(s.hh1_pct, 'pct'))}
+          ${renderSnapshotMetric('2 Person HH', quickviewStatValue(s.hh2_pct, 'pct'))}
+          ${renderSnapshotMetric('3+ Person HH', quickviewStatValue(s.hh3plus_pct, 'pct'))}
+          ${renderSnapshotMetric('Anomalous Blocks', String(anomalousCount))}
+        </div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Income Bands</h4><span>${selectedCount.toLocaleString()} blocks • 2024 to 2029</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-subnote">Pilot data currently provides 2024 and 2029 snapshots. The table below shows projected household counts by income band for the selected radius.</div>
+        ${renderSnapshotTable(['Income Band', '2024 HH', '2029 HH', 'Change', 'Δ %'], incomeRowsHtml, '<div class="snapshot-empty">No income-band detail available.</div>')}
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Consumer Segments</h4><span>${summaryData.consumerSegments.length.toLocaleString()} segments</span></div>
+      </summary>
+      <div class="quickview-body">
+        ${renderSnapshotTable(['Segment', 'Households', 'Share'], consumerRows, '<div class="snapshot-empty">No consumer segment detail available.</div>')}
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Employment / Occupation</h4><span>${summaryData.employmentRows.length.toLocaleString()} employment rows</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-subnote">Employment status and occupation are pulled from the underlying block export tables.</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Employment Status', 'Count', 'Share'], employmentRows, '<div class="snapshot-empty">No employment detail available.</div>')}</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Occupation', 'Count', 'Share'], occupationRows, '<div class="snapshot-empty">No occupation detail available.</div>')}</div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Education Level</h4><span>${quickviewStatValue(s.education_total, 'int')} observations</span></div>
+      </summary>
+      <div class="quickview-body">
+        ${renderSnapshotTable(['Attainment', 'Count', 'Share'], educationRows, '<div class="snapshot-empty">No education detail available.</div>')}
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Race / Ethnicity</h4><span>${quickviewStatValue(s.race_total, 'int')} race records</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-subnote">Race mix uses the standard race categories; ethnicity is shown separately below.</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Race', 'Count', 'Share'], raceRows, '<div class="snapshot-empty">No race detail available.</div>')}</div>
+        <div style="margin-top:12px;">${renderSnapshotTable(['Ethnicity', 'Count', 'Share'], ethnicityRows, '<div class="snapshot-empty">No ethnicity detail available.</div>')}</div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Household Structure</h4><span>${quickviewStatValue(s.family_pct, 'pct')} family households</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Family Households', quickviewStatValue(s.family_pct, 'pct'))}
+          ${renderSnapshotMetric('Married Family', quickviewStatValue(s.married_family_pct, 'pct'))}
+          ${renderSnapshotMetric('Married w/ Children', quickviewStatValue(s.married_family_with_children_pct, 'pct'))}
+          ${renderSnapshotMetric('Married w/o Children', quickviewStatValue(s.married_family_without_children_pct, 'pct'))}
+        </div>
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Other Family', quickviewStatValue(s.other_family_pct, 'pct'))}
+          ${renderSnapshotMetric('Population 2024', quickviewStatValue(s.population_2024, 'int'))}
+          ${renderSnapshotMetric('Population 2029', quickviewStatValue(s.population_2029, 'int'))}
+          ${renderSnapshotMetric('Households 2029', quickviewStatValue(s.households_2029, 'int'))}
+        </div>
+      </div>
+    </details>
+
+    <details class="quickview-details">
+      <summary>
+        <div class="snapshot-section-head quickview-head"><h4>Data Quality</h4><span>${coveragePct.toFixed(1)}% coverage</span></div>
+      </summary>
+      <div class="quickview-body">
+        <div class="snapshot-metric-grid four-up">
+          ${renderSnapshotMetric('Blocks in Radius', String(selectedCount))}
+          ${renderSnapshotMetric('Usable Blocks', String(usableCount))}
+          ${renderSnapshotMetric('Anomalous Blocks', String(anomalousCount))}
+          ${renderSnapshotMetric('Coverage', `${coveragePct.toFixed(1)}%`)}
+        </div>
+        <div class="snapshot-subnote">Quickview uses your Central Mobile pilot block data and hides the underlying block IDs from the report.</div>
+      </div>
+    </details>
+  `;
+}
+
+async function ensureQuickviewDataLoaded() {
+  if (state.quickviewBlocksLoaded) return;
+  try {
+    const quickviewBlocks = await fetch('data/market_quickview/central_mobile_quickview_blocks.geojson').then(r => r.json());
+    state.quickviewBlocks = quickviewBlocks.features || [];
+    state.quickviewBlocksLoaded = state.quickviewBlocks.length > 0;
+    state.marketQuickview.loaded = state.quickviewBlocksLoaded;
+  } catch (err) {
+    console.warn('Quickview blocks not available', err);
+  }
+}
+
+async function handleMarketQuickviewPoint(latlng) {
+  if (!marketQuickviewModeActive() || !state.marketQuickview.radiusMiles) return;
+  if (state.marketQuickview.busy) return;
+  state.marketQuickview.busy = true;
+  updateMarketQuickviewUI();
+  try {
+    await ensureQuickviewDataLoaded();
+    if (!state.quickviewBlocksLoaded) {
+      alert('Market Quickview data is not loaded yet.');
+      return;
+    }
+    const center = latlng instanceof L.LatLng ? latlng : L.latLng(latlng.lat, latlng.lng);
+    const html = buildMarketQuickviewHtml(center, state.marketQuickview.radiusMiles);
+    openMarketQuickviewModal('Market Quickview', `${marketQuickviewRadiusLabel(state.marketQuickview.radiusMiles)} centered at ${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`, html);
+  } catch (err) {
+    console.error('Market quickview generation failed', err);
+    alert('Market Quickview could not be generated right now. Please try again.');
+  } finally {
+    resetMarketQuickviewMode();
+  }
+}
+
+function toggleMarketQuickviewMode() {
+  if (marketQuickviewModeActive()) {
+    resetMarketQuickviewMode();
+    return;
+  }
+  setMarketQuickviewMode(true);
+}

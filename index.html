@@ -23,13 +23,16 @@
 
       <section class="control-block">
         <h2>Market Quickview</h2>
-        <button id="marketQuickviewToggle" class="snapshot-btn quickview-btn" type="button">Open Market Quickview</button>
-        <div class="snapshot-radius-panel active" id="marketQuickviewPanel">
-          <div class="filter-title">Pilot Submarket</div>
-          <select id="marketQuickviewSelect" class="wide-select">
-            <option value="Central Mobile" selected>Central Mobile</option>
-          </select>
-          <div class="snapshot-hint">Pilot data is loaded for Central Mobile. The quickview report uses the uploaded block dataset.</div>
+        <button id="marketQuickviewToggle" class="snapshot-btn quickview-btn" type="button">Market Quickview</button>
+        <div id="marketQuickviewPanel" class="snapshot-radius-panel">
+          <div class="filter-title">Choose Radius</div>
+          <div class="snapshot-radius-buttons">
+            <button type="button" class="market-quickview-radius" data-radius="1">1 Mile</button>
+            <button type="button" class="market-quickview-radius" data-radius="3">3 Miles</button>
+            <button type="button" class="market-quickview-radius" data-radius="5">5 Miles</button>
+            <button type="button" class="market-quickview-radius" data-radius="10">10 Miles</button>
+          </div>
+          <div id="marketQuickviewHint" class="snapshot-hint">Click Market Quickview to begin.</div>
         </div>
       </section>
 
