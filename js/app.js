@@ -3258,7 +3258,8 @@ function builderSchoolRating(name, feature) {
     NMCNTY: p.County || p.NMCNTY || '',
     NCESSCH: p.NCESID || p.NCESSCH || ''
   });
-  return record && Number.isFinite(Number(record.Rating)) ? Number(record.Rating) : null;
+  const rating = record && Number.isFinite(Number(record.Rating)) ? Number(record.Rating) : null;
+  return rating !== null && rating > 0 ? rating : null;
 }
 
 function builderSchoolText(v, feature) {
@@ -3273,7 +3274,7 @@ function builderSchoolText(v, feature) {
     if (key && seen.has(key)) continue;
     if (key) seen.add(key);
     const rating = builderSchoolRating(name, feature);
-    rendered.push(`${escapeHtml(name)}${rating !== null ? ` (${rating})` : ''}`);
+    rendered.push(`${escapeHtml(name)}${rating !== null ? ` (${rating})` : ' (Not Rated)'}`);
   }
   return rendered.length ? rendered.join('<br>') : 'N/A';
 }
@@ -3294,8 +3295,8 @@ function builderCombinedSchoolRating(feature) {
   }
   const ratings = unique
     .map(name => builderSchoolRating(name, feature))
-    .filter(v => Number.isFinite(v));
-  if (!ratings.length) return 'N/A';
+    .filter(v => Number.isFinite(v) && v > 0);
+  if (!ratings.length) return 'Not Rated';
   return Math.round(avg(ratings));
 }
 
