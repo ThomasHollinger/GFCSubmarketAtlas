@@ -1262,7 +1262,7 @@ function buildMarketQuickviewHtml(data) {
     <div class="snapshot-intro">
       <div class="snapshot-ribbon">Market Quickview</div>
       <div class="snapshot-center">${escapeHtml(submarketName)} Pilot</div>
-      <div class="snapshot-note">Built from the Central Mobile block dataset. This does not change the existing atlas demographics layer.</div>
+      <div class="snapshot-note">Built from the pilot block datasets. This does not change the existing atlas demographics layer.</div>
     </div>
 
     <details class="quickview-details" open>
@@ -1808,7 +1808,7 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
     <div class="snapshot-intro">
       <div class="snapshot-ribbon">Market Quickview</div>
       <div class="snapshot-center">Radius center: ${escapeHtml(centerLatLng.lat.toFixed(5))}, ${escapeHtml(centerLatLng.lng.toFixed(5))}</div>
-      <div class="snapshot-note">Built from the Central Mobile block dataset. Sections summarize only the blocks that intersect the selected radius.</div>
+      <div class="snapshot-note">Built from the pilot block datasets. Sections summarize only the blocks that intersect the selected radius.</div>
     </div>
 
     <details class="quickview-details" open>
@@ -1926,7 +1926,7 @@ function buildMarketQuickviewHtml(centerLatLng, radiusMiles) {
           ${renderSnapshotMetric('Anomalous Blocks', String(anomalousCount))}
           ${renderSnapshotMetric('Coverage', `${coveragePct.toFixed(1)}%`)}
         </div>
-        <div class="snapshot-subnote">Quickview uses your Central Mobile pilot block data and hides the underlying block IDs from the report.</div>
+        <div class="snapshot-subnote">Quickview uses your pilot block data and hides the underlying block IDs from the report.</div>
       </div>
     </details>
   `;
@@ -1937,7 +1937,12 @@ async function ensureQuickviewDataLoaded() {
   try {
     const sources = [
       'data/market_quickview/central_mobile_quickview_blocks.geojson',
-      'data/market_quickview/west_baldwin_quickview_blocks.geojson'
+      'data/market_quickview/central_baldwin_quickview_blocks.geojson',
+      'data/market_quickview/west_baldwin_quickview_blocks.geojson',
+      'data/market_quickview/south_mobile_quickview_blocks.geojson',
+      'data/market_quickview/north_mobile_quickview_blocks.geojson',
+      'data/market_quickview/north_baldwin_quickview_blocks.geojson',
+      'data/market_quickview/south_baldwin_quickview_blocks.geojson'
     ];
     const loaded = await Promise.all(sources.map(src => fetch(src).then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] }))));
     state.quickviewBlocks = loaded.flatMap(fc => fc.features || []);
@@ -3952,13 +3957,18 @@ function initMap() {
 }
 
 async function loadData() {
-  const [geojson, meta, demographics, quickviewLegacy, centralQuickviewBlocks, westQuickviewBlocks, healthcareFacilities, healthcareSummary] = await Promise.all([
+  const [geojson, meta, demographics, quickviewLegacy, centralQuickviewBlocks, centralBaldwinQuickviewBlocks, westQuickviewBlocks, southQuickviewBlocks, northBaldwinQuickviewBlocks, southBaldwinQuickviewBlocks, southBaldwinQuickview, healthcareFacilities, healthcareSummary] = await Promise.all([
     fetch('data/submarkets.geojson').then(r => r.json()),
     fetch('data/metadata.json').then(r => r.json()),
     fetch('data/submarket_demographics_combined.json').then(r => r.json()),
     fetch('data/market_quickview/central_mobile_quickview.json').then(r => r.json()).catch(() => null),
     fetch('data/market_quickview/central_mobile_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/central_baldwin_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/market_quickview/west_baldwin_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/south_mobile_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/north_baldwin_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/south_baldwin_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/south_baldwin_quickview.json').then(r => r.json()).catch(() => null),
     fetch('data/healthcare_facilities.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/submarket_healthcare_summary.json').then(r => r.json()).catch(() => ({ metadata: { status: 'not_built' }, submarkets: {} }))
   ]);
@@ -3969,9 +3979,17 @@ async function loadData() {
   state.demographicsLoaded = true;
   state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false };
   state.marketQuickview.data = quickviewLegacy;
+  state.marketQuickview.dataBySubmarket = {
+    'Central Mobile': quickviewLegacy,
+    'South Baldwin': southBaldwinQuickview
+  };
   const quickviewCombinedFeatures = [
     ...(centralQuickviewBlocks?.features || []),
-    ...(westQuickviewBlocks?.features || [])
+    ...(centralBaldwinQuickviewBlocks?.features || []),
+    ...(westQuickviewBlocks?.features || []),
+    ...(southQuickviewBlocks?.features || []),
+    ...(northBaldwinQuickviewBlocks?.features || []),
+    ...(southBaldwinQuickviewBlocks?.features || [])
   ];
   state.marketQuickview.loaded = quickviewCombinedFeatures.length > 0;
   state.quickviewBlocks = quickviewCombinedFeatures;

@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "submarket": "North Baldwin",
+    "uploaded_blocks": 5,
+    "usable_blocks": 5,
+    "anomalous_blocks": 0,
+    "population_2024": 7199,
+    "population_2029": 7730,
+    "households_2024": 2956,
+    "households_2029": 3162,
+    "median_age_2024": 44.9519377691346,
+    "median_household_income": 78125.0,
+    "mean_household_income": null,
+    "median_home_value_2024": 172959.0,
+    "average_household_size_2024": 2.415426251691475,
+    "population_under_19_2024": 1628,
+    "population_20_64_2024": 3899,
+    "population_65_plus_2024": 1672,
+    "one_person_households_2024": 886,
+    "two_person_households_2024": 1005,
+    "three_person_households_2024": 443,
+    "four_person_households_2024": 365,
+    "five_plus_person_households_2024": 257,
+    "households_growth_2024_2029": 0.06968876860622462,
+    "population_growth_2024_2029": 0.07376024447839978,
+    "income_bands": {
+      "2024": [],
+      "2029": []
+    },
+    "consumer_segments": [
+      {
+        "name": "Renters",
+        "households": 430.0,
+        "pct_of_households": 19.15367483296214
+      },
+      {
+        "name": "Simple Life Moderate Income No Children",
+        "households": 372.0,
+        "pct_of_households": 16.570155902004455
+      },
+      {
+        "name": "Simple Life Moderate Income With Children",
+        "households": 276.0,
+        "pct_of_households": 12.293986636971047
+      },
+      {
+        "name": "Active Adult Elite",
+        "households": 216.0,
+        "pct_of_households": 9.621380846325167
+      },
+      {
+        "name": "Entry Level Suburban",
+        "households": 210.0,
+        "pct_of_households": 9.35412026726058
+      },
+      {
+        "name": "Active Adult Feature and Location",
+        "households": 168.0,
+        "pct_of_households": 7.483296213808463
+      },
+      {
+        "name": "Active Adult Entry Level",
+        "households": 143.0,
+        "pct_of_households": 6.369710467706014
+      },
+      {
+        "name": "Simple Life Affluent No Children",
+        "households": 108.0,
+        "pct_of_households": 4.810690423162583
+      },
+      {
+        "name": "Family Life Young Children",
+        "households": 91.0,
+        "pct_of_households": 4.0534521158129175
+      },
+      {
+        "name": "Renters Near Term Buyers",
+        "households": 81.0,
+        "pct_of_households": 3.6080178173719375
+      },
+      {
+        "name": "Elite",
+        "households": 63.0,
+        "pct_of_households": 2.8062360801781736
+      },
+      {
+        "name": "Family Life School Age Children",
+        "households": 57.0,
+        "pct_of_households": 2.5389755011135855
+      },
+      {
+        "name": "Feature and Location",
+        "households": 30.0,
+        "pct_of_households": 1.3363028953229399
+      },
+      {
+        "name": "Entry Level Urban",
+        "households": 0.0,
+        "pct_of_households": 0.0
+      }
+    ],
+    "pilot_data_notes": "North Baldwin pilot dataset added to Market Quickview."
+  },
+  "blocks": [
+    {
+      "block": "013",
+      "population_2024": 1452,
+      "households_2024": 604,
+      "median_age_2024": 49,
+      "median_household_income": 78125,
+      "mean_household_income": null,
+      "median_home_value_2024": 191667,
+      "average_household_size_2024": 2.4,
+      "population_growth_2024_2029": -2.0,
+      "households_growth_2024_2029": -2.3,
+      "data_status": "usable",
+      "is_anomalous": false,
+      "anomaly_reason": null,
+      "files_present": "ConsumerSegmentation-26.08.06.csv;DemographicSnapshot-26.08.06.csv;HouseholdIncomeByAge-26.08.06.csv;HouseholdTrends-26.08.06.csv;PopulationTrends-26.08.06.csv"
+    },
+    {
+      "block": "020",
+      "population_2024": 1831,
+      "households_2024": 714,
+      "median_age_2024": 39,
+      "median_household_income": 46587,
+      "mean_household_income": null,
+      "median_home_value_2024": 152917,
+      "average_household_size_2024": 2.6,
+      "population_growth_2024_2029": 3.2,
+      "households_growth_2024_2029": 2.9,
+      "data_status": "usable",
+      "is_anomalous": false,
+      "anomaly_reason": null,
+      "files_present": "ConsumerSegmentation-26.08.06.csv;DemographicSnapshot-26.08.06.csv;HouseholdIncomeByAge-26.08.06.csv;HouseholdTrends-26.08.06.csv;PopulationTrends-26.08.06.csv"
+    },
+    {
+      "block": "037",
+      "population_2024": 1300,
+      "households_2024": 513,
+      "median_age_2024": 43,
+      "median_household_income": 87793,
+      "mean_household_income": null,
+      "median_home_value_2024": 163611,
+      "average_household_size_2024": 2.5,
+      "population_growth_2024_2029": 4.3,
+      "households_growth_2024_2029": 4.1,
+      "data_status": "usable",
+      "is_anomalous": false,
+      "anomaly_reason": null,
+      "files_present": "ConsumerSegmentation-26.08.06.csv;DemographicSnapshot-26.08.06.csv;HouseholdIncomeByAge-26.08.06.csv;HouseholdTrends-26.08.06.csv;PopulationTrends-26.08.06.csv"
+    },
+    {
+      "block": "040",
+      "population_2024": 1516,
+      "households_2024": 630,
+      "median_age_2024": 47,
+      "median_household_income": 110714,
+      "mean_household_income": null,
+      "median_home_value_2024": 192054,
+      "average_household_size_2024": 2.4,
+      "population_growth_2024_2029": 5.8,
+      "households_growth_2024_2029": 5.5,
+      "data_status": "usable",
+      "is_anomalous": false,
+      "anomaly_reason": null,
+      "files_present": "ConsumerSegmentation-26.08.06.csv;DemographicSnapshot-26.08.06.csv;HouseholdIncomeByAge-26.08.06.csv;HouseholdTrends-26.08.06.csv;PopulationTrends-26.08.06.csv"
+    },
+    {
+      "block": "041",
+      "population_2024": 1100,
+      "households_2024": 495,
+      "median_age_2024": 49,
+      "median_household_income": 29813,
+      "mean_household_income": null,
+      "median_home_value_2024": 172959,
+      "average_household_size_2024": 2.1,
+      "population_growth_2024_2029": -1.6,
+      "households_growth_2024_2029": -2.2,
+      "data_status": "usable",
+      "is_anomalous": false,
+      "anomaly_reason": null,
+      "files_present": "ConsumerSegmentation-26.08.06.csv;DemographicSnapshot-26.08.06.csv;HouseholdIncomeByAge-26.08.06.csv;HouseholdTrends-26.08.06.csv;PopulationTrends-26.08.06.csv"
+    }
+  ]
+}
