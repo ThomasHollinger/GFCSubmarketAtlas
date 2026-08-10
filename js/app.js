@@ -1941,8 +1941,15 @@ async function ensureQuickviewDataLoaded() {
       'data/market_quickview/west_baldwin_quickview_blocks.geojson',
       'data/market_quickview/south_mobile_quickview_blocks.geojson',
       'data/market_quickview/north_mobile_quickview_blocks.geojson',
-      'data/market_quickview/north_baldwin_quickview_blocks.geojson',
-      'data/market_quickview/south_baldwin_quickview_blocks.geojson'
+      'data/market_quickview/south_baldwin_quickview_blocks.geojson',
+      'data/market_quickview/pensacola_quickview_blocks.geojson',
+      'data/market_quickview/cantonment_quickview_blocks.geojson',
+      'data/market_quickview/pace_quickview_blocks.geojson',
+      'data/market_quickview/milton_quickview_blocks.geojson',
+      'data/market_quickview/pensacola_beaches_quickview_blocks.geojson',
+      'data/market_quickview/fort_walton_quickview_blocks.geojson',
+      'data/market_quickview/crestview_quickview_blocks.geojson',
+      'data/market_quickview/laurel_hill_quickview_blocks.geojson'
     ];
     const loaded = await Promise.all(sources.map(src => fetch(src).then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] }))));
     state.quickviewBlocks = loaded.flatMap(fc => fc.features || []);
@@ -3957,7 +3964,7 @@ function initMap() {
 }
 
 async function loadData() {
-  const [geojson, meta, demographics, quickviewLegacy, centralQuickviewBlocks, centralBaldwinQuickviewBlocks, westQuickviewBlocks, southQuickviewBlocks, northBaldwinQuickviewBlocks, southBaldwinQuickviewBlocks, southBaldwinQuickview, healthcareFacilities, healthcareSummary] = await Promise.all([
+  const [geojson, meta, demographics, quickviewLegacy, centralQuickviewBlocks, centralBaldwinQuickviewBlocks, westQuickviewBlocks, southQuickviewBlocks, northBaldwinQuickviewBlocks, southBaldwinQuickviewBlocks, pensacolaQuickviewBlocks, cantonmentQuickviewBlocks, paceQuickviewBlocks, miltonQuickviewBlocks, pensacolaBeachesQuickviewBlocks, fortWaltonQuickviewBlocks, crestviewQuickviewBlocks, laurelHillQuickviewBlocks, healthcareFacilities, healthcareSummary] = await Promise.all([
     fetch('data/submarkets.geojson').then(r => r.json()),
     fetch('data/metadata.json').then(r => r.json()),
     fetch('data/submarket_demographics_combined.json').then(r => r.json()),
@@ -3968,7 +3975,14 @@ async function loadData() {
     fetch('data/market_quickview/south_mobile_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/market_quickview/north_baldwin_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/market_quickview/south_baldwin_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
-    fetch('data/market_quickview/south_baldwin_quickview.json').then(r => r.json()).catch(() => null),
+    fetch('data/market_quickview/pensacola_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/cantonment_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/pace_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/milton_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/pensacola_beaches_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/fort_walton_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/crestview_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/laurel_hill_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/healthcare_facilities.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/submarket_healthcare_summary.json').then(r => r.json()).catch(() => ({ metadata: { status: 'not_built' }, submarkets: {} }))
   ]);
@@ -3979,17 +3993,21 @@ async function loadData() {
   state.demographicsLoaded = true;
   state.marketQuickview = state.marketQuickview || { active: false, loaded: false, data: null, submarket: MARKET_QUICKVIEW_DEFAULT_SUBMARKET, radiusMiles: null, awaitingPoint: false, busy: false };
   state.marketQuickview.data = quickviewLegacy;
-  state.marketQuickview.dataBySubmarket = {
-    'Central Mobile': quickviewLegacy,
-    'South Baldwin': southBaldwinQuickview
-  };
   const quickviewCombinedFeatures = [
     ...(centralQuickviewBlocks?.features || []),
     ...(centralBaldwinQuickviewBlocks?.features || []),
     ...(westQuickviewBlocks?.features || []),
     ...(southQuickviewBlocks?.features || []),
     ...(northBaldwinQuickviewBlocks?.features || []),
-    ...(southBaldwinQuickviewBlocks?.features || [])
+    ...(southBaldwinQuickviewBlocks?.features || []),
+    ...(pensacolaQuickviewBlocks?.features || []),
+    ...(cantonmentQuickviewBlocks?.features || []),
+    ...(paceQuickviewBlocks?.features || []),
+    ...(miltonQuickviewBlocks?.features || []),
+    ...(pensacolaBeachesQuickviewBlocks?.features || []),
+    ...(fortWaltonQuickviewBlocks?.features || []),
+    ...(crestviewQuickviewBlocks?.features || []),
+    ...(laurelHillQuickviewBlocks?.features || [])
   ];
   state.marketQuickview.loaded = quickviewCombinedFeatures.length > 0;
   state.quickviewBlocks = quickviewCombinedFeatures;
@@ -4055,7 +4073,7 @@ function renderRelease(meta) {
     Health score: <b>${meta.healthScore}/100</b><br>
     Schools: <b>${state.schoolsLoaded ? state.schools.length + ' loaded' : 'Layer ready'}</b><br>
     Demographics: <b>${state.demographicsLoaded ? 'ACS 2020-2024 loaded' : 'Pending'}</b><br>
-    Quickview: <b>${state.marketQuickview?.loaded ? 'Central Mobile pilot loaded' : 'Pending'}</b><br>
+    Quickview: <b>${state.marketQuickview?.loaded ? 'Block demographics loaded' : 'Pending'}</b><br>
     Healthcare: <b>${healthcareDatasetBuilt() ? state.healthcare.length + ' loaded' : 'Builder ready'}</b><br>
     Lifestyle: <b>${state.lifestyleLoaded ? state.lifestyle.length + ' loaded' : 'Layer ready'}</b><br>
     Updated: <b>${meta.releaseDate}</b>
