@@ -1949,7 +1949,10 @@ async function ensureQuickviewDataLoaded() {
       'data/market_quickview/pensacola_beaches_quickview_blocks.geojson',
       'data/market_quickview/fort_walton_quickview_blocks.geojson',
       'data/market_quickview/crestview_quickview_blocks.geojson',
-      'data/market_quickview/laurel_hill_quickview_blocks.geojson'
+      'data/market_quickview/laurel_hill_quickview_blocks.geojson',
+      'data/market_quickview/walton_bay_beaches_quickview_blocks.geojson',
+      'data/market_quickview/freeport_quickview_blocks.geojson',
+      'data/market_quickview/defuniak_springs_quickview_blocks.geojson'
     ];
     const loaded = await Promise.all(sources.map(src => fetch(src).then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] }))));
     state.quickviewBlocks = loaded.flatMap(fc => fc.features || []);
@@ -3003,10 +3006,13 @@ function builderTierForFeature(feature) {
 
 function passesBuilderTierFilter(feature) {
   const selected = (state.builderFilters || {}).TierNames || {};
-  const anySelected = Object.values(selected).some(Boolean);
+  const values = BUILDER_TIER_ORDER.map(key => selected[key] !== false);
+  const anySelected = values.some(Boolean);
   if (!anySelected) return true;
+  const allSelected = values.every(Boolean);
   const tierKey = builderTierForFeature(feature);
-  return !!tierKey && !!selected[tierKey];
+  if (!tierKey) return allSelected;
+  return !!selected[tierKey];
 }
 
 function builderMatchesScopeFilters(feature, ignoreBuilderNames = false) {
@@ -3964,7 +3970,7 @@ function initMap() {
 }
 
 async function loadData() {
-  const [geojson, meta, demographics, quickviewLegacy, centralQuickviewBlocks, centralBaldwinQuickviewBlocks, westQuickviewBlocks, southQuickviewBlocks, northBaldwinQuickviewBlocks, southBaldwinQuickviewBlocks, pensacolaQuickviewBlocks, cantonmentQuickviewBlocks, paceQuickviewBlocks, miltonQuickviewBlocks, pensacolaBeachesQuickviewBlocks, fortWaltonQuickviewBlocks, crestviewQuickviewBlocks, laurelHillQuickviewBlocks, healthcareFacilities, healthcareSummary] = await Promise.all([
+  const [geojson, meta, demographics, quickviewLegacy, centralQuickviewBlocks, centralBaldwinQuickviewBlocks, westQuickviewBlocks, southQuickviewBlocks, northBaldwinQuickviewBlocks, southBaldwinQuickviewBlocks, pensacolaQuickviewBlocks, cantonmentQuickviewBlocks, paceQuickviewBlocks, miltonQuickviewBlocks, pensacolaBeachesQuickviewBlocks, fortWaltonQuickviewBlocks, crestviewQuickviewBlocks, laurelHillQuickviewBlocks, waltonBayBeachesQuickviewBlocks, freeportQuickviewBlocks, healthcareFacilities, healthcareSummary] = await Promise.all([
     fetch('data/submarkets.geojson').then(r => r.json()),
     fetch('data/metadata.json').then(r => r.json()),
     fetch('data/submarket_demographics_combined.json').then(r => r.json()),
@@ -3983,6 +3989,9 @@ async function loadData() {
     fetch('data/market_quickview/fort_walton_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/market_quickview/crestview_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/market_quickview/laurel_hill_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/walton_bay_beaches_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/freeport_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
+    fetch('data/market_quickview/defuniak_springs_quickview_blocks.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/healthcare_facilities.geojson').then(r => r.json()).catch(() => ({ type: 'FeatureCollection', features: [] })),
     fetch('data/submarket_healthcare_summary.json').then(r => r.json()).catch(() => ({ metadata: { status: 'not_built' }, submarkets: {} }))
   ]);
@@ -4007,7 +4016,9 @@ async function loadData() {
     ...(pensacolaBeachesQuickviewBlocks?.features || []),
     ...(fortWaltonQuickviewBlocks?.features || []),
     ...(crestviewQuickviewBlocks?.features || []),
-    ...(laurelHillQuickviewBlocks?.features || [])
+    ...(laurelHillQuickviewBlocks?.features || []),
+    ...(waltonBayBeachesQuickviewBlocks?.features || []),
+    ...(freeportQuickviewBlocks?.features || [])
   ];
   state.marketQuickview.loaded = quickviewCombinedFeatures.length > 0;
   state.quickviewBlocks = quickviewCombinedFeatures;
