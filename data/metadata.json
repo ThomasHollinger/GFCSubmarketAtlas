@@ -1,18 +1,18 @@
 {
-  "version": "2.9.47",
+  "version": "2.9.48",
   "releaseDate": "2026-08-12",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
   "boundaries": "Verified",
   "schools": "School ratings load in background; verified types now drive school icons and summaries",
   "demographics": "Precomputed ACS 5-Year block-group estimates with 5-year forecast",
-  "builders": "Updated from user-provided Zonda subdivision table (686 records; 415 active, 271 future).",
-  "notes": "Builder Subdivisions layer refreshed from the 2026-08-12 user-provided subdivision table; Market Quickview and all other Atlas layers preserved.",
+  "builders": "Updated from user-provided Zonda subdivision table (901 records; 415 active, 271 future, 215 built out).",
+  "notes": "Builder Subdivisions layer refreshed to add Built Out communities from the 2026-08-12 user-provided subdivision table; Market Quickview and all other Atlas layers preserved.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "v2.9.47",
+  "release": "v2.9.48",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "updated": "2026-08-12",
   "retail": "Retail & Dining clustering and display filters enabled; OSM shop=wholesale/shop=warehouse included as Grocery for Costco, Sam's Club, BJ's, and similar wholesale clubs.",
-  "builder_subdivisions": "Zonda subdivision table dated 2026-08-12; 686 spatially assigned communities with builder, status, pricing, inventory, starts/closings, and school fields."
+  "builder_subdivisions": "Zonda subdivision table dated 2026-08-12; 901 spatially assigned communities including 415 Active, 271 Future, and 215 Built Out records with builder, status, pricing, inventory, starts/closings, and school fields."
 }
