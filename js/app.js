@@ -11,7 +11,7 @@ const state = {
   lifestyle: [],
   lifestyleLoaded: false,
   retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
-  builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false, BuilderNames: {}, TierNames: {} },
+  builderFilters: { SingleFamily: true, Townhomes: false, Active: true, Future: true, BuiltOut: false, BuilderNames: {}, TierNames: {} },
   builderTierConfig: {
     Tier0: { key: 'Tier0', label: 'Tier 0', min: 0, max: 220000 },
     Tier1: { key: 'Tier1', label: 'Tier 1', min: 220001, max: 270000 },
@@ -4781,6 +4781,16 @@ function bindUI() {
   document.getElementById('toggleBuilders').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
+        state.builderFilters.SingleFamily = true;
+        state.builderFilters.Townhomes = false;
+        state.builderFilters.Active = true;
+        state.builderFilters.Future = true;
+        state.builderFilters.BuiltOut = false;
+        state.builderFilters.BuilderNames = {};
+        document.querySelectorAll('.builder-filter').forEach(input => {
+          const key = input.dataset.builderFilter;
+          if (key && Object.prototype.hasOwnProperty.call(state.builderFilters, key)) input.checked = !!state.builderFilters[key];
+        });
         await loadBuilders(true);
         if (state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
         document.getElementById('mapThemeSelect').value = 'builders';

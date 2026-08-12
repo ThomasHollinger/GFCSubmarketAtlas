@@ -2,7 +2,7 @@
   "metadata": {
     "source": "Zonda subdivision table provided by user",
     "updated": "2026-08-12",
-    "note": "Builder subdivision summary generated from Subdivisions-Table-26.08.12(2).csv and assigned spatially to Atlas submarkets; includes Active, Future, and Built Out communities."
+    "note": "Builder subdivision summary generated from Subdivisions-Table-26.08.12(3).csv and assigned spatially to Atlas submarkets; includes Active, Future, and Built Out communities plus Single-Family Detached and Townhome product styles."
   },
   "submarkets": {
     "SM-01": {
@@ -75,14 +75,14 @@
     "SM-02": {
       "SubmarketID": "SM-02",
       "SubmarketName": "Central Mobile",
-      "total": 76,
-      "active": 34,
-      "future": 20,
+      "total": 81,
+      "active": 37,
+      "future": 22,
       "built_out": 22,
       "visible_default": 54,
       "single_family": 76,
-      "townhomes": 0,
-      "builders_count": 17,
+      "townhomes": 5,
+      "builders_count": 18,
       "builders": [
         "Adams Homes",
         "BC Daniels Inc",
@@ -93,6 +93,7 @@
         "CJS Roth LLC",
         "Cretin Townsend Homes",
         "D.R. Horton Inc",
+        "DSLD Homes",
         "John Howard Homes",
         "Lennar Homes",
         "Lynn Nolan Construction",
@@ -102,19 +103,20 @@
         "Southwood Builders",
         "Twilley Builders Inc"
       ],
-      "units_planned": 7710.0,
-      "units_remaining": 3792.0,
-      "annual_starts": 468.0,
+      "units_planned": 8251.0,
+      "units_remaining": 4333.0,
+      "annual_starts": 512.0,
       "annual_closings": 440.0,
-      "vacant_developed_lots": 1418.0,
-      "under_construction": 231.0,
+      "vacant_developed_lots": 1556.0,
+      "under_construction": 275.0,
       "products": {
-        "Single-Family Detached": 76
+        "Single-Family Detached": 76,
+        "Townhomes": 5
       },
       "statuses": {
         "Built Out": 22,
-        "Active": 34,
-        "Future": 20
+        "Active": 37,
+        "Future": 22
       },
       "communities": [
         {
@@ -123,6 +125,14 @@
           "status": "Built Out",
           "product": "Single-Family Detached",
           "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Admiral Landing TH",
+          "builder": "DSLD Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 147,
           "annual_starts": 0.0
         },
         {
@@ -148,6 +158,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 104,
           "annual_starts": 11.0
+        },
+        {
+          "name": "Anglebrook/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 48,
+          "annual_starts": 0.0
         },
         {
           "name": "Bear Run",
@@ -244,6 +262,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 10,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Colony Woods TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 64,
+          "annual_starts": 44.0
         },
         {
           "name": "Coxwell Crossing",
@@ -427,6 +453,14 @@
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 8,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Knollwood Place TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 60,
           "annual_starts": 0.0
         },
         {
@@ -678,6 +712,14 @@
           "annual_starts": 10.0
         },
         {
+          "name": "Village at Tate Farms TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 222,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Villas at Cody Crossing",
           "builder": "",
           "status": "Future",
@@ -767,14 +809,14 @@
     "SM-04": {
       "SubmarketID": "SM-04",
       "SubmarketName": "South Baldwin",
-      "total": 85,
-      "active": 30,
-      "future": 27,
-      "built_out": 28,
+      "total": 99,
+      "active": 34,
+      "future": 35,
+      "built_out": 30,
       "visible_default": 57,
       "single_family": 85,
-      "townhomes": 0,
-      "builders_count": 18,
+      "townhomes": 14,
+      "builders_count": 20,
       "builders": [
         "Adams Homes",
         "Benchmark Homes Group",
@@ -782,6 +824,7 @@
         "CHS Properties",
         "D.R. Horton Inc",
         "DSLD Homes",
+        "Harris Doyle Homes Inc - Clayton Properties Group Inc",
         "Holiday Builders",
         "John Thompson Homes",
         "Kolter Homes",
@@ -793,23 +836,33 @@
         "River Road Homes",
         "Southern Homes Al",
         "Spring River Custom Homes",
+        "The Highland Group",
         "Valor Communities"
       ],
-      "units_planned": 10812.0,
-      "units_remaining": 6417.0,
-      "annual_starts": 851.0,
-      "annual_closings": 788.0,
-      "vacant_developed_lots": 1944.0,
-      "under_construction": 388.0,
+      "units_planned": 11959.0,
+      "units_remaining": 7340.0,
+      "annual_starts": 898.0,
+      "annual_closings": 833.0,
+      "vacant_developed_lots": 2130.0,
+      "under_construction": 423.0,
       "products": {
+        "Townhomes": 14,
         "Single-Family Detached": 85
       },
       "statuses": {
-        "Active": 30,
-        "Future": 27,
-        "Built Out": 28
+        "Built Out": 30,
+        "Active": 34,
+        "Future": 35
       },
       "communities": [
+        {
+          "name": "Aberdeen TH",
+          "builder": "Lennar Homes",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
         {
           "name": "Arbor Walk/Riverside",
           "builder": "Benchmark Homes Group | D.R. Horton Inc | Southern Homes Al",
@@ -825,6 +878,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 202,
           "annual_starts": 49.0
+        },
+        {
+          "name": "Ashbury Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 80,
+          "annual_starts": 0.0
         },
         {
           "name": "Ashlyn Acres",
@@ -1051,12 +1112,28 @@
           "annual_starts": 22.0
         },
         {
+          "name": "Hidden Meadows TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 107,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Iron Horse",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 284,
           "annual_starts": 11.0
+        },
+        {
+          "name": "Jones/DU",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 10,
+          "annual_starts": 0.0
         },
         {
           "name": "Jones/SF",
@@ -1107,6 +1184,14 @@
           "annual_starts": 24.0
         },
         {
+          "name": "Live Oak Village/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 22,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Londons Landing",
           "builder": "",
           "status": "Future",
@@ -1121,6 +1206,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 48,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Lost Bay TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 27,
+          "annual_starts": 42.0
         },
         {
           "name": "Magnolia Cottages",
@@ -1179,11 +1272,27 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Muscadine Place TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 182,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Nickle Creek/SF",
           "builder": "",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 143,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Nickle Creek/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 47,
           "annual_starts": 0.0
         },
         {
@@ -1200,6 +1309,14 @@
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 42,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Oyster Bay TH",
+          "builder": "",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 40,
           "annual_starts": 0.0
         },
         {
@@ -1339,6 +1456,14 @@
           "annual_starts": 21.0
         },
         {
+          "name": "Row at North Shore Townhomes",
+          "builder": "The Highland Group",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 60,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Sailors Landing",
           "builder": "",
           "status": "Future",
@@ -1363,11 +1488,27 @@
           "annual_starts": 35.0
         },
         {
+          "name": "Sea Pines at Bon Secour TH",
+          "builder": "Harris Doyle Homes Inc - Clayton Properties Group Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Sherwood",
           "builder": "",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 50,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "South Juniper Street TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 192,
           "annual_starts": 0.0
         },
         {
@@ -1443,11 +1584,27 @@
           "annual_starts": 14.0
         },
         {
+          "name": "Traditions/TH",
+          "builder": "Valor Communities",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 40,
+          "annual_starts": 5.0
+        },
+        {
           "name": "Village at Craft Farms",
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
           "product": "Single-Family Detached",
           "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Village at Gulf Landing, The TH",
+          "builder": "",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 116,
           "annual_starts": 0.0
         },
         {
@@ -1495,13 +1652,13 @@
     "SM-05": {
       "SubmarketID": "SM-05",
       "SubmarketName": "North Baldwin",
-      "total": 4,
+      "total": 5,
       "active": 3,
-      "future": 0,
+      "future": 1,
       "built_out": 1,
       "visible_default": 3,
       "single_family": 4,
-      "townhomes": 0,
+      "townhomes": 1,
       "builders_count": 8,
       "builders": [
         "Adams Homes",
@@ -1513,18 +1670,20 @@
         "Maronda Homes",
         "Prominence Homes & Communities"
       ],
-      "units_planned": 151.0,
-      "units_remaining": 39.0,
+      "units_planned": 199.0,
+      "units_remaining": 87.0,
       "annual_starts": 13.0,
       "annual_closings": 8.0,
       "vacant_developed_lots": 32.0,
       "under_construction": 6.0,
       "products": {
-        "Single-Family Detached": 4
+        "Single-Family Detached": 4,
+        "Townhomes": 1
       },
       "statuses": {
         "Active": 3,
-        "Built Out": 1
+        "Built Out": 1,
+        "Future": 1
       },
       "communities": [
         {
@@ -1558,19 +1717,27 @@
           "product": "Single-Family Detached",
           "units_remaining": 10,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Timber Ridge TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 48,
+          "annual_starts": 0.0
         }
       ]
     },
     "SM-06": {
       "SubmarketID": "SM-06",
       "SubmarketName": "West Baldwin",
-      "total": 55,
+      "total": 63,
       "active": 25,
-      "future": 17,
-      "built_out": 13,
+      "future": 23,
+      "built_out": 15,
       "visible_default": 42,
       "single_family": 55,
-      "townhomes": 0,
+      "townhomes": 8,
       "builders_count": 19,
       "builders": [
         "Achee Builders Inc",
@@ -1593,19 +1760,20 @@
         "Tower Homes",
         "Waverly Construction of Alabama LLC"
       ],
-      "units_planned": 9413.0,
-      "units_remaining": 5787.0,
+      "units_planned": 9944.0,
+      "units_remaining": 6292.0,
       "annual_starts": 425.0,
       "annual_closings": 523.0,
       "vacant_developed_lots": 1251.0,
       "under_construction": 206.0,
       "products": {
-        "Single-Family Detached": 55
+        "Single-Family Detached": 55,
+        "Townhomes": 8
       },
       "statuses": {
         "Active": 25,
-        "Future": 17,
-        "Built Out": 13
+        "Future": 23,
+        "Built Out": 15
       },
       "communities": [
         {
@@ -1673,6 +1841,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Cottages at Point Clear/TH",
+          "builder": "Point Clear Development Company",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Cottonwood Estates",
           "builder": "D.R. Horton Inc",
           "status": "Active",
@@ -1686,6 +1862,30 @@
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 3,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Eastlake Village/ATT",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 62,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Eastlake Village/ATT Cottage 55+",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 17,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Eastlake Village/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 94,
           "annual_starts": 0.0
         },
         {
@@ -1718,6 +1918,14 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 40,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Firefly Commons TH",
+          "builder": "",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
           "annual_starts": 0.0
         },
         {
@@ -1817,6 +2025,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Lanterna/TH",
+          "builder": "Maronda Homes",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 156,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Laurelbrooke",
           "builder": "D.R. Horton Inc",
           "status": "Active",
@@ -1897,6 +2113,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Prospect Park/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 87,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Reserve at Daphne",
           "builder": "D.R. Horton Inc",
           "status": "Active",
@@ -1918,6 +2142,14 @@
           "status": "Built Out",
           "product": "Single-Family Detached",
           "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Rowan Oak/Faulkners Place TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 89,
           "annual_starts": 0.0
         },
         {
@@ -2053,19 +2285,21 @@
     "SM-07": {
       "SubmarketID": "SM-07",
       "SubmarketName": "Pensacola",
-      "total": 35,
-      "active": 6,
-      "future": 19,
-      "built_out": 10,
+      "total": 58,
+      "active": 14,
+      "future": 28,
+      "built_out": 16,
       "visible_default": 25,
       "single_family": 35,
-      "townhomes": 0,
-      "builders_count": 12,
+      "townhomes": 23,
+      "builders_count": 14,
       "builders": [
         "Adams Homes",
         "aDoor Development",
+        "Brock Built",
         "Chavers Construction Inc",
         "D.R. Horton Inc",
+        "Desianna Properties",
         "FD Builds",
         "Flynn Building Specialists",
         "Forrest Homes and Steel Construction",
@@ -2075,19 +2309,20 @@
         "Randall Builders Group LLC",
         "Schrimsher Construction"
       ],
-      "units_planned": 1948.0,
-      "units_remaining": 1435.0,
-      "annual_starts": 94.0,
-      "annual_closings": 131.0,
-      "vacant_developed_lots": 16.0,
-      "under_construction": 19.0,
+      "units_planned": 3538.0,
+      "units_remaining": 2449.0,
+      "annual_starts": 171.0,
+      "annual_closings": 258.0,
+      "vacant_developed_lots": 232.0,
+      "under_construction": 64.0,
       "products": {
-        "Single-Family Detached": 35
+        "Single-Family Detached": 35,
+        "Townhomes": 23
       },
       "statuses": {
-        "Future": 19,
-        "Active": 6,
-        "Built Out": 10
+        "Future": 28,
+        "Active": 14,
+        "Built Out": 16
       },
       "communities": [
         {
@@ -2096,6 +2331,22 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 4,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Amanecer/TH",
+          "builder": "Schrimsher Construction",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 10,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bay Breeze Village TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 65,
           "annual_starts": 0.0
         },
         {
@@ -2123,6 +2374,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Cedar Village TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Commanders Cove",
           "builder": "Adams Homes",
           "status": "Built Out",
@@ -2139,6 +2398,22 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Covington Place TH",
+          "builder": "Chavers Construction Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 13,
+          "annual_starts": 5.0
+        },
+        {
+          "name": "Cypress Hollow TH",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 48,
+          "annual_starts": 12.0
+        },
+        {
           "name": "Davis Run/SF",
           "builder": "",
           "status": "Future",
@@ -2147,10 +2422,34 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Davis Run/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 179,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Ellies Cove TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 6.0
+        },
+        {
           "name": "Emerald Heights",
           "builder": "Adams Homes",
           "status": "Built Out",
           "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Fairchild Village TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
           "units_remaining": 0,
           "annual_starts": 0.0
         },
@@ -2163,11 +2462,43 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Gavin's Landing Townhomes",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 1,
+          "annual_starts": 6.0
+        },
+        {
+          "name": "Goldenvale TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 86,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Grove Park Townhomes",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Hammocks Subdivision",
           "builder": "",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 159,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Herons Landing TH",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 142,
           "annual_starts": 0.0
         },
         {
@@ -2211,6 +2542,22 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Lexlee Estates TH",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 9,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Lost Key TH",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 58,
+          "annual_starts": 18.0
+        },
+        {
           "name": "Madelyn Woods",
           "builder": "FD Builds | Randall Builders Group LLC",
           "status": "Active",
@@ -2231,6 +2578,22 @@
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
           "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 11.0
+        },
+        {
+          "name": "Meadow Brook Village TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Midtown Oaks TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
           "units_remaining": 0,
           "annual_starts": 11.0
         },
@@ -2259,12 +2622,44 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Navy Boulevard/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 39,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Navy Crossing TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 138,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Olde Barrancas Townhomes",
+          "builder": "",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 17,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Preserve at Russell Crossing",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 5,
           "annual_starts": 27.0
+        },
+        {
+          "name": "Red Feather Townhomes",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 11,
+          "annual_starts": 11.0
         },
         {
           "name": "River Road Villas",
@@ -2288,6 +2683,14 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 119,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Silverlark Trace/TH",
+          "builder": "Chavers Construction Inc",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 72,
           "annual_starts": 0.0
         },
         {
@@ -2331,11 +2734,27 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Towns at Olde Barrancas",
+          "builder": "Brock Built",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 77,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Twin Hollows",
           "builder": "",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 63,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Valencia Square/TH",
+          "builder": "Desianna Properties",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 49,
           "annual_starts": 0.0
         },
         {
@@ -2375,13 +2794,13 @@
     "SM-08": {
       "SubmarketID": "SM-08",
       "SubmarketName": "Pace",
-      "total": 33,
-      "active": 15,
-      "future": 10,
-      "built_out": 8,
+      "total": 38,
+      "active": 17,
+      "future": 12,
+      "built_out": 9,
       "visible_default": 25,
       "single_family": 33,
-      "townhomes": 0,
+      "townhomes": 5,
       "builders_count": 14,
       "builders": [
         "Adams Homes",
@@ -2399,19 +2818,20 @@
         "Sunchase Construction",
         "Thomas Home Corporation"
       ],
-      "units_planned": 15162.0,
-      "units_remaining": 13169.0,
-      "annual_starts": 362.0,
-      "annual_closings": 366.0,
-      "vacant_developed_lots": 1367.0,
-      "under_construction": 173.0,
+      "units_planned": 16122.0,
+      "units_remaining": 13985.0,
+      "annual_starts": 403.0,
+      "annual_closings": 401.0,
+      "vacant_developed_lots": 1552.0,
+      "under_construction": 194.0,
       "products": {
-        "Single-Family Detached": 33
+        "Single-Family Detached": 33,
+        "Townhomes": 5
       },
       "statuses": {
-        "Active": 15,
-        "Future": 10,
-        "Built Out": 8
+        "Active": 17,
+        "Future": 12,
+        "Built Out": 9
       },
       "communities": [
         {
@@ -2519,6 +2939,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Jubilee/TH (Santa Rosa)",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 95,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Lakes of Avalon",
           "builder": "",
           "status": "Future",
@@ -2533,6 +2961,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 526,
           "annual_starts": 37.0
+        },
+        {
+          "name": "Lancelot TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 62,
+          "annual_starts": 20.0
         },
         {
           "name": "McGads Place",
@@ -2551,12 +2987,28 @@
           "annual_starts": 33.0
         },
         {
+          "name": "Pace Commons/TH",
+          "builder": "Henry Company Homes",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 515,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Pandion Place",
           "builder": "Bill Walther Construction Inc | D.R. Horton Inc",
           "status": "Built Out",
           "product": "Single-Family Detached",
           "units_remaining": 0,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Parker Grove TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 144,
+          "annual_starts": 21.0
         },
         {
           "name": "Parkland Place",
@@ -2677,19 +3129,27 @@
           "product": "Single-Family Detached",
           "units_remaining": 0,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Woodlands/TH",
+          "builder": "Henry Company Homes",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         }
       ]
     },
     "SM-09": {
       "SubmarketID": "SM-09",
       "SubmarketName": "Pensacola Beaches",
-      "total": 14,
-      "active": 6,
-      "future": 4,
-      "built_out": 4,
+      "total": 21,
+      "active": 9,
+      "future": 6,
+      "built_out": 6,
       "visible_default": 10,
       "single_family": 14,
-      "townhomes": 0,
+      "townhomes": 7,
       "builders_count": 5,
       "builders": [
         "Ardco Inc",
@@ -2698,19 +3158,20 @@
         "Holiday Builders",
         "Lennar Homes"
       ],
-      "units_planned": 1645.0,
-      "units_remaining": 1138.0,
-      "annual_starts": 67.0,
-      "annual_closings": 75.0,
-      "vacant_developed_lots": 454.0,
-      "under_construction": 45.0,
+      "units_planned": 2479.0,
+      "units_remaining": 1828.0,
+      "annual_starts": 161.0,
+      "annual_closings": 133.0,
+      "vacant_developed_lots": 756.0,
+      "under_construction": 105.0,
       "products": {
-        "Single-Family Detached": 14
+        "Single-Family Detached": 14,
+        "Townhomes": 7
       },
       "statuses": {
-        "Future": 4,
-        "Active": 6,
-        "Built Out": 4
+        "Future": 6,
+        "Built Out": 6,
+        "Active": 9
       },
       "communities": [
         {
@@ -2720,6 +3181,22 @@
           "product": "Single-Family Detached",
           "units_remaining": 29,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Brittany Oaks Villas",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bryntleigh Terrace TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 78,
+          "annual_starts": 14.0
         },
         {
           "name": "Christophers Landing",
@@ -2736,6 +3213,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 24,
           "annual_starts": 45.0
+        },
+        {
+          "name": "Enclave at Midtown TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 21,
+          "annual_starts": 35.0
         },
         {
           "name": "Forest Bay Estates",
@@ -2778,6 +3263,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Proper at Soundview Boardwalk",
+          "builder": "",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Roman Oaks",
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
@@ -2807,6 +3300,30 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 200,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Soundview Cove Estates/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 259,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Soundview Point Villas TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 264,
+          "annual_starts": 45.0
+        },
+        {
+          "name": "Tiger Point Villas TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 68,
           "annual_starts": 0.0
         },
         {
@@ -3190,14 +3707,14 @@
     "SM-11": {
       "SubmarketID": "SM-11",
       "SubmarketName": "Cantonment",
-      "total": 57,
-      "active": 22,
-      "future": 18,
-      "built_out": 17,
+      "total": 67,
+      "active": 24,
+      "future": 23,
+      "built_out": 20,
       "visible_default": 40,
       "single_family": 57,
-      "townhomes": 0,
-      "builders_count": 15,
+      "townhomes": 10,
+      "builders_count": 16,
       "builders": [
         "Adams Homes",
         "Celebrity Home Builders",
@@ -3210,26 +3727,36 @@
         "Lennar Homes",
         "Maronda Homes",
         "Mitchell Residential",
+        "National Home Corp.",
         "Signature Homes LLC",
         "Terrance Edwards Homes",
         "Thomas Home Corporation",
         "Westerheim Properties"
       ],
-      "units_planned": 8055.0,
-      "units_remaining": 4761.0,
-      "annual_starts": 466.0,
-      "annual_closings": 486.0,
-      "vacant_developed_lots": 1088.0,
-      "under_construction": 148.0,
+      "units_planned": 9025.0,
+      "units_remaining": 5288.0,
+      "annual_starts": 513.0,
+      "annual_closings": 525.0,
+      "vacant_developed_lots": 1137.0,
+      "under_construction": 158.0,
       "products": {
+        "Townhomes": 10,
         "Single-Family Detached": 57
       },
       "statuses": {
-        "Active": 22,
-        "Future": 18,
-        "Built Out": 17
+        "Built Out": 20,
+        "Active": 24,
+        "Future": 23
       },
       "communities": [
+        {
+          "name": "Admirals Quarters TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
         {
           "name": "Allison Acres",
           "builder": "Adams Homes",
@@ -3319,6 +3846,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Calabria Place/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 42,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Calvary Estates",
           "builder": "",
           "status": "Future",
@@ -3367,6 +3902,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Cypress Cove TH",
+          "builder": "National Home Corp.",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 37,
+          "annual_starts": 31.0
+        },
+        {
           "name": "Eagle Pointe",
           "builder": "DSLD Homes",
           "status": "Active",
@@ -3399,12 +3942,28 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Guidy Lane Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 16,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Helms Ranch",
           "builder": "Thomas Home Corporation",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 385,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Highland Ridge TH",
+          "builder": "Adams Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 28,
+          "annual_starts": 16.0
         },
         {
           "name": "Huntington Creek",
@@ -3428,6 +3987,14 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 335,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "LaVelle Terrace TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 268,
           "annual_starts": 0.0
         },
         {
@@ -3487,6 +4054,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "McKinnon TH",
+          "builder": "Lennar Homes",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Mills Lakes Estates",
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
@@ -3519,12 +4094,28 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Pathstone/Creekchase TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 82,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Pathstone/Fallschase",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 48,
           "annual_starts": 47.0
+        },
+        {
+          "name": "Pathstone/Streamchase TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 54,
+          "annual_starts": 0.0
         },
         {
           "name": "Pecan Valley",
@@ -3555,6 +4146,14 @@
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
           "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Residences at Nature Creek",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
           "units_remaining": 0,
           "annual_starts": 0.0
         },
@@ -3691,13 +4290,13 @@
     "SM-12": {
       "SubmarketID": "SM-12",
       "SubmarketName": "Central Baldwin",
-      "total": 76,
-      "active": 40,
-      "future": 24,
-      "built_out": 12,
+      "total": 81,
+      "active": 41,
+      "future": 27,
+      "built_out": 13,
       "visible_default": 64,
       "single_family": 76,
-      "townhomes": 0,
+      "townhomes": 5,
       "builders_count": 14,
       "builders": [
         "Adams Homes",
@@ -3715,19 +4314,20 @@
         "Tower Homes",
         "Waverly Construction of Alabama LLC"
       ],
-      "units_planned": 11045.0,
-      "units_remaining": 8420.0,
-      "annual_starts": 601.0,
-      "annual_closings": 451.0,
-      "vacant_developed_lots": 2368.0,
-      "under_construction": 371.0,
+      "units_planned": 11606.0,
+      "units_remaining": 8856.0,
+      "annual_starts": 627.0,
+      "annual_closings": 477.0,
+      "vacant_developed_lots": 2418.0,
+      "under_construction": 387.0,
       "products": {
-        "Single-Family Detached": 76
+        "Single-Family Detached": 76,
+        "Townhomes": 5
       },
       "statuses": {
-        "Future": 24,
-        "Built Out": 12,
-        "Active": 40
+        "Future": 27,
+        "Built Out": 13,
+        "Active": 41
       },
       "communities": [
         {
@@ -3883,6 +4483,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Cottages on 31 TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 29,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Cotton District",
           "builder": "DSLD Homes",
           "status": "Built Out",
@@ -4027,6 +4635,14 @@
           "annual_starts": 50.0
         },
         {
+          "name": "Independence/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 67,
+          "annual_starts": 26.0
+        },
+        {
           "name": "Ivey Ridge",
           "builder": "D.R. Horton Inc",
           "status": "Active",
@@ -4139,6 +4755,22 @@
           "annual_starts": 1.0
         },
         {
+          "name": "Pembrooke East TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 280,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Pembrooke TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 60,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Polson Property",
           "builder": "",
           "status": "Future",
@@ -4151,6 +4783,14 @@
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
           "product": "Single-Family Detached",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Quail Hollow TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
           "units_remaining": 0,
           "annual_starts": 0.0
         },
@@ -4881,13 +5521,13 @@
     "SM-17": {
       "SubmarketID": "SM-17",
       "SubmarketName": "Crestview",
-      "total": 48,
-      "active": 22,
-      "future": 16,
+      "total": 51,
+      "active": 23,
+      "future": 18,
       "built_out": 10,
       "visible_default": 38,
       "single_family": 48,
-      "townhomes": 0,
+      "townhomes": 3,
       "builders_count": 19,
       "builders": [
         "Adams Homes",
@@ -4910,19 +5550,20 @@
         "W. Douglas Harris Construction Inc",
         "Whitworth Builders"
       ],
-      "units_planned": 6874.0,
-      "units_remaining": 4807.0,
-      "annual_starts": 218.0,
-      "annual_closings": 266.0,
-      "vacant_developed_lots": 730.0,
-      "under_construction": 91.0,
+      "units_planned": 7169.0,
+      "units_remaining": 5095.0,
+      "annual_starts": 238.0,
+      "annual_closings": 273.0,
+      "vacant_developed_lots": 898.0,
+      "under_construction": 92.0,
       "products": {
-        "Single-Family Detached": 48
+        "Single-Family Detached": 48,
+        "Townhomes": 3
       },
       "statuses": {
-        "Active": 22,
+        "Active": 23,
         "Built Out": 10,
-        "Future": 16
+        "Future": 18
       },
       "communities": [
         {
@@ -5028,6 +5669,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 474,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Garden Villa TH",
+          "builder": "Day Homes (FL) | D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 181,
+          "annual_starts": 20.0
         },
         {
           "name": "Harrisburg Estates",
@@ -5182,6 +5831,14 @@
           "annual_starts": 30.0
         },
         {
+          "name": "Patriot Place TH",
+          "builder": "Phillips Homes",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 1,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Patriot Ridge",
           "builder": "Cassady Homes | D.R. Horton Inc | DSLD Homes | Phillips Homes",
           "status": "Active",
@@ -5270,6 +5927,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Valley Rd Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 106,
+          "annual_starts": 0.0
+        },
+        {
           "name": "White Wolf Run",
           "builder": "",
           "status": "Future",
@@ -5314,21 +5979,24 @@
     "SM-18": {
       "SubmarketID": "SM-18",
       "SubmarketName": "Fort Walton",
-      "total": 9,
-      "active": 6,
-      "future": 2,
-      "built_out": 1,
+      "total": 22,
+      "active": 11,
+      "future": 5,
+      "built_out": 6,
       "visible_default": 8,
       "single_family": 9,
-      "townhomes": 0,
-      "builders_count": 15,
+      "townhomes": 13,
+      "builders_count": 19,
       "builders": [
+        "Barber Custom Builders Inc",
         "Better Built of NW Florida Inc",
         "Contemporary Homes of Florida",
+        "CoPilot Properties",
         "D.R. Horton Inc",
         "Ferrin Campbell Construction",
         "Grand American Enterprises",
         "Greg Goodwin Construction",
+        "Henderson Built Homes LLC",
         "Huff Homes",
         "J&V Builders Inc",
         "Janssen Construction Management Inc",
@@ -5336,22 +6004,24 @@
         "Key Lime Construction",
         "Randy Wise Homes",
         "Ruckel Properties Inc",
+        "S & N Development LLC",
         "Tidwell Homes",
         "Wilson Ents of NW FL Inc"
       ],
-      "units_planned": 3292.0,
-      "units_remaining": 2898.0,
-      "annual_starts": 50.0,
-      "annual_closings": 68.0,
-      "vacant_developed_lots": 196.0,
-      "under_construction": 32.0,
+      "units_planned": 3667.0,
+      "units_remaining": 3156.0,
+      "annual_starts": 71.0,
+      "annual_closings": 85.0,
+      "vacant_developed_lots": 275.0,
+      "under_construction": 67.0,
       "products": {
-        "Single-Family Detached": 9
+        "Single-Family Detached": 9,
+        "Townhomes": 13
       },
       "statuses": {
-        "Active": 6,
-        "Future": 2,
-        "Built Out": 1
+        "Active": 11,
+        "Built Out": 6,
+        "Future": 5
       },
       "communities": [
         {
@@ -5363,11 +6033,75 @@
           "annual_starts": 4.0
         },
         {
+          "name": "Ainsley Parc TH",
+          "builder": "Barber Custom Builders Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Apollo Place TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 68,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bay Breeze Townhomes",
+          "builder": "CoPilot Properties",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 6,
+          "annual_starts": 3.0
+        },
+        {
           "name": "Bayou Oaks/SF",
           "builder": "Tidwell Homes",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 29,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bayou Oaks/TH",
+          "builder": "Tidwell Homes",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 59,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bluewater Common/SF",
+          "builder": "Tidwell Homes",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bluewater Common/TH",
+          "builder": "Tidwell Homes",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Calhoun Harbor TH",
+          "builder": "",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 54,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Coopers Landing TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
           "annual_starts": 0.0
         },
         {
@@ -5395,6 +6129,14 @@
           "annual_starts": 2.0
         },
         {
+          "name": "Georgia Ave Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 14,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Kake Cottages",
           "builder": "Contemporary Homes of Florida",
           "status": "Active",
@@ -5419,25 +6161,57 @@
           "annual_starts": 1.0
         },
         {
+          "name": "Orange Place TH",
+          "builder": "S & N Development LLC",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Savannah Grace Townhomes",
+          "builder": "Henderson Built Homes LLC",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 24,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Spears 27th St",
           "builder": "Grand American Enterprises",
           "status": "Built Out",
           "product": "Single-Family Detached",
           "units_remaining": 0,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Tidwell Townhomes",
+          "builder": "Tidwell Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 11,
+          "annual_starts": 8.0
+        },
+        {
+          "name": "Vicki Leigh Townhomes",
+          "builder": "Henderson Built Homes LLC",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 22,
+          "annual_starts": 10.0
         }
       ]
     },
     "SM-19": {
       "SubmarketID": "SM-19",
       "SubmarketName": "Defuniak Springs",
-      "total": 14,
-      "active": 7,
-      "future": 7,
+      "total": 17,
+      "active": 8,
+      "future": 9,
       "built_out": 0,
       "visible_default": 14,
       "single_family": 14,
-      "townhomes": 0,
+      "townhomes": 3,
       "builders_count": 7,
       "builders": [
         "Century Communities",
@@ -5448,18 +6222,19 @@
         "R&K Construction",
         "Valor Communities"
       ],
-      "units_planned": 3837.0,
-      "units_remaining": 3703.0,
+      "units_planned": 4246.0,
+      "units_remaining": 4112.0,
       "annual_starts": 85.0,
       "annual_closings": 30.0,
-      "vacant_developed_lots": 218.0,
+      "vacant_developed_lots": 330.0,
       "under_construction": 50.0,
       "products": {
-        "Single-Family Detached": 14
+        "Single-Family Detached": 14,
+        "Townhomes": 3
       },
       "statuses": {
-        "Future": 7,
-        "Active": 7
+        "Future": 9,
+        "Active": 8
       },
       "communities": [
         {
@@ -5487,6 +6262,14 @@
           "annual_starts": 41.0
         },
         {
+          "name": "Bay Springs Majors/TH",
+          "builder": "Lennar Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 112,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Blackstone",
           "builder": "",
           "status": "Future",
@@ -5500,6 +6283,14 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 361,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bluffs at Juniper/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 55,
           "annual_starts": 0.0
         },
         {
@@ -5533,6 +6324,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 26,
           "annual_starts": 13.0
+        },
+        {
+          "name": "North Davis Lane Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 242,
+          "annual_starts": 0.0
         },
         {
           "name": "Pinehurst Estates",
@@ -5579,14 +6378,14 @@
     "SM-20": {
       "SubmarketID": "SM-20",
       "SubmarketName": "Freeport",
-      "total": 55,
-      "active": 28,
-      "future": 13,
-      "built_out": 14,
+      "total": 66,
+      "active": 29,
+      "future": 22,
+      "built_out": 15,
       "visible_default": 41,
       "single_family": 55,
-      "townhomes": 0,
-      "builders_count": 37,
+      "townhomes": 11,
+      "builders_count": 38,
       "builders": [
         "360 DA Investment Corp",
         "4A Ventures",
@@ -5624,21 +6423,23 @@
         "Southern Hybird Homes LLC",
         "Traton Homes",
         "Valor Communities",
+        "Verandas Builders LLC",
         "Vision Coast Homes"
       ],
-      "units_planned": 14805.0,
-      "units_remaining": 12099.0,
-      "annual_starts": 501.0,
-      "annual_closings": 459.0,
-      "vacant_developed_lots": 2250.0,
-      "under_construction": 239.0,
+      "units_planned": 17265.0,
+      "units_remaining": 14447.0,
+      "annual_starts": 521.0,
+      "annual_closings": 474.0,
+      "vacant_developed_lots": 2298.0,
+      "under_construction": 243.0,
       "products": {
-        "Single-Family Detached": 55
+        "Single-Family Detached": 55,
+        "Townhomes": 11
       },
       "statuses": {
-        "Active": 28,
-        "Future": 13,
-        "Built Out": 14
+        "Active": 29,
+        "Future": 22,
+        "Built Out": 15
       },
       "communities": [
         {
@@ -5690,6 +6491,14 @@
           "annual_starts": 32.0
         },
         {
+          "name": "Bourbon St Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 106,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Carr/MF",
           "builder": "",
           "status": "Future",
@@ -5722,6 +6531,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Crews Holdings/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 569,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Cross Creek Estates",
           "builder": "Century Communities | Halifax Homes | Lennar Homes",
           "status": "Active",
@@ -5744,6 +6561,30 @@
           "product": "Single-Family Detached",
           "units_remaining": 242,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Crystal Lake/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 158,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Freeport Plantation",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 702,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Genoa Landing TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 193,
+          "annual_starts": 20.0
         },
         {
           "name": "Grande Oaks (Walton)",
@@ -5946,6 +6787,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Jackson Street Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 120,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Kings Crossing",
           "builder": "",
           "status": "Future",
@@ -6018,6 +6867,14 @@
           "annual_starts": 46.0
         },
         {
+          "name": "New Deal Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 64,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Oaks at Bay Grove",
           "builder": "Envision Builders Group LLC",
           "status": "Future",
@@ -6034,6 +6891,14 @@
           "annual_starts": 72.0
         },
         {
+          "name": "Owls Head East/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 86,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Owls Head Farms/SF",
           "builder": "D.R. Horton Inc",
           "status": "Active",
@@ -6042,11 +6907,27 @@
           "annual_starts": 76.0
         },
         {
+          "name": "Owls Head Farms/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 250,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Owls Head/Long Leaf SF",
           "builder": "Lennar Homes",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 520,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Owls Head/Long Leaf TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 100,
           "annual_starts": 0.0
         },
         {
@@ -6080,19 +6961,27 @@
           "product": "Single-Family Detached",
           "units_remaining": 74,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Verandas at Freeport Townhomes",
+          "builder": "Verandas Builders LLC",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
         }
       ]
     },
     "SM-21": {
       "SubmarketID": "SM-21",
       "SubmarketName": "Eglin AFB",
-      "total": 10,
-      "active": 5,
-      "future": 1,
+      "total": 12,
+      "active": 6,
+      "future": 2,
       "built_out": 4,
       "visible_default": 6,
       "single_family": 10,
-      "townhomes": 0,
+      "townhomes": 2,
       "builders_count": 6,
       "builders": [
         "Abbott Martin Group",
@@ -6102,21 +6991,30 @@
         "Venture Construction",
         "Whitworth Builders"
       ],
-      "units_planned": 477.0,
-      "units_remaining": 226.0,
-      "annual_starts": 73.0,
-      "annual_closings": 37.0,
-      "vacant_developed_lots": 125.0,
-      "under_construction": 40.0,
+      "units_planned": 616.0,
+      "units_remaining": 336.0,
+      "annual_starts": 117.0,
+      "annual_closings": 66.0,
+      "vacant_developed_lots": 157.0,
+      "under_construction": 49.0,
       "products": {
+        "Townhomes": 2,
         "Single-Family Detached": 10
       },
       "statuses": {
-        "Active": 5,
-        "Built Out": 4,
-        "Future": 1
+        "Future": 2,
+        "Active": 6,
+        "Built Out": 4
       },
       "communities": [
+        {
+          "name": "Bluffs TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 63,
+          "annual_starts": 0.0
+        },
         {
           "name": "Buckeyes Landing",
           "builder": "Herbst Homes",
@@ -6148,6 +7046,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 1,
           "annual_starts": 8.0
+        },
+        {
+          "name": "Forest Shores Villas",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 47,
+          "annual_starts": 44.0
         },
         {
           "name": "Herbst Ridge",
@@ -6202,14 +7108,14 @@
     "SM-22": {
       "SubmarketID": "SM-22",
       "SubmarketName": "Walton and Bay Beaches",
-      "total": 121,
-      "active": 69,
-      "future": 32,
-      "built_out": 20,
+      "total": 154,
+      "active": 87,
+      "future": 44,
+      "built_out": 23,
       "visible_default": 101,
       "single_family": 121,
-      "townhomes": 0,
-      "builders_count": 77,
+      "townhomes": 33,
+      "builders_count": 82,
       "builders": [
         "Alpha First Construction",
         "Alys Beach Construction",
@@ -6223,6 +7129,7 @@
         "BMKN Inc",
         "Boswell Builders & Sons",
         "Brock Built",
+        "Carrot Top Beach Developments",
         "Clements Construction",
         "Coastal Custom Homebuilding",
         "Cobalt Builders",
@@ -6230,6 +7137,7 @@
         "Cole Construction & Development",
         "Cole Inc.",
         "Corestruction LLC",
+        "Cottages at 393 South LLC",
         "Craft Custom Homes LLC",
         "D.R. Horton Inc",
         "Davis Dunn Construction",
@@ -6239,6 +7147,7 @@
         "Earthbuild LLC",
         "Ebsco Gulf Coast Development Inc",
         "Edens Landing Development Partners",
+        "Emerald Coast Homes",
         "Emerald View Construction",
         "Fischer Homes",
         "Focus Construction",
@@ -6256,12 +7165,14 @@
         "JC Craig LLC",
         "Key Lime Construction",
         "Koast Builders Inc",
+        "Kode Construction Services LLC",
         "Kolter Homes",
         "KSB Homes",
         "Laguna Haven Construction LLC",
         "Lake Powell LLC",
         "Legendary Home Builders LLC",
         "Magnolia Custom Homes Inc",
+        "Maraman Construction Inc",
         "Martelle Homes",
         "Nadeau Construction",
         "Nagell Construction",
@@ -6289,21 +7200,30 @@
         "Turner Heritage Homes",
         "Valor Communities"
       ],
-      "units_planned": 13357.0,
-      "units_remaining": 9705.0,
-      "annual_starts": 633.0,
-      "annual_closings": 629.0,
-      "vacant_developed_lots": 2442.0,
-      "under_construction": 421.0,
+      "units_planned": 16004.0,
+      "units_remaining": 11697.0,
+      "annual_starts": 922.0,
+      "annual_closings": 855.0,
+      "vacant_developed_lots": 3026.0,
+      "under_construction": 627.0,
       "products": {
+        "Townhomes": 33,
         "Single-Family Detached": 121
       },
       "statuses": {
-        "Future": 32,
-        "Active": 69,
-        "Built Out": 20
+        "Active": 87,
+        "Future": 44,
+        "Built Out": 23
       },
       "communities": [
+        {
+          "name": "30 North at Eden Park TH",
+          "builder": "BluScape Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 19,
+          "annual_starts": 11.0
+        },
         {
           "name": "800 Indian Woman Rd",
           "builder": "",
@@ -6449,6 +7369,22 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Beachwalk TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 76,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Beargrass Preserve at Naturewalk TH",
+          "builder": "Kode Construction Services LLC",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 24,
+          "annual_starts": 14.0
+        },
+        {
           "name": "BelMar",
           "builder": "Cobalt Builders",
           "status": "Active",
@@ -6462,6 +7398,14 @@
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 84,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bishop Landing/TH",
+          "builder": "Brock Built",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 103,
           "annual_starts": 0.0
         },
         {
@@ -6489,6 +7433,14 @@
           "annual_starts": 107.0
         },
         {
+          "name": "Bridgewater Way TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 77,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Bridle Oaks at Kelly Plantation",
           "builder": "",
           "status": "Future",
@@ -6513,11 +7465,27 @@
           "annual_starts": 40.0
         },
         {
+          "name": "Caballeros Estates at Hombre/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 12.0
+        },
+        {
           "name": "Canopies/SF",
           "builder": "BluScape Homes",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 29,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Canopies/TH",
+          "builder": "BluScape Homes",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 50,
           "annual_starts": 0.0
         },
         {
@@ -6534,6 +7502,14 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 34,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Century 393 Townhomes",
+          "builder": "Carrot Top Beach Developments",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 24,
           "annual_starts": 0.0
         },
         {
@@ -6561,6 +7537,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Coastal Palms Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 289,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Colonial East/SF",
           "builder": "D.R. Horton Inc",
           "status": "Active",
@@ -6569,12 +7553,44 @@
           "annual_starts": 21.0
         },
         {
+          "name": "Colonial East/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 87,
+          "annual_starts": 18.0
+        },
+        {
+          "name": "Coral Cove TH",
+          "builder": "Fischer Homes",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 1,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "County Rd 393 Townhomes",
+          "builder": "Cottages at 393 South LLC",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 40,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Crest Bay Cottages",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 19,
           "annual_starts": 10.0
+        },
+        {
+          "name": "Cypress Heights TH",
+          "builder": "Maraman Construction Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 20,
+          "annual_starts": 0.0
         },
         {
           "name": "East Bay Plantation",
@@ -6606,6 +7622,14 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 55,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Emerald Cove Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 164,
           "annual_starts": 0.0
         },
         {
@@ -6649,11 +7673,35 @@
           "annual_starts": 3.0
         },
         {
+          "name": "Harbor Place TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Harmony Lake/SF",
           "builder": "",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 107,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Harmony Lake/TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 263,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Harstvedt Rd Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 27,
           "annual_starts": 0.0
         },
         {
@@ -6663,6 +7711,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 0,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Hawks Landing/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 37,
+          "annual_starts": 56.0
         },
         {
           "name": "Heritage Dunes",
@@ -6697,12 +7753,28 @@
           "annual_starts": 5.0
         },
         {
+          "name": "Hidden Pines TH",
+          "builder": "Grayt-A Construction",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 42,
+          "annual_starts": 20.0
+        },
+        {
           "name": "Holley Grove at Peach Creek",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 4,
           "annual_starts": 31.0
+        },
+        {
+          "name": "Holly Bay Estates TH",
+          "builder": "Emerald Coast Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 33,
+          "annual_starts": 8.0
         },
         {
           "name": "Hunters Run",
@@ -6745,6 +7817,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Kelly St PUD",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 102,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Kelly Street Pines",
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
@@ -6783,6 +7863,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 33,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Landing, The",
+          "builder": "Cobalt Builders",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 16,
+          "annual_starts": 2.0
         },
         {
           "name": "Lupin Beach",
@@ -6833,11 +7921,27 @@
           "annual_starts": 14.0
         },
         {
+          "name": "Mexico Beach/Salt Creek TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 25,
+          "annual_starts": 18.0
+        },
+        {
           "name": "Nautilus Pointe at Inlet Beach",
           "builder": "Brock Built",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 31,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Nellie Drive Townhomes",
+          "builder": "Brock Built",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 45,
           "annual_starts": 0.0
         },
         {
@@ -6879,6 +7983,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 25,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Palms Street Townhomes",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 58,
+          "annual_starts": 25.0
         },
         {
           "name": "Parkside",
@@ -6969,12 +8081,36 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Sandhill Pines Townhomes",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Sawgrass Reserve TH",
+          "builder": "BluScape Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 90,
+          "annual_starts": 13.0
+        },
+        {
           "name": "Sea Drift",
           "builder": "D.R. Horton Inc",
           "status": "Built Out",
           "product": "Single-Family Detached",
           "units_remaining": 0,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Seagate at Clara TH",
+          "builder": "Traton Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 132,
+          "annual_starts": 16.0
         },
         {
           "name": "Serenity at Dune Allen",
@@ -7209,12 +8345,28 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Watersound/Villas at Longleaf Park",
+          "builder": "Fischer Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 48,
+          "annual_starts": 34.0
+        },
+        {
           "name": "Watersound/Ward Creek/Bayside SF",
           "builder": "D.R. Horton Inc",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 46,
           "annual_starts": 41.0
+        },
+        {
+          "name": "Watersound/Ward Creek/Bayside TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 12,
+          "annual_starts": 30.0
         },
         {
           "name": "Watersound/Ward Creek/Breakwater",
@@ -7249,6 +8401,22 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Waypoint Townhomes",
+          "builder": "Traton Homes",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 56,
+          "annual_starts": 12.0
+        },
+        {
+          "name": "West 30A Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 16,
+          "annual_starts": 0.0
+        },
+        {
           "name": "West Laird/Future",
           "builder": "",
           "status": "Future",
@@ -7263,6 +8431,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 214,
           "annual_starts": 14.0
+        },
+        {
+          "name": "Wildwood Duplex",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 16,
+          "annual_starts": 0.0
         },
         {
           "name": "Wildwood Village",
@@ -7590,16 +8766,17 @@
     "SM-28": {
       "SubmarketID": "SM-28",
       "SubmarketName": "Panama City",
-      "total": 58,
-      "active": 27,
-      "future": 19,
-      "built_out": 12,
+      "total": 71,
+      "active": 31,
+      "future": 27,
+      "built_out": 13,
       "visible_default": 46,
       "single_family": 58,
-      "townhomes": 0,
-      "builders_count": 24,
+      "townhomes": 13,
+      "builders_count": 27,
       "builders": [
         "Adams Homes",
+        "Bay County Builders",
         "Ben Wortman Construction",
         "Camben Homes",
         "Century Communities",
@@ -7608,6 +8785,7 @@
         "D.R. Horton Inc",
         "DSLD Homes",
         "Fischer Homes",
+        "Gad Homes",
         "George Outlaw Homes",
         "Harris Doyle Homes Inc - Clayton Properties Group Inc",
         "Holiday Builders",
@@ -7622,21 +8800,23 @@
         "Suzanne Vickers Construction Inc",
         "Timmons Construction Inc",
         "Traton Homes",
-        "Valor Communities"
+        "Valor Communities",
+        "Walsh Development Group"
       ],
-      "units_planned": 19417.0,
-      "units_remaining": 15728.0,
-      "annual_starts": 582.0,
-      "annual_closings": 482.0,
-      "vacant_developed_lots": 1728.0,
-      "under_construction": 268.0,
+      "units_planned": 20729.0,
+      "units_remaining": 16909.0,
+      "annual_starts": 622.0,
+      "annual_closings": 513.0,
+      "vacant_developed_lots": 1851.0,
+      "under_construction": 304.0,
       "products": {
-        "Single-Family Detached": 58
+        "Single-Family Detached": 58,
+        "Townhomes": 13
       },
       "statuses": {
-        "Future": 19,
-        "Active": 27,
-        "Built Out": 12
+        "Future": 27,
+        "Active": 31,
+        "Built Out": 13
       },
       "communities": [
         {
@@ -7677,6 +8857,22 @@
           "status": "Built Out",
           "product": "Single-Family Detached",
           "units_remaining": 0,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bay Crest TH",
+          "builder": "Valor Communities",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 50,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Bedford Park TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 154,
           "annual_starts": 0.0
         },
         {
@@ -7744,6 +8940,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Callaway Bayou Townhomes",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 276,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Camryns Crossing",
           "builder": "Southern Coastal Homes",
           "status": "Built Out",
@@ -7808,12 +9012,28 @@
           "annual_starts": 5.0
         },
         {
+          "name": "Eagle Ridge Townhomes",
+          "builder": "Valor Communities",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 87,
+          "annual_starts": 0.0
+        },
+        {
           "name": "East Bay Park",
           "builder": "Porch Swing Homes",
           "status": "Active",
           "product": "Single-Family Detached",
           "units_remaining": 7,
           "annual_starts": 3.0
+        },
+        {
+          "name": "Emelias Complex (Sherman Ave Duplex)",
+          "builder": "Gad Homes",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 18,
+          "annual_starts": 0.0
         },
         {
           "name": "Everitt Avenue",
@@ -7824,12 +9044,28 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Falcon Ridge Townhomes",
+          "builder": "Walsh Development Group",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 104,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Fiddlers Glen",
           "builder": "",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 172,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Fortune Avenue TH",
+          "builder": "Bay County Builders",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 40,
+          "annual_starts": 30.0
         },
         {
           "name": "Fox Glenn",
@@ -7877,6 +9113,14 @@
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 106,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Jakes Landing TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Built Out",
+          "product": "Townhomes",
+          "units_remaining": 0,
           "annual_starts": 0.0
         },
         {
@@ -8016,6 +9260,30 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Sanctuary/TH (Bay)",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 248,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "Star Avenue TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 72,
+          "annual_starts": 0.0
+        },
+        {
+          "name": "State Avenue TH",
+          "builder": "",
+          "status": "Future",
+          "product": "Townhomes",
+          "units_remaining": 52,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Still Waters",
           "builder": "",
           "status": "Future",
@@ -8072,6 +9340,14 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Sweetbay/TH",
+          "builder": "Harris Doyle Homes Inc - Clayton Properties Group Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 75,
+          "annual_starts": 4.0
+        },
+        {
           "name": "Teachee",
           "builder": "",
           "status": "Future",
@@ -8086,6 +9362,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 540,
           "annual_starts": 75.0
+        },
+        {
+          "name": "Tyndall Station TH",
+          "builder": "Valor Communities",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 5,
+          "annual_starts": 6.0
         },
         {
           "name": "Villages of Mill Bayou/Shoreline Village",
@@ -8225,36 +9509,46 @@
     "SM-31": {
       "SubmarketID": "SM-31",
       "SubmarketName": "Gulf County",
-      "total": 19,
-      "active": 9,
+      "total": 24,
+      "active": 14,
       "future": 4,
       "built_out": 6,
       "visible_default": 13,
       "single_family": 19,
-      "townhomes": 0,
-      "builders_count": 5,
+      "townhomes": 5,
+      "builders_count": 6,
       "builders": [
         "America's Home Place",
+        "Bent Pine Construction",
         "D.R. Horton Inc",
         "Jubilee Builders",
         "Taunton Development Inc",
         "Traton Homes"
       ],
-      "units_planned": 1231.0,
-      "units_remaining": 754.0,
-      "annual_starts": 93.0,
-      "annual_closings": 80.0,
-      "vacant_developed_lots": 230.0,
-      "under_construction": 41.0,
+      "units_planned": 1516.0,
+      "units_remaining": 943.0,
+      "annual_starts": 138.0,
+      "annual_closings": 121.0,
+      "vacant_developed_lots": 380.0,
+      "under_construction": 56.0,
       "products": {
+        "Townhomes": 5,
         "Single-Family Detached": 19
       },
       "statuses": {
+        "Active": 14,
         "Future": 4,
-        "Active": 9,
         "Built Out": 6
       },
       "communities": [
+        {
+          "name": "Arazzo on Madison TH",
+          "builder": "Bent Pine Construction",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 21,
+          "annual_starts": 0.0
+        },
         {
           "name": "Bayside at Port St Joe",
           "builder": "",
@@ -8278,6 +9572,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 66,
           "annual_starts": 11.0
+        },
+        {
+          "name": "Chateau Nemours/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 31,
+          "annual_starts": 12.0
         },
         {
           "name": "Coastal Plantation",
@@ -8352,12 +9654,28 @@
           "annual_starts": 0.0
         },
         {
+          "name": "Rish Cottages",
+          "builder": "",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 11,
+          "annual_starts": 0.0
+        },
+        {
           "name": "Rish Farm West",
           "builder": "",
           "status": "Future",
           "product": "Single-Family Detached",
           "units_remaining": 14,
           "annual_starts": 0.0
+        },
+        {
+          "name": "Salt Pines TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 80,
+          "annual_starts": 9.0
         },
         {
           "name": "Sawmill Estates",
@@ -8398,6 +9716,14 @@
           "product": "Single-Family Detached",
           "units_remaining": 469,
           "annual_starts": 54.0
+        },
+        {
+          "name": "WindMark Beach/North/TH",
+          "builder": "D.R. Horton Inc",
+          "status": "Active",
+          "product": "Townhomes",
+          "units_remaining": 46,
+          "annual_starts": 24.0
         },
         {
           "name": "Windmark Beach/Village Center East",
