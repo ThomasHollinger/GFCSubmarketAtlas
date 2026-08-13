@@ -1,6 +1,12 @@
-# Gulf Coast Submarket Atlas v2.9.53
+# Gulf Coast Submarket Atlas v2.9.54
 
 Deployment build for the Gulf Coast / Enterprise Submarket Atlas.
+
+## v2.9.54 — Market Quickview income-band performance fix
+
+- Income Bands now render immediately from demographic snapshot data when the income-by-age table is empty.
+- Removed misleading “still loading” placeholders for Quickview sections that have already finished loading.
+- No additional network request is required to display income bands.
 
 ## v2.9.53 — Retail & Lifestyle performance + release notes
 - Retail & Dining now starts loading in the background after the core Atlas is ready instead of waiting for the first checkbox click.

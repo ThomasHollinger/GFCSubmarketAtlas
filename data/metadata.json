@@ -10,7 +10,7 @@
   "notes": "Performance update: Retail & Dining and Lifestyle & Amenities warm in the background and persist processed POI snapshots locally for fast repeat loads. Added current README.md/release history for GitHub. Healthcare/Demographics fixes, Marianna/Panama City Quickview, and Builder Subdivisions defaults preserved.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "v2.9.53",
+  "release": "v2.9.54",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "updated": "2026-08-13",
   "retail": "Retail & Dining now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",
