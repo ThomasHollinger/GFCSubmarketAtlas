@@ -42,3 +42,7 @@ Deployment build for the Gulf Coast / Enterprise Submarket Atlas.
 
 ## Deployment
 Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages repository root. Do not upload the ZIP itself as the website content.
+
+
+## v2.9.55
+- Market Quickview Income Bands now use a fixed low-to-high income order: Less than 25k through Above 200k, independent of household counts.
