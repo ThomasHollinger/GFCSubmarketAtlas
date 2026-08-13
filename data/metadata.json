@@ -1,5 +1,5 @@
 {
-  "version": "2.9.52",
+  "version": "2.9.53",
   "releaseDate": "2026-08-13",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -7,12 +7,13 @@
   "schools": "School ratings load in background; verified types now drive school icons and summaries",
   "demographics": "Precomputed ACS 5-Year block-group estimates with 5-year forecast; Market Quickview includes Marianna and all previously wired pilot block demographics.",
   "builders": "Updated from user-provided Zonda subdivision table (1,062 records; 474 active, 346 future, 242 built out; includes 161 townhomes).",
-  "notes": "Healthcare layer loader hardened against Quickview polygon misassignment; Demographics now returns to Hub View when deselected. Marianna, Panama City, all prior Quickview datasets, and Builder Subdivisions v2.9.49 defaults preserved.",
+  "notes": "Performance update: Retail & Dining and Lifestyle & Amenities warm in the background and persist processed POI snapshots locally for fast repeat loads. Added current README.md/release history for GitHub. Healthcare/Demographics fixes, Marianna/Panama City Quickview, and Builder Subdivisions defaults preserved.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "v2.9.52",
+  "release": "v2.9.53",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "updated": "2026-08-13",
-  "retail": "Retail & Dining clustering and display filters enabled; OSM shop=wholesale/shop=warehouse included as Grocery for Costco, Sam's Club, BJ's, and similar wholesale clubs.",
-  "builder_subdivisions": "Zonda subdivision table dated 2026-08-12; 1,062 spatially assigned communities including 901 Single-Family Detached and 161 Townhomes, with 474 Active, 346 Future, and 242 Built Out records."
+  "retail": "Retail & Dining now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",
+  "builder_subdivisions": "Zonda subdivision table dated 2026-08-12; 1,062 spatially assigned communities including 901 Single-Family Detached and 161 Townhomes, with 474 Active, 346 Future, and 242 Built Out records.",
+  "lifestyle": "Lifestyle & Amenities now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved."
 }

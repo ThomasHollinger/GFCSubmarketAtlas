@@ -1,10 +1,8 @@
-Gulf Coast Submarket Atlas v2.9.51 - GitHub-ready deployment package
+Gulf Coast Submarket Atlas v2.9.53 - GitHub-ready deployment package
 
 Upload the CONTENTS of this folder/ZIP to the repository root used by GitHub Pages.
-This package contains only files required by the deployed Atlas plus this note.
+Retail & Dining and Lifestyle & Amenities now preload in the background and persist processed OSM POI data in a 30-day browser cache for much faster repeat access.
+README.md is included so GitHub release notes update with the deployed Atlas.
+All v2.9.52 Healthcare/Demographics fixes, v2.9.51 Marianna Quickview, Panama City/prior Quickview datasets, and Builder Subdivisions defaults are preserved.
 
-Market Quickview: Marianna demographic blocks added (63 grid blocks; 10 populated from the supplied package). Panama City and all prior Quickview datasets are preserved.
-Builder Subdivisions: retains v2.9.49 Single-Family Detached and Townhome data and default filters: Single Family Detached + Active + Future ON; Townhomes + Built Out OFF.
-
-Development scripts, workflow files, audit/source workbooks, and Python cache files are intentionally omitted.
 Do not upload the ZIP itself as the website contents; extract it first, then upload the files/folders inside.
