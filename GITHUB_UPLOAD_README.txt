@@ -1,12 +1,5 @@
-Gulf Coast Submarket Atlas v2.9.55 - GitHub-ready deployment package
+Gulf Coast Submarket Atlas v2.9.56 - GitHub delta/deployment update
 
-Upload the CONTENTS of this folder/ZIP to the repository root used by GitHub Pages.
-Retail & Dining and Lifestyle & Amenities now preload in the background and persist processed OSM POI data in a 30-day browser cache for much faster repeat access.
-README.md is included so GitHub release notes update with the deployed Atlas.
-All v2.9.52 Healthcare/Demographics fixes, v2.9.51 Marianna Quickview, Panama City/prior Quickview datasets, and Builder Subdivisions defaults are preserved.
+Market Snapshot demographics restored to ACS 2020-2024 5-Year block-group radius aggregation. The Snapshot no longer depends on submarket centroids. Market Quickview is unchanged.
 
-Do not upload the ZIP itself as the website contents; extract it first, then upload the files/folders inside.
-
-Market Quickview Income Bands now render immediately from the already-loaded demographic snapshot payload; no secondary load is required.
-
-Quickview income bands are ordered from lowest income band to highest.
+Upload the patch contents over the existing repository files. The new index.html points to js/app-v2_9_56.js.
