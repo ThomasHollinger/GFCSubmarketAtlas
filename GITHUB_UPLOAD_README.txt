@@ -1,5 +1,8 @@
-Gulf Coast Submarket Atlas v2.9.56 - GitHub delta/deployment update
+Gulf Coast Submarket Atlas v2.9.57 - GitHub delta patch
 
-Market Snapshot demographics restored to ACS 2020-2024 5-Year block-group radius aggregation. The Snapshot no longer depends on submarket centroids. Market Quickview is unchanged.
+Upload the CONTENTS of this patch to the repository root used by GitHub Pages.
+This restores Market Snapshot to the bundled ACS 2020-2024 block-group radius workflow used before Market Quickview.
+The patch adds data/demographics_block_groups.geojson (17,313 records) and points index.html to js/app-v2_9_57.js.
+Market Quickview is unchanged.
 
-Upload the patch contents over the existing repository files. The new index.html points to js/app-v2_9_56.js.
+Do not upload the ZIP itself as website contents; extract it first.

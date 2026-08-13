@@ -1,15 +1,15 @@
-# Gulf Coast Submarket Atlas v2.9.56
+# Gulf Coast Submarket Atlas v2.9.57
+
+
+## v2.9.57 — Market Snapshot local ACS radius restore
+
+- Restored Market Snapshot demographics to the proven pre-Quickview local ACS block-group radius workflow.
+- Bundles 17,313 ACS 2020-2024 block-group population-center records in `data/demographics_block_groups.geojson`.
+- Snapshot population, households, median household income, and median age are calculated from block-group records inside the selected radius rather than submarket centroids.
+- Removes the live Census/TIGER runtime dependency introduced in v2.9.56.
+- Market Quickview code and datasets are unchanged from v2.9.55.
 
 Deployment build for the Gulf Coast / Enterprise Submarket Atlas.
-
-## v2.9.56 — Market Snapshot ACS radius fix
-- Market Snapshot demographics now use ACS 2020-2024 5-Year block groups intersecting the selected radius instead of requiring a submarket centroid to fall inside the radius.
-- Partial block groups are apportioned with an area-overlap estimate for population and household totals; income and age use weighted aggregation.
-- ACS attributes are cached in the browser for faster repeat Snapshot use.
-- Market Quickview code and datasets are unchanged.
-
-## v2.9.55 — Market Quickview income-band order
-- Income Bands use a fixed low-to-high order from Less than 25k through Above 200k.
 
 ## v2.9.54 — Market Quickview income-band performance fix
 
@@ -52,3 +52,6 @@ Deployment build for the Gulf Coast / Enterprise Submarket Atlas.
 ## Deployment
 Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages repository root. Do not upload the ZIP itself as the website content.
 
+
+## v2.9.55
+- Market Quickview Income Bands now use a fixed low-to-high income order: Less than 25k through Above 200k, independent of household counts.
