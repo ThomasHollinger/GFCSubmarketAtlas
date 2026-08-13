@@ -1,4 +1,14 @@
-# Gulf Coast Submarket Atlas v2.9.57
+# Gulf Coast Submarket Atlas v2.9.58
+
+## v2.9.58 — Market Preview
+
+- Replaced the separate Market Quickview and Market Snapshot controls with one **Market Preview** workflow.
+- Preserved the existing 1 / 3 / 5 / 10 mile radius selection and Open Preview / No map confirmation.
+- Preview order: **Zonda Demographics Data**, **ACS Demographics Data**, **Schools**, **Competition**, **Retail & Dining**, **Lifestyle & Amenities**.
+- Zonda demographics continue to use the existing Quickview block aggregation with no calculation changes.
+- ACS demographics continue to use the bundled 17,313-record ACS 2020-2024 block-group radius dataset with no live Census dependency.
+- Schools, Competition, Retail & Dining, and Lifestyle & Amenities retain the prior Snapshot radius logic.
+- The Preview opens immediately from loaded data and refreshes once any background market-context layers finish loading.
 
 
 ## v2.9.57 — Market Snapshot local ACS radius restore
