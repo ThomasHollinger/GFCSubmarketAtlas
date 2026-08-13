@@ -1,4 +1,11 @@
-# Gulf Coast Submarket Atlas v2.9.58
+# Gulf Coast Submarket Atlas v2.9.59
+
+## v2.9.59 — Zonda Mean Income fix
+
+- Fixed the Zonda Demographics Data overview Mean Income metric in Market Preview.
+- Zonda labels this source field `Household Income: Average`; the Preview had been looking for `Household Income: Mean`.
+- Mean Income is now household-weighted across usable Zonda blocks with no additional data request.
+- No other Market Preview calculations or Quickview/ACS mechanics were changed.
 
 ## v2.9.58 — Market Preview
 

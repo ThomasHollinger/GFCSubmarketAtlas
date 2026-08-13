@@ -1,4 +1,4 @@
-Gulf Coast Submarket Atlas v2.9.58 - Market Preview GitHub delta patch
+Gulf Coast Submarket Atlas v2.9.59 - Market Preview GitHub delta patch
 
 Upload the CONTENTS of this patch to the repository root used by GitHub Pages.
 Market Quickview + Market Snapshot are replaced in the UI by one Market Preview workflow.
