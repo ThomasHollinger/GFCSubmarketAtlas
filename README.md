@@ -1,4 +1,12 @@
-# Gulf Coast Submarket Atlas v2.9.59
+# Gulf Coast Submarket Atlas v2.9.60
+
+## v2.9.60 — ACS Mean Income
+
+- Added **Mean Income** to the ACS Demographics Data section of Market Preview.
+- Uses U.S. Census ACS 2017-2021 Detailed Table B19025 (Aggregate Household Income), matching the ACS vintage behind the bundled PDB block-group records.
+- Mean Household Income is calculated as allocated aggregate household income divided by allocated households across the same radius-weighted block groups.
+- The B19025 data is processed in the background and cached locally in the browser for 30 days; repeat visits use the processed cache.
+- Zonda demographics and all other Market Preview sections are unchanged.
 
 ## v2.9.59 — Zonda Mean Income fix
 
