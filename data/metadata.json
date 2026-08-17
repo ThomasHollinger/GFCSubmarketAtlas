@@ -1,5 +1,5 @@
 {
-  "version": "2.9.62",
+  "version": "2.9.63",
   "releaseDate": "2026-08-17",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -10,7 +10,7 @@
   "notes": "Market Preview ACS Demographics now adds true Mean Household Income from ACS 2017-2021 Detailed Table B19025 aggregate household income, divided by the matching bundled block-group households and radius-weighted consistently. Values are processed in the background and cached locally in the browser for 30 days.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "2.9.61",
+  "release": "2.9.63",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "updated": "2026-08-14",
   "retail": "Retail & Dining now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",

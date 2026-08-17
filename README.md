@@ -90,3 +90,9 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 ## v2.9.62
 - Builder Subdivision popups now show Homesite Size as Zonda lot dimensions (for example, 70' x 120') instead of total lot square footage.
 - Dimensions use the Zonda lot-width field and derive depth from lot area divided by width; missing values display `-`.
+
+## v2.9.63 - FEMA Flood Zones + USGS Contours
+- Added optional FEMA NFHL Flood Zones overlay in the top-right map controls.
+- Added optional USGS The National Map / 3DEP elevation contours overlay.
+- Both overlays default off, can be combined with Light/Streets/Topo, and render below Atlas operational layers.
+- Overlay detail is zoom-aware to limit unnecessary map load.
