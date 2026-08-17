@@ -80,3 +80,13 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 
 ## v2.9.55
 - Market Quickview Income Bands now use a fixed low-to-high income order: Less than 25k through Above 200k, independent of household counts.
+
+
+## v2.9.62
+- Added Homesite Size to Builder Subdivision popups using Zonda LotSizeMin/LotSizeMax values; missing/zero values display as `-`.
+
+
+
+## v2.9.62
+- Builder Subdivision popups now show Homesite Size as Zonda lot dimensions (for example, 70' x 120') instead of total lot square footage.
+- Dimensions use the Zonda lot-width field and derive depth from lot area divided by width; missing values display `-`.
