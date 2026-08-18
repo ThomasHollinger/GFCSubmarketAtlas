@@ -1,5 +1,5 @@
 {
-  "version": "2.9.78",
+  "version": "2.9.80",
   "releaseDate": "2026-08-18",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -10,7 +10,7 @@
   "notes": "New Deals address search now uses direct ArcGIS address candidates for number-led queries so full house-number matches surface instead of generic street suggestions. Search-result pin no longer disappears on map click. Letter-led nearby place/business search remains unchanged.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "2.9.78",
+  "release": "2.9.80",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "updated": "2026-08-18",
   "retail": "Retail & Dining now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",

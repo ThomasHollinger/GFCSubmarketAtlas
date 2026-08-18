@@ -1,13 +1,18 @@
-Gulf Coast Submarket Atlas v2.9.78 - Marker Hover Previews
+Gulf Coast Submarket Atlas v2.9.80 - New Deals Sidebar List
 
 Upload these files to the repository, preserving folders:
 - index.html
-- js/app-v2_9_78.js
+- js/app-v2_9_80.js
 - README.md
 - GITHUB_UPLOAD_README.txt
 - data/metadata.json
 
-NEW IN v2.9.78:
+NEW IN v2.9.80:
+- Expand/collapse the complete New Deals list in the sidebar.
+- Click any deal name to fly to its pin and open the full popup.
+- List stays synced with Firebase.
+
+PREVIOUS v2.9.78:
 - Hover a clickable marker to temporarily show its information.
 - Move off the marker to close the hover preview.
 - Click a marker to keep the full popup open.
@@ -22,3 +27,5 @@ PREVIOUS v2.9.76:
 - Map-center bias is applied only when zoomed into a local market (zoom 8+).
 - Search-result pin no longer disappears when the map is clicked.
 - Letter-led place/business search keeps the existing Photon proximity behavior.
+
+- New Deals list is grouped by populated submarket in Atlas map-number order; empty submarkets are omitted.

@@ -8,6 +8,18 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
   <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .new-deals-list-toggle{width:100%;margin:6px 0 8px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;color:#17365d;font-weight:700;text-align:left;cursor:pointer}
+    .new-deals-list-toggle::after{content:"\25BE";float:right;transition:transform .15s ease}
+    .new-deals-list-toggle[aria-expanded="true"]::after{transform:rotate(180deg)}
+    .new-deals-sidebar-list{max-height:260px;overflow-y:auto;margin:0 0 10px;border:1px solid #dbe3ec;border-radius:8px;background:#fff}
+    .new-deals-sidebar-list[hidden]{display:none}
+    .new-deal-submarket-group+ .new-deal-submarket-group{border-top:1px solid #dbe3ec}.new-deal-submarket-heading{padding:7px 10px;background:#f3f6fa;color:#17365d;font-size:12px;font-weight:800;letter-spacing:.01em}.new-deal-list-item{display:block;width:100%;padding:8px 10px 8px 18px;border:0;border-bottom:1px solid #edf1f5;background:#fff;text-align:left;color:#24364b;font:inherit;font-weight:700;cursor:pointer}
+    .new-deal-list-item:last-child{border-bottom:0}
+    .new-deal-list-item:hover,.new-deal-list-item:focus{background:#edf5ff;outline:none}
+    .new-deals-list-empty{padding:9px 10px;color:#64748b;font-size:12px}
+  </style>
 </head>
 <body>
   <div class="app-shell" id="appShell">
@@ -107,6 +119,8 @@
         </div>
         <div class="new-deals-panel">
           <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">0 deals</span></label>
+          <button id="toggleNewDealsList" class="new-deals-list-toggle" type="button" aria-expanded="false">Show Deals</button>
+          <div id="newDealsSidebarList" class="new-deals-sidebar-list" hidden></div>
           <div class="new-deal-place-search">
             <label for="newDealPlaceSearch">Find a Place / Address</label>
             <div class="new-deal-place-search-wrap">
@@ -201,6 +215,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_9_78.js"></script>
+  <script src="js/app-v2_9_80.js"></script>
 </body>
 </html>
