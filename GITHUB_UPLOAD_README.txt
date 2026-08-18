@@ -1,4 +1,4 @@
-Gulf Coast Submarket Atlas v2.9.84 - New Deal Zoom 12
+Gulf Coast Submarket Atlas v2.9.85 - New Deal Zoom 12
 
 Upload these files to the repository, preserving folders:
 - index.html
@@ -34,6 +34,6 @@ PREVIOUS v2.9.76:
 
 - New Deals pins are now silver so they are easier to distinguish from Builder Subdivision markers.
 
-NEW IN v2.9.84:
+NEW IN v2.9.85:
 - New Deal sidebar clicks now fly to zoom level 12 (previously 7).
 - Silver New Deal markers and all other v2.9.83 behavior are preserved.
