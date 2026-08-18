@@ -199,3 +199,8 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - The list refreshes automatically with the live Firebase deal collection.
 
 - v2.9.81: New Deals sidebar list is grouped by populated Atlas submarket and ordered by the map submarket number; deal names remain alphabetical within each submarket.
+
+
+### v2.9.83 — Silver New Deal markers
+- Changed only New Deals map pins to silver with a neutral gray border and dark initial lettering for stronger contrast against Builder Subdivision markers.
+- Preserved New Deals hover/click popups, sidebar grouping/navigation, editing, Firebase sync, and zoom level 7.

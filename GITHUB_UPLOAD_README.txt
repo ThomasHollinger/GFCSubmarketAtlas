@@ -1,4 +1,4 @@
-Gulf Coast Submarket Atlas v2.9.82 - New Deals Sidebar List
+Gulf Coast Submarket Atlas v2.9.83 - Silver New Deal Markers
 
 Upload these files to the repository, preserving folders:
 - index.html
@@ -7,7 +7,7 @@ Upload these files to the repository, preserving folders:
 - GITHUB_UPLOAD_README.txt
 - data/metadata.json
 
-NEW IN v2.9.82:
+NEW IN v2.9.83:
 - New Deal sidebar selection now flies to zoom level 7 for a much wider surrounding-area view.
 
 - Expand/collapse the complete New Deals list in the sidebar.
@@ -31,3 +31,5 @@ PREVIOUS v2.9.76:
 - Letter-led place/business search keeps the existing Photon proximity behavior.
 
 - New Deals list is grouped by populated submarket in Atlas map-number order; empty submarkets are omitted.
+
+- New Deals pins are now silver so they are easier to distinguish from Builder Subdivision markers.
