@@ -167,3 +167,11 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - Number-led **Find a Place / Address** queries now use Esri World Geocoding autocomplete and address resolution for stronger US street-address coverage.
 - Letter-led place/business queries continue to use Photon with the current map-center proximity bias.
 - The temporary selected-search marker now uses the Atlas DivIcon pattern instead of Leaflet's default image icon to prevent intermittent missing pins.
+
+
+### v2.9.76 — Direct address candidates + persistent search pin
+- Number-led **Find a Place / Address** queries now call ArcGIS `findAddressCandidates` directly rather than relying on street-name autocomplete suggestions.
+- Full house-number address candidates are shown with coordinates already resolved.
+- Local map-center bias is used only when zoomed into a market (zoom 8+); broad-map searches are not artificially suppressed.
+- The temporary search-result pin now stays on the map until another search replaces it; clicking the map no longer removes it.
+- Letter-led Photon place/business proximity search remains unchanged.
