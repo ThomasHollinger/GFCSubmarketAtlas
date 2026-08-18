@@ -3,7 +3,7 @@ v2.9.71 Live Shared New Deals + Move Pin (Firebase)
 Upload/replace these files in the repository:
 - index.html
 - css/style.css
-- js/app-v2_9_71.js
+- js/app-v2_9_72.js
 - js/firebase-config.js
 - data/metadata.json
 - README.md
