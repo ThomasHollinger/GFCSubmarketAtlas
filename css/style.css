@@ -196,3 +196,11 @@ body.snapshot-mode #map{cursor:crosshair}
 .new-deal-coordinate-search-row button:hover{background:#dcfce7;border-color:#22c55e}
 .new-deal-coordinate-search-status{min-height:14px;margin-top:3px;font-size:10px;line-height:1.25;color:#667085}
 .new-deal-coordinate-search-status.error{color:#b42318}
+
+/* v2.9.66 New Deals shared repository publishing */
+.new-deal-publish-btn{width:100%;margin:2px 0 5px;background:#166534;color:#fff;border:1px solid #166534;padding:8px 10px;font-size:11px;font-weight:900;border-radius:8px;cursor:pointer}
+.new-deal-publish-btn:hover{background:#14532d;border-color:#14532d}
+.new-deals-publish-help{font-size:9.5px;line-height:1.35;color:#667085;margin:3px 0 6px;padding:6px 7px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px}
+
+/* v2.9.68 shared-password New Deals / Firebase */
+.new-deals-auth-row{display:flex;gap:8px;margin:8px 0 4px}.new-deal-auth-btn{flex:1;border:1px solid #2f9b58;background:#fff;color:#237744;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}.new-deal-auth-btn.secondary{border-color:#cbd5e1;color:#475569}.new-deals-auth-status{font-size:11px;line-height:1.35;color:#64748b;margin:4px 0 8px}.new-deal-add-btn:disabled{opacity:.5;cursor:not-allowed}

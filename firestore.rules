@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function newDealsEditor() {
+      return request.auth != null
+        && request.auth.token.email == 'newdeals.shared@lennar.com';
+    }
+
+    match /newDeals/{dealId} {
+      // The Atlas is viewable without sign-in, so the shared New Deals layer is readable too.
+      allow read: if true;
+      // Add/update/delete require the shared Firebase Authentication editor account.
+      allow create, update, delete: if newDealsEditor();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

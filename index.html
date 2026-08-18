@@ -106,7 +106,7 @@
           <div id="builderFilterCount" class="filter-count">Load Builders</div>
         </div>
         <div class="new-deals-panel">
-          <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">0 saved</span></label>
+          <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">0 deals</span></label>
           <div class="new-deal-coordinate-search">
             <label for="newDealCoordinateSearch">Find by Latitude / Longitude</label>
             <div class="new-deal-coordinate-search-row">
@@ -115,8 +115,10 @@
             </div>
             <div id="newDealCoordinateSearchStatus" class="new-deal-coordinate-search-status"></div>
           </div>
+          <div id="newDealsAuthStatus" class="new-deals-auth-status">Connecting to shared New Deals…</div>
           <button id="addNewDealPin" class="new-deal-add-btn" type="button">Add Pin to Map</button>
-          <div id="newDealsHint" class="new-deals-hint">Pins are saved in this browser until deleted.</div>
+          <button id="syncLocalNewDealsBtn" class="new-deal-publish-btn" type="button" hidden>Sync Existing Browser Pins</button>
+          <div id="newDealsHint" class="new-deals-hint">Everyone can view shared New Deals. Team password is required only to add or delete pins.</div>
         </div>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
 
@@ -187,6 +189,10 @@
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-  <script src="js/app-v2_9_65.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/app-v2_9_69.js"></script>
 </body>
 </html>

@@ -1,3 +1,26 @@
+# Gulf Coast Submarket Atlas
+
+## v2.9.69 — Live shared New Deals (Firebase)
+
+- New Deals can now save/delete directly in Firebase Firestore instead of requiring GeoJSON download/upload.
+- Google sign-in gates the shared New Deals collection; supplied Firestore rules require verified `@lennar.com` accounts.
+- Firestore real-time listeners push additions/deletions to coworkers automatically.
+- Existing browser-saved pins are preserved and can be migrated once with **Sync Existing Browser Pins**.
+- Green pins continue to show the first character of the deal name.
+- Coordinate search and New Deals KML export remain unchanged.
+- One-time setup instructions are in `FIREBASE_SETUP.md`.
+
+# Gulf Coast Submarket Atlas v2.9.66
+
+## v2.9.66 — Shared New Deals + deal initials
+
+- New Deals now has a repository-backed master layer at `data/new_deals.geojson` so published deals are visible to every Atlas user and computer.
+- Existing browser-saved New Deals are preserved during the upgrade; the same `gcsa.newDeals.v1` working-copy key is retained.
+- Added **Download Shared Map File**. It creates `new_deals.geojson`; upload/replace that one file at `data/new_deals.geojson` in GitHub to publish the current working set to coworkers.
+- Green New Deal pins now display the first character of the deal name (for example, **Williams Farm → W**) instead of a fixed `D`.
+- Add/delete actions remain the only editable layer actions. Changes are local until the shared data file is published, avoiding any GitHub credentials or write tokens in the public GitHub Pages code.
+- Existing New Deals KML export remains available.
+
 # Gulf Coast Submarket Atlas v2.9.64
 
 
@@ -113,3 +136,11 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - Supports DMS coordinates such as `30°37'14.93"N 88°16'53.89"W` and decimal latitude/longitude pairs.
 - Search flies the map to zoom 17 and does not create a New Deal pin automatically.
 
+
+
+## v2.9.69 — New Deals shared-password editing
+- Atlas and shared New Deals remain viewable without sign-in.
+- Add/Delete prompts for a shared team password only when editing is needed.
+- Firebase Email/Password Authentication protects writes; the password is not embedded in GitHub code.
+- Firestore reads are public to Atlas visitors; writes are restricted to the configured shared editor identity.
+- Authorization uses session persistence, so the password is not requested for every edit in the same browser session.
