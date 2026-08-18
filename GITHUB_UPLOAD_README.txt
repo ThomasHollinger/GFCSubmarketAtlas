@@ -1,19 +1,7 @@
-Gulf Coast Submarket Atlas v2.9.87 - New Deal Market Preview shortcuts
+Gulf Coast Submarket Atlas v2.9.88
 
-Upload these files to the repository, preserving folders:
-- index.html
-- js/app-v2_9_87.js
-- README.md
-- GITHUB_UPLOAD_README.txt
-- data/metadata.json
+Upload/replace the included files in the repository.
 
-NEW IN v2.9.87:
-- Added 3 Mile Preview and 5 Mile Preview buttons to every New Deal popup.
-- Buttons open the existing merged Market Preview at the New Deal's exact coordinates and selected radius.
-- Preview shortcuts do not modify or move the New Deal pin.
-- Silver New Deal pins and v2.9.86 locked local-view behavior are preserved.
-
-PREVIOUS v2.9.86:
-- Stops pending map movement before a New Deal sidebar jump.
-- Forces zoom 12 without animation.
-- Disables New Deal popup auto-pan so the selected deal stays in local view.
+Change in this patch:
+- Reduced the font size and padding of the 3 Mile Preview / 5 Mile Preview buttons in New Deal popups so the full labels fit cleanly on one line.
+- No other New Deals behavior or Atlas functionality was changed.
