@@ -1,3 +1,5 @@
+v2.9.64 New Deals editable-layer delta patch. Upload these files over the existing repository.
+
 Gulf Coast Submarket Atlas v2.9.60 - ACS Mean Income GitHub delta patch
 
 Upload the CONTENTS of this patch to the repository root used by GitHub Pages.

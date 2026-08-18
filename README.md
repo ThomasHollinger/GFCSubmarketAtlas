@@ -1,4 +1,15 @@
-# Gulf Coast Submarket Atlas v2.9.60
+# Gulf Coast Submarket Atlas v2.9.64
+
+
+## v2.9.64 — New Deals editable layer
+
+- Added **New Deals** below Builder Subdivisions as the Atlas's only editable map layer.
+- New Deals can be toggled on/off and use green 24px circular pins matching the Builder Subdivision marker size and shape.
+- **Add Pin to Map** enters placement mode; click the map, enter a deal name, and save.
+- Saved pins persist in browser local storage and show name, coordinates, inferred city when a nearby Atlas record is available, and exact Atlas submarket when inside a boundary.
+- Each New Deal popup includes **Delete Pin**.
+- Added **New Deals (.kml)** to the Download Layer section.
+- Market Preview, Builder Subdivision filtering, flood zones, contours, and all other layers are unchanged.
 
 ## v2.9.60 — ACS Mean Income
 

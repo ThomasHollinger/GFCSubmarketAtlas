@@ -105,6 +105,11 @@
           <div id="builderTierFilterList" class="builder-tier-filter-list"></div>
           <div id="builderFilterCount" class="filter-count">Load Builders</div>
         </div>
+        <div class="new-deals-panel">
+          <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">0 saved</span></label>
+          <button id="addNewDealPin" class="new-deal-add-btn" type="button">Add Pin to Map</button>
+          <div id="newDealsHint" class="new-deals-hint">Pins are saved in this browser until deleted.</div>
+        </div>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
 
       </section>
@@ -129,6 +134,7 @@
           <button id="downloadSubmarketsKml" class="download-layer-btn secondary" type="button">Submarket Outlines (.kml)</button>
           <button id="downloadSubmarketNumbersKml" class="download-layer-btn secondary" type="button">Submarket Numbers (.kml)</button>
           <button id="downloadBuildersKml" class="download-layer-btn secondary" type="button">Builder Subdivisions (.kml)</button>
+          <button id="downloadNewDealsKml" class="download-layer-btn secondary" type="button">New Deals (.kml)</button>
                   </div>
       </section>
     </aside>
@@ -173,6 +179,6 @@
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-  <script src="js/app-v2_9_63.js"></script>
+  <script src="js/app-v2_9_64.js"></script>
 </body>
 </html>
