@@ -107,6 +107,14 @@
         </div>
         <div class="new-deals-panel">
           <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">0 saved</span></label>
+          <div class="new-deal-coordinate-search">
+            <label for="newDealCoordinateSearch">Find by Latitude / Longitude</label>
+            <div class="new-deal-coordinate-search-row">
+              <input id="newDealCoordinateSearch" type="text" autocomplete="off" spellcheck="false" placeholder="30°37'14.93\"N 88°16'53.89\"W">
+              <button id="newDealCoordinateSearchBtn" type="button">Go</button>
+            </div>
+            <div id="newDealCoordinateSearchStatus" class="new-deal-coordinate-search-status"></div>
+          </div>
           <button id="addNewDealPin" class="new-deal-add-btn" type="button">Add Pin to Map</button>
           <div id="newDealsHint" class="new-deals-hint">Pins are saved in this browser until deleted.</div>
         </div>
@@ -179,6 +187,6 @@
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-  <script src="js/app-v2_9_64.js"></script>
+  <script src="js/app-v2_9_65.js"></script>
 </body>
 </html>

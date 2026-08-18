@@ -185,3 +185,14 @@ body.snapshot-mode #map{cursor:crosshair}
 .new-deal-editor-actions button,.new-deal-delete-btn{border:1px solid #cfd6df;border-radius:6px;padding:7px 10px;font-size:11px;font-weight:800;background:#fff;color:#344054;cursor:pointer}
 .new-deal-save-btn{background:#166534!important;border-color:#166534!important;color:#fff!important}
 .new-deal-delete-btn{margin-top:8px;background:#fff1f2;border-color:#fecdd3;color:#be123c}
+
+/* v2.9.65 New Deals coordinate navigation */
+.new-deal-coordinate-search{margin:7px 0 8px}
+.new-deal-coordinate-search>label{display:block;font-size:10.5px;font-weight:800;color:#475467;margin-bottom:4px}
+.new-deal-coordinate-search-row{display:flex;gap:5px;align-items:stretch}
+.new-deal-coordinate-search-row input{min-width:0;flex:1;border:1px solid #cfd6df;border-radius:6px;padding:7px 8px;font-size:11px;color:#0f2437;background:#fff;outline:none}
+.new-deal-coordinate-search-row input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,.10)}
+.new-deal-coordinate-search-row button{flex:0 0 auto;border:1px solid #86efac;border-radius:6px;padding:7px 10px;background:#ecfdf5;color:#166534;font-size:11px;font-weight:900;cursor:pointer}
+.new-deal-coordinate-search-row button:hover{background:#dcfce7;border-color:#22c55e}
+.new-deal-coordinate-search-status{min-height:14px;margin-top:3px;font-size:10px;line-height:1.25;color:#667085}
+.new-deal-coordinate-search-status.error{color:#b42318}

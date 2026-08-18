@@ -19,3 +19,6 @@ v2.9.62: Builder Subdivision Homesite Size now displays lot dimensions (width x 
 - Added optional USGS The National Map / 3DEP elevation contours overlay.
 - Both overlays default off, can be combined with Light/Streets/Topo, and render below Atlas operational layers.
 - Overlay detail is zoom-aware to limit unnecessary map load.
+
+v2.9.65 adds coordinate search to New Deals. Upload index.html, css/style.css, data/metadata.json, README.md, GITHUB_UPLOAD_README.txt, and js/app-v2_9_65.js over the existing repository files.
+

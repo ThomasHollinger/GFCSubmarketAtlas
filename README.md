@@ -107,3 +107,9 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - Added optional USGS The National Map / 3DEP elevation contours overlay.
 - Both overlays default off, can be combined with Light/Streets/Topo, and render below Atlas operational layers.
 - Overlay detail is zoom-aware to limit unnecessary map load.
+
+## v2.9.65 - New Deals Coordinate Search
+- Added a latitude / longitude search bar to New Deals.
+- Supports DMS coordinates such as `30°37'14.93"N 88°16'53.89"W` and decimal latitude/longitude pairs.
+- Search flies the map to zoom 17 and does not create a New Deal pin automatically.
+
