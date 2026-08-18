@@ -1,5 +1,5 @@
 {
-  "version": "2.9.83",
+  "version": "2.9.84",
   "releaseDate": "2026-08-18",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -10,7 +10,7 @@
   "notes": "New Deals map markers now use a silver fill with a neutral gray border and dark initial lettering so they stand out clearly from Builder Subdivision pins. All New Deals behavior is otherwise unchanged.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "2.9.83",
+  "release": "2.9.84",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "updated": "2026-08-18",
   "retail": "Retail & Dining now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",

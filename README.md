@@ -204,3 +204,7 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 ### v2.9.83 — Silver New Deal markers
 - Changed only New Deals map pins to silver with a neutral gray border and dark initial lettering for stronger contrast against Builder Subdivision markers.
 - Preserved New Deals hover/click popups, sidebar grouping/navigation, editing, Firebase sync, and zoom level 7.
+
+### v2.9.84 — New Deal sidebar zoom 12
+- Changed only the New Deal sidebar fly-to zoom from 7 to 12 for a closer surrounding-area view.
+- Preserves silver New Deal markers and all existing behavior.
