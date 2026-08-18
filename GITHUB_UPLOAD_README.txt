@@ -1,4 +1,4 @@
-Gulf Coast Submarket Atlas v2.9.85 - New Deal Zoom 12
+Gulf Coast Submarket Atlas v2.9.86 - Locked New Deal Local View
 
 Upload these files to the repository, preserving folders:
 - index.html
@@ -37,3 +37,9 @@ PREVIOUS v2.9.76:
 NEW IN v2.9.85:
 - New Deal sidebar clicks now fly to zoom level 12 (previously 7).
 - Silver New Deal markers and all other v2.9.83 behavior are preserved.
+
+NEW IN v2.9.86:
+- Stops any pending map animation before a New Deal sidebar jump.
+- Forces zoom 12 without animation.
+- New Deal popup auto-pan is disabled so the view stays local.
+
