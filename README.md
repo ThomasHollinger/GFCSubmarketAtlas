@@ -1,11 +1,24 @@
 # Gulf Coast Submarket Atlas
 
+## v2.9.71 — Move New Deal pins
+
+- Added **Move Pin** to every New Deal popup.
+- Move Pin uses the same shared-password authorization as Add/Delete.
+- After selecting Move Pin, drag the marker to its corrected location and release; confirm the new coordinates to save.
+- The updated latitude/longitude plus city and submarket context are written to Firestore and appear live for everyone.
+- Only New Deals are draggable; Builder Subdivisions and all other Atlas layers remain read-only.
+
+## v2.9.70 — Remove legacy New Deals sync
+
+- Removed the legacy New Deals browser-migration control and its one-time migration function.
+- New Deals now uses the live Firebase/Firestore workflow only for shared add/delete activity.
+- Shared password editing, deal initials, coordinate search, KML export, and all other Atlas behavior are unchanged.
+
 ## v2.9.69 — Live shared New Deals (Firebase)
 
 - New Deals can now save/delete directly in Firebase Firestore instead of requiring GeoJSON download/upload.
 - Google sign-in gates the shared New Deals collection; supplied Firestore rules require verified `@lennar.com` accounts.
 - Firestore real-time listeners push additions/deletions to coworkers automatically.
-- Existing browser-saved pins are preserved and can be migrated once with **Sync Existing Browser Pins**.
 - Green pins continue to show the first character of the deal name.
 - Coordinate search and New Deals KML export remain unchanged.
 - One-time setup instructions are in `FIREBASE_SETUP.md`.

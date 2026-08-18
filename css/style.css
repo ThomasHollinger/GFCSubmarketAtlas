@@ -182,9 +182,9 @@ body.snapshot-mode #map{cursor:crosshair}
 .new-deal-name-input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,.12)}
 .new-deal-editor-coords{font-size:10.5px;color:#667085;margin:7px 0}
 .new-deal-editor-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:8px}
-.new-deal-editor-actions button,.new-deal-delete-btn{border:1px solid #cfd6df;border-radius:6px;padding:7px 10px;font-size:11px;font-weight:800;background:#fff;color:#344054;cursor:pointer}
+.new-deal-editor-actions button,.new-deal-move-btn,.new-deal-delete-btn{border:1px solid #cfd6df;border-radius:6px;padding:7px 10px;font-size:11px;font-weight:800;background:#fff;color:#344054;cursor:pointer}
 .new-deal-save-btn{background:#166534!important;border-color:#166534!important;color:#fff!important}
-.new-deal-delete-btn{margin-top:8px;background:#fff1f2;border-color:#fecdd3;color:#be123c}
+.new-deal-popup-actions{display:flex;gap:8px;margin-top:8px}.new-deal-popup-actions button{flex:1;margin-top:0}.new-deal-move-btn{background:#ecfdf5;border-color:#86efac;color:#166534}.new-deal-delete-btn{background:#fff1f2;border-color:#fecdd3;color:#be123c}.new-deal-move-active{filter:drop-shadow(0 0 5px rgba(22,101,52,.65))}.new-deal-move-tooltip{font-weight:700}
 
 /* v2.9.65 New Deals coordinate navigation */
 .new-deal-coordinate-search{margin:7px 0 8px}

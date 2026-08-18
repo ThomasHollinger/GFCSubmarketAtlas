@@ -1,4 +1,4 @@
-// v2.9.69 New Deals Firebase configuration
+// v2.9.71 New Deals Firebase configuration
 // Firebase web configuration is intentionally client-visible; Firestore writes are protected by Firebase Authentication + Security Rules.
 window.GCSA_FIREBASE_CONFIG = {
   apiKey: "AIzaSyAhpYbdMAZGSuuYSfpUUDYdnPxUD2JC8TY",
