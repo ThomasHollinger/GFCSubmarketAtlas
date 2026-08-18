@@ -1,17 +1,16 @@
-v2.9.71 Live Shared New Deals + Move Pin (Firebase)
+Gulf Coast Submarket Atlas v2.9.75 - Address Search Reliability
 
 Upload/replace these files in the repository:
 - index.html
-- css/style.css
-- js/app-v2_9_72.js
-- js/firebase-config.js
+- js/app-v2_9_75.js
 - data/metadata.json
 - README.md
 
-Keep these setup files for the one-time Firebase setup:
-- FIREBASE_SETUP.md
-- firestore.rules
+This patch is based on v2.9.74 and preserves the existing Firebase configuration, Firestore rules, CSS, and all data files already in the repository.
 
-IMPORTANT: before New Deals can sync live, complete FIREBASE_SETUP.md and replace the REPLACE_* values in js/firebase-config.js. After that, normal New Deals edits require no repository upload.
+NEW IN v2.9.75:
+- Queries beginning with a number use Esri World Geocoding autocomplete/address resolution for stronger US street-address coverage.
+- Queries beginning with a letter continue to use Photon proximity-biased place/business search.
+- The selected search-result pin uses the Atlas DivIcon marker pattern and is no longer removed merely by clicking elsewhere on the map/UI.
 
-NEW DEALS AUTH CHANGE: enable Firebase Email/Password and create the shared editor account described in FIREBASE_SETUP.md. Do not put the team password in repository files.
+No Firebase configuration changes are required.
