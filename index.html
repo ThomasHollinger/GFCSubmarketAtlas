@@ -107,6 +107,14 @@
         </div>
         <div class="new-deals-panel">
           <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">0 deals</span></label>
+          <div class="new-deal-place-search">
+            <label for="newDealPlaceSearch">Find a Place / Address</label>
+            <div class="new-deal-place-search-wrap">
+              <input id="newDealPlaceSearch" type="text" autocomplete="off" spellcheck="false" placeholder="Search address, street, business, or place">
+              <div id="newDealPlaceSuggestions" class="new-deal-place-suggestions" role="listbox" aria-label="Place suggestions"></div>
+            </div>
+            <div id="newDealPlaceSearchStatus" class="new-deal-place-search-status"></div>
+          </div>
           <div class="new-deal-coordinate-search">
             <label for="newDealCoordinateSearch">Find by Latitude / Longitude</label>
             <div class="new-deal-coordinate-search-row">
@@ -193,6 +201,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_9_72.js"></script>
+  <script src="js/app-v2_9_73.js"></script>
 </body>
 </html>

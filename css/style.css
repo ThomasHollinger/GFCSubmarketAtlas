@@ -204,3 +204,19 @@ body.snapshot-mode #map{cursor:crosshair}
 
 /* v2.9.68 shared-password New Deals / Firebase */
 .new-deals-auth-row{display:flex;gap:8px;margin:8px 0 4px}.new-deal-auth-btn{flex:1;border:1px solid #2f9b58;background:#fff;color:#237744;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}.new-deal-auth-btn.secondary{border-color:#cbd5e1;color:#475569}.new-deals-auth-status{font-size:11px;line-height:1.35;color:#64748b;margin:4px 0 8px}.new-deal-add-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* v2.9.73 New Deals place/address autocomplete */
+.new-deal-place-search{margin:7px 0 9px;position:relative}
+.new-deal-place-search>label{display:block;font-size:10.5px;font-weight:800;color:#475467;margin-bottom:4px}
+.new-deal-place-search-wrap{position:relative}
+.new-deal-place-search input{width:100%;box-sizing:border-box;border:1px solid #cfd6df;border-radius:6px;padding:7px 8px;font-size:11px;color:#0f2437;background:#fff;outline:none}
+.new-deal-place-search input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,.10)}
+.new-deal-place-search-status{min-height:14px;margin-top:3px;font-size:10px;line-height:1.25;color:#667085}
+.new-deal-place-search-status.error{color:#b42318}
+.new-deal-place-suggestions{display:none;position:absolute;left:0;right:0;top:calc(100% + 3px);z-index:5000;background:#fff;border:1px solid #d0d5dd;border-radius:7px;box-shadow:0 8px 24px rgba(16,24,40,.16);max-height:245px;overflow-y:auto}
+.new-deal-place-suggestions.open{display:block}
+.new-deal-place-suggestion{display:block;width:100%;border:0;border-bottom:1px solid #eef2f6;background:#fff;text-align:left;padding:8px 9px;cursor:pointer;color:#101828}
+.new-deal-place-suggestion:last-child{border-bottom:0}
+.new-deal-place-suggestion:hover,.new-deal-place-suggestion.active{background:#f0fdf4}
+.new-deal-place-suggestion-main{display:block;font-size:11px;font-weight:800;line-height:1.25}
+.new-deal-place-suggestion-detail{display:block;margin-top:2px;font-size:9.5px;color:#667085;line-height:1.25}
