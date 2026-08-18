@@ -190,6 +190,9 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - New Deal pins and all other operational layers are unchanged.
 
 
+### v2.9.82 — Wider New Deal sidebar zoom
+- Clicking a New Deal in the expanded sidebar now flies to zoom level 7, keeping much more surrounding context visible.
+
 ### v2.9.81 — New Deals sidebar list
 - Added an expandable/collapsible alphabetical New Deals list in the sidebar.
 - Clicking a deal name flies to its map pin and opens the full New Deal popup.

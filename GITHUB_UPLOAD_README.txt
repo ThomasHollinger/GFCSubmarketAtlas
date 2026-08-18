@@ -1,4 +1,4 @@
-Gulf Coast Submarket Atlas v2.9.81 - New Deals Sidebar List
+Gulf Coast Submarket Atlas v2.9.82 - New Deals Sidebar List
 
 Upload these files to the repository, preserving folders:
 - index.html
@@ -7,7 +7,9 @@ Upload these files to the repository, preserving folders:
 - GITHUB_UPLOAD_README.txt
 - data/metadata.json
 
-NEW IN v2.9.81:
+NEW IN v2.9.82:
+- New Deal sidebar selection now flies to zoom level 7 for a much wider surrounding-area view.
+
 - Expand/collapse the complete New Deals list in the sidebar.
 - Click any deal name to fly to its pin and open the full popup.
 - List stays synced with Firebase.
