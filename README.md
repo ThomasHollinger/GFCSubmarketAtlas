@@ -1,7 +1,3 @@
-# Gulf Coast Submarket Atlas v2.9.88
+# Gulf Coast Submarket Atlas v2.9.89
 
-This patch is based on v2.9.87.
-
-## Change
-- Reduced the New Deal Market Preview button text size/padding so **3 Mile Preview** and **5 Mile Preview** fit cleanly within their buttons.
-- No other functionality changed.
+Income band ordering fix. Market Preview income-band tables now sort by the actual numeric lower bound, handling labels such as "Income $100,000 - $124,999" and "Income Less than $25,000" correctly. No other behavior is changed.
