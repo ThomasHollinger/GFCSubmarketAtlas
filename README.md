@@ -158,7 +158,7 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - Firestore reads are public to Atlas visitors; writes are restricted to the configured shared editor identity.
 - Authorization uses session persistence, so the password is not requested for every edit in the same browser session.
 
-## v2.9.73 - Satellite Basemap
+## v2.9.74 - Satellite Basemap
 - Added Satellite as a fourth basemap option alongside Light, Streets, and Topo.
 - Satellite uses Esri World Imagery and remains compatible with Flood Zones, Contours, New Deals, and all existing Atlas layers.
 
