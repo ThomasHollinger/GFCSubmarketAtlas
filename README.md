@@ -1,5 +1,12 @@
 # Gulf Coast Submarket Atlas
 
+## v2.9.87 — New Deal Market Preview shortcuts
+
+- Added **3 Mile Preview** and **5 Mile Preview** buttons to every New Deal popup.
+- Each button opens the existing merged **Market Preview** centered on that deal's exact coordinates at the selected radius.
+- Preview shortcuts do not move, edit, or otherwise change the New Deal pin.
+- New Deal silver markers, sidebar grouping/navigation, locked local zoom behavior, hover previews, Move Pin/Delete Pin, and Firebase sharing are preserved.
+
 ## v2.9.71 — Move New Deal pins
 
 - Added **Move Pin** to every New Deal popup.
