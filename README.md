@@ -175,3 +175,9 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - Local map-center bias is used only when zoomed into a market (zoom 8+); broad-map searches are not artificially suppressed.
 - The temporary search-result pin now stays on the map until another search replaces it; clicking the map no longer removes it.
 - Letter-led Photon place/business proximity search remains unchanged.
+
+
+### v2.9.77 — Blue temporary search marker
+- Place/address search results now use a simple blue temporary marker.
+- Clicking elsewhere on the map or pressing Escape clears only the temporary search marker.
+- New Deal pins and all other operational layers are unchanged.
