@@ -177,6 +177,13 @@ Extract the GitHub-ready ZIP and upload the **contents** to the GitHub Pages rep
 - Letter-led Photon place/business proximity search remains unchanged.
 
 
+### v2.9.78 — Marker hover previews
+- Hovering a clickable Atlas marker temporarily opens that marker's existing information popup.
+- Moving the cursor off the marker closes a hover-only popup.
+- Clicking a marker pins the full popup open until it is closed or another map interaction closes it.
+- Applies to New Deals, Builder Subdivisions, Schools, Healthcare, Retail & Dining, and Lifestyle & Amenities.
+- New Deal Move/Delete controls and all existing click behavior are preserved.
+
 ### v2.9.77 — Blue temporary search marker
 - Place/address search results now use a simple blue temporary marker.
 - Clicking elsewhere on the map or pressing Escape clears only the temporary search marker.

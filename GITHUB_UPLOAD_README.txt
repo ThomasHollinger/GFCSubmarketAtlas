@@ -1,13 +1,18 @@
-Gulf Coast Submarket Atlas v2.9.77 - Blue Temporary Search Marker
+Gulf Coast Submarket Atlas v2.9.78 - Marker Hover Previews
 
 Upload these files to the repository, preserving folders:
 - index.html
-- js/app-v2_9_77.js
+- js/app-v2_9_78.js
 - README.md
 - GITHUB_UPLOAD_README.txt
 - data/metadata.json
 
-NEW IN v2.9.77:
+NEW IN v2.9.78:
+- Hover a clickable marker to temporarily show its information.
+- Move off the marker to close the hover preview.
+- Click a marker to keep the full popup open.
+
+PREVIOUS v2.9.77:
 - Search result marker is now a generic blue marker.
 - Clicking elsewhere on the map or pressing Escape clears the temporary marker.
 
