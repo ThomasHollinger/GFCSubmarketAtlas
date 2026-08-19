@@ -1,0 +1,8 @@
+// Firestore rules for the private New Deals collection.
+// Merge this match into your existing Firestore rules and publish.
+// Only the shared Firebase editor account can read or write New Deals.
+
+match /newDeals/{dealId} {
+  allow read, write: if request.auth != null
+    && request.auth.token.email == 'newdeals.shared@lennar.com';
+}

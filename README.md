@@ -1,3 +1,7 @@
-# Gulf Coast Submarket Atlas v2.9.89
+# Gulf Coast Submarket Atlas v2.9.90
 
-Income band ordering fix. Market Preview income-band tables now sort by the actual numeric lower bound, handling labels such as "Income $100,000 - $124,999" and "Income Less than $25,000" correctly. No other behavior is changed.
+New Deals are now private. The layer, deal list, and deal pins stay hidden until the shared New Deals password is entered. Once unlocked, the same Firebase session authorizes viewing, adding, moving, deleting, and opening Market Preview shortcuts for New Deals.
+
+IMPORTANT: Publish the included Firestore rule snippet before deploying this patch. Replace the existing `match /newDeals/{dealId}` rule with the private rule in `firestore-new-deals-private.rules.txt` (or merge it into your existing rules). This is what prevents unauthenticated users from reading the New Deals collection directly.
+
+The shared Firebase editor identity remains `newdeals.shared@lennar.com`; the team password is entered only through the Atlas password prompt and is not embedded in the GitHub code.
