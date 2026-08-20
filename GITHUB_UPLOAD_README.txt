@@ -1,7 +1,9 @@
-GITHUB UPLOAD - v2.9.95
+GITHUB UPLOAD
 
-1. Replace index.html
-2. Add/replace js/app-v2_9_95.js
-3. Keep all existing data/, js/firebase-config.js, and other repository files
-4. Publish GitHub Pages
-5. Hard-refresh the Atlas (Ctrl+Shift+R)
+Replace the current Atlas files with the contents of this patch.
+This build is based on v2.9.91, with only:
+1) smaller New Deal Preview button text, and
+2) Escape-to-cancel Move Pin.
+
+Do not combine this with v2.9.92-v2.9.96 files.
+After upload, hard refresh with Ctrl+Shift+R.
