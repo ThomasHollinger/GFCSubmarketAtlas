@@ -1,4 +1,6 @@
-GitHub upload patch for Gulf Coast Submarket Atlas v2.9.92.
+Upload these files to GitHub:
 
-Replace the existing index.html with the patched index.html.
-Do not change the existing app-v2_9_91.js or map data files.
+1. Replace: index.html
+2. Add/replace: js/app-v2_9_93.js
+
+This preserves v2.9.91 private New Deals authentication and v2.9.92 preview button sizing while restoring preview/move/delete click handlers and adding Escape-to-cancel for Move Pin.
