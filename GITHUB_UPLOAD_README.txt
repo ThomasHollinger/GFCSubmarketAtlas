@@ -1,6 +1,7 @@
-Upload these files to GitHub:
+GITHUB UPLOAD - v2.9.95
 
-1. Replace: index.html
-2. Add/replace: js/app-v2_9_93.js
-
-This preserves v2.9.91 private New Deals authentication and v2.9.92 preview button sizing while restoring preview/move/delete click handlers and adding Escape-to-cancel for Move Pin.
+1. Replace index.html
+2. Add/replace js/app-v2_9_95.js
+3. Keep all existing data/, js/firebase-config.js, and other repository files
+4. Publish GitHub Pages
+5. Hard-refresh the Atlas (Ctrl+Shift+R)
