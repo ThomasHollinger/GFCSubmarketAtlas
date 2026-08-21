@@ -1,10 +1,27 @@
-# Gulf Coast Submarket Atlas v2.9.91
+# Gulf Coast Submarket Atlas v2.10.0
 
-New Deals are now private. The layer, deal list, and deal pins stay hidden until the shared New Deals password is entered. Once unlocked, the same Firebase session authorizes viewing, adding, moving, deleting, and opening Market Preview shortcuts for New Deals.
+## Market Preview rebuild
 
-IMPORTANT: Publish the included Firestore rule snippet before deploying this patch. Replace the existing `match /newDeals/{dealId}` rule with the private rule in `firestore-new-deals-private.rules.txt` (or merge it into your existing rules). This is what prevents unauthenticated users from reading the New Deals collection directly.
+This release completely rebuilds the Market Preview interaction layer. The report content remains the designed combined Preview with: Zonda Demographics Data, ACS Demographics Data, Schools, Competition, Retail & Dining, and Lifestyle & Amenities.
 
-The shared Firebase editor identity remains `newdeals.shared@lennar.com`; the team password is entered only through the Atlas password prompt and is not embedded in the GitHub code.
+### Market Preview flow
+1. Click **Market Preview** in the sidebar.
+2. Select **1, 3, 5, or 10 Miles**.
+3. Click anywhere on the map.
+4. A stable DOM prompt appears with **Open Preview** / **No** buttons.
+5. **Open Preview** opens the Market Preview report immediately, then refreshes as background data finishes loading.
 
+### New Deals flow
+Each New Deal popup has **3 Mile Preview** and **5 Mile Preview** buttons. These use the exact New Deal coordinates and open the same Market Preview report engine directly.
 
-2.9.91: fixed deployment script reference so the private New Deals authentication flow is actually loaded; New Deals count remains visible while locked.
+### Stability changes
+- Preview prompt is no longer implemented as an interactive Leaflet marker popup.
+- Preview buttons use direct DOM event listeners with propagation stopped.
+- The Market Preview modal opens before heavy calculations begin, preventing silent failures.
+- Rendering failures are shown inside the Preview instead of doing nothing.
+- New Deal popup clicks are isolated from the Leaflet map click handler.
+- Preview button text remains compact (12px).
+
+## GitHub upload
+Replace `index.html`, add/replace `js/app-v2_10_0.js`, and replace `data/metadata.json`. Keep the existing Firebase configuration and all existing data files. Then commit the changes and hard refresh the Atlas with Ctrl+Shift+R.
+

@@ -1,6 +1,10 @@
-GitHub upload patch for Gulf Coast Submarket Atlas v2.9.91.
+Gulf Coast Submarket Atlas v2.10.0 upload
 
-Replace the existing app-v2_9_89.js with js/app-v2_9_90.js and index.html with the patched index.html.
-No map data files are changed.
+1. Replace the repository root index.html.
+2. Add/replace js/app-v2_10_0.js.
+3. Replace data/metadata.json.
+4. Do not delete or change Firebase config, data files, or other map assets.
+5. Commit changes.
+6. After GitHub Pages updates, use Ctrl+Shift+R.
 
-IMPORTANT: before deploying, publish the Firestore rule in firestore-new-deals-private.rules.txt so unauthenticated users cannot read the `newDeals` collection.
+This release completely rebuilds the Market Preview button/event flow.

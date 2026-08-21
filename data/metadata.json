@@ -1,5 +1,5 @@
 {
-  "version": "2.9.91",
+  "version": "2.10.0",
   "releaseDate": "2026-08-19",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -10,8 +10,8 @@
   "notes": "New Deals are private and require the shared team password to view; the same Firebase session unlocks the New Deals layer, sidebar list, and add/move/delete controls. New Deal markers remain silver. New Deal count remains visible while locked.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "2.9.91",
-  "updated": "2026-08-19",
+  "release": "2.10.0",
+  "updated": "2026-08-21",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "retail": "Retail & Dining now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",
   "builder_subdivisions": "Zonda subdivision table dated 2026-08-12; 1,062 spatially assigned communities including 901 Single-Family Detached and 161 Townhomes, with 474 Active, 346 Future, and 242 Built Out records.",

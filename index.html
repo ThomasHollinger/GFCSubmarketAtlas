@@ -23,6 +23,20 @@
     .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:14px;padding:9px 8px}
   </style>
+
+<style>
+.market-preview-map-prompt{position:absolute;z-index:10000;pointer-events:auto;transform:translateZ(0)}
+.market-preview-map-prompt .radius-prompt-card{background:#fff;border:1px solid rgba(245,158,11,.65);border-radius:16px;box-shadow:0 14px 36px rgba(15,23,42,.18);padding:14px 16px;min-width:238px;text-align:center}
+.market-preview-map-prompt .radius-prompt-title{font-weight:900;color:#172b4d;margin-bottom:10px;font-size:17px}
+.market-preview-map-prompt .radius-prompt-actions{display:flex;gap:10px;justify-content:center}
+.market-preview-map-prompt button{border:0;border-radius:999px;padding:9px 15px;font-weight:900;cursor:pointer;font:inherit}
+.market-preview-map-prompt .radius-prompt-yes.snapshot{background:#17385f;color:#fff}
+.market-preview-map-prompt .radius-prompt-yes.quickview{background:#17385f;color:#fff}
+.market-preview-map-prompt .radius-prompt-no{background:#fff;border:1px solid #cbd5e1;color:#172b4d}
+.snapshot-loading,.snapshot-error{padding:28px;border:1px dashed #cbd5e1;border-radius:14px;text-align:center;color:#475569}
+.new-deal-preview-btn{font-size:12px !important;line-height:1.1 !important;padding:9px 11px !important;white-space:nowrap !important}
+</style>
+
 </head>
 <body>
   <div class="app-shell" id="appShell">
@@ -218,6 +232,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_9_91.js"></script>
+  <script src="js/app-v2_10_0.js"></script>
 </body>
 </html>
