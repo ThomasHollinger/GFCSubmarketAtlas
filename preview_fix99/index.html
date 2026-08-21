@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gulf Coast Submarket Atlas</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .new-deals-list-toggle{width:100%;margin:6px 0 8px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;color:#17365d;font-weight:700;text-align:left;cursor:pointer}
+    .new-deals-list-toggle::after{content:"\25BE";float:right;transition:transform .15s ease}
+    .new-deals-list-toggle[aria-expanded="true"]::after{transform:rotate(180deg)}.new-deals-list-toggle[hidden]{display:none}
+    .new-deals-sidebar-list{max-height:260px;overflow-y:auto;margin:0 0 10px;border:1px solid #dbe3ec;border-radius:8px;background:#fff}
+    .new-deals-sidebar-list[hidden]{display:none}
+    .new-deal-submarket-group+ .new-deal-submarket-group{border-top:1px solid #dbe3ec}.new-deal-submarket-heading{padding:7px 10px;background:#f3f6fa;color:#17365d;font-size:12px;font-weight:800;letter-spacing:.01em}.new-deal-list-item{display:block;width:100%;padding:8px 10px 8px 18px;border:0;border-bottom:1px solid #edf1f5;background:#fff;text-align:left;color:#24364b;font:inherit;font-weight:700;cursor:pointer}
+    .new-deal-list-item:last-child{border-bottom:0}
+    .new-deal-list-item:hover,.new-deal-list-item:focus{background:#edf5ff;outline:none}
+    .new-deals-list-empty{padding:9px 10px;color:#64748b;font-size:12px}
+    .new-deal-marker{background:#c0c0c0 !important;border-color:#6b7280 !important;color:#111827 !important}
+    .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+    .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:12px;padding:8px 6px}
+  </style>
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <button id="sidebarToggle" class="sidebar-toggle" title="Toggle sidebar">☰</button>
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">GCSA</div>
+        <div>
+          <h1>Gulf Coast Submarket Atlas</h1>
+          <p>Market intelligence platform</p>
+        </div>
+      </div>
+
+      <section class="control-block">
+        <h2>Market Preview</h2>
+        <button id="marketSnapshotToggle" class="snapshot-btn quickview-btn" type="button">Market Preview</button>
+        <div id="marketSnapshotRadiusPanel" class="snapshot-radius-panel">
+          <div class="filter-title">Choose Radius</div>
+          <div class="snapshot-radius-buttons">
+            <button type="button" class="market-snapshot-radius" data-radius="1">1 Mile</button>
+            <button type="button" class="market-snapshot-radius" data-radius="3">3 Miles</button>
+            <button type="button" class="market-snapshot-radius" data-radius="5">5 Miles</button>
+            <button type="button" class="market-snapshot-radius" data-radius="10">10 Miles</button>
+          </div>
+          <div id="marketSnapshotHint" class="snapshot-hint">Click Market Preview to begin.</div>
+        </div>
+      </section>
+
+      <section class="control-block">
+        <h2>Market Data</h2>
+
+        <label for="mapThemeSelect">Map Theme</label>
+        <select id="mapThemeSelect" class="wide-select">
+          <option value="hub">Hub View</option>
+          <option value="outline">Outline View</option>
+          <option value="schools">School Score Heat Map</option>
+          <option value="retail">Retail Density</option>
+          <option value="healthcare">Healthcare Access</option>
+          <option value="builders">Builder Activity</option>
+          <option value="lifestyle">Lifestyle Amenities Density</option>
+          <option value="income">Median Income</option>
+          <option value="population">Population</option>
+        </select>
+        <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Gulf Coast Submarkets</label>
+        <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
+        <div id="schoolFilterPanel" class="school-filter-panel">
+          <div class="filter-title">School Type</div>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="Elementary" checked> Elementary</label>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="Middle" checked> Middle</label>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="High" checked> High</label>
+          <label><input type="checkbox" class="school-type-filter" data-school-type="Other" checked> Others/Unknown</label>
+          <div class="filter-title">GreatSchools Rating</div>
+          <div class="school-rating-actions">
+            <button type="button" id="schoolRatingsSelectAll" class="school-rating-action-btn">Select All</button>
+            <button type="button" id="schoolRatingsClearAll" class="school-rating-action-btn secondary">Clear All</button>
+          </div>
+          <div id="schoolRatingFilterList" class="school-rating-filter-list"></div>
+          <div id="schoolFilterCount" class="filter-count">Load Schools</div>
+        </div>
+        <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
+        <div id="retailFilterPanel" class="retail-filter-panel">
+          <div class="filter-title">Retail & Dining Display</div>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Restaurant" checked> Restaurants</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Grocery" checked> Grocery</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Retail" checked> Retail</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="Convenience" checked> Convenience</label>
+          <label><input type="checkbox" class="retail-filter" data-retail-filter="NationalBrandsOnly"> National Brands only</label>
+          <div id="retailFilterCount" class="filter-count">Load Retail & Dining</div>
+        </div>
+        <label class="check"><input type="checkbox" id="toggleLifestyle"> Lifestyle & Amenities <span id="lifestyleCountBadge">Load Layer</span></label>
+        <div id="lifestyleFilterPanel" class="lifestyle-filter-panel">
+          <div class="filter-title">Lifestyle & Amenities Display</div>
+          <label><input type="checkbox" class="lifestyle-filter" data-lifestyle-filter="Golf" checked> Golf Courses</label>
+          <label><input type="checkbox" class="lifestyle-filter" data-lifestyle-filter="Tennis" checked> Tennis Courts</label>
+          <label><input type="checkbox" class="lifestyle-filter" data-lifestyle-filter="Pickleball" checked> Pickleball Courts</label>
+          <label><input type="checkbox" class="lifestyle-filter" data-lifestyle-filter="Fitness" checked> Gyms / Fitness</label>
+          <label><input type="checkbox" class="lifestyle-filter" data-lifestyle-filter="Center" checked> Sports / Community Centers</label>
+          <label><input type="checkbox" class="lifestyle-filter" data-lifestyle-filter="Other" checked> Others / Unknown</label>
+          <div id="lifestyleFilterCount" class="filter-count">Load Lifestyle & Amenities</div>
+        </div>
+        <label class="check"><input type="checkbox" id="toggleHealthcare"> Healthcare <span id="healthcareCountBadge">Load Layer</span></label>
+        <label class="check"><input type="checkbox" id="toggleBuilders"> Builder Subdivisions <span id="builderCountBadge">Ready</span></label>
+        <div id="builderFilterPanel" class="builder-filter-panel">
+          <div class="filter-title">Builder Display</div>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="SingleFamily" checked> Single Family Detached</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Townhomes"> Townhomes</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Active" checked> Active</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="Future" checked> Future</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="BuiltOut"> Built Out</label>
+          <div class="builder-name-filter-title">Filter by Builder</div>
+          <div class="builder-name-filter-help">Leave all unchecked to show all builders. Check one or more builders to show only those pins.</div>
+          <div id="builderNameFilterList" class="builder-name-filter-list"></div>
+          <div class="builder-name-filter-title">Filter by Tier</div>
+          <div class="builder-name-filter-help">Price Max controls the tier buckets. Edit the ranges if leadership wants new cutoffs.</div>
+          <div id="builderTierFilterList" class="builder-tier-filter-list"></div>
+          <div id="builderFilterCount" class="filter-count">Load Builders</div>
+        </div>
+        <div class="new-deals-panel">
+          <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">Private</span></label>
+          <button id="toggleNewDealsList" class="new-deals-list-toggle" type="button" aria-expanded="false" hidden disabled>Show Deals</button>
+          <div id="newDealsSidebarList" class="new-deals-sidebar-list" hidden></div>
+          <div class="new-deal-place-search">
+            <label for="newDealPlaceSearch">Find a Place / Address</label>
+            <div class="new-deal-place-search-wrap">
+              <input id="newDealPlaceSearch" type="text" autocomplete="off" spellcheck="false" placeholder="Search address, street, business, or place">
+              <div id="newDealPlaceSuggestions" class="new-deal-place-suggestions" role="listbox" aria-label="Place suggestions"></div>
+            </div>
+            <div id="newDealPlaceSearchStatus" class="new-deal-place-search-status"></div>
+          </div>
+          <div class="new-deal-coordinate-search">
+            <label for="newDealCoordinateSearch">Find by Latitude / Longitude</label>
+            <div class="new-deal-coordinate-search-row">
+              <input id="newDealCoordinateSearch" type="text" autocomplete="off" spellcheck="false" placeholder="30°37'14.93\"N 88°16'53.89\"W">
+              <button id="newDealCoordinateSearchBtn" type="button">Go</button>
+            </div>
+            <div id="newDealCoordinateSearchStatus" class="new-deal-coordinate-search-status"></div>
+          </div>
+          <div id="newDealsAuthStatus" class="new-deals-auth-status">Private • enter the team password to view New Deals</div>
+          <button id="addNewDealPin" class="new-deal-add-btn" type="button">Add Pin to Map</button>
+          <div id="newDealsHint" class="new-deals-hint">New Deals are private. Enter the team password to view the pins.</div>
+        </div>
+        <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
+
+      </section>
+
+      <section class="control-block">
+        <h2>Market Summary</h2>
+        <div id="selectedPanel" class="selected-panel empty">
+          <p>Click a submarket on the map or use search.</p>
+        </div>
+      </section>
+
+      <section class="control-block small">
+        <h2>About</h2>
+        <div id="releasePanel">Loading validation...</div>
+      </section>
+
+
+      <section class="control-block small download-block">
+        <h2>Download Layer</h2>
+        <div class="download-note">Submarket layers export as KML. For Google My Maps, use the Submarket Numbers layer for numbered markers, and use the Builder Subdivisions export to keep communities grouped by builder inside the KML folders.</div>
+        <div class="download-layer-actions">
+          <button id="downloadSubmarketsKml" class="download-layer-btn secondary" type="button">Submarket Outlines (.kml)</button>
+          <button id="downloadSubmarketNumbersKml" class="download-layer-btn secondary" type="button">Submarket Numbers (.kml)</button>
+          <button id="downloadBuildersKml" class="download-layer-btn secondary" type="button">Builder Subdivisions (.kml)</button>
+          <button id="downloadNewDealsKml" class="download-layer-btn secondary" type="button">New Deals (.kml)</button>
+                  </div>
+      </section>
+    </aside>
+
+    <main class="map-area">
+      <header class="topbar">
+        <div class="top-title">
+          <strong>Gulf Coast Submarket Atlas</strong>
+          <span id="statusText">Loading atlas...</span>
+        </div>
+        <div class="top-actions">
+          <select id="basemapSelect" aria-label="Basemap">
+            <option value="light">Light</option>
+            <option value="streets">Streets</option>
+            <option value="topo">Topo</option>
+            <option value="satellite">Satellite</option>
+          </select>
+          <label class="map-overlay-toggle" title="FEMA National Flood Hazard Layer flood zones">
+            <input type="checkbox" id="toggleFloodZones"> Flood Zones
+          </label>
+          <label class="map-overlay-toggle" title="USGS The National Map elevation contours">
+            <input type="checkbox" id="toggleContours"> Contours
+          </label>
+          <button id="resetBtn">Reset View</button>
+        </div>
+      </header>
+      <div id="map"></div>
+    </main>
+
+  <div id="marketSnapshotModal" class="snapshot-modal-overlay" aria-hidden="true">
+    <div class="snapshot-modal" role="dialog" aria-modal="true" aria-labelledby="marketSnapshotModalTitle">
+      <div class="snapshot-modal-header">
+        <div>
+          <h3 id="marketSnapshotModalTitle">Market Preview</h3>
+          <p id="marketSnapshotModalSubtitle"></p>
+        </div>
+        <button id="marketSnapshotClose" type="button" class="snapshot-close-btn">Close</button>
+      </div>
+      <div id="marketSnapshotModalBody" class="snapshot-modal-body"></div>
+    </div>
+  </div>
+
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/app-v2_9_99.js"></script>
+</body>
+</html>
