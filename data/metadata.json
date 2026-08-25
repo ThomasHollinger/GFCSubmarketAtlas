@@ -1,5 +1,5 @@
 {
-  "version": "v2.10.6",
+  "version": "v2.10.7",
   "releaseDate": "2026-08-25",
   "uniqueSubmarketsLoaded": 32,
   "healthScore": 70,
@@ -7,13 +7,14 @@
   "schools": "School ratings load in background; verified types now drive school icons and summaries",
   "demographics": "Market Preview combines Zonda Quickview demographics with the restored bundled 17,313-record ACS 2020-2024 block-group radius demographics; the two source calculations remain independent.",
   "builders": "Builder subdivision popups now show Zonda homesite dimensions (width x derived depth) after Square Foot; missing dimensions display a dash.",
-  "notes": "Builder subdivision hover popups no longer move the map; popup placement chooses the side that fits within the current viewport. Compact 3 mile / 5 mile Market Preview shortcuts preserved; Retail & Dining predictive search preserved.",
+  "notes": "Builder subdivision hover popups no longer move the map; popup placement chooses the side that fits within the current viewport. Compact 3 mile / 5 mile Market Preview shortcuts preserved; Retail & Dining predictive search preserved. Map pins now offer Directions to; routing supports pin-to-pin or pin-to-map destinations with driving time, distance, route line, and turn list.",
   "schoolRatings": "Thomas-verified school grades and school types updated from the latest review file",
   "healthcare": "Healthcare layer framework added; run GitHub Action to build facility points",
-  "release": "Builder Subdivision Hover Popup No-Pan Fix",
+  "release": "Map-wide Directions mode with route estimates",
   "updated": "2026-08-25",
   "school_rating_update": "Applied verified school grades, school-type overrides, and exclusions from user review audit",
   "retail": "Retail & Dining now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",
   "builder_subdivisions": "Zonda subdivision table dated 2026-08-12; 1,062 spatially assigned communities including 901 Single-Family Detached and 161 Townhomes, with 474 Active, 346 Future, and 242 Built Out records.",
-  "lifestyle": "Lifestyle & Amenities now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved."
+  "lifestyle": "Lifestyle & Amenities now preloads in the background and uses a 30-day processed local browser cache to avoid repeated Overpass delays; clustering and filters preserved.",
+  "directions": "Directions mode uses the public OSRM routing service for driving routes; click Directions to on a pin, then choose another pin or any map location."
 }
