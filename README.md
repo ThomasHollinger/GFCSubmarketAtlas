@@ -1,9 +1,5 @@
-# Gulf Coast Submarket Atlas v2.10.8
+Gulf Coast Submarket Atlas v2.10.9
 
-Fixes Directions To persistence on click. Hover and click now both retain the Directions To button, including Builder Subdivision popups. Existing directions, preview, and no-pan behavior is preserved.
+Change: Escape now ends active Directions mode, removing the route, destination marker, and Directions panel.
 
-Upload/replace:
-- index.html
-- js/app-v2_10_8.js
-
-Then commit and hard-refresh (Ctrl+Shift+R).
+Upload index.html and js/app-v2_10_9.js, replacing the prior JS reference.
