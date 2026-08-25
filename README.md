@@ -1,5 +1,9 @@
-# Gulf Coast Submarket Atlas v2.10.7
+# Gulf Coast Submarket Atlas v2.10.8
 
-Directions mode added. Click `Directions to` from a map pin, then click another visible pin or any map location. The Atlas calculates a driving route with distance, estimated drive time, route line, and turn-by-turn steps. `End Directions` clears the route and exits direction mode.
+Fixes Directions To persistence on click. Hover and click now both retain the Directions To button, including Builder Subdivision popups. Existing directions, preview, and no-pan behavior is preserved.
 
-Routing uses the public OSRM routing endpoint from the browser; no API key is required.
+Upload/replace:
+- index.html
+- js/app-v2_10_8.js
+
+Then commit and hard-refresh (Ctrl+Shift+R).
