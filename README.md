@@ -1,25 +1,15 @@
-# Gulf Coast Submarket Atlas v2.10.4
+# Gulf Coast Submarket Atlas v2.10.5
 
-## Retail & Dining predictive search
+## Builder Subdivision Market Preview
 
-This patch adds Google-style predictive suggestions to the existing Retail & Dining search.
+Builder Subdivision popups now include compact **3 mile** and **5 mile** buttons. Clicking either opens the existing Market Preview centered on the subdivision coordinates, using the same preview engine as New Deals.
 
-### Behavior
-- Suggestions begin once 3 normalized characters have been typed.
-- Suggestions are generated across the full loaded Retail & Dining dataset.
-- Matching ignores capitalization, apostrophes, hyphens, spaces, and similar punctuation, so `McDonalds` and `McDonald's` match the same locations.
-- Suggestions show up to 8 likely brand/store names with their location counts.
-- Clicking a suggestion commits the search and shows every matching location across the map.
-- Pressing Enter still commits the current query directly.
-- Pressing Escape hides the suggestion list without clearing the committed search.
-- Clicking outside the search box/list hides suggestions.
-- Existing Clear behavior is unchanged.
+The existing Builder popup details, hover/click behavior, New Deals, Retail & Dining predictive search, and Market Preview functionality are preserved.
 
 ## GitHub upload
 Replace:
 - `index.html`
-- `js/app-v2_10_4.js`
+- `js/app-v2_10_5.js`
+- `data/metadata.json`
 
-Do not remove other atlas data files.
-
-After GitHub Pages deploys, hard-refresh with Ctrl+Shift+R.
+Do not delete existing data files.
