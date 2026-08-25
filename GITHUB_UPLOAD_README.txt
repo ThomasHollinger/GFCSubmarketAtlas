@@ -1,1 +1,2 @@
-Upload the updated index.html and js/app-v2_10_1.js to GitHub, replacing the prior Market Preview rebuild files. Commit changes, then hard-refresh the Atlas with Ctrl+Shift+R.
+UPLOAD v2.10.2
+Replace index.html and add/replace js/app-v2_10_2.js. Replace data/metadata.json if present.

@@ -20,6 +20,16 @@
     .new-deal-list-item:hover,.new-deal-list-item:focus{background:#edf5ff;outline:none}
     .new-deals-list-empty{padding:9px 10px;color:#64748b;font-size:12px}
     .new-deal-marker{background:#c0c0c0 !important;border-color:#6b7280 !important;color:#111827 !important}
+
+    .retail-search-row{display:grid;grid-template-columns:1fr auto;gap:6px;margin:6px 0 5px}
+    .retail-search-row input{min-width:0;width:100%;padding:8px 9px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#24364b;font:inherit}
+    .retail-search-row input:focus{outline:none;border-color:#5b8fd1;box-shadow:0 0 0 2px rgba(91,143,209,.12)}
+    .retail-search-row button{padding:8px 11px;border:1px solid #17385f;border-radius:8px;background:#17385f;color:#fff;font-weight:800;cursor:pointer}
+    .retail-search-meta{font-size:11px;line-height:1.35;color:#64748b;margin-bottom:6px}
+    .retail-search-status-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:22px;margin-bottom:8px}
+    .retail-search-status{font-size:12px;font-weight:700;color:#17385f;min-width:0}
+    .retail-search-clear{padding:4px 8px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#475569;font-weight:700;cursor:pointer}
+    .retail-search-clear:disabled{opacity:.45;cursor:default}
     .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:14px;padding:9px 8px}
   </style>
@@ -98,6 +108,16 @@
         </div>
         <label class="check"><input type="checkbox" id="toggleRetail"> Retail & Dining <span id="retailCountBadge">Load Layer</span></label>
         <div id="retailFilterPanel" class="retail-filter-panel">
+          <div class="filter-title">Search Retail & Dining</div>
+          <div class="retail-search-row">
+            <input id="retailSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Search store or restaurant">
+            <button id="retailSearchBtn" type="button">Search</button>
+          </div>
+          <div class="retail-search-meta">Press Enter to show every matching location across the map. Results stay active until you clear the search.</div>
+          <div class="retail-search-status-row">
+            <div id="retailSearchStatus" class="retail-search-status"></div>
+            <button id="retailSearchClear" class="retail-search-clear" type="button" disabled>Clear</button>
+          </div>
           <div class="filter-title">Retail & Dining Display</div>
           <label><input type="checkbox" class="retail-filter" data-retail-filter="Restaurant" checked> Restaurants</label>
           <label><input type="checkbox" class="retail-filter" data-retail-filter="Grocery" checked> Grocery</label>
@@ -232,6 +252,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_10_1.js"></script>
+  <script src="js/app-v2_10_2.js"></script>
 </body>
 </html>
