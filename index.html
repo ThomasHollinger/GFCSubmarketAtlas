@@ -30,6 +30,15 @@
     .retail-search-status{font-size:12px;font-weight:700;color:#17385f;min-width:0}
     .retail-search-clear{padding:4px 8px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#475569;font-weight:700;cursor:pointer}
     .retail-search-clear:disabled{opacity:.45;cursor:default}
+    .retail-search-suggestions{display:none;position:relative;margin:0 0 7px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;box-shadow:0 8px 20px rgba(15,23,42,.12);overflow:hidden;z-index:50}
+    .retail-search-suggestions.active{display:block}
+    .retail-search-suggestion{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:8px 10px;border:0;border-bottom:1px solid #eef2f7;background:#fff;color:#17385f;text-align:left;cursor:pointer;font:inherit}
+    .retail-search-suggestion:last-child{border-bottom:0}
+    .retail-search-suggestion:hover,.retail-search-suggestion:focus{background:#f3f7fb;outline:none}
+    .retail-search-suggestion-name{font-weight:800;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .retail-search-suggestion-meta{font-size:10px;color:#64748b;white-space:nowrap}
+    .retail-search-suggestion-empty{padding:8px 10px;font-size:11px;color:#64748b}
+
     .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:14px;padding:9px 8px}
   </style>
@@ -113,7 +122,8 @@
             <input id="retailSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Search store or restaurant">
             <button id="retailSearchBtn" type="button">Search</button>
           </div>
-          <div class="retail-search-meta">Press Enter to show every matching location across the map. Results stay active until you clear the search.</div>
+          <div id="retailSearchSuggestions" class="retail-search-suggestions" role="listbox" aria-label="Retail & Dining suggestions"></div>
+          <div class="retail-search-meta">Type 3 characters for suggestions, or press Enter to show every matching location across the map. Results stay active until you clear the search.</div>
           <div class="retail-search-status-row">
             <div id="retailSearchStatus" class="retail-search-status"></div>
             <button id="retailSearchClear" class="retail-search-clear" type="button" disabled>Clear</button>
@@ -252,6 +262,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_10_2.js"></script>
+  <script src="js/app-v2_10_4.js"></script>
 </body>
 </html>
