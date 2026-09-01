@@ -19,7 +19,14 @@
     .new-deal-list-item:last-child{border-bottom:0}
     .new-deal-list-item:hover,.new-deal-list-item:focus{background:#edf5ff;outline:none}
     .new-deals-list-empty{padding:9px 10px;color:#64748b;font-size:12px}
-    .new-deal-marker{background:#c0c0c0 !important;border-color:#6b7280 !important;color:#111827 !important}
+    .new-deal-category-filters{display:grid;gap:4px;margin-bottom:4px}
+    .new-deal-category-filters .check{display:flex;align-items:center;gap:6px}
+    .new-deal-filter-swatch{width:11px;height:11px;border-radius:50%;border:2px solid rgba(15,23,42,.28);flex:0 0 auto}
+    .new-deal-filter-swatch.new-deal{background:#ff7a00}
+    .new-deal-filter-swatch.cold-lead{background:#2563eb}
+    .new-deal-category-heading{padding:8px 10px;background:#17365d;color:#fff;font-size:12px;font-weight:900;letter-spacing:.02em}
+    .new-deal-marker{background:#ff7a00 !important;border-color:#b45309 !important;color:#fff !important}
+    .new-deal-marker.cold-lead-marker{background:#2563eb !important;border-color:#1e3a8a !important;color:#fff !important}
 
     .retail-search-row{display:grid;grid-template-columns:1fr auto;gap:6px;margin:6px 0 5px}
     .retail-search-row input{min-width:0;width:100%;padding:8px 9px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#24364b;font:inherit}
@@ -41,6 +48,7 @@
 
     .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:14px;padding:9px 8px}
+    .new-deal-popup-actions .new-deal-category-btn{grid-column:1/-1;font-weight:800}
 
     .builder-preview-actions{display:flex;gap:6px;margin-top:8px}
     .builder-preview-btn{flex:0 0 auto;min-width:62px;border:0;border-radius:10px;background:#18385f;color:#fff;font-weight:800;font-size:11px;line-height:1;padding:8px 10px;cursor:pointer;white-space:nowrap}
@@ -188,7 +196,10 @@
           <div id="builderFilterCount" class="filter-count">Load Builders</div>
         </div>
         <div class="new-deals-panel">
-          <label class="check"><input type="checkbox" id="toggleNewDeals"> New Deals <span id="newDealsCountBadge">Private</span></label>
+          <div class="new-deal-category-filters">
+            <label class="check"><input type="checkbox" id="toggleNewDeals"><span class="new-deal-filter-swatch new-deal" aria-hidden="true"></span> New Deals <span id="newDealsCountBadge">Private</span></label>
+            <label class="check"><input type="checkbox" id="toggleColdLeads"><span class="new-deal-filter-swatch cold-lead" aria-hidden="true"></span> Cold Leads <span id="coldLeadsCountBadge">Private</span></label>
+          </div>
           <button id="toggleNewDealsList" class="new-deals-list-toggle" type="button" aria-expanded="false" hidden disabled>Show Deals</button>
           <div id="newDealsSidebarList" class="new-deals-sidebar-list" hidden></div>
           <div class="new-deal-place-search">
@@ -207,9 +218,9 @@
             </div>
             <div id="newDealCoordinateSearchStatus" class="new-deal-coordinate-search-status"></div>
           </div>
-          <div id="newDealsAuthStatus" class="new-deals-auth-status">Private • enter the team password to view New Deals</div>
+          <div id="newDealsAuthStatus" class="new-deals-auth-status">Private • enter the team password to view Deals &amp; Leads</div>
           <button id="addNewDealPin" class="new-deal-add-btn" type="button">Add Pin to Map</button>
-          <div id="newDealsHint" class="new-deals-hint">New Deals are private. Enter the team password to view the pins.</div>
+          <div id="newDealsHint" class="new-deals-hint">Deals and leads are private. Enter the team password to view the pins.</div>
         </div>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
 
@@ -236,6 +247,7 @@
           <button id="downloadSubmarketNumbersKml" class="download-layer-btn secondary" type="button">Submarket Numbers (.kml)</button>
           <button id="downloadBuildersKml" class="download-layer-btn secondary" type="button">Builder Subdivisions (.kml)</button>
           <button id="downloadNewDealsKml" class="download-layer-btn secondary" type="button">New Deals (.kml)</button>
+          <button id="downloadColdLeadsKml" class="download-layer-btn secondary" type="button">Cold Leads (.kml)</button>
                   </div>
       </section>
     </aside>
@@ -285,6 +297,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_10_10.js"></script>
+  <script src="js/app-v2_10_11.js"></script>
 </body>
 </html>
