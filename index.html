@@ -49,6 +49,13 @@
     .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:14px;padding:9px 8px}
     .new-deal-popup-actions .new-deal-category-btn{grid-column:1/-1;font-weight:800}
+    .new-deal-add-category-choice{margin:7px 0;padding:9px;border:1px solid #cbd5e1;border-radius:9px;background:#f8fafc}
+    .new-deal-add-category-choice[hidden]{display:none}
+    .new-deal-add-category-prompt{margin-bottom:7px;color:#17365d;font-size:12px;font-weight:800}
+    .new-deal-add-category-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+    .new-deal-add-category-actions button{padding:9px 8px;border:0;border-radius:8px;color:#fff;font-weight:900;cursor:pointer}
+    .new-deal-add-new-btn{background:#ff7a00}
+    .new-deal-add-cold-btn{background:#2563eb}
 
     .builder-preview-actions{display:flex;gap:6px;margin-top:8px}
     .builder-preview-btn{flex:0 0 auto;min-width:62px;border:0;border-radius:10px;background:#18385f;color:#fff;font-weight:800;font-size:11px;line-height:1;padding:8px 10px;cursor:pointer;white-space:nowrap}
@@ -220,6 +227,13 @@
           </div>
           <div id="newDealsAuthStatus" class="new-deals-auth-status">Private • enter the team password to view Deals &amp; Leads</div>
           <button id="addNewDealPin" class="new-deal-add-btn" type="button">Add Pin to Map</button>
+          <div id="newDealAddCategoryChoice" class="new-deal-add-category-choice" hidden>
+            <div class="new-deal-add-category-prompt">What type of pin are you adding?</div>
+            <div class="new-deal-add-category-actions">
+              <button type="button" class="new-deal-add-new-btn" data-deal-add-category="newDeal">New Deal</button>
+              <button type="button" class="new-deal-add-cold-btn" data-deal-add-category="coldLead">Cold Lead</button>
+            </div>
+          </div>
           <div id="newDealsHint" class="new-deals-hint">Deals and leads are private. Enter the team password to view the pins.</div>
         </div>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
@@ -297,6 +311,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_10_11.js"></script>
+  <script src="js/app-v2_10_12.js"></script>
 </body>
 </html>
