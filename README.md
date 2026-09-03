@@ -1,10 +1,11 @@
-Gulf Coast Submarket Atlas v2.10.13
+Gulf Coast Submarket Atlas v2.10.14
 
-Change: Escape now ends active Directions mode, removing the route, destination marker, and Directions panel.
+Change: Bay County Submarket 2 Zonda Demographics data is now available in Market Quickview.
 
-Upload index.html and js/app-v2_10_13.js, replacing the prior JS reference.
+Upload index.html, js/app-v2_10_14.js, and data/market_quickview/bay_county_submarket_2_quickview_blocks.geojson, replacing the prior JS reference.
 
-Changes in v2.10.13:
-- Find by Latitude / Longitude now places the same temporary blue result marker used by Find a Place / Address.
-- The coordinate marker includes a formatted coordinate tooltip and clears on the same next-action / Escape behavior.
-- Preserved the add-pin category chooser, category filters, conversions, CARTO basemap, and Directions behavior from v2.10.12.
+Changes in v2.10.14:
+- Added the complete 129-block Bay County Submarket 2 Quickview grid.
+- Wired the 12 supplied Zonda demographic block exports into their matching block IDs; the remaining 117 blocks are retained as no-data coverage areas.
+- Normalized average household income into the Mean Income field and preserved all population, household, income-by-age, segmentation, and trend tables.
+- Preserved the coordinate-search marker, add-pin category chooser, category filters, pin conversions, CARTO basemap, and Directions behavior from v2.10.13.
