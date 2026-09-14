@@ -57,6 +57,12 @@
     .new-deal-add-new-btn{background:#ff7a00}
     .new-deal-add-cold-btn{background:#2563eb}
 
+    .address-number-label{background:transparent;border:0;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+    .address-number-label span{color:#fff;font:800 11px/1 Arial,sans-serif;letter-spacing:-.1px;text-align:center;text-shadow:-1px -1px 0 #111,1px -1px 0 #111,-1px 1px 0 #111,1px 1px 0 #111,0 0 3px #111;cursor:default}
+    .address-number-label:hover span{padding:2px 4px;border-radius:4px;background:rgba(15,23,42,.82)}
+    .address-full-tooltip{border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#172b4d;box-shadow:0 6px 18px rgba(15,23,42,.2);font-size:12px;font-weight:800;padding:6px 8px}
+    .address-full-tooltip::before{border-top-color:#fff}
+
     .builder-preview-actions{display:flex;gap:6px;margin-top:8px}
     .builder-preview-btn{flex:0 0 auto;min-width:62px;border:0;border-radius:10px;background:#18385f;color:#fff;font-weight:800;font-size:11px;line-height:1;padding:8px 10px;cursor:pointer;white-space:nowrap}
     .builder-preview-btn:hover,.builder-preview-btn:focus{background:#274f7e;outline:none}
@@ -138,6 +144,7 @@
           <option value="population">Population</option>
         </select>
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Gulf Coast Submarkets</label>
+        <label class="check"><input type="checkbox" id="toggleAddresses"> Addresses <span id="addressCountBadge">Zoom to 18+</span></label>
         <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
         <div id="schoolFilterPanel" class="school-filter-panel">
           <div class="filter-title">School Type</div>
@@ -311,6 +318,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/app-v2_10_14.js"></script>
+  <script src="js/app-v2_10_15.js"></script>
 </body>
 </html>
