@@ -62,6 +62,12 @@
     .address-number-label:hover span{padding:2px 4px;border-radius:4px;background:rgba(15,23,42,.82)}
     .address-full-tooltip{border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#172b4d;box-shadow:0 6px 18px rgba(15,23,42,.2);font-size:12px;font-weight:800;padding:6px 8px}
     .address-full-tooltip::before{border-top-color:#fff}
+    .address-copy-popup{min-width:220px}
+    .address-copy-value{margin-bottom:9px;color:#172b4d;font-size:13px;font-weight:800;line-height:1.35;user-select:text}
+    .address-copy-btn{width:100%;padding:8px 10px;border:0;border-radius:8px;background:#18385f;color:#fff;font-family:inherit;font-size:12px;font-weight:800;line-height:1.2;cursor:pointer}
+    .address-copy-btn:hover,.address-copy-btn:focus{background:#274f7e;outline:none}
+    .address-copy-btn:disabled{cursor:default;opacity:.82}
+    .address-copy-status{min-height:14px;margin-top:5px;color:#52657a;font-size:10px;font-weight:700;text-align:center}
 
     .builder-preview-actions{display:flex;gap:6px;margin-top:8px}
     .builder-preview-btn{flex:0 0 auto;min-width:62px;border:0;border-radius:10px;background:#18385f;color:#fff;font-weight:800;font-size:11px;line-height:1;padding:8px 10px;cursor:pointer;white-space:nowrap}
@@ -319,6 +325,6 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/address-tiles-vendor.js"></script>
-  <script src="js/app-v2_10_16.js"></script>
+  <script src="js/app-v2_10_17.js"></script>
 </body>
 </html>
