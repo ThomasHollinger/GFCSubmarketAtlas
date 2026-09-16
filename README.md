@@ -1,11 +1,10 @@
-Gulf Coast Submarket Atlas v2.10.18
+Gulf Coast Submarket Atlas v2.10.19
 
-Change: Show address labels at zoom 16 and add coordinate copying.
+Change: Add address points to the Atlas directions workflow.
 
-Upload index.html, js/address-tiles-vendor.js, and js/app-v2_10_18.js, replacing the prior JS reference. Keep the Bay County Submarket 2 Quickview GeoJSON included in this ZIP if it has not already been deployed.
+Upload index.html, js/address-tiles-vendor.js, and js/app-v2_10_19.js, replacing the prior JS reference. Keep the Bay County Submarket 2 Quickview GeoJSON included in this ZIP if it has not already been deployed.
 
-Changes in v2.10.18:
-- Reduced the Addresses activation threshold from zoom 17 to zoom 16.
-- Added a Copy Coordinates button that copies latitude and longitude as `latitude, longitude`.
-- Preserved Copy Address and the popup dismissal behavior for map movement, Escape, and clicking elsewhere.
-- Preserved residential coverage, full-address hover details, session caching, Bay County Submarket 2 Zonda Quickview data, and all other v2.10.17 functionality.
+Changes in v2.10.19:
+- Added Directions to to each address popup, using the same routing workflow as builder subdivisions.
+- While directions mode is active from a subdivision, retail/dining location, or another Atlas item, clicking an address now selects that address as the route destination.
+- Preserved zoom-16 address activation, Copy Address, Copy Coordinates, popup dismissal behavior, and all other v2.10.18 functionality.
