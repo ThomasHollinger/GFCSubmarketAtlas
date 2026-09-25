@@ -7585,8 +7585,6 @@ function bindUI() {
   });
 }
 
-// Scope authentication gate: the Atlas code above is unchanged. This only delays the original startup until auth succeeds.
-const scopeStartAtlas = () => {
 initMap();
 bindUI();
 loadData()
@@ -7627,11 +7625,3 @@ loadData()
     console.error(err);
     document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
   });
-
-};
-
-if (globalThis.SCOPE_LOGIN_PROMISE && typeof globalThis.SCOPE_LOGIN_PROMISE.then === 'function') {
-  globalThis.SCOPE_LOGIN_PROMISE.then(authorized => { if (authorized) scopeStartAtlas(); }).catch(err => console.error('Scope auth gate failed:', err));
-} else {
-  console.error('Scope authentication bootstrap is missing; Atlas startup was blocked.');
-}

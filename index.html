@@ -425,6 +425,11 @@
       if (settled) return;
       settled = true;
       unlockAtlas();
+      // Start the completely original Atlas only after the gate is gone.
+      // app-v2_10_19.js itself is otherwise untouched.
+      if (typeof globalThis.SCOPE_LOAD_ATLAS === 'function') {
+        globalThis.SCOPE_LOAD_ATLAS();
+      }
       resolveLoginPromise(true);
     }
     function denyAtlas() {
@@ -491,6 +496,14 @@
   })();
   </script>
   <script src="js/address-tiles-vendor.js"></script>
-  <script src="js/app-v2_10_19.js"></script>
+  <!-- app-v2_10_19.js is loaded ONLY after Scope authentication succeeds. -->
+  <script>
+    globalThis.SCOPE_LOAD_ATLAS = function () {
+      const script = document.createElement('script');
+      script.src = 'js/app-v2_10_19.js';
+      script.async = false;
+      document.body.appendChild(script);
+    };
+  </script>
 </body>
 </html>
