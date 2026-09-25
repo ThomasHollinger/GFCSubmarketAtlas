@@ -113,14 +113,14 @@
     <div class="scope-login-card" role="dialog" aria-modal="true" aria-labelledby="scopeLoginTitle">
       <img class="scope-login-logo" src="./assets/scope-logo.png" alt="Scope">
       <h1 id="scopeLoginTitle">Login to Scope</h1>
-      <form id="scopeLoginForm" novalidate onsubmit="return false;">
+      <div id="scopeLoginForm">
         <label for="scopeLoginUsername">Username</label>
         <input id="scopeLoginUsername" type="text" autocomplete="username" required>
         <label for="scopeLoginPassword">Password</label>
         <input id="scopeLoginPassword" type="password" autocomplete="current-password" required>
         <div id="scopeLoginError" class="scope-login-error" role="alert"></div>
         <button id="scopeLoginSubmit" type="button">Login</button>
-      </form>
+      </div>
     </div>
   </div>
 
@@ -341,6 +341,7 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/scope-firebase-config.js"></script>
+  <script src="js/scope-login.js"></script>
   <script src="js/address-tiles-vendor.js"></script>
   <script src="js/app-v2_10_19.js"></script>
 </body>
