@@ -340,7 +340,19 @@
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/scope-firebase-config.js"></script>
+  <script>
+    // Scope-only Firebase configuration. Kept inline so authentication does not
+    // depend on a second configuration file being deployed by GitHub Pages.
+    window.SCOPE_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyBoolHYWxOnWwquii6fGkixK8tJ9C7dmwE",
+      authDomain: "scope-2bfef.firebaseapp.com",
+      projectId: "scope-2bfef",
+      storageBucket: "scope-2bfef.firebasestorage.app",
+      messagingSenderId: "262595579748",
+      appId: "1:262595579748:web:1bf635a2ca9f138e5ab471",
+      measurementId: "G-YLRRNQTF7E"
+    };
+  </script>
   <script>
   // Scope login bootstrap. Authentication is intentionally self-contained here so it
   // does not depend on the map application initializing first.
