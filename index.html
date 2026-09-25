@@ -111,17 +111,14 @@
 <body>
   <div id="scopeLoginGate" class="scope-login-gate" aria-hidden="false">
     <div class="scope-login-card" role="dialog" aria-modal="true" aria-labelledby="scopeLoginTitle">
-      <div class="scope-login-brand">
-        <img src="./assets/scope-logo.png" alt="Scope logo">
-      </div>
-      <h2 id="scopeLoginTitle">Login to Scope</h2>
-      <p class="scope-login-subtitle">Enter your Scope username and password to continue.</p>
+      <img class="scope-login-logo" src="./assets/scope-logo.png" alt="Scope">
+      <h1 id="scopeLoginTitle">Login to Scope</h1>
       <form id="scopeLoginForm" novalidate>
         <label for="scopeLoginUsername">Username</label>
-        <input id="scopeLoginUsername" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <input id="scopeLoginUsername" type="text" autocomplete="username" required>
         <label for="scopeLoginPassword">Password</label>
-        <input id="scopeLoginPassword" name="password" type="password" autocomplete="current-password" required>
-        <div id="scopeLoginError" class="scope-login-error" role="alert" aria-live="polite"></div>
+        <input id="scopeLoginPassword" type="password" autocomplete="current-password" required>
+        <div id="scopeLoginError" class="scope-login-error" role="alert"></div>
         <button id="scopeLoginSubmit" type="submit">Login</button>
       </form>
     </div>
@@ -131,7 +128,7 @@
     <button id="sidebarToggle" class="sidebar-toggle" title="Toggle sidebar">☰</button>
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <div class="brand-mark"><img src="./assets/scope-logo.png" alt="Scope logo"></div>
+        <div class="brand-mark"><img src="./assets/scope-logo.png" alt="Scope"></div>
         <div>
           <h1>SCOPE</h1>
           <p>Market intelligence platform</p>

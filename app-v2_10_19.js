@@ -2636,149 +2636,6 @@ function openNewDealMarketPreview(deal, radiusMiles) {
 }
 
 
-const SCOPE_LOGIN_USERNAME = 'thomas.hollinger';
-const SCOPE_FIREBASE_LOGIN_EMAIL = 'newdeals.shared@lennar.com';
-
-function scopeLoginConfigured() {
-  const cfg = globalThis.GCSA_FIREBASE_CONFIG || {};
-  const required = ['apiKey', 'authDomain', 'projectId', 'appId'];
-  return required.every(k => cfg[k] && !String(cfg[k]).includes('REPLACE_'));
-}
-
-function setScopeLoginGateVisible(visible) {
-  const gate = document.getElementById('scopeLoginGate');
-  const appShell = document.getElementById('appShell');
-  if (gate) gate.setAttribute('aria-hidden', visible ? 'false' : 'true');
-  if (appShell) {
-    appShell.hidden = !!visible;
-    appShell.inert = !!visible;
-  }
-}
-
-function setScopeLoginError(message = '') {
-  const error = document.getElementById('scopeLoginError');
-  if (error) error.textContent = message;
-}
-
-function setScopeLoginBusy(busy) {
-  const submit = document.getElementById('scopeLoginSubmit');
-  const username = document.getElementById('scopeLoginUsername');
-  const password = document.getElementById('scopeLoginPassword');
-  if (submit) {
-    submit.disabled = !!busy;
-    submit.textContent = busy ? 'Signing in…' : 'Login';
-  }
-  if (username) username.disabled = !!busy;
-  if (password) password.disabled = !!busy;
-}
-
-function scopeAuthorizedUser(user) {
-  return !!user?.email
-    && String(user.email).trim().toLowerCase() === SCOPE_FIREBASE_LOGIN_EMAIL;
-}
-
-async function initializeScopeAuth() {
-  const gate = document.getElementById('scopeLoginGate');
-  if (!gate) return true;
-
-  setScopeLoginGateVisible(true);
-  setScopeLoginError('');
-
-  if (!scopeLoginConfigured() || !globalThis.firebase) {
-    setScopeLoginError('Firebase is not configured. Check js/firebase-config.js.');
-    return false;
-  }
-
-  try {
-    if (!firebase.apps.length) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
-    const auth = firebase.auth();
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-    const currentUser = await new Promise(resolve => {
-      let unsubscribe = null;
-      unsubscribe = auth.onAuthStateChanged(user => {
-        if (unsubscribe) unsubscribe();
-        resolve(user || null);
-      });
-    });
-    if (currentUser && scopeAuthorizedUser(currentUser)) {
-      setScopeLoginGateVisible(false);
-      return true;
-    }
-    if (currentUser) {
-      try { await auth.signOut(); } catch (_) {}
-    }
-
-    return await new Promise(resolve => {
-      const form = document.getElementById('scopeLoginForm');
-      const usernameInput = document.getElementById('scopeLoginUsername');
-      const passwordInput = document.getElementById('scopeLoginPassword');
-
-      if (!form || !usernameInput || !passwordInput) {
-        setScopeLoginError('Login form could not be initialized.');
-        resolve(false);
-        return;
-      }
-
-      usernameInput.value = '';
-      passwordInput.value = '';
-      usernameInput.focus();
-
-      const submit = async event => {
-        event.preventDefault();
-        if (submit.busy) return;
-
-        const username = usernameInput.value.trim().toLowerCase();
-        const password = passwordInput.value;
-
-        setScopeLoginError('');
-        if (!username || !password) {
-          setScopeLoginError('Enter your username and password.');
-          return;
-        }
-        if (username !== SCOPE_LOGIN_USERNAME) {
-          setScopeLoginError('Incorrect username or password.');
-          passwordInput.select();
-          return;
-        }
-
-        submit.busy = true;
-        setScopeLoginBusy(true);
-        try {
-          const result = await auth.signInWithEmailAndPassword(SCOPE_FIREBASE_LOGIN_EMAIL, password);
-          if (!scopeAuthorizedUser(result.user)) {
-            await auth.signOut();
-            throw new Error('This account is not authorized for Scope.');
-          }
-          form.removeEventListener('submit', submit);
-          passwordInput.value = '';
-          setScopeLoginError('');
-          setScopeLoginGateVisible(false);
-          resolve(true);
-        } catch (err) {
-          console.error('Scope login failed', err);
-          const code = String(err?.code || '');
-          if (code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found')) {
-            setScopeLoginError('Incorrect username or password.');
-          } else {
-            setScopeLoginError(err?.message || 'Scope could not be unlocked.');
-          }
-          passwordInput.select();
-        } finally {
-          submit.busy = false;
-          setScopeLoginBusy(false);
-        }
-      };
-
-      form.addEventListener('submit', submit);
-    });
-  } catch (err) {
-    console.error('Scope Firebase initialization failed', err);
-    setScopeLoginError('Firebase could not initialize. Check js/firebase-config.js.');
-    return false;
-  }
-}
-
 const NEW_DEALS_STORAGE_KEY = 'gcsa.newDeals.v1';
 const NEW_DEALS_COLLECTION = 'newDeals';
 const NEW_DEAL_CATEGORY = Object.freeze({ NEW_DEAL: 'newDeal', COLD_LEAD: 'coldLead' });
@@ -2842,7 +2699,7 @@ async function authorizeNewDealEditing() {
   }
   try {
     const auth = firebase.auth();
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
     const result = await auth.signInWithEmailAndPassword(newDealEditorEmail(), password);
     if (!newDealAuthorizedUser(result.user)) {
       await auth.signOut();
@@ -3134,7 +2991,7 @@ async function initializeFirebaseNewDeals() {
     if (!firebase.apps.length) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
     state.newDealsFirebaseReady = true;
     const auth = firebase.auth();
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
     if (!state.newDealsAuthListenerInstalled) {
       state.newDealsAuthListenerInstalled = true;
       auth.onAuthStateChanged(user => {
@@ -7728,50 +7585,115 @@ function bindUI() {
   });
 }
 
+
+// SCOPE application gate. The map is not initialized until Firebase authenticates the user.
+const SCOPE_LOGIN_USERNAME = 'thomas.hollinger';
+const SCOPE_FIREBASE_LOGIN_EMAIL = 'newdeals.shared@lennar.com';
+
+function scopeSetAuthenticated(authenticated) {
+  document.body.classList.toggle('scope-authenticated', !!authenticated);
+  const gate = document.getElementById('scopeLoginGate');
+  const appShell = document.getElementById('appShell');
+  if (gate) gate.setAttribute('aria-hidden', authenticated ? 'true' : 'false');
+  if (appShell) {
+    if (authenticated) appShell.removeAttribute('hidden');
+    else appShell.setAttribute('hidden', '');
+  }
+}
+function scopeAuthReady() {
+  const cfg = globalThis.GCSA_FIREBASE_CONFIG || {};
+  return ['apiKey','authDomain','projectId','appId'].every(k => cfg[k] && !String(cfg[k]).includes('REPLACE_'));
+}
+function scopeAuthorizedUser(user) {
+  return !!user?.email && String(user.email).trim().toLowerCase() === SCOPE_FIREBASE_LOGIN_EMAIL;
+}
+async function initializeScopeAuth() {
+  scopeSetAuthenticated(false);
+  const form = document.getElementById('scopeLoginForm');
+  const username = document.getElementById('scopeLoginUsername');
+  const password = document.getElementById('scopeLoginPassword');
+  const error = document.getElementById('scopeLoginError');
+  const submit = document.getElementById('scopeLoginSubmit');
+  if (!form || !username || !password || !error || !submit) return false;
+  if (!scopeAuthReady() || !globalThis.firebase) { error.textContent = 'Firebase is not configured.'; return false; }
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
+    const auth = firebase.auth();
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    const existingUser = auth.currentUser || await new Promise(resolve => {
+      let unsubscribe;
+      unsubscribe = auth.onAuthStateChanged(user => { if (unsubscribe) unsubscribe(); resolve(user || null); });
+    });
+    if (scopeAuthorizedUser(existingUser)) { scopeSetAuthenticated(true); return true; }
+    if (existingUser) { try { await auth.signOut(); } catch (_) {} }
+    username.focus();
+    return await new Promise(resolve => {
+      const onSubmit = async event => {
+        event.preventDefault();
+        if (submit.disabled) return;
+        error.textContent = '';
+        const enteredUsername = username.value.trim().toLowerCase();
+        const enteredPassword = password.value;
+        if (!enteredUsername || !enteredPassword) { error.textContent = 'Enter your username and password.'; return; }
+        if (enteredUsername !== SCOPE_LOGIN_USERNAME) { error.textContent = 'Incorrect username or password.'; return; }
+        submit.disabled = true; submit.textContent = 'Signing in…';
+        try {
+          const result = await auth.signInWithEmailAndPassword(SCOPE_FIREBASE_LOGIN_EMAIL, enteredPassword);
+          if (!scopeAuthorizedUser(result.user)) throw new Error('Unauthorized account');
+          password.value = '';
+          form.removeEventListener('submit', onSubmit);
+          scopeSetAuthenticated(true);
+          resolve(true);
+        } catch (err) {
+          console.error('Scope Firebase sign-in failed:', err);
+          error.textContent = 'Incorrect username or password.';
+          submit.disabled = false; submit.textContent = 'Login';
+          password.focus(); password.select();
+        }
+      };
+      form.addEventListener('submit', onSubmit);
+    });
+  } catch (err) {
+    console.error('Scope Firebase initialization failed:', err);
+    error.textContent = 'Unable to connect to Firebase.';
+    return false;
+  }
+}
 async function startScopeApp() {
   const authorized = await initializeScopeAuth();
   if (!authorized) return;
-
   initMap();
   bindUI();
   loadData()
-  .then(() => {
-    // Load school data in the background so sidebar ratings are available
-    // without turning on the Schools map layer or School Rating map theme.
-    loadSchools(false).catch(err => {
-      console.error('Background school data load failed', err);
-      document.getElementById('schoolCountBadge').textContent = 'Unavailable';
-    });
-    loadBuilders(false).catch(err => {
-      console.error('Background builder data load failed', err);
-      const badge = document.getElementById('builderCountBadge');
-      if (badge) badge.textContent = 'Unavailable';
-    });
-    // Warm ACS aggregate household income in the background. The official B19025 table is
-    // processed once for Alabama/Florida block groups, then cached locally for 30 days.
-    setTimeout(() => {
-      ensureAcsMeanIncomeLoaded().catch(err => console.warn('Background ACS Mean Income preload failed', err));
-    }, 500);
-
-    // Warm the two large OSM layers after the core Atlas is interactive. Processed features
-    // are persisted for 30 days, so later visits normally avoid the Overpass round-trip entirely.
-    setTimeout(() => {
-      loadPOIs(false).catch(err => {
-        console.warn('Background Retail & Dining preload failed', err);
-        const badge = document.getElementById('retailCountBadge');
-        if (badge) badge.textContent = 'Load Layer';
+    .then(() => {
+      loadSchools(false).catch(err => {
+        console.error('Background school data load failed', err);
+        document.getElementById('schoolCountBadge').textContent = 'Unavailable';
       });
-      loadLifestyle(false).catch(err => {
-        console.warn('Background Lifestyle & Amenities preload failed', err);
-        const badge = document.getElementById('lifestyleCountBadge');
-        if (badge) badge.textContent = 'Load Layer';
+      loadBuilders(false).catch(err => {
+        console.error('Background builder data load failed', err);
+        const badge = document.getElementById('builderCountBadge');
+        if (badge) badge.textContent = 'Unavailable';
       });
-    }, 1200);
-  })
-  .catch(err => {
-    console.error(err);
-    document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
-  });
+      setTimeout(() => {
+        ensureAcsMeanIncomeLoaded().catch(err => console.warn('Background ACS Mean Income preload failed', err));
+      }, 500);
+      setTimeout(() => {
+        loadPOIs(false).catch(err => {
+          console.warn('Background Retail & Dining preload failed', err);
+          const badge = document.getElementById('retailCountBadge');
+          if (badge) badge.textContent = 'Load Layer';
+        });
+        loadLifestyle(false).catch(err => {
+          console.warn('Background Lifestyle & Amenities preload failed', err);
+          const badge = document.getElementById('lifestyleCountBadge');
+          if (badge) badge.textContent = 'Load Layer';
+        });
+      }, 1200);
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+    });
 }
-
 startScopeApp();
