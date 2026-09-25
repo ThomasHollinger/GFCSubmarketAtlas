@@ -7585,56 +7585,53 @@ function bindUI() {
   });
 }
 
-// SCOPE AUTH GATE: preserve the original Atlas startup sequence exactly, but do not
-// initialize the map or load any Atlas data until Firebase has authenticated the user.
+// Scope authentication gate: the Atlas code above is unchanged. This only delays the original startup until auth succeeds.
 const scopeStartAtlas = () => {
-  initMap();
-  bindUI();
-  loadData()
-    .then(() => {
-      // Load school data in the background so sidebar ratings are available
-      // without turning on the Schools map layer or School Rating map theme.
-      loadSchools(false).catch(err => {
-        console.error('Background school data load failed', err);
-        document.getElementById('schoolCountBadge').textContent = 'Unavailable';
-      });
-      loadBuilders(false).catch(err => {
-        console.error('Background builder data load failed', err);
-        const badge = document.getElementById('builderCountBadge');
-        if (badge) badge.textContent = 'Unavailable';
-      });
-      // Warm ACS aggregate household income in the background. The official B19025 table is
-      // processed once for Alabama/Florida block groups, then cached locally for 30 days.
-      setTimeout(() => {
-        ensureAcsMeanIncomeLoaded().catch(err => console.warn('Background ACS Mean Income preload failed', err));
-      }, 500);
-
-      // Warm the two large OSM layers after the core Atlas is interactive. Processed features
-      // are persisted for 30 days, so later visits normally avoid the Overpass round-trip entirely.
-      setTimeout(() => {
-        loadPOIs(false).catch(err => {
-          console.warn('Background Retail & Dining preload failed', err);
-          const badge = document.getElementById('retailCountBadge');
-          if (badge) badge.textContent = 'Load Layer';
-        });
-        loadLifestyle(false).catch(err => {
-          console.warn('Background Lifestyle & Amenities preload failed', err);
-          const badge = document.getElementById('lifestyleCountBadge');
-          if (badge) badge.textContent = 'Load Layer';
-        });
-      }, 1200);
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+initMap();
+bindUI();
+loadData()
+  .then(() => {
+    // Load school data in the background so sidebar ratings are available
+    // without turning on the Schools map layer or School Rating map theme.
+    loadSchools(false).catch(err => {
+      console.error('Background school data load failed', err);
+      document.getElementById('schoolCountBadge').textContent = 'Unavailable';
     });
+    loadBuilders(false).catch(err => {
+      console.error('Background builder data load failed', err);
+      const badge = document.getElementById('builderCountBadge');
+      if (badge) badge.textContent = 'Unavailable';
+    });
+    // Warm ACS aggregate household income in the background. The official B19025 table is
+    // processed once for Alabama/Florida block groups, then cached locally for 30 days.
+    setTimeout(() => {
+      ensureAcsMeanIncomeLoaded().catch(err => console.warn('Background ACS Mean Income preload failed', err));
+    }, 500);
+
+    // Warm the two large OSM layers after the core Atlas is interactive. Processed features
+    // are persisted for 30 days, so later visits normally avoid the Overpass round-trip entirely.
+    setTimeout(() => {
+      loadPOIs(false).catch(err => {
+        console.warn('Background Retail & Dining preload failed', err);
+        const badge = document.getElementById('retailCountBadge');
+        if (badge) badge.textContent = 'Load Layer';
+      });
+      loadLifestyle(false).catch(err => {
+        console.warn('Background Lifestyle & Amenities preload failed', err);
+        const badge = document.getElementById('lifestyleCountBadge');
+        if (badge) badge.textContent = 'Load Layer';
+      });
+    }, 1200);
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+  });
+
 };
 
 if (globalThis.SCOPE_LOGIN_PROMISE && typeof globalThis.SCOPE_LOGIN_PROMISE.then === 'function') {
-  globalThis.SCOPE_LOGIN_PROMISE.then(authorized => {
-    if (authorized) scopeStartAtlas();
-  }).catch(err => console.error('Scope auth gate failed:', err));
+  globalThis.SCOPE_LOGIN_PROMISE.then(authorized => { if (authorized) scopeStartAtlas(); }).catch(err => console.error('Scope auth gate failed:', err));
 } else {
-  // Fail closed if the authentication bootstrap is missing. Never expose the Atlas without auth.
   console.error('Scope authentication bootstrap is missing; Atlas startup was blocked.');
 }

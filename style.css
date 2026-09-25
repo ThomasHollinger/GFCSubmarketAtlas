@@ -239,3 +239,9 @@ body.scope-authenticated #appShell { display: grid !important; visibility: visib
 .scope-login-error { min-height: 18px; margin: 2px 0 8px; color: #b42318; font-size: 12px; font-weight: 700; text-align: center; }
 .brand-mark { overflow: hidden; }
 .brand-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+
+/* Scope authentication gate: fail closed before Firebase auth. */
+#appShell[hidden], body:not(.scope-authenticated) #appShell { display:none !important; visibility:hidden !important; pointer-events:none !important; }
+#scopeLoginGate[aria-hidden="false"] { display:flex !important; visibility:visible !important; opacity:1 !important; pointer-events:auto !important; z-index:2147483647 !important; }
+#scopeLoginGate[aria-hidden="true"] { display:none !important; visibility:hidden !important; pointer-events:none !important; }
