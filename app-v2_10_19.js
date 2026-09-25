@@ -2650,11 +2650,8 @@ function setScopeLoginGateVisible(visible) {
   const appShell = document.getElementById('appShell');
   if (gate) gate.setAttribute('aria-hidden', visible ? 'false' : 'true');
   if (appShell) {
-    // The app is hidden at the DOM level until Firebase authentication succeeds.
-    // This prevents any map/sidebar/tiles from being visible underneath the login screen.
     appShell.hidden = !!visible;
     appShell.inert = !!visible;
-    appShell.classList.toggle('scope-unlocked', !visible);
   }
 }
 
