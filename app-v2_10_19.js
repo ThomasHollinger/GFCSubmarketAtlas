@@ -2649,7 +2649,10 @@ function setScopeLoginGateVisible(visible) {
   const gate = document.getElementById('scopeLoginGate');
   const appShell = document.getElementById('appShell');
   if (gate) gate.setAttribute('aria-hidden', visible ? 'false' : 'true');
-  if (appShell) appShell.inert = !!visible;
+  if (appShell) {
+    appShell.inert = !!visible;
+    appShell.classList.toggle('scope-unlocked', !visible);
+  }
 }
 
 function setScopeLoginError(message = '') {
