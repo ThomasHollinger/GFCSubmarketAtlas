@@ -7585,88 +7585,54 @@ function bindUI() {
   });
 }
 
-
-// SCOPE application gate. The map is not initialized until Firebase authenticates the user.
-const SCOPE_LOGIN_USERNAME = 'thomas.hollinger';
-const SCOPE_FIREBASE_LOGIN_EMAIL = 'thomas.hollinger@lennar.com';
-const SCOPE_FIREBASE_APP_NAME = 'scopeAuth';
-
-function scopeSetAuthenticated(authenticated) {
-  document.body.classList.toggle('scope-authenticated', !!authenticated);
-  const gate = document.getElementById('scopeLoginGate');
-  const appShell = document.getElementById('appShell');
-  if (gate) gate.setAttribute('aria-hidden', authenticated ? 'true' : 'false');
-  if (appShell) {
-    if (authenticated) {
-      appShell.removeAttribute('hidden');
-      appShell.style.removeProperty('display');
-    } else {
-      appShell.setAttribute('hidden', '');
-      appShell.style.setProperty('display', 'none', 'important');
-    }
-  }
-}
-
-function scopeAuthReady() {
-  const cfg = globalThis.SCOPE_FIREBASE_CONFIG || {};
-  return ['apiKey','authDomain','projectId','appId'].every(k => cfg[k] && !String(cfg[k]).includes('REPLACE_'));
-}
-
-function scopeAuthorizedUser(user) {
-  return !!user?.email && String(user.email).trim().toLowerCase() === SCOPE_FIREBASE_LOGIN_EMAIL;
-}
-
-async function initializeScopeAuth() {
-  scopeSetAuthenticated(false);
-  if (globalThis.SCOPE_LOGIN_PROMISE) {
-    try {
-      const authorized = await globalThis.SCOPE_LOGIN_PROMISE;
-      if (authorized) {
-        scopeSetAuthenticated(true);
-        return true;
-      }
-    } catch (err) {
-      console.error('Scope login initialization failed:', err);
-    }
-  }
-  return false;
-}
-
-async function startScopeApp() {
-  const authorized = await initializeScopeAuth();
-  if (!authorized) return;
-  initMap();
-  bindUI();
-  loadData()
-    .then(() => {
-      loadSchools(false).catch(err => {
-        console.error('Background school data load failed', err);
-        document.getElementById('schoolCountBadge').textContent = 'Unavailable';
-      });
-      loadBuilders(false).catch(err => {
-        console.error('Background builder data load failed', err);
-        const badge = document.getElementById('builderCountBadge');
-        if (badge) badge.textContent = 'Unavailable';
-      });
-      setTimeout(() => {
-        ensureAcsMeanIncomeLoaded().catch(err => console.warn('Background ACS Mean Income preload failed', err));
-      }, 500);
-      setTimeout(() => {
-        loadPOIs(false).catch(err => {
-          console.warn('Background Retail & Dining preload failed', err);
-          const badge = document.getElementById('retailCountBadge');
-          if (badge) badge.textContent = 'Load Layer';
-        });
-        loadLifestyle(false).catch(err => {
-          console.warn('Background Lifestyle & Amenities preload failed', err);
-          const badge = document.getElementById('lifestyleCountBadge');
-          if (badge) badge.textContent = 'Load Layer';
-        });
-      }, 1200);
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+// SCOPE authentication gate: the Atlas code above is unchanged.
+// Start the original Atlas only after Firebase has authorized the session.
+function startScopeAtlas() {
+initMap();
+bindUI();
+loadData()
+  .then(() => {
+    // Load school data in the background so sidebar ratings are available
+    // without turning on the Schools map layer or School Rating map theme.
+    loadSchools(false).catch(err => {
+      console.error('Background school data load failed', err);
+      document.getElementById('schoolCountBadge').textContent = 'Unavailable';
     });
+    loadBuilders(false).catch(err => {
+      console.error('Background builder data load failed', err);
+      const badge = document.getElementById('builderCountBadge');
+      if (badge) badge.textContent = 'Unavailable';
+    });
+    // Warm ACS aggregate household income in the background. The official B19025 table is
+    // processed once for Alabama/Florida block groups, then cached locally for 30 days.
+    setTimeout(() => {
+      ensureAcsMeanIncomeLoaded().catch(err => console.warn('Background ACS Mean Income preload failed', err));
+    }, 500);
+
+    // Warm the two large OSM layers after the core Atlas is interactive. Processed features
+    // are persisted for 30 days, so later visits normally avoid the Overpass round-trip entirely.
+    setTimeout(() => {
+      loadPOIs(false).catch(err => {
+        console.warn('Background Retail & Dining preload failed', err);
+        const badge = document.getElementById('retailCountBadge');
+        if (badge) badge.textContent = 'Load Layer';
+      });
+      loadLifestyle(false).catch(err => {
+        console.warn('Background Lifestyle & Amenities preload failed', err);
+        const badge = document.getElementById('lifestyleCountBadge');
+        if (badge) badge.textContent = 'Load Layer';
+      });
+    }, 1200);
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+  });
+
 }
-startScopeApp();
+
+if (globalThis.SCOPE_AUTHORIZED === true) {
+  startScopeAtlas();
+} else {
+  document.addEventListener('scope-auth-ready', startScopeAtlas, { once: true });
+}
