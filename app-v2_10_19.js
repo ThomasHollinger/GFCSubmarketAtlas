@@ -7596,8 +7596,13 @@ function scopeSetAuthenticated(authenticated) {
   const appShell = document.getElementById('appShell');
   if (gate) gate.setAttribute('aria-hidden', authenticated ? 'true' : 'false');
   if (appShell) {
-    if (authenticated) appShell.removeAttribute('hidden');
-    else appShell.setAttribute('hidden', '');
+    if (authenticated) {
+      appShell.removeAttribute('hidden');
+      appShell.style.removeProperty('display');
+    } else {
+      appShell.setAttribute('hidden', '');
+      appShell.style.setProperty('display', 'none', 'important');
+    }
   }
 }
 function scopeAuthReady() {
