@@ -107,6 +107,18 @@
 .atlas-directions-active{cursor:crosshair}
 </style>
 
+<style>
+/* HARD AUTH GATE: the Atlas itself must not be rendered or interacted with until Scope auth succeeds. */
+body:not(.scope-authenticated) #appShell {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+body:not(.scope-authenticated) {
+  overflow: hidden !important;
+}
+</style>
+
 </head>
 <body>
   <div id="scopeLoginGate" class="scope-login-gate" aria-hidden="false">
@@ -354,7 +366,8 @@
     };
   </script>
   <script>
-  // Scope login bootstrap. Authentication is isolated from the Atlas code.
+  // Scope login bootstrap. Authentication is intentionally self-contained here so it
+  // does not depend on the map application initializing first.
   (function () {
     'use strict';
     const LOGIN_USERNAME = 'thomas.hollinger';
@@ -374,9 +387,7 @@
         else { appShell.setAttribute('hidden', ''); appShell.style.setProperty('display', 'none', 'important'); }
       }
       document.body.classList.toggle('scope-authenticated', !!show);
-      globalThis.SCOPE_AUTHORIZED = !!show;
     }
-
     function message(text) { if (error) error.textContent = text || ''; }
     function firebaseErrorText(err) {
       const code = String(err && err.code || '');
@@ -386,16 +397,15 @@
       return 'Unable to sign in: ' + (err && err.message ? err.message : 'Firebase error');
     }
 
-    function releaseAtlas() {
-      showApp(true);
-      if (submit) { submit.disabled = false; submit.textContent = 'Login'; }
-      document.dispatchEvent(new Event('scope-auth-ready'));
-    }
-
     showApp(false);
+
+    // Install the button handlers BEFORE doing any Firebase initialization. That way,
+    // an initialization problem can never make the button appear completely dead.
     let auth = null;
     let initialized = false;
     let busy = false;
+    let resolveLoginPromise;
+    globalThis.SCOPE_LOGIN_PROMISE = new Promise(resolve => { resolveLoginPromise = resolve; });
 
     async function login() {
       if (busy) return;
@@ -404,16 +414,28 @@
       const enteredPassword = password.value;
       if (!enteredUsername || !enteredPassword) { message('Enter your username and password.'); return; }
       if (enteredUsername !== LOGIN_USERNAME) { message('Incorrect username or password.'); return; }
-      if (!initialized || !auth) { message('Firebase is still connecting. Please wait a moment and try again.'); return; }
-      busy = true; submit.disabled = true; submit.textContent = 'Signing in…';
+      if (!initialized || !auth) {
+        message('Firebase is still connecting. Please wait a moment and try again.');
+        return;
+      }
+      busy = true;
+      submit.disabled = true;
+      submit.textContent = 'Signing in…';
       try {
         const result = await auth.signInWithEmailAndPassword(LOGIN_EMAIL, enteredPassword);
-        if (!result.user || String(result.user.email || '').toLowerCase() !== LOGIN_EMAIL) throw new Error('Unauthorized account');
-        password.value = ''; busy = false; releaseAtlas();
+        if (!result.user || String(result.user.email || '').toLowerCase() !== LOGIN_EMAIL) {
+          throw new Error('Unauthorized account');
+        }
+        password.value = '';
+        showApp(true);
+        resolveLoginPromise(true);
       } catch (err) {
         console.error('Scope Firebase sign-in failed:', err);
         message(firebaseErrorText(err));
-        submit.disabled = false; submit.textContent = 'Login'; busy = false; password.focus();
+        submit.disabled = false;
+        submit.textContent = 'Login';
+        busy = false;
+        password.focus();
       }
     }
 
@@ -425,20 +447,36 @@
       try {
         if (!globalThis.firebase) throw new Error('Firebase SDK is unavailable.');
         const cfg = globalThis.SCOPE_FIREBASE_CONFIG || {};
-        if (!cfg.apiKey || !cfg.authDomain || !cfg.projectId || !cfg.appId) throw new Error('Scope Firebase configuration is missing.');
+        if (!cfg.apiKey || !cfg.authDomain || !cfg.projectId || !cfg.appId) {
+          throw new Error('Scope Firebase configuration is missing.');
+        }
         let app = firebase.apps.find(a => a.name === FIREBASE_APP_NAME);
         if (!app) app = firebase.initializeApp(cfg, FIREBASE_APP_NAME);
         auth = firebase.auth(app);
-        try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }
-        catch (persistenceError) { console.warn('Scope LOCAL persistence unavailable; continuing with session auth.', persistenceError); try { await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); } catch (_) {} }
-        initialized = true; message('');
+
+        // Persistence is helpful, but it must not prevent login if the browser blocks
+        // local storage. Try LOCAL first, then continue without failing initialization.
+        try {
+          await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        } catch (persistenceError) {
+          console.warn('Scope LOCAL persistence unavailable; continuing with session auth.', persistenceError);
+          try { await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); } catch (_) {}
+        }
+
+        initialized = true;
+        message('');
         const currentUser = auth.currentUser;
-        if (currentUser && String(currentUser.email || '').toLowerCase() === LOGIN_EMAIL) { releaseAtlas(); return; }
+        if (currentUser && String(currentUser.email || '').toLowerCase() === LOGIN_EMAIL) {
+          showApp(true);
+          resolveLoginPromise(true);
+          return;
+        }
         if (currentUser) { try { await auth.signOut(); } catch (_) {} }
         username.focus();
       } catch (err) {
         console.error('Scope Firebase initialization failed:', err);
         message('Firebase connection failed: ' + (err && err.message ? err.message : 'unknown error') + ' If this persists, check the browser console.');
+        resolveLoginPromise(false);
       }
     })();
   })();
