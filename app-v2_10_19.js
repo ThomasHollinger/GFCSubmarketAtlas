@@ -7588,7 +7588,8 @@ function bindUI() {
 
 // SCOPE application gate. The map is not initialized until Firebase authenticates the user.
 const SCOPE_LOGIN_USERNAME = 'thomas.hollinger';
-const SCOPE_FIREBASE_LOGIN_EMAIL = 'newdeals.shared@lennar.com';
+const SCOPE_FIREBASE_LOGIN_EMAIL = 'thomas.hollinger@lennar.com';
+const SCOPE_FIREBASE_APP_NAME = 'scopeAuth';
 
 function scopeSetAuthenticated(authenticated) {
   document.body.classList.toggle('scope-authenticated', !!authenticated);
@@ -7606,7 +7607,7 @@ function scopeSetAuthenticated(authenticated) {
   }
 }
 function scopeAuthReady() {
-  const cfg = globalThis.GCSA_FIREBASE_CONFIG || {};
+  const cfg = globalThis.SCOPE_FIREBASE_CONFIG || {};
   return ['apiKey','authDomain','projectId','appId'].every(k => cfg[k] && !String(cfg[k]).includes('REPLACE_'));
 }
 function scopeAuthorizedUser(user) {
@@ -7622,8 +7623,9 @@ async function initializeScopeAuth() {
   if (!form || !username || !password || !error || !submit) return false;
   if (!scopeAuthReady() || !globalThis.firebase) { error.textContent = 'Firebase is not configured.'; return false; }
   try {
-    if (!firebase.apps.length) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
-    const auth = firebase.auth();
+    const scopeApp = firebase.apps.find(app => app.name === SCOPE_FIREBASE_APP_NAME)
+      || firebase.initializeApp(globalThis.SCOPE_FIREBASE_CONFIG, SCOPE_FIREBASE_APP_NAME);
+    const auth = firebase.auth(scopeApp);
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const existingUser = auth.currentUser || await new Promise(resolve => {
       let unsubscribe;
