@@ -7606,13 +7606,16 @@ function scopeSetAuthenticated(authenticated) {
     }
   }
 }
+
 function scopeAuthReady() {
   const cfg = globalThis.SCOPE_FIREBASE_CONFIG || {};
   return ['apiKey','authDomain','projectId','appId'].every(k => cfg[k] && !String(cfg[k]).includes('REPLACE_'));
 }
+
 function scopeAuthorizedUser(user) {
   return !!user?.email && String(user.email).trim().toLowerCase() === SCOPE_FIREBASE_LOGIN_EMAIL;
 }
+
 async function initializeScopeAuth() {
   scopeSetAuthenticated(false);
   const form = document.getElementById('scopeLoginForm');
@@ -7621,51 +7624,107 @@ async function initializeScopeAuth() {
   const error = document.getElementById('scopeLoginError');
   const submit = document.getElementById('scopeLoginSubmit');
   if (!form || !username || !password || !error || !submit) return false;
-  if (!scopeAuthReady() || !globalThis.firebase) { error.textContent = 'Firebase is not configured.'; return false; }
-  try {
-    const scopeApp = firebase.apps.find(app => app.name === SCOPE_FIREBASE_APP_NAME)
-      || firebase.initializeApp(globalThis.SCOPE_FIREBASE_CONFIG, SCOPE_FIREBASE_APP_NAME);
-    const auth = firebase.auth(scopeApp);
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    const existingUser = auth.currentUser || await new Promise(resolve => {
-      let unsubscribe;
-      unsubscribe = auth.onAuthStateChanged(user => { if (unsubscribe) unsubscribe(); resolve(user || null); });
-    });
-    if (scopeAuthorizedUser(existingUser)) { scopeSetAuthenticated(true); return true; }
-    if (existingUser) { try { await auth.signOut(); } catch (_) {} }
-    username.focus();
-    return await new Promise(resolve => {
-      const onSubmit = async event => {
-        event.preventDefault();
-        if (submit.disabled) return;
-        error.textContent = '';
-        const enteredUsername = username.value.trim().toLowerCase();
-        const enteredPassword = password.value;
-        if (!enteredUsername || !enteredPassword) { error.textContent = 'Enter your username and password.'; return; }
-        if (enteredUsername !== SCOPE_LOGIN_USERNAME) { error.textContent = 'Incorrect username or password.'; return; }
-        submit.disabled = true; submit.textContent = 'Signing in…';
-        try {
-          const result = await auth.signInWithEmailAndPassword(SCOPE_FIREBASE_LOGIN_EMAIL, enteredPassword);
-          if (!scopeAuthorizedUser(result.user)) throw new Error('Unauthorized account');
-          password.value = '';
-          form.removeEventListener('submit', onSubmit);
-          scopeSetAuthenticated(true);
-          resolve(true);
-        } catch (err) {
-          console.error('Scope Firebase sign-in failed:', err);
-          error.textContent = 'Incorrect username or password.';
-          submit.disabled = false; submit.textContent = 'Login';
-          password.focus(); password.select();
-        }
-      };
-      form.addEventListener('submit', onSubmit);
-    });
-  } catch (err) {
-    console.error('Scope Firebase initialization failed:', err);
-    error.textContent = 'Unable to connect to Firebase.';
+
+  // Attach the submit handler immediately. This prevents the browser's native
+  // form submission (which adds '?' to the URL) even if Firebase takes time to initialize.
+  let auth = null;
+  let authReadyPromise;
+  let loginSucceeded = false;
+
+  const onSubmit = async event => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (submit.disabled || loginSucceeded) return;
+
+    error.textContent = '';
+    const enteredUsername = username.value.trim().toLowerCase();
+    const enteredPassword = password.value;
+    if (!enteredUsername || !enteredPassword) {
+      error.textContent = 'Enter your username and password.';
+      return;
+    }
+    if (enteredUsername !== SCOPE_LOGIN_USERNAME) {
+      error.textContent = 'Incorrect username or password.';
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Signing in…';
+
+    try {
+      auth = auth || await authReadyPromise;
+      if (!auth) throw new Error('Firebase authentication is unavailable.');
+
+      const result = await auth.signInWithEmailAndPassword(SCOPE_FIREBASE_LOGIN_EMAIL, enteredPassword);
+      if (!scopeAuthorizedUser(result.user)) throw new Error('Unauthorized account');
+
+      loginSucceeded = true;
+      password.value = '';
+      form.removeEventListener('submit', onSubmit);
+      scopeSetAuthenticated(true);
+    } catch (err) {
+      console.error('Scope Firebase sign-in failed:', err);
+      const code = String(err?.code || '');
+      if (code === 'auth/operation-not-allowed') {
+        error.textContent = 'Firebase Email/Password sign-in is not enabled.';
+      } else if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+        error.textContent = 'Incorrect username or password.';
+      } else if (code === 'auth/too-many-requests') {
+        error.textContent = 'Too many attempts. Please wait a moment and try again.';
+      } else {
+        error.textContent = 'Unable to sign in. Please try again.';
+      }
+      submit.disabled = false;
+      submit.textContent = 'Login';
+      password.focus();
+    }
+  };
+  form.addEventListener('submit', onSubmit);
+
+  if (!scopeAuthReady() || !globalThis.firebase) {
+    error.textContent = 'Firebase is not configured.';
     return false;
   }
+
+  authReadyPromise = (async () => {
+    try {
+      const scopeApp = firebase.apps.find(app => app.name === SCOPE_FIREBASE_APP_NAME)
+        || firebase.initializeApp(globalThis.SCOPE_FIREBASE_CONFIG, SCOPE_FIREBASE_APP_NAME);
+      const scopeAuth = firebase.auth(scopeApp);
+      await scopeAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+      const existingUser = scopeAuth.currentUser || await new Promise(resolve => {
+        let unsubscribe = null;
+        const finish = user => {
+          if (unsubscribe) unsubscribe();
+          resolve(user || null);
+        };
+        unsubscribe = scopeAuth.onAuthStateChanged(finish);
+      });
+
+      if (scopeAuthorizedUser(existingUser)) {
+        loginSucceeded = true;
+        form.removeEventListener('submit', onSubmit);
+        scopeSetAuthenticated(true);
+        return scopeAuth;
+      }
+      if (existingUser) {
+        try { await scopeAuth.signOut(); } catch (_) {}
+      }
+
+      username.focus();
+      return scopeAuth;
+    } catch (err) {
+      console.error('Scope Firebase initialization failed:', err);
+      error.textContent = 'Unable to connect to Firebase. Check the Firebase project settings.';
+      return null;
+    }
+  })();
+
+  auth = await authReadyPromise;
+  return loginSucceeded || !!auth && !!scopeAuthorizedUser(auth.currentUser);
 }
+
 async function startScopeApp() {
   const authorized = await initializeScopeAuth();
   if (!authorized) return;
