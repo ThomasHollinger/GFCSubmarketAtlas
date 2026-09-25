@@ -7654,6 +7654,7 @@ async function initializeScopeAuth() {
     try {
       auth = auth || await authReadyPromise;
       if (!auth) throw new Error('Firebase authentication is unavailable.');
+      if (!auth) throw new Error('Firebase authentication is unavailable.');
 
       const result = await auth.signInWithEmailAndPassword(SCOPE_FIREBASE_LOGIN_EMAIL, enteredPassword);
       if (!scopeAuthorizedUser(result.user)) throw new Error('Unauthorized account');
@@ -7661,6 +7662,7 @@ async function initializeScopeAuth() {
       loginSucceeded = true;
       password.value = '';
       form.removeEventListener('submit', onSubmit);
+      submit.removeEventListener('click', onSubmit);
       scopeSetAuthenticated(true);
     } catch (err) {
       console.error('Scope Firebase sign-in failed:', err);
@@ -7680,6 +7682,7 @@ async function initializeScopeAuth() {
     }
   };
   form.addEventListener('submit', onSubmit);
+  submit.addEventListener('click', onSubmit);
 
   if (!scopeAuthReady() || !globalThis.firebase) {
     error.textContent = 'Firebase is not configured.';
@@ -7705,6 +7708,8 @@ async function initializeScopeAuth() {
       if (scopeAuthorizedUser(existingUser)) {
         loginSucceeded = true;
         form.removeEventListener('submit', onSubmit);
+      submit.removeEventListener('click', onSubmit);
+        submit.removeEventListener('click', onSubmit);
         scopeSetAuthenticated(true);
         return scopeAuth;
       }
