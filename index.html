@@ -353,6 +353,18 @@
       appId: "1:262595579748:web:1bf635a2ca9f138e5ab471",
       measurementId: "G-YLRRNQTF7E"
     };
+
+    // Ensure the existing New Deals Firebase project always owns the default app.
+    // Scope authentication uses a separate named app and must never replace this one.
+    try {
+      if (globalThis.firebase && globalThis.GCSA_FIREBASE_CONFIG) {
+        let defaultApp;
+        try { defaultApp = firebase.app(); } catch (_) { defaultApp = null; }
+        if (!defaultApp) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
+      }
+    } catch (err) {
+      console.error('New Deals Firebase default app initialization failed', err);
+    }
   </script>
   <script>
   // Scope authentication gate. IMPORTANT: the Atlas DOM remains inert and hidden

@@ -2988,7 +2988,9 @@ async function initializeFirebaseNewDeals() {
     return false;
   }
   try {
-    if (!firebase.apps.some(app => app.name === '[DEFAULT]')) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
+    let defaultApp;
+    try { defaultApp = firebase.app(); } catch (_) { defaultApp = null; }
+    if (!defaultApp) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
     state.newDealsFirebaseReady = true;
     const auth = firebase.auth();
     await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
