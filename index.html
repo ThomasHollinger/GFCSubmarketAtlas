@@ -342,8 +342,8 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/scope-firebase-config.js"></script>
   <script>
-  // Scope login bootstrap. Kept inline so authentication cannot fail because a separate
-  // login script was omitted from the GitHub Pages deployment.
+  // Scope login bootstrap. Authentication is intentionally self-contained here so it
+  // does not depend on the map application initializing first.
   (function () {
     'use strict';
     const LOGIN_USERNAME = 'thomas.hollinger';
@@ -355,6 +355,7 @@
     const password = document.getElementById('scopeLoginPassword');
     const error = document.getElementById('scopeLoginError');
     const submit = document.getElementById('scopeLoginSubmit');
+
     function showApp(show) {
       if (gate) gate.setAttribute('aria-hidden', show ? 'true' : 'false');
       if (appShell) {
@@ -364,55 +365,96 @@
       document.body.classList.toggle('scope-authenticated', !!show);
     }
     function message(text) { if (error) error.textContent = text || ''; }
+    function firebaseErrorText(err) {
+      const code = String(err && err.code || '');
+      if (code === 'auth/operation-not-allowed') return 'Firebase Email/Password sign-in is not enabled.';
+      if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') return 'Incorrect username or password.';
+      if (code === 'auth/too-many-requests') return 'Too many attempts. Please wait a moment and try again.';
+      return 'Unable to sign in: ' + (err && err.message ? err.message : 'Firebase error');
+    }
+
     showApp(false);
-    globalThis.SCOPE_LOGIN_PROMISE = new Promise(async resolve => {
-      if (!username || !password || !submit || !error) { message('Login controls are unavailable.'); resolve(false); return; }
-      let auth;
+
+    // Install the button handlers BEFORE doing any Firebase initialization. That way,
+    // an initialization problem can never make the button appear completely dead.
+    let auth = null;
+    let initialized = false;
+    let busy = false;
+    let resolveLoginPromise;
+    globalThis.SCOPE_LOGIN_PROMISE = new Promise(resolve => { resolveLoginPromise = resolve; });
+
+    async function login() {
+      if (busy) return;
+      message('');
+      const enteredUsername = username.value.trim().toLowerCase();
+      const enteredPassword = password.value;
+      if (!enteredUsername || !enteredPassword) { message('Enter your username and password.'); return; }
+      if (enteredUsername !== LOGIN_USERNAME) { message('Incorrect username or password.'); return; }
+      if (!initialized || !auth) {
+        message('Firebase is still connecting. Please wait a moment and try again.');
+        return;
+      }
+      busy = true;
+      submit.disabled = true;
+      submit.textContent = 'Signing in…';
+      try {
+        const result = await auth.signInWithEmailAndPassword(LOGIN_EMAIL, enteredPassword);
+        if (!result.user || String(result.user.email || '').toLowerCase() !== LOGIN_EMAIL) {
+          throw new Error('Unauthorized account');
+        }
+        password.value = '';
+        showApp(true);
+        resolveLoginPromise(true);
+      } catch (err) {
+        console.error('Scope Firebase sign-in failed:', err);
+        message(firebaseErrorText(err));
+        submit.disabled = false;
+        submit.textContent = 'Login';
+        busy = false;
+        password.focus();
+      }
+    }
+
+    if (submit) submit.addEventListener('click', login);
+    if (username) username.addEventListener('keydown', e => { if (e.key === 'Enter') password.focus(); });
+    if (password) password.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+    (async function initializeScopeFirebase() {
       try {
         if (!globalThis.firebase) throw new Error('Firebase SDK is unavailable.');
         const cfg = globalThis.SCOPE_FIREBASE_CONFIG || {};
-        if (!cfg.apiKey || !cfg.authDomain || !cfg.projectId || !cfg.appId) throw new Error('Scope Firebase configuration is missing.');
-        const app = firebase.apps.find(a => a.name === FIREBASE_APP_NAME) || firebase.initializeApp(cfg, FIREBASE_APP_NAME);
+        if (!cfg.apiKey || !cfg.authDomain || !cfg.projectId || !cfg.appId) {
+          throw new Error('Scope Firebase configuration is missing.');
+        }
+        let app = firebase.apps.find(a => a.name === FIREBASE_APP_NAME);
+        if (!app) app = firebase.initializeApp(cfg, FIREBASE_APP_NAME);
         auth = firebase.auth(app);
-        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const existing = auth.currentUser || await new Promise(done => {
-          let unsub = auth.onAuthStateChanged(user => { unsub(); done(user || null); });
-        });
-        if (existing && String(existing.email || '').toLowerCase() === LOGIN_EMAIL) { showApp(true); resolve(true); return; }
-        if (existing) { try { await auth.signOut(); } catch (_) {} }
+
+        // Persistence is helpful, but it must not prevent login if the browser blocks
+        // local storage. Try LOCAL first, then continue without failing initialization.
+        try {
+          await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        } catch (persistenceError) {
+          console.warn('Scope LOCAL persistence unavailable; continuing with session auth.', persistenceError);
+          try { await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); } catch (_) {}
+        }
+
+        initialized = true;
+        message('');
+        const currentUser = auth.currentUser;
+        if (currentUser && String(currentUser.email || '').toLowerCase() === LOGIN_EMAIL) {
+          showApp(true);
+          resolveLoginPromise(true);
+          return;
+        }
+        if (currentUser) { try { await auth.signOut(); } catch (_) {} }
+        username.focus();
       } catch (err) {
         console.error('Scope Firebase initialization failed:', err);
-        message('Unable to connect to Firebase.');
-        resolve(false); return;
+        message('Firebase connection failed: ' + (err && err.message ? err.message : 'unknown error') + ' If this persists, check the browser console.');
+        resolveLoginPromise(false);
       }
-      let finished = false;
-      const login = async function () {
-        if (finished || submit.disabled) return;
-        message('');
-        const enteredUsername = username.value.trim().toLowerCase();
-        const enteredPassword = password.value;
-        if (!enteredUsername || !enteredPassword) { message('Enter your username and password.'); return; }
-        if (enteredUsername !== LOGIN_USERNAME) { message('Incorrect username or password.'); return; }
-        submit.disabled = true; submit.textContent = 'Signing in…';
-        try {
-          const result = await auth.signInWithEmailAndPassword(LOGIN_EMAIL, enteredPassword);
-          if (!result.user || String(result.user.email || '').toLowerCase() !== LOGIN_EMAIL) throw new Error('Unauthorized account');
-          finished = true; password.value = ''; showApp(true); resolve(true);
-        } catch (err) {
-          console.error('Scope Firebase sign-in failed:', err);
-          const code = String(err && err.code || '');
-          if (code === 'auth/operation-not-allowed') message('Firebase Email/Password sign-in is not enabled.');
-          else if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') message('Incorrect username or password.');
-          else if (code === 'auth/too-many-requests') message('Too many attempts. Please wait a moment and try again.');
-          else message('Unable to sign in: ' + (err && err.message ? err.message : 'Firebase error'));
-          submit.disabled = false; submit.textContent = 'Login'; password.focus();
-        }
-      };
-      submit.addEventListener('click', login);
-      username.addEventListener('keydown', e => { if (e.key === 'Enter') password.focus(); });
-      password.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
-      username.focus();
-    });
+    })();
   })();
   </script>
   <script src="js/address-tiles-vendor.js"></script>
