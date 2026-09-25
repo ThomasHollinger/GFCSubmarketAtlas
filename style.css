@@ -236,3 +236,9 @@ body.snapshot-mode #map{cursor:crosshair}
 .scope-login-error { min-height:18px; margin:2px 0 8px; color:#b42318; font-size:12px; font-weight:700; text-align:center; }
 .brand-mark { overflow:hidden; }
 .brand-mark img { width:100%; height:100%; object-fit:contain; display:block; }
+
+/* Scope UI sizing correction only. The map canvas and Atlas JavaScript are untouched. */
+@media (min-width: 901px) {
+  body.scope-authenticated .sidebar { zoom: .8; }
+  body.scope-authenticated .topbar { zoom: .8; }
+}
