@@ -1530,7 +1530,7 @@ function buildMarketQuickviewHtml(data) {
     <div class="snapshot-intro">
       <div class="snapshot-ribbon">Market Quickview</div>
       <div class="snapshot-center">${escapeHtml(submarketName)} Pilot</div>
-      <div class="snapshot-note">Built from the pilot block datasets. This does not change the existing atlas demographics layer.</div>
+      <div class="snapshot-note">Built from the pilot block datasets. This does not change the existing SCOPE demographics layer.</div>
     </div>
 
     <details class="quickview-details" open>
@@ -2988,9 +2988,7 @@ async function initializeFirebaseNewDeals() {
     return false;
   }
   try {
-    let defaultApp;
-    try { defaultApp = firebase.app(); } catch (_) { defaultApp = null; }
-    if (!defaultApp) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
+    if (!firebase.apps.length) firebase.initializeApp(globalThis.GCSA_FIREBASE_CONFIG);
     state.newDealsFirebaseReady = true;
     const auth = firebase.auth();
     await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
@@ -3079,7 +3077,7 @@ async function moveNewDeal(deal) {
     if (!marker && layer?.options?.newDealId === deal.id) marker = layer;
   });
   if (!marker || !marker.dragging) {
-    alert(`This ${newDealCategoryLabel(deal)} pin could not be put into move mode. Refresh the Atlas and try again.`);
+    alert(`This ${newDealCategoryLabel(deal)} pin could not be put into move mode. Refresh SCOPE and try again.`);
     return;
   }
 
@@ -5442,7 +5440,7 @@ function renderBuilderNameFilterList() {
   const options = builderNameOptionsForPanel();
   const selected = (state.builderFilters || {}).BuilderNames || {};
   const selectedCount = Object.values(selected).filter(Boolean).length;
-  const scope = state.selected && state.selected.properties ? `Available in ${state.selected.properties.DisplayName}` : 'All builders in atlas';
+  const scope = state.selected && state.selected.properties ? `Available in ${state.selected.properties.DisplayName}` : 'All builders in SCOPE';
   if (!options.length) {
     list.innerHTML = `<div class="builder-name-empty">No builders match the current product/status filters. ${scope}.</div>`;
     return;
@@ -7625,5 +7623,5 @@ loadData()
   })
   .catch(err => {
     console.error(err);
-    document.getElementById('statusText').textContent = 'Error loading atlas data: ' + (err && err.message ? err.message : err);
+    document.getElementById('statusText').textContent = 'Error loading SCOPE data: ' + (err && err.message ? err.message : err);
   });
