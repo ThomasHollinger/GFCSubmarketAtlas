@@ -7218,8 +7218,74 @@ function selectSchool(school, shouldZoom = true) {
     .openOn(state.map);
 }
 
+const SCOPE_SIDEBAR_WIDTH_KEY = 'scope-sidebar-width-v1';
+const SCOPE_SIDEBAR_DEFAULT_WIDTH = 330;
+const SCOPE_SIDEBAR_MIN_WIDTH = 250;
+const SCOPE_SIDEBAR_MAX_WIDTH = 560;
+
+function clampScopeSidebarWidth(value) {
+  const availableWidth = Math.max(SCOPE_SIDEBAR_MIN_WIDTH, window.innerWidth - 320);
+  const maximum = Math.min(SCOPE_SIDEBAR_MAX_WIDTH, availableWidth);
+  return Math.round(Math.max(SCOPE_SIDEBAR_MIN_WIDTH, Math.min(maximum, Number(value) || SCOPE_SIDEBAR_DEFAULT_WIDTH)));
+}
+
+function setScopeSidebarWidth(value, persist = false) {
+  const width = clampScopeSidebarWidth(value);
+  document.documentElement.style.setProperty('--sidebar', `${width}px`);
+  if (persist) {
+    try { localStorage.setItem(SCOPE_SIDEBAR_WIDTH_KEY, String(width)); } catch (_) {}
+  }
+  return width;
+}
+
+function bindScopeSidebarResize() {
+  const handle = document.getElementById('sidebarResizeHandle');
+  if (!handle) return;
+  try {
+    const savedWidth = Number(localStorage.getItem(SCOPE_SIDEBAR_WIDTH_KEY));
+    if (Number.isFinite(savedWidth) && savedWidth > 0) setScopeSidebarWidth(savedWidth);
+  } catch (_) {}
+
+  handle.addEventListener('dblclick', () => {
+    setScopeSidebarWidth(SCOPE_SIDEBAR_DEFAULT_WIDTH, true);
+    state.map?.invalidateSize({ pan: false, animate: false });
+  });
+
+  handle.addEventListener('pointerdown', event => {
+    if (window.innerWidth <= 900 || event.button !== 0) return;
+    event.preventDefault();
+    document.body.classList.add('scope-sidebar-resizing');
+    let currentWidth = setScopeSidebarWidth(event.clientX);
+    let resizeFrame = 0;
+
+    const onMove = moveEvent => {
+      currentWidth = clampScopeSidebarWidth(moveEvent.clientX);
+      if (resizeFrame) return;
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = 0;
+        setScopeSidebarWidth(currentWidth);
+        state.map?.invalidateSize({ pan: false, animate: false });
+      });
+    };
+    const finish = () => {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', finish);
+      document.removeEventListener('pointercancel', finish);
+      if (resizeFrame) cancelAnimationFrame(resizeFrame);
+      setScopeSidebarWidth(currentWidth, true);
+      document.body.classList.remove('scope-sidebar-resizing');
+      state.map?.invalidateSize({ pan: false, animate: false });
+    };
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', finish);
+    document.addEventListener('pointercancel', finish);
+  });
+}
+
 function bindUI() {
   bindPersistentDetails();
+  bindScopeSidebarResize();
   document.getElementById('sidebarToggle').addEventListener('click', () => {
     document.getElementById('appShell').classList.toggle('collapsed');
     setTimeout(() => state.map && state.map.invalidateSize(), 260);
