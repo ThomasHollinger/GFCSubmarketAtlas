@@ -5282,8 +5282,7 @@ function builderSubdivisionPopupContent(feature) {
     <p><b>Units Remaining:</b> ${fmt(p.UnitsRemaining)}</p>
     <p><b>Annual Starts:</b> ${fmt(p.AnnualStarts)}</p>
     <p><b>City:</b> ${escapeHtml((p.City || '') + (p.State ? ', ' + p.State : ''))}</p>
-    <p><b>Latitude:</b> ${previewReady ? lat.toFixed(6) : 'N/A'}</p>
-    <p><b>Longitude:</b> ${previewReady ? lng.toFixed(6) : 'N/A'}</p>
+    <p><b>Coordinates:</b> ${previewReady ? `${lat.toFixed(5)}, ${lng.toFixed(5)}` : 'N/A'}</p>
     <p><b>Submarket:</b> ${escapeHtml(p.SubmarketName || 'Outside submarket boundary')}</p>
     <p><b>Tier:</b> ${escapeHtml(tierLabel)}</p>
     <p><b>Source:</b> ${escapeHtml(p.Source || 'Zonda export')}</p>
