@@ -237,14 +237,3 @@ body.snapshot-mode #map{cursor:crosshair}
 .scope-login-error{min-height:18px;margin:2px 0 8px;color:#b42318;font-size:12px;font-weight:700;text-align:center}
 .brand-mark{overflow:hidden}
 .brand-mark img{display:block;width:100%;height:100%;object-fit:contain}
-
-/* Desktop sidebar width control */
-.app-shell{position:relative}
-.sidebar-resize-handle{position:absolute;top:0;bottom:0;left:calc(var(--sidebar) - 5px);z-index:1350;width:10px;cursor:col-resize;touch-action:none}
-.sidebar-resize-handle::after{content:"";position:absolute;top:0;bottom:0;left:4px;width:2px;background:transparent;transition:background .15s ease,box-shadow .15s ease}
-.sidebar-resize-handle:hover::after,.sidebar-resize-handle:focus::after,body.scope-sidebar-resizing .sidebar-resize-handle::after{background:#5b8fd1;box-shadow:0 0 0 1px rgba(91,143,209,.18)}
-.sidebar-resize-handle:focus{outline:none}
-.app-shell.collapsed .sidebar-resize-handle{display:none}
-body.scope-sidebar-resizing{cursor:col-resize!important;user-select:none!important}
-body.scope-sidebar-resizing *{cursor:col-resize!important}
-@media(max-width:900px){.sidebar-resize-handle{display:none!important}}

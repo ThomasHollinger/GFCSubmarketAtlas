@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
-  <link rel="stylesheet" href="css/style.css?v=scope-sidebar-resize-1">
+  <link rel="stylesheet" href="css/style.css?v=scope-sidebar-revert-1">
 
   <style>
     .new-deals-list-toggle{width:100%;margin:6px 0 8px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;color:#17365d;font-weight:700;text-align:left;cursor:pointer}
@@ -294,8 +294,6 @@
                   </div>
       </section>
     </aside>
-    <div id="sidebarResizeHandle" class="sidebar-resize-handle" role="separator" aria-orientation="vertical" aria-label="Resize sidebar" title="Drag to resize sidebar; double-click to reset"></div>
-
     <main class="map-area">
       <header class="topbar">
         <div class="top-title">
@@ -512,7 +510,7 @@
   <script>
     globalThis.SCOPE_LOAD_ATLAS = function () {
       const script = document.createElement('script');
-      script.src = 'js/app-v2_10_19.js?v=scope-sidebar-resize-1';
+      script.src = 'js/app-v2_10_19.js?v=scope-sidebar-revert-1';
       script.async = false;
       document.body.appendChild(script);
     };
