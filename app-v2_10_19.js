@@ -169,7 +169,13 @@ function submarketNumberAnchorForFeature(feature, layer) {
 
 const overlayThemes = new Set(['schools', 'retail', 'healthcare', 'builders', 'lifestyle']);
 
-const NCES_URL = 'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query';
+// Prefer NCES's current ArcGIS FeatureServer. Keep the legacy NCES-hosted
+// MapServer as a fallback so the school layer survives a temporary outage on
+// either host without changing any of SCOPE's local grading/rating logic.
+const NCES_URLS = [
+  'https://services1.arcgis.com/Ua5sjt3LWTPigjyD/ArcGIS/rest/services/Public_School_Locations_Current/FeatureServer/0/query',
+  'https://nces.ed.gov/opengis/rest/services/K12_School_Locations/EDGE_GEOCODE_PUBLICSCH_2425/MapServer/0/query'
+];
 const OVERPASS_URLS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
 const tierOneBrands = ['publix','walmart','walmart supercenter','aldi','costco',"sam's club",'sams club','bj wholesale','bjs wholesale',"bj\'s wholesale club",'target','winn-dixie','rouses','piggly wiggly','whole foods','the fresh market',"trader joe's",'chick-fil-a','starbucks','chipotle','panera','panera bread','texas roadhouse','cracker barrel','home depot','the home depot',"lowe's",'academy sports','academy sports + outdoors','bass pro shops',"kohl's",'tj maxx','marshalls','hobby lobby'];
 const BUILDER_TIER_STORAGE_KEY = 'gcsa-builder-tier-state-v1';
@@ -7168,8 +7174,27 @@ async function loadSchools(showLayer = false) {
     outSR: '4326',
     f: 'geojson'
   });
-  const url = `${NCES_URL}?${params.toString()}`;
-  const data = await fetch(url).then(r => r.json());
+  let data = null;
+  let lastError = null;
+  for (const endpoint of NCES_URLS) {
+    try {
+      const response = await fetch(`${endpoint}?${params.toString()}`);
+      if (!response.ok) throw new Error(`NCES request failed with HTTP ${response.status}`);
+      const candidate = await response.json();
+      if (candidate.error) {
+        throw new Error(candidate.error.message || 'NCES returned an ArcGIS service error');
+      }
+      if (!Array.isArray(candidate.features)) {
+        throw new Error('NCES response did not contain a GeoJSON feature collection');
+      }
+      data = candidate;
+      break;
+    } catch (err) {
+      lastError = err;
+      console.warn(`School data source failed: ${endpoint}`, err);
+    }
+  }
+  if (!data) throw lastError || new Error('No NCES school data source was available');
   state.schools = (data.features || []).filter(f => f.geometry && f.geometry.coordinates).map(f => {
     const inferredType = schoolType(f.properties);
     const ratingRec = ratingForSchoolName(f.properties);
