@@ -486,16 +486,13 @@
         let app = firebase.apps.find(a => a.name === FIREBASE_APP_NAME);
         if (!app) app = firebase.initializeApp(cfg, FIREBASE_APP_NAME);
         auth = firebase.auth(app);
-        try { await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }
-        catch (persistenceError) {
-          console.warn('Scope LOCAL persistence unavailable; continuing with session auth.', persistenceError);
-          try { await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); } catch (_) {}
-        }
+        // Require a fresh SCOPE login after every full page load. Firebase's
+        // LOCAL/SESSION persistence previously restored the signed-in user and
+        // caused the login screen to flash briefly before being bypassed.
+        await auth.setPersistence(firebase.auth.Auth.Persistence.NONE);
         initialized = true;
         message('');
-        const currentUser = auth.currentUser;
-        if (currentUser && String(currentUser.email || '').toLowerCase() === LOGIN_EMAIL) { allowAtlas(); return; }
-        if (currentUser) { try { await auth.signOut(); } catch (_) {} }
+        if (auth.currentUser) { try { await auth.signOut(); } catch (_) {} }
         username.focus();
       } catch (err) {
         console.error('Scope Firebase initialization failed:', err);
