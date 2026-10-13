@@ -46,6 +46,14 @@ const state = {
   addressRefreshTimer: null,
   addressRequestId: 0,
   addressLastQueryKey: '',
+  parcelLayer: null,
+  parcelsEnabled: false,
+  parcelCache: new Map(),
+  parcelRefreshTimer: null,
+  parcelRequestId: 0,
+  parcelLastQueryKey: '',
+  parcelAbortController: null,
+  parcelSelectedLayer: null,
   selected: null,
   features: [],
   schools: [],
@@ -193,6 +201,31 @@ const ADDRESS_TILE_ZOOM = 14;
 const OVERTURE_STAC_URL = 'https://stac.overturemaps.org';
 const OVERTURE_ADDRESS_RELEASE_FALLBACK = '2026-08-19.0';
 const OVERTURE_ADDRESS_TILES_ROOT = 'https://overturemaps-extras-us-west-2.s3.us-west-2.amazonaws.com/tiles';
+const PARCEL_MIN_ZOOM = 17;
+const PARCEL_MAX_FEATURES = 5000;
+const PARCEL_SOURCES = [
+  {
+    key: 'florida',
+    label: 'Florida Department of Revenue',
+    county: 'Florida',
+    url: 'https://services9.arcgis.com/Gh9awoU677aKree0/arcgis/rest/services/Florida_Statewide_Cadastral/FeatureServer/0/query',
+    outFields: 'OBJECTID,CO_NO,PARCEL_ID,PARCELNO,ALT_KEY,PHY_ADDR1,PHY_ADDR2,PHY_CITY,PHY_ZIPCD,LND_SQFOOT,PA_UC,DOR_UC,JV,AV_SD,AV_NSD,ACT_YR_BLT,TOT_LVG_AR'
+  },
+  {
+    key: 'baldwin',
+    label: 'Baldwin County',
+    county: 'Baldwin County, AL',
+    url: 'https://services9.arcgis.com/eNX73FDxjlKFtCtH/ArcGIS/rest/services/Baldwin_Al_Parcels_for_Public_Map/FeatureServer/0/query',
+    outFields: 'OBJECTID_1,PID,PIN,PAR_NUM,PARCEL_NUM,ACCOUNT,STREET_NUM,STREET_NAM,DevUndev,parcel_use,WaterSource_Display,Shape__Area'
+  },
+  {
+    key: 'mobile',
+    label: 'Mobile County Revenue Commission',
+    county: 'Mobile County, AL',
+    url: 'https://services8.arcgis.com/HND1NcQt6vgOGn1z/ArcGIS/rest/services/MCRC_Public_Parcels/FeatureServer/0/query',
+    outFields: 'OBJECTID,Parcel_Number,Account_Number,ParcelNo,PropAddr1,PropAddr2,PropCity,PropState,PropZip,Acreage,Sqft,KeyNum'
+  }
+];
 
 const schoolRatingRecords = [
 {"County":"Escambia County","City":"Atmore","SchoolName":"A C Moore Primary School","SchoolType":"Elementary","Rating":null,"NCESID":"10135002667","State":"","Excluded":true,"ExcludedReason":"Thomas Verified Grade: Unranked"},
@@ -6052,6 +6085,360 @@ function setAddressesEnabled(enabled) {
   scheduleAddressRefresh();
 }
 
+function setParcelBadge(text) {
+  const badge = document.getElementById('parcelCountBadge');
+  if (badge) badge.textContent = text;
+}
+
+function parcelBaseStyle() {
+  return {
+    pane: 'parcelPane',
+    color: '#2563eb',
+    weight: 1.15,
+    opacity: 0.9,
+    fillColor: '#60a5fa',
+    fillOpacity: 0.045
+  };
+}
+
+function parcelCleanValue(value) {
+  const text = String(value ?? '').trim();
+  return !text || /^(null|undefined|n\/a)$/i.test(text) ? '' : text;
+}
+
+function parcelFirstValue(...values) {
+  for (const value of values) {
+    const clean = parcelCleanValue(value);
+    if (clean) return clean;
+  }
+  return '';
+}
+
+function parcelMoney(value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number > 0 ? `$${Math.round(number).toLocaleString()}` : '';
+}
+
+function parcelAreaText(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number) || number <= 0) return '';
+  const rounded = Math.round(number * 100) / 100;
+  return `${rounded.toLocaleString(undefined, { maximumFractionDigits: 2 })} acres`;
+}
+
+const floridaParcelCounties = Object.freeze({
+  '03': 'Bay County, FL',
+  '07': 'Calhoun County, FL',
+  '17': 'Escambia County, FL',
+  '30': 'Holmes County, FL',
+  '32': 'Jackson County, FL',
+  '46': 'Okaloosa County, FL',
+  '57': 'Santa Rosa County, FL',
+  '66': 'Walton County, FL',
+  '67': 'Washington County, FL'
+});
+
+function parcelAddressLine(...parts) {
+  return parts.map(parcelCleanValue).filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+}
+
+function parcelPopupRecord(feature, layer) {
+  const p = feature?.properties || {};
+  const sourceKey = p.__parcelSourceKey || '';
+  const center = layer?.getBounds?.().getCenter?.() || state.map?.getCenter?.();
+  const coordinates = center && Number.isFinite(center.lat) && Number.isFinite(center.lng)
+    ? `${center.lat.toFixed(5)}, ${center.lng.toFixed(5)}`
+    : '';
+
+  if (sourceKey === 'florida') {
+    const addressLine = parcelAddressLine(p.PHY_ADDR1, p.PHY_ADDR2);
+    const locality = [parcelCleanValue(p.PHY_CITY), 'FL', parcelCleanValue(p.PHY_ZIPCD)].filter(Boolean).join(' ');
+    const squareFeet = Number(p.LND_SQFOOT);
+    const assessed = Math.max(Number(p.AV_SD) || 0, Number(p.AV_NSD) || 0);
+    const countyCode = String(p.CO_NO ?? '').padStart(2, '0');
+    return {
+      source: 'Florida Department of Revenue',
+      county: floridaParcelCounties[countyCode] || 'Florida',
+      parcelId: parcelFirstValue(p.PARCEL_ID, p.PARCELNO, p.ALT_KEY),
+      account: parcelCleanValue(p.ALT_KEY),
+      address: [addressLine, locality].filter(Boolean).join(', '),
+      coordinates,
+      acreage: parcelAreaText(squareFeet > 0 ? squareFeet / 43560 : null),
+      landUse: parcelFirstValue(p.PA_UC, p.DOR_UC),
+      marketValue: parcelMoney(p.JV),
+      assessedValue: parcelMoney(assessed),
+      yearBuilt: Number(p.ACT_YR_BLT) > 0 ? String(Math.round(Number(p.ACT_YR_BLT))) : '',
+      buildingArea: Number(p.TOT_LVG_AR) > 0 ? `${Math.round(Number(p.TOT_LVG_AR)).toLocaleString()} sq ft` : ''
+    };
+  }
+
+  if (sourceKey === 'baldwin') {
+    const squareFeet = Number(p.Shape__Area);
+    return {
+      source: 'Baldwin County Public GIS',
+      county: 'Baldwin County, AL',
+      parcelId: parcelFirstValue(p.PARCEL_NUM, p.PID, p.PIN, p.PAR_NUM),
+      account: parcelFirstValue(p.ACCOUNT, p.PIN),
+      address: parcelAddressLine(p.STREET_NUM, p.STREET_NAM),
+      coordinates,
+      acreage: parcelAreaText(squareFeet > 0 ? squareFeet / 43560 : null),
+      landUse: parcelFirstValue(p.parcel_use, p.DevUndev),
+      waterSource: parcelCleanValue(p.WaterSource_Display)
+    };
+  }
+
+  return {
+    source: 'Mobile County Revenue Commission',
+    county: 'Mobile County, AL',
+    parcelId: parcelFirstValue(p.Parcel_Number, p.ParcelNo, p.KeyNum),
+    account: parcelFirstValue(p.Account_Number, p.KeyNum),
+    address: [parcelAddressLine(p.PropAddr1, p.PropAddr2), parcelAddressLine(p.PropCity, p.PropState, p.PropZip)].filter(Boolean).join(', '),
+    coordinates,
+    acreage: parcelAreaText(p.Acreage),
+    buildingArea: Number(p.Sqft) > 0 ? `${Math.round(Number(p.Sqft)).toLocaleString()} sq ft` : ''
+  };
+}
+
+function parcelPopupRow(label, value) {
+  const clean = parcelCleanValue(value);
+  return clean ? `<p><b>${escapeHtml(label)}:</b> ${escapeHtml(clean)}</p>` : '';
+}
+
+function parcelPopupHtml(feature, layer) {
+  const record = parcelPopupRecord(feature, layer);
+  return `<div class="builder-popup parcel-popup">
+    <h3>${escapeHtml(record.address || 'Parcel Details')}</h3>
+    ${parcelPopupRow('Parcel ID', record.parcelId)}
+    ${parcelPopupRow('Account', record.account)}
+    ${parcelPopupRow('Address', record.address)}
+    ${parcelPopupRow('Coordinates', record.coordinates)}
+    ${parcelPopupRow('County', record.county)}
+    ${parcelPopupRow('Acreage', record.acreage)}
+    ${parcelPopupRow('Land Use', record.landUse)}
+    ${parcelPopupRow('Market Value', record.marketValue)}
+    ${parcelPopupRow('Assessed Value', record.assessedValue)}
+    ${parcelPopupRow('Year Built', record.yearBuilt)}
+    ${parcelPopupRow('Building Area', record.buildingArea)}
+    ${parcelPopupRow('Water Source', record.waterSource)}
+    ${parcelPopupRow('Source', record.source)}
+  </div>`;
+}
+
+function clearParcelSelection(closePopup = false) {
+  if (state.parcelSelectedLayer && state.parcelLayer) {
+    try { state.parcelLayer.resetStyle(state.parcelSelectedLayer); } catch (_) {}
+  }
+  state.parcelSelectedLayer = null;
+  if (closePopup && state.map) state.map.closePopup();
+}
+
+function ensureParcelLayer() {
+  if (state.parcelLayer) return state.parcelLayer;
+  state.parcelLayer = L.geoJSON(null, {
+    pane: 'parcelPane',
+    bubblingMouseEvents: false,
+    style: parcelBaseStyle,
+    onEachFeature: (feature, layer) => {
+      layer.bindPopup(() => parcelPopupHtml(feature, layer), {
+        autoPan: false,
+        closeButton: true,
+        className: 'builder-subdivision-popup-shell',
+        maxWidth: 340
+      });
+      layer.on('mouseover', () => {
+        if (state.parcelSelectedLayer !== layer) layer.setStyle({ color: '#0f3f8c', weight: 2.1, fillOpacity: 0.1 });
+      });
+      layer.on('mouseout', () => {
+        if (state.parcelSelectedLayer !== layer) state.parcelLayer?.resetStyle(layer);
+      });
+      layer.on('click', event => {
+        if (state.directions?.active) { handleDirectionsMapClick(event.latlng); return; }
+        if (state.newDealsAddMode) { handleNewDealMapClick(event.latlng); return; }
+        if (marketSnapshotModeActive() && state.marketSnapshot.radiusMiles) { handleMarketSnapshotPoint(event.latlng); return; }
+        if (marketQuickviewModeActive() && state.marketQuickview.radiusMiles) { handleMarketQuickviewPoint(event.latlng); return; }
+        clearParcelSelection(false);
+        state.parcelSelectedLayer = layer;
+        layer.setStyle({ color: '#f97316', weight: 3, fillColor: '#fb923c', fillOpacity: 0.15 });
+        layer.bringToFront?.();
+      });
+      layer.on('popupclose', () => {
+        if (state.parcelSelectedLayer === layer) clearParcelSelection(false);
+      });
+    }
+  });
+  state.parcelLayer.getAttribution = () => 'Parcel data: Florida DOR, Baldwin County, and Mobile County Revenue Commission';
+  return state.parcelLayer;
+}
+
+function parcelQueryBounds() {
+  const bounds = state.map.getBounds();
+  const south = bounds.getSouth();
+  const west = bounds.getWest();
+  const north = bounds.getNorth();
+  const east = bounds.getEast();
+  return {
+    south, west, north, east,
+    key: `${state.map.getZoom()}|${[south, west, north, east].map(value => value.toFixed(5)).join('|')}`
+  };
+}
+
+async function fetchParcelSource(source, bounds, signal) {
+  const params = new URLSearchParams({
+    where: '1=1',
+    geometry: `${bounds.west},${bounds.south},${bounds.east},${bounds.north}`,
+    geometryType: 'esriGeometryEnvelope',
+    inSR: '4326',
+    spatialRel: 'esriSpatialRelIntersects',
+    outFields: source.outFields,
+    returnGeometry: 'true',
+    outSR: '4326',
+    geometryPrecision: '6',
+    resultRecordCount: '2000',
+    f: 'geojson'
+  });
+  let timeoutId = null;
+  try {
+    const response = await Promise.race([
+      fetch(`${source.url}?${params.toString()}`, { signal, headers: { Accept: 'application/geo+json, application/json' } }),
+      new Promise((_, reject) => { timeoutId = setTimeout(() => reject(new Error(`${source.label} timed out`)), 15000); })
+    ]);
+    if (!response.ok) throw new Error(`${source.label} returned HTTP ${response.status}`);
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message || `${source.label} returned a service error`);
+    if (!Array.isArray(data.features)) throw new Error(`${source.label} did not return parcel features`);
+    data.features.forEach(feature => {
+      feature.properties = feature.properties || {};
+      feature.properties.__parcelSourceKey = source.key;
+    });
+    return {
+      features: data.features,
+      exceeded: !!(data.exceededTransferLimit || data.properties?.exceededTransferLimit)
+    };
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
+function parcelSourcesForBounds(bounds) {
+  const point = [(bounds.west + bounds.east) / 2, (bounds.south + bounds.north) / 2];
+  const submarket = (state.features || []).find(feature => pointInFeature(point, feature));
+  const name = String(submarket?.properties?.DisplayName || '').toLowerCase();
+  const hub = String(submarket?.properties?.Hub || '').toLowerCase();
+  if (name.includes('mobile')) return PARCEL_SOURCES.filter(source => source.key === 'mobile');
+  if (name.includes('baldwin')) return PARCEL_SOURCES.filter(source => source.key === 'baldwin');
+  if (hub && !hub.includes('alabama')) return PARCEL_SOURCES.filter(source => source.key === 'florida');
+  return PARCEL_SOURCES;
+}
+
+async function loadVisibleParcels(bounds, signal) {
+  const sources = parcelSourcesForBounds(bounds);
+  const results = await Promise.allSettled(sources.map(source => fetchParcelSource(source, bounds, signal)));
+  if (signal.aborted) throw new DOMException('Parcel request was cancelled', 'AbortError');
+  const fulfilled = results.filter(result => result.status === 'fulfilled');
+  if (!fulfilled.length) {
+    const message = results.find(result => result.status === 'rejected')?.reason?.message;
+    throw new Error(message || 'No parcel service was available');
+  }
+  const features = [];
+  let exceeded = false;
+  fulfilled.forEach(result => {
+    features.push(...result.value.features);
+    exceeded = exceeded || result.value.exceeded;
+  });
+  const seen = new Set();
+  return {
+    exceeded,
+    features: features.filter(feature => {
+      const p = feature.properties || {};
+      const id = parcelFirstValue(p.PARCEL_ID, p.PARCELNO, p.PARCEL_NUM, p.PAR_NUM, p.Parcel_Number, p.ParcelNo, p.PID, p.OBJECTID, p.OBJECTID_1);
+      const key = `${p.__parcelSourceKey || ''}:${id}`;
+      if (!id || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+  };
+}
+
+function renderParcelFeatures(result) {
+  const layer = ensureParcelLayer();
+  clearParcelSelection(true);
+  layer.clearLayers();
+  const features = result?.features || [];
+  if (!features.length) {
+    setParcelBadge('No parcels');
+    return;
+  }
+  if (features.length > PARCEL_MAX_FEATURES) {
+    setParcelBadge('Zoom closer');
+    return;
+  }
+  layer.addData({ type: 'FeatureCollection', features });
+  setParcelBadge(result.exceeded ? `${features.length.toLocaleString()}+ shown` : `${features.length.toLocaleString()} shown`);
+}
+
+async function refreshParcelLayer() {
+  if (!state.parcelsEnabled || !state.map) return;
+  const layer = ensureParcelLayer();
+  if (!state.map.hasLayer(layer)) layer.addTo(state.map);
+  if (state.map.getZoom() < PARCEL_MIN_ZOOM) {
+    state.parcelRequestId += 1;
+    state.parcelLastQueryKey = '';
+    state.parcelAbortController?.abort();
+    layer.clearLayers();
+    clearParcelSelection(true);
+    setParcelBadge('Zoom');
+    return;
+  }
+  const bounds = parcelQueryBounds();
+  if (bounds.key === state.parcelLastQueryKey && layer.getLayers().length) return;
+  state.parcelLastQueryKey = bounds.key;
+  const cached = state.parcelCache.get(bounds.key);
+  if (cached) {
+    renderParcelFeatures(cached);
+    return;
+  }
+  const requestId = ++state.parcelRequestId;
+  state.parcelAbortController?.abort();
+  const controller = new AbortController();
+  state.parcelAbortController = controller;
+  setParcelBadge('Loading...');
+  try {
+    const result = await loadVisibleParcels(bounds, controller.signal);
+    if (!state.parcelsEnabled || requestId !== state.parcelRequestId) return;
+    state.parcelCache.set(bounds.key, result);
+    while (state.parcelCache.size > 12) state.parcelCache.delete(state.parcelCache.keys().next().value);
+    renderParcelFeatures(result);
+  } catch (err) {
+    if (err?.name === 'AbortError' || !state.parcelsEnabled || requestId !== state.parcelRequestId) return;
+    console.warn('Parcel View could not be loaded', err);
+    state.parcelLastQueryKey = '';
+    layer.clearLayers();
+    setParcelBadge('Unavailable');
+  }
+}
+
+function scheduleParcelRefresh() {
+  if (!state.parcelsEnabled) return;
+  clearTimeout(state.parcelRefreshTimer);
+  state.parcelRefreshTimer = setTimeout(() => refreshParcelLayer(), 350);
+}
+
+function setParcelsEnabled(enabled) {
+  state.parcelsEnabled = !!enabled;
+  clearTimeout(state.parcelRefreshTimer);
+  if (!state.parcelsEnabled) {
+    state.parcelRequestId += 1;
+    state.parcelLastQueryKey = '';
+    state.parcelAbortController?.abort();
+    clearParcelSelection(true);
+    if (state.parcelLayer && state.map.hasLayer(state.parcelLayer)) state.map.removeLayer(state.parcelLayer);
+    setParcelBadge('Zoom');
+    return;
+  }
+  ensureParcelLayer().addTo(state.map);
+  scheduleParcelRefresh();
+}
+
 async function loadPOIs(showLayer = false) {
   if (state.poisLoaded) {
     if (showLayer && !state.poiLayer) buildPOILayer();
@@ -6493,6 +6880,9 @@ function initMap() {
   state.map.createPane('addressLabelPane');
   state.map.getPane('addressLabelPane').style.zIndex = 590;
   state.map.getPane('addressLabelPane').style.pointerEvents = 'auto';
+  state.map.createPane('parcelPane');
+  state.map.getPane('parcelPane').style.zIndex = 430;
+  state.map.getPane('parcelPane').style.pointerEvents = 'auto';
 
   state.referenceOverlays.floodZones = createArcGisExportGridLayer(
     'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
@@ -7276,7 +7666,14 @@ function bindUI() {
   document.getElementById('toggleAddresses')?.addEventListener('change', e => {
     setAddressesEnabled(e.target.checked);
   });
+  document.getElementById('toggleParcels')?.addEventListener('change', e => {
+    setParcelsEnabled(e.target.checked);
+  });
   state.map.on('moveend zoomend', scheduleAddressRefresh);
+  state.map.on('moveend zoomend', scheduleParcelRefresh);
+  state.map.on('movestart', () => {
+    if (state.parcelSelectedLayer) clearParcelSelection(true);
+  });
   document.getElementById('toggleSchools').addEventListener('change', async e => {
     try {
       if (e.target.checked) {
@@ -7583,6 +7980,7 @@ function bindUI() {
       if (state.newDealsAddMode || state.newDealsAddCategoryChooserOpen) setNewDealAddMode(false);
       clearNewDealPlaceResultMarker();
       clearNewDealPlaceSuggestions();
+      if (state.parcelSelectedLayer) clearParcelSelection(true);
       if (marketSnapshotModeActive()) resetMarketSnapshotMode();
       closeMarketSnapshotModal();
     }
