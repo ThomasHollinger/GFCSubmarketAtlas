@@ -47,6 +47,10 @@ const state = {
   addressRequestId: 0,
   addressLastQueryKey: '',
   parcelLayer: null,
+  parcelOverviewLayer: null,
+  parcelOverviewSourceKey: '',
+  parcelOverviewClickRequestId: 0,
+  parcelCityCache: new Map(),
   parcelsEnabled: false,
   parcelCache: new Map(),
   parcelPersistentCachePromise: null,
@@ -202,11 +206,13 @@ const ADDRESS_TILE_ZOOM = 14;
 const OVERTURE_STAC_URL = 'https://stac.overturemaps.org';
 const OVERTURE_ADDRESS_RELEASE_FALLBACK = '2026-08-19.0';
 const OVERTURE_ADDRESS_TILES_ROOT = 'https://overturemaps-extras-us-west-2.s3.us-west-2.amazonaws.com/tiles';
-const PARCEL_MIN_ZOOM = 17;
+const PARCEL_MIN_ZOOM = 14;
+const PARCEL_DETAIL_ZOOM = 17;
 const PARCEL_MAX_FEATURES = 5000;
 const PARCEL_CACHE_DB_NAME = 'scope-parcel-cache-v2';
 const PARCEL_CACHE_STORE_NAME = 'views';
 const PARCEL_CACHE_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
+const BALDWIN_CITY_LIMITS_QUERY_URL = 'https://web6.kcsgis.com/kcsgis/rest/services/Baldwin/Baldwin_Public_ISV/MapServer/41/query';
 const PARCEL_SOURCES = [
   {
     key: 'florida',
@@ -6176,6 +6182,7 @@ function parcelPopupRecord(feature, layer) {
       parcelId: parcelFirstValue(p.PARCEL_ID, p.PARCELNO, p.ALT_KEY),
       account: parcelCleanValue(p.ALT_KEY),
       address: [addressLine, locality].filter(Boolean).join(', '),
+      city: parcelCleanValue(p.PHY_CITY),
       owner: parcelCleanValue(p.OWN_NAME),
       mailingAddress: ownerMailing,
       coordinates,
@@ -6203,6 +6210,7 @@ function parcelPopupRecord(feature, layer) {
       parcelId: parcelFirstValue(p.PID, p.PARCELID, p.PIN),
       account: parcelFirstValue(p.PPIN, p.PIN),
       address: parcelAddressLine(p.SitusAddNumber, p.SitusAddName),
+      city: p.__parcelCityResolved ? parcelCleanValue(p.__parcelCity) || 'Unincorporated Baldwin County' : 'Loading…',
       owner: parcelCleanValue(p.Owner),
       previousOwner: parcelCleanValue(p.PreviousOwner),
       mailingAddress,
@@ -6229,6 +6237,7 @@ function parcelPopupRecord(feature, layer) {
     parcelId: parcelFirstValue(p.Parcel_Number, p.ParcelNo, p.KeyNum),
     account: parcelFirstValue(p.Account_Number, p.KeyNum),
     address: [parcelAddressLine(p.PropAddr1, p.PropAddr2), parcelAddressLine(p.PropCity, p.PropState, p.PropZip)].filter(Boolean).join(', '),
+    city: parcelCleanValue(p.PropCity),
     owner: parcelAddressLine(p.Name1, p.Name2),
     coordinates,
     acreage: parcelAreaText(p.Acreage),
@@ -6248,6 +6257,7 @@ function parcelPopupHtml(feature, layer) {
     ${parcelPopupRow('Parcel ID', record.parcelId)}
     ${parcelPopupRow('Account', record.account)}
     ${parcelPopupRow('Address', record.address)}
+    ${parcelPopupRow('City', record.city)}
     ${parcelPopupRow('Owner', record.owner)}
     ${parcelPopupRow('Previous Owner', record.previousOwner)}
     ${parcelPopupRow('Owner Mailing Address', record.mailingAddress)}
@@ -6274,6 +6284,44 @@ function parcelPopupHtml(feature, layer) {
     ${parcelPopupRow('Water Source', record.waterSource)}
     ${parcelPopupRow('Source', record.source)}
   </div>`;
+}
+
+async function resolveBaldwinParcelCity(feature, layer) {
+  const p = feature?.properties || {};
+  if (p.__parcelSourceKey !== 'baldwin' || p.__parcelCityResolved) return;
+  const center = layer?.getBounds?.().getCenter?.();
+  if (!center) return;
+  const cacheKey = `${center.lat.toFixed(5)},${center.lng.toFixed(5)}`;
+  if (state.parcelCityCache.has(cacheKey)) {
+    p.__parcelCity = state.parcelCityCache.get(cacheKey);
+    p.__parcelCityResolved = true;
+    return;
+  }
+  const params = new URLSearchParams({
+    where: '1=1',
+    geometry: `${center.lng},${center.lat}`,
+    geometryType: 'esriGeometryPoint',
+    inSR: '4326',
+    spatialRel: 'esriSpatialRelIntersects',
+    outFields: 'EntityName',
+    returnGeometry: 'false',
+    resultRecordCount: '1',
+    f: 'json'
+  });
+  try {
+    const response = await fetch(`${BALDWIN_CITY_LIMITS_QUERY_URL}?${params.toString()}`);
+    if (!response.ok) throw new Error(`City lookup returned HTTP ${response.status}`);
+    const data = await response.json();
+    const city = parcelCleanValue(data?.features?.[0]?.attributes?.EntityName);
+    state.parcelCityCache.set(cacheKey, city);
+    while (state.parcelCityCache.size > 300) state.parcelCityCache.delete(state.parcelCityCache.keys().next().value);
+    p.__parcelCity = city;
+    p.__parcelCityResolved = true;
+  } catch (err) {
+    console.warn('Baldwin parcel city could not be resolved', err);
+    p.__parcelCity = '';
+    p.__parcelCityResolved = true;
+  }
 }
 
 function clearParcelSelection(closePopup = false) {
@@ -6315,6 +6363,11 @@ function ensureParcelLayer() {
       });
       layer.on('popupclose', () => {
         if (state.parcelSelectedLayer === layer) clearParcelSelection(false);
+      });
+      layer.on('popupopen', async () => {
+        if (feature?.properties?.__parcelSourceKey !== 'baldwin' || feature.properties.__parcelCityResolved) return;
+        await resolveBaldwinParcelCity(feature, layer);
+        if (layer.isPopupOpen?.()) layer.setPopupContent(parcelPopupHtml(feature, layer));
       });
     }
   });
@@ -6375,6 +6428,162 @@ async function writeParcelPersistentCache(key, result) {
     transaction.onerror = () => resolve();
     transaction.onabort = () => resolve();
   });
+}
+
+function drawParcelOverviewGeometry(context, geometry, coords, tileOrigin, map) {
+  const polygons = geometry?.type === 'Polygon' ? [geometry.coordinates] : geometry?.type === 'MultiPolygon' ? geometry.coordinates : [];
+  polygons.forEach(polygon => polygon.forEach(ring => {
+    if (!Array.isArray(ring) || ring.length < 2) return;
+    context.beginPath();
+    ring.forEach((coordinate, index) => {
+      const point = map.project(L.latLng(coordinate[1], coordinate[0]), coords.z).subtract(tileOrigin);
+      if (index === 0) context.moveTo(point.x, point.y);
+      else context.lineTo(point.x, point.y);
+    });
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }));
+}
+
+function createParcelOverviewGridLayer(source) {
+  const ParcelOverviewGrid = L.GridLayer.extend({
+    createTile(coords, done) {
+      const tile = document.createElement('canvas');
+      const tileSize = this.getTileSize();
+      tile.width = tileSize.x;
+      tile.height = tileSize.y;
+      const controller = new AbortController();
+      tile._parcelAbortController = controller;
+      const tileOrigin = coords.scaleBy(tileSize);
+      const northwest = this._map.unproject(tileOrigin, coords.z);
+      const southeast = this._map.unproject(tileOrigin.add(tileSize), coords.z);
+      const context = tile.getContext('2d');
+      context.strokeStyle = 'rgba(37, 99, 235, 0.88)';
+      context.fillStyle = 'rgba(96, 165, 250, 0.035)';
+      context.lineWidth = 0.85;
+
+      (async () => {
+        try {
+          let offset = 0;
+          let keepLoading = true;
+          while (keepLoading && offset < 4000) {
+            const params = new URLSearchParams({
+              where: '1=1',
+              geometry: `${northwest.lng},${southeast.lat},${southeast.lng},${northwest.lat}`,
+              geometryType: 'esriGeometryEnvelope',
+              inSR: '4326',
+              spatialRel: 'esriSpatialRelIntersects',
+              outFields: 'OBJECTID',
+              returnGeometry: 'true',
+              outSR: '4326',
+              geometryPrecision: '5',
+              resultOffset: String(offset),
+              resultRecordCount: '2000',
+              f: 'geojson'
+            });
+            const response = await fetch(`${source.url}?${params.toString()}`, { signal: controller.signal });
+            if (!response.ok) throw new Error(`${source.label} overview returned HTTP ${response.status}`);
+            const data = await response.json();
+            if (data.error) throw new Error(data.error.message || `${source.label} overview returned a service error`);
+            const features = Array.isArray(data.features) ? data.features : [];
+            features.forEach(feature => drawParcelOverviewGeometry(context, feature.geometry, coords, tileOrigin, this._map));
+            const exceeded = !!(data.exceededTransferLimit || data.properties?.exceededTransferLimit);
+            keepLoading = exceeded || features.length === 2000;
+            if (!features.length) keepLoading = false;
+            offset += features.length;
+          }
+          done(null, tile);
+        } catch (err) {
+          if (err?.name !== 'AbortError') console.warn('Parcel overview tile could not be loaded', err);
+          done(null, tile);
+        }
+      })();
+      return tile;
+    }
+  });
+  const layer = new ParcelOverviewGrid({
+    pane: 'parcelPane',
+    minZoom: PARCEL_MIN_ZOOM,
+    maxZoom: PARCEL_DETAIL_ZOOM - 1,
+    updateWhenIdle: true,
+    updateWhenZooming: false,
+    keepBuffer: 1,
+    attribution: `Parcel data: ${source.label}`
+  });
+  layer.on('tileunload', event => event.tile?._parcelAbortController?.abort());
+  return layer;
+}
+
+function showParcelOverview(source) {
+  if (!source || !state.map) return;
+  if (!state.parcelOverviewLayer || state.parcelOverviewSourceKey !== source.key) {
+    if (state.parcelOverviewLayer && state.map.hasLayer(state.parcelOverviewLayer)) state.map.removeLayer(state.parcelOverviewLayer);
+    state.parcelOverviewLayer = createParcelOverviewGridLayer(source);
+    state.parcelOverviewSourceKey = source.key;
+  }
+  if (!state.map.hasLayer(state.parcelOverviewLayer)) state.parcelOverviewLayer.addTo(state.map);
+}
+
+function hideParcelOverview() {
+  if (state.parcelOverviewLayer && state.map?.hasLayer(state.parcelOverviewLayer)) state.map.removeLayer(state.parcelOverviewLayer);
+}
+
+async function fetchParcelAtPoint(source, latlng, signal) {
+  const params = new URLSearchParams({
+    where: '1=1',
+    geometry: `${latlng.lng},${latlng.lat}`,
+    geometryType: 'esriGeometryPoint',
+    inSR: '4326',
+    spatialRel: 'esriSpatialRelIntersects',
+    outFields: source.outFields,
+    returnGeometry: 'true',
+    outSR: '4326',
+    geometryPrecision: '6',
+    resultRecordCount: '5',
+    f: 'geojson'
+  });
+  const response = await fetch(`${source.url}?${params.toString()}`, { signal });
+  if (!response.ok) throw new Error(`${source.label} returned HTTP ${response.status}`);
+  const data = await response.json();
+  if (data.error) throw new Error(data.error.message || `${source.label} returned a service error`);
+  const feature = Array.isArray(data.features) ? data.features[0] : null;
+  if (feature) {
+    feature.properties = feature.properties || {};
+    feature.properties.__parcelSourceKey = source.key;
+  }
+  return feature;
+}
+
+async function handleParcelOverviewClick(latlng) {
+  if (!state.parcelsEnabled || !state.map || state.map.getZoom() < PARCEL_MIN_ZOOM || state.map.getZoom() >= PARCEL_DETAIL_ZOOM) return;
+  const pointBounds = { west: latlng.lng, east: latlng.lng, south: latlng.lat, north: latlng.lat };
+  const sources = parcelSourcesForBounds(pointBounds);
+  const requestId = ++state.parcelOverviewClickRequestId;
+  setParcelBadge('Loading...');
+  try {
+    const controller = new AbortController();
+    const results = await Promise.allSettled(sources.map(source => fetchParcelAtPoint(source, latlng, controller.signal)));
+    if (requestId !== state.parcelOverviewClickRequestId || !state.parcelsEnabled) return;
+    const feature = results.find(result => result.status === 'fulfilled' && result.value)?.value;
+    setParcelBadge('Overview');
+    if (!feature) return;
+    const layerGroup = ensureParcelLayer();
+    clearParcelSelection(true);
+    layerGroup.clearLayers();
+    if (!state.map.hasLayer(layerGroup)) layerGroup.addTo(state.map);
+    layerGroup.addData(feature);
+    const selectedLayer = layerGroup.getLayers()[0];
+    if (!selectedLayer) return;
+    state.parcelSelectedLayer = selectedLayer;
+    selectedLayer.setStyle({ color: '#f97316', weight: 3, fillColor: '#fb923c', fillOpacity: 0.15 });
+    selectedLayer.bringToFront?.();
+    selectedLayer.openPopup(latlng);
+  } catch (err) {
+    if (requestId !== state.parcelOverviewClickRequestId) return;
+    console.warn('Parcel details could not be loaded', err);
+    setParcelBadge('Overview');
+  }
 }
 
 async function fetchParcelSource(source, bounds, signal) {
@@ -6479,12 +6688,25 @@ async function refreshParcelLayer() {
     state.parcelRequestId += 1;
     state.parcelLastQueryKey = '';
     state.parcelAbortController?.abort();
+    state.parcelOverviewClickRequestId += 1;
+    hideParcelOverview();
     layer.clearLayers();
     clearParcelSelection(true);
     setParcelBadge('Zoom');
     return;
   }
   const bounds = parcelQueryBounds();
+  if (state.map.getZoom() < PARCEL_DETAIL_ZOOM) {
+    state.parcelRequestId += 1;
+    state.parcelLastQueryKey = '';
+    state.parcelAbortController?.abort();
+    layer.clearLayers();
+    clearParcelSelection(true);
+    showParcelOverview(parcelSourcesForBounds(bounds)[0]);
+    setParcelBadge('Overview');
+    return;
+  }
+  hideParcelOverview();
   if (bounds.key === state.parcelLastQueryKey && layer.getLayers().length) return;
   state.parcelLastQueryKey = bounds.key;
   const cached = state.parcelCache.get(bounds.key);
@@ -6531,9 +6753,11 @@ function setParcelsEnabled(enabled) {
   clearTimeout(state.parcelRefreshTimer);
   if (!state.parcelsEnabled) {
     state.parcelRequestId += 1;
+    state.parcelOverviewClickRequestId += 1;
     state.parcelLastQueryKey = '';
     state.parcelAbortController?.abort();
     clearParcelSelection(true);
+    hideParcelOverview();
     if (state.parcelLayer && state.map.hasLayer(state.parcelLayer)) state.map.removeLayer(state.parcelLayer);
     setParcelBadge('Zoom');
     return;
@@ -7138,8 +7362,9 @@ async function loadData() {
     if (state.directions && state.directions.active) { handleDirectionsMapClick(e.latlng); return; }
     clearNewDealPlaceResultMarker();
     if (state.newDealsAddMode) { handleNewDealMapClick(e.latlng); return; }
-    if (marketSnapshotModeActive() && state.marketSnapshot.radiusMiles) handleMarketSnapshotPoint(e.latlng);
-    if (marketQuickviewModeActive() && state.marketQuickview.radiusMiles) handleMarketQuickviewPoint(e.latlng);
+    if (marketSnapshotModeActive() && state.marketSnapshot.radiusMiles) { handleMarketSnapshotPoint(e.latlng); return; }
+    if (marketQuickviewModeActive() && state.marketQuickview.radiusMiles) { handleMarketQuickviewPoint(e.latlng); return; }
+    if (state.parcelsEnabled && state.map.getZoom() >= PARCEL_MIN_ZOOM && state.map.getZoom() < PARCEL_DETAIL_ZOOM) handleParcelOverviewClick(e.latlng);
   });
 }
 
