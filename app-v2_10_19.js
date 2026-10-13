@@ -52,6 +52,7 @@ const state = {
   parcelOverviewClickRequestId: 0,
   parcelCityCache: new Map(),
   parcelsEnabled: false,
+  parcelReturnTheme: '',
   parcelCache: new Map(),
   parcelPersistentCachePromise: null,
   parcelRefreshTimer: null,
@@ -6760,8 +6761,19 @@ function setParcelsEnabled(enabled) {
     hideParcelOverview();
     if (state.parcelLayer && state.map.hasLayer(state.parcelLayer)) state.map.removeLayer(state.parcelLayer);
     setParcelBadge('Zoom');
+    if (state.parcelReturnTheme) {
+      const restoreTheme = state.parcelReturnTheme;
+      state.parcelReturnTheme = '';
+      const themeSelect = document.getElementById('mapThemeSelect');
+      if (themeSelect) themeSelect.value = restoreTheme;
+      setMapTheme(restoreTheme);
+    }
     return;
   }
+  state.parcelReturnTheme = state.mapTheme || 'hub';
+  const themeSelect = document.getElementById('mapThemeSelect');
+  if (themeSelect) themeSelect.value = 'clear';
+  setMapTheme('clear', { preserveReturn: true });
   ensureParcelLayer().addTo(state.map);
   scheduleParcelRefresh();
 }
@@ -7046,6 +7058,9 @@ function styleFeature(feature) {
 }
 
 function legendHtml() {
+  if (state.mapTheme === 'clear') {
+    return `<b>Clear View</b><div class="legend-subtitle">Basemap and selected layers only</div>`;
+  }
   if (state.mapTheme === 'outline') {
     return `<b>Outline View</b><div class="legend-subtitle">Submarket boundaries only</div>` + hubOrder.map(hub => {
       const count = state.features.filter(f => f.properties.Hub === hub).length;
@@ -7099,10 +7114,18 @@ function updateLegend() {
   if (el) el.innerHTML = legendHtml();
 }
 
-function setMapTheme(theme) {
+function setMapTheme(theme, options = {}) {
   state.mapTheme = theme;
-  if (!overlayThemes.has(theme)) state.returnTheme = theme;
-  if (state.submarketLayer) state.submarketLayer.setStyle(styleFeature);
+  if (!options.preserveReturn && !overlayThemes.has(theme)) state.returnTheme = theme;
+  const submarketToggle = document.getElementById('toggleSubmarkets');
+  if (state.submarketLayer) {
+    if (theme === 'clear') {
+      if (state.map.hasLayer(state.submarketLayer)) state.map.removeLayer(state.submarketLayer);
+    } else {
+      state.submarketLayer.setStyle(styleFeature);
+      if ((!submarketToggle || submarketToggle.checked) && !state.map.hasLayer(state.submarketLayer)) state.submarketLayer.addTo(state.map);
+    }
+  }
   if (state.submarketNumberLayer) {
     if (theme === 'hub') {
       if (!state.map.hasLayer(state.submarketNumberLayer)) state.submarketNumberLayer.addTo(state.map);
@@ -7988,7 +8011,7 @@ function bindUI() {
   }
   document.getElementById('resetBtn').addEventListener('click', resetView);
   document.getElementById('toggleSubmarkets').addEventListener('change', e => {
-    if (e.target.checked) state.submarketLayer.addTo(state.map);
+    if (e.target.checked && state.mapTheme !== 'clear') state.submarketLayer.addTo(state.map);
     else state.map.removeLayer(state.submarketLayer);
   });
   document.getElementById('toggleAddresses')?.addEventListener('change', e => {
@@ -8321,6 +8344,7 @@ function bindUI() {
   document.getElementById('downloadColdLeadsKml')?.addEventListener('click', exportColdLeadsKml);
   document.getElementById('mapThemeSelect').addEventListener('change', e => {
     if (document.getElementById('toggleDemographics')) document.getElementById('toggleDemographics').checked = ['income','population'].includes(e.target.value);
+    if (state.parcelsEnabled) state.parcelReturnTheme = e.target.value;
     state.returnTheme = e.target.value;
     setMapTheme(e.target.value);
   });
