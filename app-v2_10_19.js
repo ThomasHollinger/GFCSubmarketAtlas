@@ -6144,15 +6144,17 @@ function parcelAreaText(value) {
 }
 
 const floridaParcelCounties = Object.freeze({
-  '03': 'Bay County, FL',
-  '07': 'Calhoun County, FL',
-  '17': 'Escambia County, FL',
-  '30': 'Holmes County, FL',
-  '32': 'Jackson County, FL',
-  '46': 'Okaloosa County, FL',
-  '57': 'Santa Rosa County, FL',
-  '66': 'Walton County, FL',
-  '67': 'Washington County, FL'
+  // These are the service-specific CO_NO values in Florida Statewide Cadastral,
+  // not the standard alphabetical Florida county numbers.
+  '13': 'Bay County, FL',
+  '17': 'Calhoun County, FL',
+  '27': 'Escambia County, FL',
+  '40': 'Holmes County, FL',
+  '42': 'Jackson County, FL',
+  '56': 'Okaloosa County, FL',
+  '67': 'Santa Rosa County, FL',
+  '76': 'Walton County, FL',
+  '77': 'Washington County, FL'
 });
 
 function parcelAddressLine(...parts) {
@@ -6253,37 +6255,49 @@ function parcelPopupRow(label, value) {
 
 function parcelPopupHtml(feature, layer) {
   const record = parcelPopupRecord(feature, layer);
+  const parcelRows = [
+    parcelPopupRow('Parcel ID', record.parcelId),
+    parcelPopupRow('Account', record.account),
+    parcelPopupRow('Property Address', record.address),
+    parcelPopupRow('City', record.city),
+    parcelPopupRow('County', record.county),
+    parcelPopupRow('Coordinates', record.coordinates),
+    parcelPopupRow('Acreage', record.acreage),
+    parcelPopupRow('Land Use', record.landUse),
+    parcelPopupRow('Market Value', record.marketValue),
+    parcelPopupRow('Assessed Value', record.assessedValue),
+    parcelPopupRow('Land Value', record.landValue),
+    parcelPopupRow('Improvement Value', record.improvementValue),
+    parcelPopupRow('Last Sale', record.lastSale),
+    parcelPopupRow('Deed', record.deed),
+    parcelPopupRow('Year Built', record.yearBuilt),
+    parcelPopupRow('Building Area', record.buildingArea),
+    parcelPopupRow('Subdivision', record.subdivision),
+    parcelPopupRow('Zoning', record.zoning),
+    parcelPopupRow('Tax District', record.taxDistrict),
+    parcelPopupRow('Tax Year', record.taxYear),
+    parcelPopupRow('Tax Due', record.taxDue),
+    parcelPopupRow('Legal Description', record.legalDescription),
+    parcelPopupRow('Water Source', record.waterSource),
+    parcelPopupRow('Source', record.source)
+  ].join('');
+  const ownerRows = [
+    parcelPopupRow('Owner', record.owner),
+    parcelPopupRow('Previous Owner', record.previousOwner),
+    parcelPopupRow('Mailing Address', record.mailingAddress),
+    parcelPopupRow('Phone', record.phone),
+    parcelPopupRow('Email', record.email)
+  ].join('');
   return `<div class="builder-popup parcel-popup">
     <h3>${escapeHtml(record.address || 'Parcel Details')}</h3>
-    ${parcelPopupRow('Parcel ID', record.parcelId)}
-    ${parcelPopupRow('Account', record.account)}
-    ${parcelPopupRow('Address', record.address)}
-    ${parcelPopupRow('City', record.city)}
-    ${parcelPopupRow('Owner', record.owner)}
-    ${parcelPopupRow('Previous Owner', record.previousOwner)}
-    ${parcelPopupRow('Owner Mailing Address', record.mailingAddress)}
-    ${parcelPopupRow('Phone', record.phone)}
-    ${parcelPopupRow('Email', record.email)}
-    ${parcelPopupRow('Coordinates', record.coordinates)}
-    ${parcelPopupRow('County', record.county)}
-    ${parcelPopupRow('Acreage', record.acreage)}
-    ${parcelPopupRow('Land Use', record.landUse)}
-    ${parcelPopupRow('Market Value', record.marketValue)}
-    ${parcelPopupRow('Assessed Value', record.assessedValue)}
-    ${parcelPopupRow('Land Value', record.landValue)}
-    ${parcelPopupRow('Improvement Value', record.improvementValue)}
-    ${parcelPopupRow('Last Sale', record.lastSale)}
-    ${parcelPopupRow('Deed', record.deed)}
-    ${parcelPopupRow('Year Built', record.yearBuilt)}
-    ${parcelPopupRow('Building Area', record.buildingArea)}
-    ${parcelPopupRow('Subdivision', record.subdivision)}
-    ${parcelPopupRow('Zoning', record.zoning)}
-    ${parcelPopupRow('Tax District', record.taxDistrict)}
-    ${parcelPopupRow('Tax Year', record.taxYear)}
-    ${parcelPopupRow('Tax Due', record.taxDue)}
-    ${parcelPopupRow('Legal Description', record.legalDescription)}
-    ${parcelPopupRow('Water Source', record.waterSource)}
-    ${parcelPopupRow('Source', record.source)}
+    <section class="parcel-popup-section parcel-popup-parcel">
+      <div class="parcel-popup-section-title">Parcel Information</div>
+      ${parcelRows}
+    </section>
+    ${ownerRows ? `<section class="parcel-popup-section parcel-popup-owner">
+      <div class="parcel-popup-section-title">Owner Information</div>
+      ${ownerRows}
+    </section>` : ''}
   </div>`;
 }
 
