@@ -49,6 +49,7 @@ const state = {
   parcelLayer: null,
   parcelsEnabled: false,
   parcelCache: new Map(),
+  parcelPersistentCachePromise: null,
   parcelRefreshTimer: null,
   parcelRequestId: 0,
   parcelLastQueryKey: '',
@@ -203,27 +204,30 @@ const OVERTURE_ADDRESS_RELEASE_FALLBACK = '2026-08-19.0';
 const OVERTURE_ADDRESS_TILES_ROOT = 'https://overturemaps-extras-us-west-2.s3.us-west-2.amazonaws.com/tiles';
 const PARCEL_MIN_ZOOM = 17;
 const PARCEL_MAX_FEATURES = 5000;
+const PARCEL_CACHE_DB_NAME = 'scope-parcel-cache-v2';
+const PARCEL_CACHE_STORE_NAME = 'views';
+const PARCEL_CACHE_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const PARCEL_SOURCES = [
   {
     key: 'florida',
     label: 'Florida Department of Revenue',
     county: 'Florida',
     url: 'https://services9.arcgis.com/Gh9awoU677aKree0/arcgis/rest/services/Florida_Statewide_Cadastral/FeatureServer/0/query',
-    outFields: 'OBJECTID,CO_NO,PARCEL_ID,PARCELNO,ALT_KEY,PHY_ADDR1,PHY_ADDR2,PHY_CITY,PHY_ZIPCD,LND_SQFOOT,PA_UC,DOR_UC,JV,AV_SD,AV_NSD,ACT_YR_BLT,TOT_LVG_AR'
+    outFields: 'OBJECTID,CO_NO,PARCEL_ID,PARCELNO,ALT_KEY,PHY_ADDR1,PHY_ADDR2,PHY_CITY,PHY_ZIPCD,LND_SQFOOT,PA_UC,DOR_UC,JV,AV_SD,AV_NSD,LND_VAL,ACT_YR_BLT,TOT_LVG_AR,OWN_NAME,OWN_ADDR1,OWN_ADDR2,OWN_CITY,OWN_STATE,OWN_ZIPCD,S_LEGAL,SALE_PRC1,SALE_YR1,SALE_MO1,OR_BOOK1,OR_PAGE1'
   },
   {
     key: 'baldwin',
-    label: 'Baldwin County',
+    label: 'Baldwin County Revenue Commission',
     county: 'Baldwin County, AL',
-    url: 'https://services9.arcgis.com/eNX73FDxjlKFtCtH/ArcGIS/rest/services/Baldwin_Al_Parcels_for_Public_Map/FeatureServer/0/query',
-    outFields: 'OBJECTID_1,PID,PIN,PAR_NUM,PARCEL_NUM,ACCOUNT,STREET_NUM,STREET_NAM,DevUndev,parcel_use,WaterSource_Display,Shape__Area'
+    url: 'https://web6.kcsgis.com/kcsgis/rest/services/Baldwin/Baldwin_Public_ISV/MapServer/31/query',
+    outFields: 'OBJECTID,PID,PIN,PPIN,PARCELID,Owner,MailAdd1,MailAdd2,MailAdd3,MailCity,MailState,MailZip1,SitusAddNumber,SitusAddName,Subdivision,TaxDist,CalcAcres,DeededAcres,TTV,TAV,PropertyClass,PropertySubClass,ImpDescrip,LegalDescription,TaxYearDue,TotalTaxDue,CImpValue,CLandValue,DeedBook,DeedPage,DeedRecorded,PreviousOwner,Neighborhood,ZoningCode,ZoningDesc'
   },
   {
     key: 'mobile',
     label: 'Mobile County Revenue Commission',
     county: 'Mobile County, AL',
     url: 'https://services8.arcgis.com/HND1NcQt6vgOGn1z/ArcGIS/rest/services/MCRC_Public_Parcels/FeatureServer/0/query',
-    outFields: 'OBJECTID,Parcel_Number,Account_Number,ParcelNo,PropAddr1,PropAddr2,PropCity,PropState,PropZip,Acreage,Sqft,KeyNum'
+    outFields: 'OBJECTID,Parcel_Number,Account_Number,ParcelNo,Name1,Name2,PropAddr1,PropAddr2,PropCity,PropState,PropZip,Acreage,Sqft,KeyNum'
   }
 ];
 
@@ -6119,6 +6123,12 @@ function parcelMoney(value) {
   return Number.isFinite(number) && number > 0 ? `$${Math.round(number).toLocaleString()}` : '';
 }
 
+function parcelDate(value) {
+  if (value === null || value === undefined || value === '') return '';
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? parcelCleanValue(value) : date.toLocaleDateString();
+}
+
 function parcelAreaText(value) {
   const number = Number(value);
   if (!Number.isFinite(number) || number <= 0) return '';
@@ -6153,6 +6163,10 @@ function parcelPopupRecord(feature, layer) {
   if (sourceKey === 'florida') {
     const addressLine = parcelAddressLine(p.PHY_ADDR1, p.PHY_ADDR2);
     const locality = [parcelCleanValue(p.PHY_CITY), 'FL', parcelCleanValue(p.PHY_ZIPCD)].filter(Boolean).join(' ');
+    const ownerMailing = [
+      parcelAddressLine(p.OWN_ADDR1, p.OWN_ADDR2),
+      [parcelCleanValue(p.OWN_CITY), parcelCleanValue(p.OWN_STATE), parcelCleanValue(p.OWN_ZIPCD)].filter(Boolean).join(' ')
+    ].filter(Boolean).join(', ');
     const squareFeet = Number(p.LND_SQFOOT);
     const assessed = Math.max(Number(p.AV_SD) || 0, Number(p.AV_NSD) || 0);
     const countyCode = String(p.CO_NO ?? '').padStart(2, '0');
@@ -6162,28 +6176,50 @@ function parcelPopupRecord(feature, layer) {
       parcelId: parcelFirstValue(p.PARCEL_ID, p.PARCELNO, p.ALT_KEY),
       account: parcelCleanValue(p.ALT_KEY),
       address: [addressLine, locality].filter(Boolean).join(', '),
+      owner: parcelCleanValue(p.OWN_NAME),
+      mailingAddress: ownerMailing,
       coordinates,
       acreage: parcelAreaText(squareFeet > 0 ? squareFeet / 43560 : null),
       landUse: parcelFirstValue(p.PA_UC, p.DOR_UC),
       marketValue: parcelMoney(p.JV),
       assessedValue: parcelMoney(assessed),
+      landValue: parcelMoney(p.LND_VAL),
       yearBuilt: Number(p.ACT_YR_BLT) > 0 ? String(Math.round(Number(p.ACT_YR_BLT))) : '',
-      buildingArea: Number(p.TOT_LVG_AR) > 0 ? `${Math.round(Number(p.TOT_LVG_AR)).toLocaleString()} sq ft` : ''
+      buildingArea: Number(p.TOT_LVG_AR) > 0 ? `${Math.round(Number(p.TOT_LVG_AR)).toLocaleString()} sq ft` : '',
+      lastSale: [parcelMoney(p.SALE_PRC1), parcelCleanValue(p.SALE_MO1), parcelCleanValue(p.SALE_YR1)].filter(Boolean).join(' · '),
+      deed: [parcelCleanValue(p.OR_BOOK1) && `Book ${parcelCleanValue(p.OR_BOOK1)}`, parcelCleanValue(p.OR_PAGE1) && `Page ${parcelCleanValue(p.OR_PAGE1)}`].filter(Boolean).join(', '),
+      legalDescription: parcelCleanValue(p.S_LEGAL)
     };
   }
 
   if (sourceKey === 'baldwin') {
-    const squareFeet = Number(p.Shape__Area);
+    const mailingAddress = [
+      parcelAddressLine(p.MailAdd1, p.MailAdd2, p.MailAdd3),
+      [parcelCleanValue(p.MailCity), parcelCleanValue(p.MailState), parcelCleanValue(p.MailZip1)].filter(Boolean).join(' ')
+    ].filter(Boolean).join(', ');
     return {
-      source: 'Baldwin County Public GIS',
+      source: 'Baldwin County Revenue Commission',
       county: 'Baldwin County, AL',
-      parcelId: parcelFirstValue(p.PARCEL_NUM, p.PID, p.PIN, p.PAR_NUM),
-      account: parcelFirstValue(p.ACCOUNT, p.PIN),
-      address: parcelAddressLine(p.STREET_NUM, p.STREET_NAM),
+      parcelId: parcelFirstValue(p.PID, p.PARCELID, p.PIN),
+      account: parcelFirstValue(p.PPIN, p.PIN),
+      address: parcelAddressLine(p.SitusAddNumber, p.SitusAddName),
+      owner: parcelCleanValue(p.Owner),
+      previousOwner: parcelCleanValue(p.PreviousOwner),
+      mailingAddress,
       coordinates,
-      acreage: parcelAreaText(squareFeet > 0 ? squareFeet / 43560 : null),
-      landUse: parcelFirstValue(p.parcel_use, p.DevUndev),
-      waterSource: parcelCleanValue(p.WaterSource_Display)
+      acreage: parcelAreaText(parcelFirstValue(p.CalcAcres, p.DeededAcres)),
+      landUse: parcelFirstValue(p.ImpDescrip, p.PropertyClass, p.PropertySubClass),
+      marketValue: parcelMoney(p.TTV),
+      assessedValue: parcelMoney(p.TAV),
+      landValue: parcelMoney(p.CLandValue),
+      improvementValue: parcelMoney(p.CImpValue),
+      subdivision: parcelFirstValue(p.Subdivision, p.Neighborhood),
+      zoning: [parcelCleanValue(p.ZoningCode), parcelCleanValue(p.ZoningDesc)].filter(Boolean).join(' · '),
+      taxDistrict: parcelCleanValue(p.TaxDist),
+      taxYear: Number(p.TaxYearDue) > 0 ? String(Math.round(Number(p.TaxYearDue))) : '',
+      taxDue: parcelMoney(p.TotalTaxDue),
+      deed: [parcelCleanValue(p.DeedBook) && `Book ${parcelCleanValue(p.DeedBook)}`, parcelCleanValue(p.DeedPage) && `Page ${parcelCleanValue(p.DeedPage)}`, parcelDate(p.DeedRecorded)].filter(Boolean).join(' · '),
+      legalDescription: parcelCleanValue(p.LegalDescription)
     };
   }
 
@@ -6193,6 +6229,7 @@ function parcelPopupRecord(feature, layer) {
     parcelId: parcelFirstValue(p.Parcel_Number, p.ParcelNo, p.KeyNum),
     account: parcelFirstValue(p.Account_Number, p.KeyNum),
     address: [parcelAddressLine(p.PropAddr1, p.PropAddr2), parcelAddressLine(p.PropCity, p.PropState, p.PropZip)].filter(Boolean).join(', '),
+    owner: parcelAddressLine(p.Name1, p.Name2),
     coordinates,
     acreage: parcelAreaText(p.Acreage),
     buildingArea: Number(p.Sqft) > 0 ? `${Math.round(Number(p.Sqft)).toLocaleString()} sq ft` : ''
@@ -6211,14 +6248,29 @@ function parcelPopupHtml(feature, layer) {
     ${parcelPopupRow('Parcel ID', record.parcelId)}
     ${parcelPopupRow('Account', record.account)}
     ${parcelPopupRow('Address', record.address)}
+    ${parcelPopupRow('Owner', record.owner)}
+    ${parcelPopupRow('Previous Owner', record.previousOwner)}
+    ${parcelPopupRow('Owner Mailing Address', record.mailingAddress)}
+    ${parcelPopupRow('Phone', record.phone)}
+    ${parcelPopupRow('Email', record.email)}
     ${parcelPopupRow('Coordinates', record.coordinates)}
     ${parcelPopupRow('County', record.county)}
     ${parcelPopupRow('Acreage', record.acreage)}
     ${parcelPopupRow('Land Use', record.landUse)}
     ${parcelPopupRow('Market Value', record.marketValue)}
     ${parcelPopupRow('Assessed Value', record.assessedValue)}
+    ${parcelPopupRow('Land Value', record.landValue)}
+    ${parcelPopupRow('Improvement Value', record.improvementValue)}
+    ${parcelPopupRow('Last Sale', record.lastSale)}
+    ${parcelPopupRow('Deed', record.deed)}
     ${parcelPopupRow('Year Built', record.yearBuilt)}
     ${parcelPopupRow('Building Area', record.buildingArea)}
+    ${parcelPopupRow('Subdivision', record.subdivision)}
+    ${parcelPopupRow('Zoning', record.zoning)}
+    ${parcelPopupRow('Tax District', record.taxDistrict)}
+    ${parcelPopupRow('Tax Year', record.taxYear)}
+    ${parcelPopupRow('Tax Due', record.taxDue)}
+    ${parcelPopupRow('Legal Description', record.legalDescription)}
     ${parcelPopupRow('Water Source', record.waterSource)}
     ${parcelPopupRow('Source', record.source)}
   </div>`;
@@ -6280,6 +6332,49 @@ function parcelQueryBounds() {
     south, west, north, east,
     key: `${state.map.getZoom()}|${[south, west, north, east].map(value => value.toFixed(5)).join('|')}`
   };
+}
+
+function openParcelPersistentCache() {
+  if (!('indexedDB' in window)) return Promise.resolve(null);
+  if (state.parcelPersistentCachePromise) return state.parcelPersistentCachePromise;
+  state.parcelPersistentCachePromise = new Promise(resolve => {
+    const request = indexedDB.open(PARCEL_CACHE_DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(PARCEL_CACHE_STORE_NAME)) db.createObjectStore(PARCEL_CACHE_STORE_NAME, { keyPath: 'key' });
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => resolve(null);
+    request.onblocked = () => resolve(null);
+  });
+  return state.parcelPersistentCachePromise;
+}
+
+async function readParcelPersistentCache(key) {
+  const db = await openParcelPersistentCache();
+  if (!db) return null;
+  return new Promise(resolve => {
+    const transaction = db.transaction(PARCEL_CACHE_STORE_NAME, 'readonly');
+    const request = transaction.objectStore(PARCEL_CACHE_STORE_NAME).get(key);
+    request.onsuccess = () => {
+      const record = request.result;
+      if (!record || Date.now() - Number(record.savedAt || 0) > PARCEL_CACHE_MAX_AGE_MS) return resolve(null);
+      resolve(record.result || null);
+    };
+    request.onerror = () => resolve(null);
+  });
+}
+
+async function writeParcelPersistentCache(key, result) {
+  const db = await openParcelPersistentCache();
+  if (!db) return;
+  await new Promise(resolve => {
+    const transaction = db.transaction(PARCEL_CACHE_STORE_NAME, 'readwrite');
+    transaction.objectStore(PARCEL_CACHE_STORE_NAME).put({ key, savedAt: Date.now(), result });
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => resolve();
+    transaction.onabort = () => resolve();
+  });
 }
 
 async function fetchParcelSource(source, bounds, signal) {
@@ -6403,10 +6498,18 @@ async function refreshParcelLayer() {
   state.parcelAbortController = controller;
   setParcelBadge('Loading...');
   try {
+    const persistent = await readParcelPersistentCache(bounds.key);
+    if (!state.parcelsEnabled || requestId !== state.parcelRequestId || controller.signal.aborted) return;
+    if (persistent) {
+      state.parcelCache.set(bounds.key, persistent);
+      renderParcelFeatures(persistent);
+      return;
+    }
     const result = await loadVisibleParcels(bounds, controller.signal);
     if (!state.parcelsEnabled || requestId !== state.parcelRequestId) return;
     state.parcelCache.set(bounds.key, result);
     while (state.parcelCache.size > 12) state.parcelCache.delete(state.parcelCache.keys().next().value);
+    writeParcelPersistentCache(bounds.key, result).catch(() => {});
     renderParcelFeatures(result);
   } catch (err) {
     if (err?.name === 'AbortError' || !state.parcelsEnabled || requestId !== state.parcelRequestId) return;
