@@ -15,7 +15,7 @@ const state = {
   lifestyleLoadPromise: null,
   retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
   retailSearchQuery: '',
-  builderFilters: { SingleFamily: true, Townhomes: false, Active: true, Future: true, BuiltOut: false, BuilderNames: {}, TierNames: {} },
+  builderFilters: { SingleFamily: true, Townhomes: false, Active: true, Future: true, BuiltOut: false, SelectedCommunities: false, BuilderNames: {}, TierNames: {} },
   builderTierConfig: {
     Tier0: { key: 'Tier0', label: 'Tier 0', min: 0, max: 220000 },
     Tier1: { key: 'Tier1', label: 'Tier 1', min: 220001, max: 270000 },
@@ -25,6 +25,7 @@ const state = {
   },
   builderLayer: null,
   builderMarkerIndex: new Map(),
+  builderSelectedCommunities: new Set(),
   newDeals: [],
   newDealsLayer: null,
   newDealsAddMode: false,
@@ -4689,7 +4690,33 @@ function builderMatchesScopeFilters(feature, ignoreBuilderNames = false) {
   return builderNamesForFeature(feature).some(builder => selected.has(canonicalBuilderKey(builder)));
 }
 
+function builderCommunitySelectionKey(feature) {
+  const p = feature && feature.properties ? feature.properties : {};
+  const id = p.BuilderSubdivisionID ?? p.BuilderSubdivisionId ?? p.builderSubdivisionID ?? p.ID;
+  if (id !== null && id !== undefined && String(id).trim()) return `id:${String(id).trim()}`;
+  const coords = feature && feature.geometry && feature.geometry.coordinates;
+  const lng = Number(coords && coords[0]);
+  const lat = Number(coords && coords[1]);
+  const name = String(p.Subdivision || p.CommunityName || '').trim().toLowerCase();
+  const coordinateKey = Number.isFinite(lat) && Number.isFinite(lng) ? `${lat.toFixed(6)},${lng.toFixed(6)}` : '';
+  return `community:${name}|${coordinateKey}`;
+}
+
+function builderCommunityIsSelected(feature) {
+  return state.builderSelectedCommunities.has(builderCommunitySelectionKey(feature));
+}
+
+function setBuilderCommunitySelected(feature, selected) {
+  const key = builderCommunitySelectionKey(feature);
+  if (selected) state.builderSelectedCommunities.add(key);
+  else state.builderSelectedCommunities.delete(key);
+  return selected;
+}
+
 function activeBuilderSubdivisions() {
+  if (state.builderFilters && state.builderFilters.SelectedCommunities) {
+    return state.builders.filter(feature => builderCommunityIsSelected(feature));
+  }
   return state.builders.filter(feature => builderMatchesScopeFilters(feature));
 }
 
@@ -5310,6 +5337,7 @@ function builderSubdivisionPopupContent(feature) {
   const displayBuilder = displayBuilderList(p.Builder);
   const tier = builderTierForFeature(feature);
   const tierLabel = tier ? ((state.builderTierConfig[tier] || {}).label || tier) : '—';
+  const isSelectedCommunity = builderCommunityIsSelected(feature);
 
   wrap.innerHTML = `
     <h3>${escapeHtml(p.Subdivision || 'Builder Community')}</h3>
@@ -5335,7 +5363,13 @@ function builderSubdivisionPopupContent(feature) {
         <button type="button" class="builder-preview-btn" data-radius="3">3 mile</button>
         <button type="button" class="builder-preview-btn" data-radius="5">5 mile</button>
       </div>
-      <div class="builder-directions-actions"><button type="button" class="atlas-directions-btn" data-builder-directions>Directions to</button></div>` : `<div class="builder-directions-actions"><button type="button" class="atlas-directions-btn" data-builder-directions>Directions to</button></div>`}`;
+      <div class="builder-community-actions">
+        <button type="button" class="atlas-directions-btn" data-builder-directions>Directions to</button>
+        <button type="button" class="builder-community-select-btn${isSelectedCommunity ? ' selected' : ''}" data-builder-select aria-pressed="${isSelectedCommunity ? 'true' : 'false'}">${isSelectedCommunity ? 'Selected' : 'Select'}</button>
+      </div>` : `<div class="builder-community-actions">
+        <button type="button" class="atlas-directions-btn" data-builder-directions>Directions to</button>
+        <button type="button" class="builder-community-select-btn${isSelectedCommunity ? ' selected' : ''}" data-builder-select aria-pressed="${isSelectedCommunity ? 'true' : 'false'}">${isSelectedCommunity ? 'Selected' : 'Select'}</button>
+      </div>`}`;
 
   const builderDirectionsBtn = wrap.querySelector('[data-builder-directions]');
   if (builderDirectionsBtn && previewReady) {
@@ -5355,6 +5389,21 @@ function builderSubdivisionPopupContent(feature) {
       openNewDealMarketPreview({ lat, lng }, Number(btn.dataset.radius));
     });
   });
+  const builderSelectBtn = wrap.querySelector('[data-builder-select]');
+  if (builderSelectBtn) {
+    builderSelectBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof L !== 'undefined' && L.DomEvent) L.DomEvent.stop(event);
+      const selected = !builderCommunityIsSelected(feature);
+      setBuilderCommunitySelected(feature, selected);
+      builderSelectBtn.textContent = selected ? 'Selected' : 'Select';
+      builderSelectBtn.classList.toggle('selected', selected);
+      builderSelectBtn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      if (state.builderFilters.SelectedCommunities) applyBuilderFilters();
+      else updateBuilderFilterPanel();
+    });
+  }
   return wrap;
 }
 
@@ -5599,8 +5648,9 @@ function updateBuilderFilterPanel() {
   renderBuilderTierFilterList();
   const selectedBuilderCount = Object.values((state.builderFilters.BuilderNames || {})).filter(Boolean).length;
   const selectedTierCount = Object.values((state.builderFilters.TierNames || {})).filter(Boolean).length;
+  const selectedCommunityCount = state.builderSelectedCommunities.size;
   const count = document.getElementById('builderFilterCount');
-  if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible${selectedBuilderCount ? ` • ${selectedBuilderCount} builder filter${selectedBuilderCount === 1 ? '' : 's'}` : ''}${selectedTierCount !== BUILDER_TIER_ORDER.length ? ` • ${selectedTierCount} tier${selectedTierCount === 1 ? '' : 's'}` : ''}` : 'Load Builders';
+  if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible${state.builderFilters.SelectedCommunities ? ` • ${selectedCommunityCount.toLocaleString()} selected` : `${selectedBuilderCount ? ` • ${selectedBuilderCount} builder filter${selectedBuilderCount === 1 ? '' : 's'}` : ''}${selectedTierCount !== BUILDER_TIER_ORDER.length ? ` • ${selectedTierCount} tier${selectedTierCount === 1 ? '' : 's'}` : ''}`}` : 'Load Builders';
 }
 
 function applyBuilderFilters() {
@@ -8177,6 +8227,7 @@ function bindUI() {
         state.builderFilters.Active = true;
         state.builderFilters.Future = true;
         state.builderFilters.BuiltOut = false;
+        state.builderFilters.SelectedCommunities = false;
         state.builderFilters.BuilderNames = {};
         document.querySelectorAll('.builder-filter').forEach(input => {
           const key = input.dataset.builderFilter;
@@ -8202,6 +8253,17 @@ function bindUI() {
     input.addEventListener('change', e => {
       const key = e.target.dataset.builderFilter;
       if (!key) return;
+      if (key === 'SelectedCommunities' && e.target.checked) {
+        ['SingleFamily', 'Townhomes', 'Active', 'Future', 'BuiltOut'].forEach(filterKey => {
+          state.builderFilters[filterKey] = false;
+          const filterInput = document.querySelector(`.builder-filter[data-builder-filter="${filterKey}"]`);
+          if (filterInput) filterInput.checked = false;
+        });
+      } else if (key !== 'SelectedCommunities' && e.target.checked && state.builderFilters.SelectedCommunities) {
+        state.builderFilters.SelectedCommunities = false;
+        const selectedInput = document.querySelector('.builder-filter[data-builder-filter="SelectedCommunities"]');
+        if (selectedInput) selectedInput.checked = false;
+      }
       state.builderFilters[key] = e.target.checked;
       applyBuilderFilters();
     });

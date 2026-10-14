@@ -133,6 +133,12 @@
     .builder-preview-actions{display:flex;gap:6px;margin-top:8px}
     .builder-preview-btn{flex:0 0 auto;min-width:62px;border:0;border-radius:10px;background:#18385f;color:#fff;font-weight:800;font-size:11px;line-height:1;padding:8px 10px;cursor:pointer;white-space:nowrap}
     .builder-preview-btn:hover,.builder-preview-btn:focus{background:#274f7e;outline:none}
+    .builder-community-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:9px}
+    .builder-community-actions .atlas-directions-btn{width:100%;margin-top:0}
+    .builder-community-select-btn{display:inline-flex;align-items:center;justify-content:center;width:100%;padding:7px 12px;border:0;border-radius:8px;background:#fff7ed;color:#c2410c;box-shadow:inset 0 0 0 1px #fdba74;font-family:inherit;font-size:12px;font-weight:900;line-height:1.1;cursor:pointer;white-space:nowrap}
+    .builder-community-select-btn:hover,.builder-community-select-btn:focus{background:#ffedd5;outline:none}
+    .builder-community-select-btn.selected{background:#15803d;color:#fff;box-shadow:none}
+    .builder-community-select-btn.selected:hover,.builder-community-select-btn.selected:focus{background:#166534}
     .builder-subdivision-popup-shell.builder-popup-side .leaflet-popup-tip-container{display:none}
     .parcel-popup{min-width:270px;max-width:330px}
     .parcel-popup>h3{margin-bottom:9px}
@@ -293,6 +299,7 @@
           <label><input type="checkbox" class="builder-filter" data-builder-filter="Active" checked> Active</label>
           <label><input type="checkbox" class="builder-filter" data-builder-filter="Future" checked> Future</label>
           <label><input type="checkbox" class="builder-filter" data-builder-filter="BuiltOut"> Built Out</label>
+          <label><input type="checkbox" class="builder-filter" data-builder-filter="SelectedCommunities"> Selected Communities</label>
           <div class="builder-name-filter-title">Filter by Builder</div>
           <div class="builder-name-filter-help">Leave all unchecked to show all builders. Check one or more builders to show only those pins.</div>
           <div id="builderNameFilterList" class="builder-name-filter-list"></div>
@@ -579,7 +586,7 @@
       const script = document.createElement('script');
       // The current SCOPE application file is deployed at the repository root.
       // Point directly to it so the updated NCES loader is used.
-      script.src = 'app-v2_10_19.js?v=parcel-view-5';
+      script.src = 'app-v2_10_19.js?v=selected-communities-1';
       script.async = false;
       document.body.appendChild(script);
     };
