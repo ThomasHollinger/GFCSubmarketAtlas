@@ -109,6 +109,10 @@
     .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:14px;padding:9px 8px}
     .new-deal-popup-actions .new-deal-category-btn{grid-column:1/-1;font-weight:800}
+    .new-deal-popup-actions .new-deal-select-btn{grid-column:1/-1;border:1px solid #fdba74;border-radius:8px;background:#fff7ed;color:#c2410c;font-family:inherit;font-weight:900;cursor:pointer}
+    .new-deal-popup-actions .new-deal-select-btn:hover,.new-deal-popup-actions .new-deal-select-btn:focus{background:#ffedd5;outline:none}
+    .new-deal-popup-actions .new-deal-select-btn.selected{border-color:#15803d;background:#15803d;color:#fff}
+    .new-deal-popup-actions .new-deal-select-btn.selected:hover,.new-deal-popup-actions .new-deal-select-btn.selected:focus{background:#166534}
     .new-deal-add-category-choice{margin:7px 0;padding:9px;border:1px solid #cbd5e1;border-radius:9px;background:#f8fafc}
     .new-deal-add-category-choice[hidden]{display:none}
     .new-deal-add-category-prompt{margin-bottom:7px;color:#17365d;font-size:12px;font-weight:800}
@@ -586,7 +590,7 @@
       const script = document.createElement('script');
       // The current SCOPE application file is deployed at the repository root.
       // Point directly to it so the updated NCES loader is used.
-      script.src = 'app-v2_10_19.js?v=selected-communities-1';
+      script.src = 'app-v2_10_19.js?v=selected-communities-2';
       script.async = false;
       document.body.appendChild(script);
     };

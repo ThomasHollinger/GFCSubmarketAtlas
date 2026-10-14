@@ -37,6 +37,7 @@ const state = {
   newDealsCloudLoaded: false,
   newDealsListExpanded: false,
   newDealFilters: { newDeal: false, coldLead: false },
+  selectedNewDealIds: new Set(),
   healthcareLayer: null,
   addressLayer: null,
   addressesEnabled: false,
@@ -2705,7 +2706,25 @@ function newDealCategoryLabel(dealOrCategory) {
   return category === NEW_DEAL_CATEGORY.COLD_LEAD ? 'Cold Lead' : 'New Deal';
 }
 
+function newDealSelectionKey(deal) {
+  return String(deal?.id || '').trim();
+}
+
+function newDealIsSelected(deal) {
+  const key = newDealSelectionKey(deal);
+  return !!key && state.selectedNewDealIds.has(key);
+}
+
+function setNewDealSelected(deal, selected) {
+  const key = newDealSelectionKey(deal);
+  if (!key) return false;
+  if (selected) state.selectedNewDealIds.add(key);
+  else state.selectedNewDealIds.delete(key);
+  return selected;
+}
+
 function newDealCategoryEnabled(deal) {
+  if (state.builderFilters && state.builderFilters.SelectedCommunities) return newDealIsSelected(deal);
   return state.newDealFilters[newDealCategory(deal)] !== false;
 }
 
@@ -2919,9 +2938,11 @@ async function focusNewDealFromSidebar(deal) {
   if (!deal || !state.map) return;
   if (!newDealAuthorizedUser(state.newDealsUser) && !(await authorizeNewDealEditing())) return;
   const category = newDealCategory(deal);
-  const toggle = document.getElementById(category === NEW_DEAL_CATEGORY.COLD_LEAD ? 'toggleColdLeads' : 'toggleNewDeals');
-  if (toggle) toggle.checked = true;
-  state.newDealFilters[category] = true;
+  if (!state.builderFilters.SelectedCommunities) {
+    const toggle = document.getElementById(category === NEW_DEAL_CATEGORY.COLD_LEAD ? 'toggleColdLeads' : 'toggleNewDeals');
+    if (toggle) toggle.checked = true;
+    state.newDealFilters[category] = true;
+  }
   rebuildNewDealsLayer();
   ensureNewDealsLayerVisible(true);
   const lat = Number(deal.lat), lng = Number(deal.lng);
@@ -2959,7 +2980,9 @@ function renderNewDealsSidebarList() {
   if (!deals.length) {
     const empty = document.createElement('div');
     empty.className = 'new-deals-list-empty';
-    empty.textContent = anyNewDealCategoryEnabled() ? 'No pins in the selected category.' : 'Select New Deals and/or Cold Leads to show pins.';
+    empty.textContent = state.builderFilters.SelectedCommunities
+      ? 'No selected New Deal or Cold Lead pins.'
+      : (anyNewDealCategoryEnabled() ? 'No pins in the selected category.' : 'Select New Deals and/or Cold Leads to show pins.');
     list.appendChild(empty);
     return;
   }
@@ -3071,6 +3094,12 @@ async function initializeFirebaseNewDeals() {
 
 async function setNewDealAddMode(active, category = NEW_DEAL_CATEGORY.NEW_DEAL) {
   if (active && !await authorizeNewDealEditing()) return;
+  if (active && state.builderFilters.SelectedCommunities) {
+    state.builderFilters.SelectedCommunities = false;
+    const selectedInput = document.querySelector('.builder-filter[data-builder-filter="SelectedCommunities"]');
+    if (selectedInput) selectedInput.checked = false;
+    applyBuilderFilters();
+  }
   state.newDealsAddMode = !!active;
   state.newDealsAddCategory = state.newDealsAddMode ? newDealCategory({ category }) : null;
   state.newDealsAddCategoryChooserOpen = false;
@@ -3179,9 +3208,11 @@ async function changeNewDealCategory(deal) {
       category: next,
       updatedAt: new Date().toISOString()
     });
-    state.newDealFilters[next] = true;
-    const nextToggle = document.getElementById(next === NEW_DEAL_CATEGORY.COLD_LEAD ? 'toggleColdLeads' : 'toggleNewDeals');
-    if (nextToggle) nextToggle.checked = true;
+    if (!state.builderFilters.SelectedCommunities) {
+      state.newDealFilters[next] = true;
+      const nextToggle = document.getElementById(next === NEW_DEAL_CATEGORY.COLD_LEAD ? 'toggleColdLeads' : 'toggleNewDeals');
+      if (nextToggle) nextToggle.checked = true;
+    }
     state.map?.closePopup();
   } catch (err) {
     console.error(err);
@@ -3201,6 +3232,7 @@ function newDealPopupContent(deal) {
   const category = newDealCategory(deal);
   const categoryLabel = newDealCategoryLabel(deal);
   const changeLabel = category === NEW_DEAL_CATEGORY.COLD_LEAD ? 'Change to New Deal' : 'Change to Cold';
+  const isSelected = newDealIsSelected(deal);
   wrap.innerHTML = `<h3>${escapeHtml(deal.name || categoryLabel)}</h3>
     <p><b>Category:</b> ${categoryLabel}</p>
     <p><b>Coordinates:</b> ${Number(deal.lat).toFixed(5)}, ${Number(deal.lng).toFixed(5)}</p>
@@ -3211,6 +3243,7 @@ function newDealPopupContent(deal) {
       <button type="button" class="new-deal-move-btn">Move Pin</button>
       <button type="button" class="new-deal-delete-btn">Delete Pin</button>
       <button type="button" class="new-deal-category-btn">${changeLabel}</button>
+      <button type="button" class="new-deal-select-btn${isSelected ? ' selected' : ''}" aria-pressed="${isSelected ? 'true' : 'false'}">${isSelected ? 'Selected' : 'Select'}</button>
     </div>`;
   wrap.querySelectorAll('.new-deal-preview-btn').forEach(btn => {
     btn.addEventListener('click', (event) => {
@@ -3231,6 +3264,23 @@ function newDealPopupContent(deal) {
     event.stopPropagation();
     await changeNewDealCategory(deal);
   });
+  const select = wrap.querySelector('.new-deal-select-btn');
+  if (select) select.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof L !== 'undefined' && L.DomEvent) L.DomEvent.stop(event);
+    const selected = !newDealIsSelected(deal);
+    setNewDealSelected(deal, selected);
+    select.textContent = selected ? 'Selected' : 'Select';
+    select.classList.toggle('selected', selected);
+    select.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    if (state.builderFilters.SelectedCommunities) {
+      rebuildNewDealsLayer();
+      updateBuilderFilterPanel();
+    } else {
+      updateBuilderFilterPanel();
+    }
+  });
   const del = wrap.querySelector('.new-deal-delete-btn');
   if (del) {
     del.addEventListener('click', async (event) => {
@@ -3246,7 +3296,7 @@ function newDealPopupContent(deal) {
 function rebuildNewDealsLayer() {
   if (!state.map) return;
   const authorized = newDealAuthorizedUser(state.newDealsUser);
-  const shouldBeVisible = authorized && anyNewDealCategoryEnabled();
+  const shouldBeVisible = authorized && (anyNewDealCategoryEnabled() || !!state.builderFilters.SelectedCommunities);
   if (state.newDealsLayer && state.map.hasLayer(state.newDealsLayer)) state.map.removeLayer(state.newDealsLayer);
   state.newDealsLayer = L.layerGroup((authorized ? visiblePrivateDeals() : []).map(deal => {
     const marker = L.marker([Number(deal.lat), Number(deal.lng)], { icon: newDealIcon(deal), zIndexOffset: 1200, newDealId: deal.id });
@@ -5648,7 +5698,7 @@ function updateBuilderFilterPanel() {
   renderBuilderTierFilterList();
   const selectedBuilderCount = Object.values((state.builderFilters.BuilderNames || {})).filter(Boolean).length;
   const selectedTierCount = Object.values((state.builderFilters.TierNames || {})).filter(Boolean).length;
-  const selectedCommunityCount = state.builderSelectedCommunities.size;
+  const selectedCommunityCount = state.builderSelectedCommunities.size + state.selectedNewDealIds.size;
   const count = document.getElementById('builderFilterCount');
   if (count) count.textContent = state.buildersLoaded ? `${visibleCount.toLocaleString()} of ${state.builders.length.toLocaleString()} visible${state.builderFilters.SelectedCommunities ? ` • ${selectedCommunityCount.toLocaleString()} selected` : `${selectedBuilderCount ? ` • ${selectedBuilderCount} builder filter${selectedBuilderCount === 1 ? '' : 's'}` : ''}${selectedTierCount !== BUILDER_TIER_ORDER.length ? ` • ${selectedTierCount} tier${selectedTierCount === 1 ? '' : 's'}` : ''}`}` : 'Load Builders';
 }
@@ -8235,9 +8285,16 @@ function bindUI() {
         });
         await loadBuilders(true);
         if (state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
+        rebuildNewDealsLayer();
         document.getElementById('mapThemeSelect').value = 'builders';
         setMapTheme('builders');
       } else if (state.builderLayer) {
+        if (state.builderFilters.SelectedCommunities) {
+          state.builderFilters.SelectedCommunities = false;
+          const selectedInput = document.querySelector('.builder-filter[data-builder-filter="SelectedCommunities"]');
+          if (selectedInput) selectedInput.checked = false;
+          rebuildNewDealsLayer();
+        }
         state.map.removeLayer(state.builderLayer);
         document.getElementById('mapThemeSelect').value = state.returnTheme || 'hub';
         setMapTheme(state.returnTheme || 'hub');
@@ -8253,12 +8310,22 @@ function bindUI() {
     input.addEventListener('change', e => {
       const key = e.target.dataset.builderFilter;
       if (!key) return;
+      const wasSelectedMode = !!state.builderFilters.SelectedCommunities;
       if (key === 'SelectedCommunities' && e.target.checked) {
         ['SingleFamily', 'Townhomes', 'Active', 'Future', 'BuiltOut'].forEach(filterKey => {
           state.builderFilters[filterKey] = false;
           const filterInput = document.querySelector(`.builder-filter[data-builder-filter="${filterKey}"]`);
           if (filterInput) filterInput.checked = false;
         });
+        state.newDealFilters.newDeal = false;
+        state.newDealFilters.coldLead = false;
+        state.newDealsAddMode = false;
+        state.newDealsAddCategory = null;
+        state.newDealsAddCategoryChooserOpen = false;
+        const newDealsToggle = document.getElementById('toggleNewDeals');
+        const coldLeadsToggle = document.getElementById('toggleColdLeads');
+        if (newDealsToggle) newDealsToggle.checked = false;
+        if (coldLeadsToggle) coldLeadsToggle.checked = false;
       } else if (key !== 'SelectedCommunities' && e.target.checked && state.builderFilters.SelectedCommunities) {
         state.builderFilters.SelectedCommunities = false;
         const selectedInput = document.querySelector('.builder-filter[data-builder-filter="SelectedCommunities"]');
@@ -8266,6 +8333,8 @@ function bindUI() {
       }
       state.builderFilters[key] = e.target.checked;
       applyBuilderFilters();
+      if (key === 'SelectedCommunities' || wasSelectedMode) rebuildNewDealsLayer();
+      updateNewDealsUI();
     });
   });
 
@@ -8284,6 +8353,12 @@ function bindUI() {
       state.newDealFilters[category] = true;
       subscribeToPrivateNewDeals();
     }
+    if (e.target.checked && state.builderFilters.SelectedCommunities) {
+      state.builderFilters.SelectedCommunities = false;
+      const selectedInput = document.querySelector('.builder-filter[data-builder-filter="SelectedCommunities"]');
+      if (selectedInput) selectedInput.checked = false;
+      applyBuilderFilters();
+    }
     if (category === state.newDealsAddCategory && !e.target.checked && state.newDealsAddMode) await setNewDealAddMode(false);
     rebuildNewDealsLayer();
     if (!anyNewDealCategoryEnabled()) state.newDealsListExpanded = false;
@@ -8296,7 +8371,7 @@ function bindUI() {
       if (!(await authorizeNewDealEditing())) return;
       subscribeToPrivateNewDeals();
     }
-    if (!anyNewDealCategoryEnabled()) {
+    if (!anyNewDealCategoryEnabled() && !state.builderFilters.SelectedCommunities) {
       state.newDealFilters.newDeal = true;
       state.newDealFilters.coldLead = true;
       const newDealsToggle = document.getElementById('toggleNewDeals');
