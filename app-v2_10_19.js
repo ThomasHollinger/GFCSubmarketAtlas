@@ -26,6 +26,7 @@ const state = {
   builderLayer: null,
   builderMarkerIndex: new Map(),
   builderSelectedCommunities: new Set(),
+  builderLabelsVisible: false,
   newDeals: [],
   newDealsLayer: null,
   newDealsAddMode: false,
@@ -2851,6 +2852,37 @@ function subscribeToPrivateNewDeals() {
   });
 }
 
+function scopePinLabelElement(text) {
+  const label = document.createElement('span');
+  label.textContent = String(text || '').trim();
+  return label;
+}
+
+function applyScopePinLabel(marker, text) {
+  if (!marker) return;
+  marker._scopePinLabelText = String(text || '').trim();
+  if (!state.builderLabelsVisible || !marker._scopePinLabelText) return;
+  marker.bindTooltip(scopePinLabelElement(marker._scopePinLabelText), {
+    permanent: true,
+    direction: 'top',
+    offset: [0, -14],
+    opacity: 1,
+    className: 'scope-pin-label',
+    interactive: false
+  });
+}
+
+function refreshScopePinLabels() {
+  [state.builderLayer, state.newDealsLayer].forEach(layerGroup => {
+    if (!layerGroup || typeof layerGroup.eachLayer !== 'function') return;
+    layerGroup.eachLayer(marker => {
+      if (!marker || !marker._scopePinLabelText) return;
+      marker.unbindTooltip();
+      if (state.builderLabelsVisible) applyScopePinLabel(marker, marker._scopePinLabelText);
+    });
+  });
+}
+
 
 
 function newDealIcon(deal) {
@@ -3177,6 +3209,7 @@ async function moveNewDeal(deal) {
 
     const moved = marker.getLatLng();
     const name = deal.name || `this ${newDealCategoryLabel(deal)}`;
+    applyScopePinLabel(marker, deal.name || newDealCategoryLabel(deal));
     if (!confirm(`Move ${name} to ${moved.lat.toFixed(5)}, ${moved.lng.toFixed(5)}?`)) {
       marker.setLatLng(original);
       return;
@@ -3301,6 +3334,7 @@ function rebuildNewDealsLayer() {
   state.newDealsLayer = L.layerGroup((authorized ? visiblePrivateDeals() : []).map(deal => {
     const marker = L.marker([Number(deal.lat), Number(deal.lng)], { icon: newDealIcon(deal), zIndexOffset: 1200, newDealId: deal.id });
     marker._atlasDirectionsLabel = deal.name || newDealCategoryLabel(deal);
+    applyScopePinLabel(marker, deal.name || newDealCategoryLabel(deal));
     marker.bindPopup(() => newDealPopupContent(deal), { minWidth: 220, autoPan: false });
     enableMarkerHoverPopup(marker);
     return marker;
@@ -5523,6 +5557,7 @@ function buildBuilderLayer() {
     const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(primaryBuilder, p.Status) });
     marker.feature = feature;
     marker._atlasDirectionsLabel = p.Subdivision || 'Builder Subdivision';
+    applyScopePinLabel(marker, `${p.Subdivision || p.CommunityName || 'Builder Community'} - ${displayBuilder || '—'}`);
     marker.bindPopup(builderSubdivisionPopupContent(feature), {
       autoPan: false,
       autoPanPadding: [8, 8],
@@ -5692,6 +5727,8 @@ function renderBuilderTierFilterList() {
 function updateBuilderFilterPanel() {
   const panel = document.getElementById('builderFilterPanel');
   if (!panel) return;
+  const labelsToggle = document.getElementById('toggleBuilderLabels');
+  if (labelsToggle) labelsToggle.checked = !!state.builderLabelsVisible;
   const visibleCount = state.buildersLoaded ? activeBuilderSubdivisions().length : 0;
   panel.classList.toggle('active', !!document.getElementById('toggleBuilders')?.checked);
   renderBuilderNameFilterList();
@@ -8326,6 +8363,9 @@ function bindUI() {
         const coldLeadsToggle = document.getElementById('toggleColdLeads');
         if (newDealsToggle) newDealsToggle.checked = false;
         if (coldLeadsToggle) coldLeadsToggle.checked = false;
+        state.builderLabelsVisible = true;
+        const labelsToggle = document.getElementById('toggleBuilderLabels');
+        if (labelsToggle) labelsToggle.checked = true;
       } else if (key !== 'SelectedCommunities' && e.target.checked && state.builderFilters.SelectedCommunities) {
         state.builderFilters.SelectedCommunities = false;
         const selectedInput = document.querySelector('.builder-filter[data-builder-filter="SelectedCommunities"]');
@@ -8336,6 +8376,10 @@ function bindUI() {
       if (key === 'SelectedCommunities' || wasSelectedMode) rebuildNewDealsLayer();
       updateNewDealsUI();
     });
+  });
+  document.getElementById('toggleBuilderLabels')?.addEventListener('change', e => {
+    state.builderLabelsVisible = !!e.target.checked;
+    refreshScopePinLabels();
   });
 
   const handlePrivateDealCategoryToggle = async (e, category) => {
