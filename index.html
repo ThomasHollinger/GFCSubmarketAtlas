@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
-  <link rel="stylesheet" href="css/style.css?v=scope-login-center-2">
+  <link rel="stylesheet" href="css/style.css?v=google-street-view-2">
 
   <!-- Critical login layout is kept inline so the gate remains correctly sized
        and centered even if the external stylesheet is delayed or cached. -->
@@ -185,6 +185,36 @@
 .atlas-directions-steps{margin:0 0 10px;padding:0;list-style:none;max-height:250px;overflow:auto}.atlas-directions-steps li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #eef2f7;font-size:12px;color:#334155}.atlas-directions-steps li span{font-weight:800;color:#64748b;white-space:nowrap}.atlas-directions-steps .atlas-directions-error{display:block;color:#b91c1c;font-weight:700}
 .atlas-directions-end{width:100%;padding:8px 11px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#17385f;font-weight:800;cursor:pointer}.atlas-directions-end:hover{background:#f3f7fb}
 .atlas-directions-active{cursor:crosshair}
+</style>
+
+<!-- Street View layout is kept inline so a stale GitHub Pages CSS cache cannot
+     expose the hidden viewer or collapse the Google coverage map. -->
+<style id="scopeStreetViewCriticalStyles">
+.street-view-btn{background:linear-gradient(180deg,#1769c2,#1a73e8)}
+.street-view-btn.active{background:linear-gradient(180deg,#9a3412,#c2410c);box-shadow:0 8px 24px rgba(194,65,12,.22)}
+.street-view-sidebar-status{display:none;margin:-2px 0 10px;padding:8px 9px;border:1px solid #bfdbfe;border-radius:9px;background:#eff6ff;color:#1e3a5f;font-size:10.5px;font-weight:800;line-height:1.35}
+.street-view-sidebar-status.active{display:block}
+.street-view-sidebar-status.error{border-color:#fecaca;background:#fff1f2;color:#991b1b}
+.street-view-map{position:absolute;left:0;right:0;top:60px;bottom:0;z-index:640;display:none;background:#e5e7eb}
+.street-view-map.active{display:block}
+.street-view-map-notice[hidden]{display:none!important}
+.street-view-map-notice{position:absolute;top:72px;left:50%;z-index:690;transform:translateX(-50%);max-width:min(520px,calc(100% - 32px));padding:10px 15px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(11,47,77,.94);box-shadow:0 5px 18px rgba(15,23,42,.24);color:#fff;font-size:12px;font-weight:900;text-align:center;pointer-events:none}
+.street-view-map-notice.error{background:rgba(153,27,27,.95)}
+.street-view-modal-overlay{position:fixed;inset:0;z-index:2400;display:none!important;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.68)}
+.street-view-modal-overlay.active{display:flex!important}
+.street-view-modal{width:min(1180px,96vw);height:min(780px,90vh);overflow:hidden;display:flex;flex-direction:column;border-radius:18px;background:#fff;box-shadow:0 22px 70px rgba(15,23,42,.42)}
+.street-view-modal-header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 16px;border-bottom:1px solid #e4e7ec;background:#f8fafc}
+.street-view-modal-header h3{margin:0;color:#0f2437;font-size:19px}
+.street-view-modal-header p{margin:3px 0 0;color:#667085;font-size:11px;font-weight:800}
+.street-view-close-btn{flex:0 0 auto;padding:9px 14px;background:#0b2f4d;color:#fff;border:none;border-radius:9px;font-size:12px;font-weight:900}
+.street-view-panorama{width:100%;flex:1;min-height:260px;background:#d1d5db}
+body.street-view-mode .leaflet-control-container{visibility:hidden}
+@media(max-width:900px){
+  .street-view-map{top:60px}
+  .street-view-map-notice{top:70px;font-size:11px;border-radius:12px}
+  .street-view-modal-overlay{padding:8px}
+  .street-view-modal{width:100%;height:94vh;border-radius:13px}
+}
 </style>
 
 
