@@ -1,4 +1,5 @@
 const CARTO_BASEMAP_API_KEY = 'cb1_2q0x_1_7d06ed9fa43813551f76228a';
+const GOOGLE_MAPS_BROWSER_API_KEY = 'AIzaSyCjtzdetfm7NsoTI2bw7c0xNxovEDKPtQQ';
 
 const state = {
   map: null,
@@ -108,6 +109,17 @@ const state = {
     destinationLabel: '',
     routeLayer: null,
     destinationMarker: null,
+    requestId: 0
+  },
+  streetView: {
+    active: false,
+    loading: false,
+    googleMap: null,
+    coverageLayer: null,
+    service: null,
+    panorama: null,
+    clickListener: null,
+    lastLeafletView: null,
     requestId: 0
   }
 };
@@ -8136,11 +8148,257 @@ function selectSchool(school, shouldZoom = true) {
     .openOn(state.map);
 }
 
+let googleMapsApiPromise = null;
+
+function loadGoogleMapsApi() {
+  if (globalThis.google?.maps?.Map && globalThis.google?.maps?.StreetViewService) {
+    return Promise.resolve(globalThis.google.maps);
+  }
+  if (googleMapsApiPromise) return googleMapsApiPromise;
+
+  googleMapsApiPromise = new Promise((resolve, reject) => {
+    const callbackName = '__scopeGoogleMapsReady';
+    const existing = document.querySelector('script[data-scope-google-maps="true"]');
+    let timeoutId = null;
+    const cleanup = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      try { delete globalThis[callbackName]; } catch (_) { globalThis[callbackName] = undefined; }
+    };
+    globalThis[callbackName] = () => {
+      cleanup();
+      if (globalThis.google?.maps) resolve(globalThis.google.maps);
+      else reject(new Error('Google Maps loaded without the Maps JavaScript API.'));
+    };
+    if (existing) existing.remove();
+    const script = document.createElement('script');
+    script.dataset.scopeGoogleMaps = 'true';
+    script.async = true;
+    script.defer = true;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_BROWSER_API_KEY)}&v=weekly&loading=async&callback=${callbackName}`;
+    script.onerror = () => {
+      cleanup();
+      googleMapsApiPromise = null;
+      script.remove();
+      reject(new Error('Google Maps could not be loaded. Check the API key, billing, and website restrictions.'));
+    };
+    timeoutId = setTimeout(() => {
+      cleanup();
+      googleMapsApiPromise = null;
+      script.remove();
+      reject(new Error('Google Maps took too long to load. Check the API key and connection.'));
+    }, 20000);
+    document.head.appendChild(script);
+  });
+  return googleMapsApiPromise;
+}
+
+function setStreetViewStatus(message = '', isError = false) {
+  const sidebarStatus = document.getElementById('streetViewSidebarStatus');
+  if (sidebarStatus) {
+    sidebarStatus.textContent = message;
+    sidebarStatus.classList.toggle('active', !!message);
+    sidebarStatus.classList.toggle('error', !!message && isError);
+  }
+  const mapNotice = document.getElementById('streetViewMapNotice');
+  if (mapNotice && state.streetView.active) {
+    mapNotice.textContent = message || 'Blue roads have Street View imagery. Click a blue road to open it.';
+    mapNotice.hidden = false;
+    mapNotice.classList.toggle('error', isError);
+  }
+}
+
+function updateStreetViewUI() {
+  const button = document.getElementById('streetViewToggle');
+  if (!button) return;
+  button.disabled = !!state.streetView.loading;
+  button.classList.toggle('active', !!state.streetView.active);
+  button.setAttribute('aria-pressed', state.streetView.active ? 'true' : 'false');
+  button.textContent = state.streetView.loading
+    ? 'Loading Street View…'
+    : (state.streetView.active ? 'Exit Street View' : 'Street View');
+}
+
+function closeStreetViewPanorama() {
+  const modal = document.getElementById('streetViewModal');
+  modal?.classList.remove('active');
+  modal?.setAttribute('aria-hidden', 'true');
+  if (state.streetView.panorama) state.streetView.panorama.setVisible(false);
+  if (state.streetView.active) {
+    setStreetViewStatus('Blue roads have Street View imagery. Click a blue road to open it.');
+  }
+}
+
+function streetViewModalOpen() {
+  return document.getElementById('streetViewModal')?.classList.contains('active') || false;
+}
+
+function openStreetViewPanorama(data) {
+  const location = data?.location;
+  if (!location?.pano || !location?.latLng) {
+    setStreetViewStatus('Street View imagery was not available at that point. Try another blue road.', true);
+    return;
+  }
+  const modal = document.getElementById('streetViewModal');
+  const panoramaElement = document.getElementById('streetViewPanorama');
+  const subtitle = document.getElementById('streetViewModalSubtitle');
+  if (!modal || !panoramaElement || !globalThis.google?.maps) return;
+  const lat = location.latLng.lat();
+  const lng = location.latLng.lng();
+  if (subtitle) subtitle.textContent = location.description || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+
+  if (!state.streetView.panorama) {
+    state.streetView.panorama = new google.maps.StreetViewPanorama(panoramaElement, {
+      pano: location.pano,
+      pov: { heading: 0, pitch: 0 },
+      zoom: 1,
+      addressControl: true,
+      clickToGo: true,
+      fullscreenControl: true,
+      motionTracking: false,
+      linksControl: true,
+      panControl: true,
+      zoomControl: true,
+      visible: true
+    });
+  } else {
+    state.streetView.panorama.setPano(location.pano);
+    state.streetView.panorama.setPov({ heading: 0, pitch: 0 });
+    state.streetView.panorama.setVisible(true);
+    google.maps.event.trigger(state.streetView.panorama, 'resize');
+  }
+  state.streetView.googleMap?.panTo(location.latLng);
+  setStreetViewStatus('Street View is open. Close the window to choose another blue road.');
+}
+
+async function handleStreetViewMapClick(event) {
+  if (!state.streetView.active || !event?.latLng || !state.streetView.service) return;
+  const requestId = ++state.streetView.requestId;
+  setStreetViewStatus('Finding the closest Street View panorama…');
+  try {
+    const response = await state.streetView.service.getPanorama({
+      location: event.latLng,
+      radius: 50,
+      preference: google.maps.StreetViewPreference.NEAREST
+    });
+    if (requestId !== state.streetView.requestId || !state.streetView.active) return;
+    openStreetViewPanorama(response.data);
+  } catch (err) {
+    if (requestId !== state.streetView.requestId || !state.streetView.active) return;
+    console.warn('No Street View panorama was found near the selected point.', err);
+    setStreetViewStatus('No Street View imagery was found there. Click directly on a blue road.', true);
+  }
+}
+
+function resizeStreetViewMap() {
+  if (!state.streetView.active || !state.streetView.googleMap || !globalThis.google?.maps) return;
+  const center = state.streetView.googleMap.getCenter();
+  google.maps.event.trigger(state.streetView.googleMap, 'resize');
+  if (center) state.streetView.googleMap.setCenter(center);
+}
+
+async function setStreetViewMode(enabled) {
+  const next = !!enabled;
+  if (!next) {
+    ++state.streetView.requestId;
+    closeStreetViewPanorama();
+    if (state.streetView.active && state.streetView.googleMap && state.map) {
+      const center = state.streetView.googleMap.getCenter();
+      const zoom = state.streetView.googleMap.getZoom();
+      if (center) {
+        state.map.setView(
+          [center.lat(), center.lng()],
+          Number.isFinite(zoom) ? zoom : state.map.getZoom(),
+          { animate: false }
+        );
+      }
+    }
+    state.streetView.active = false;
+    state.streetView.loading = false;
+    state.streetView.coverageLayer?.setMap(null);
+    document.body.classList.remove('street-view-mode');
+    document.getElementById('streetViewMap')?.classList.remove('active');
+    document.getElementById('streetViewMap')?.setAttribute('aria-hidden', 'true');
+    const notice = document.getElementById('streetViewMapNotice');
+    if (notice) notice.hidden = true;
+    setStreetViewStatus('');
+    updateStreetViewUI();
+    setTimeout(() => state.map?.invalidateSize(), 0);
+    return;
+  }
+
+  if (state.streetView.active || state.streetView.loading) return;
+  const activationId = ++state.streetView.requestId;
+  state.streetView.loading = true;
+  updateStreetViewUI();
+  setStreetViewStatus('Loading Google Street View coverage…');
+
+  try {
+    if (marketSnapshotModeActive()) resetMarketSnapshotMode();
+    closeMarketSnapshotModal();
+    if (state.directions?.active) endDirections();
+    state.map?.closePopup();
+    await loadGoogleMapsApi();
+    if (activationId !== state.streetView.requestId) return;
+
+    const mapElement = document.getElementById('streetViewMap');
+    if (!mapElement || !state.map) throw new Error('Street View map container is unavailable.');
+    const leafCenter = state.map.getCenter();
+    const leafZoom = state.map.getZoom();
+    state.streetView.lastLeafletView = { center: leafCenter, zoom: leafZoom };
+    state.streetView.active = true;
+    document.body.classList.add('street-view-mode');
+    mapElement.classList.add('active');
+    mapElement.setAttribute('aria-hidden', 'false');
+
+    if (!state.streetView.googleMap) {
+      state.streetView.googleMap = new google.maps.Map(mapElement, {
+        center: { lat: leafCenter.lat, lng: leafCenter.lng },
+        zoom: leafZoom,
+        mapTypeId: 'roadmap',
+        streetViewControl: false,
+        mapTypeControl: true,
+        fullscreenControl: true,
+        zoomControl: true,
+        clickableIcons: false,
+        gestureHandling: 'greedy'
+      });
+      state.streetView.coverageLayer = new google.maps.StreetViewCoverageLayer();
+      state.streetView.service = new google.maps.StreetViewService();
+      state.streetView.clickListener = state.streetView.googleMap.addListener('click', handleStreetViewMapClick);
+    } else {
+      state.streetView.googleMap.setCenter({ lat: leafCenter.lat, lng: leafCenter.lng });
+      state.streetView.googleMap.setZoom(leafZoom);
+    }
+    state.streetView.coverageLayer.setMap(state.streetView.googleMap);
+    const notice = document.getElementById('streetViewMapNotice');
+    if (notice) notice.hidden = false;
+    state.streetView.loading = false;
+    updateStreetViewUI();
+    setStreetViewStatus('Blue roads have Street View imagery. Click a blue road to open it.');
+    setTimeout(resizeStreetViewMap, 0);
+  } catch (err) {
+    if (activationId !== state.streetView.requestId) return;
+    console.error('Street View mode could not be started.', err);
+    state.streetView.active = false;
+    state.streetView.loading = false;
+    document.body.classList.remove('street-view-mode');
+    document.getElementById('streetViewMap')?.classList.remove('active');
+    const message = err?.message || 'Google Street View could not be loaded.';
+    setStreetViewStatus(message, true);
+    updateStreetViewUI();
+  }
+}
+
 function bindUI() {
   bindPersistentDetails();
   document.getElementById('sidebarToggle').addEventListener('click', () => {
     document.getElementById('appShell').classList.toggle('collapsed');
-    setTimeout(() => state.map && state.map.invalidateSize(), 260);
+    setTimeout(() => {
+      state.map && state.map.invalidateSize();
+      resizeStreetViewMap();
+    }, 260);
   });
   const topSearchBtn = document.getElementById('topSearchBtn');
   if (topSearchBtn) {
@@ -8148,6 +8406,7 @@ function bindUI() {
       document.getElementById('appShell').classList.remove('collapsed');
       setTimeout(() => {
         state.map && state.map.invalidateSize();
+        resizeStreetViewMap();
         const input = document.getElementById('searchInput');
         if (input) input.focus();
       }, 250);
@@ -8508,6 +8767,16 @@ function bindUI() {
     if (e.target && e.target.id === 'marketSnapshotModal') closeMarketSnapshotModal();
   });
 
+  document.getElementById('streetViewToggle')?.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    setStreetViewMode(!state.streetView.active);
+  });
+  document.getElementById('streetViewClose')?.addEventListener('click', closeStreetViewPanorama);
+  document.getElementById('streetViewModal')?.addEventListener('click', e => {
+    if (e.target && e.target.id === 'streetViewModal') closeStreetViewPanorama();
+  });
+
   document.getElementById('marketQuickviewToggle')?.addEventListener('click', toggleMarketQuickviewMode);
   document.querySelectorAll('.market-quickview-radius').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -8522,6 +8791,14 @@ function bindUI() {
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
+      if (streetViewModalOpen()) {
+        closeStreetViewPanorama();
+        return;
+      }
+      if (state.streetView.active || state.streetView.loading) {
+        setStreetViewMode(false);
+        return;
+      }
       if (state.directions && state.directions.active) endDirections();
       if (state.newDealsAddMode || state.newDealsAddCategoryChooserOpen) setNewDealAddMode(false);
       clearNewDealPlaceResultMarker();
@@ -8532,6 +8809,7 @@ function bindUI() {
     }
   });
   updateMarketSnapshotUI();
+  updateStreetViewUI();
   document.getElementById('downloadSubmarketsKml')?.addEventListener('click', exportSubmarketOutlinesKml);
   document.getElementById('downloadSubmarketNumbersKml')?.addEventListener('click', exportSubmarketNumbersKml);
   document.getElementById('downloadBuildersKml')?.addEventListener('click', async () => { await exportBuilderSubdivisionsKml(); });

@@ -218,6 +218,8 @@
       <section class="control-block">
         <h2>Market Preview</h2>
         <button id="marketSnapshotToggle" class="snapshot-btn quickview-btn" type="button">Market Preview</button>
+        <button id="streetViewToggle" class="snapshot-btn street-view-btn" type="button" aria-pressed="false">Street View</button>
+        <div id="streetViewSidebarStatus" class="street-view-sidebar-status" aria-live="polite"></div>
         <div id="marketSnapshotRadiusPanel" class="snapshot-radius-panel">
           <div class="filter-title">Choose Radius</div>
           <div class="snapshot-radius-buttons">
@@ -401,6 +403,10 @@
         </div>
       </header>
       <div id="map"></div>
+      <div id="streetViewMap" class="street-view-map" aria-hidden="true"></div>
+      <div id="streetViewMapNotice" class="street-view-map-notice" aria-live="polite" hidden>
+        Blue roads have Street View imagery. Click a blue road to open it.
+      </div>
     </main>
 
   <div id="marketSnapshotModal" class="snapshot-modal-overlay" aria-hidden="true">
@@ -413,6 +419,19 @@
         <button id="marketSnapshotClose" type="button" class="snapshot-close-btn">Close</button>
       </div>
       <div id="marketSnapshotModalBody" class="snapshot-modal-body"></div>
+    </div>
+  </div>
+
+  <div id="streetViewModal" class="street-view-modal-overlay" aria-hidden="true">
+    <div class="street-view-modal" role="dialog" aria-modal="true" aria-labelledby="streetViewModalTitle">
+      <div class="street-view-modal-header">
+        <div>
+          <h3 id="streetViewModalTitle">Google Street View</h3>
+          <p id="streetViewModalSubtitle">Interactive 360° imagery</p>
+        </div>
+        <button id="streetViewClose" type="button" class="street-view-close-btn">Close</button>
+      </div>
+      <div id="streetViewPanorama" class="street-view-panorama"></div>
     </div>
   </div>
 
@@ -593,7 +612,7 @@
       const script = document.createElement('script');
       // The current SCOPE application file is deployed at the repository root.
       // Point directly to it so the updated NCES loader is used.
-      script.src = 'app-v2_10_19.js?v=selected-community-labels-1';
+      script.src = 'app-v2_10_19.js?v=google-street-view-1';
       script.async = false;
       document.body.appendChild(script);
     };

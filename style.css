@@ -106,6 +106,11 @@
 .snapshot-btn{width:100%;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#0b2f4d,#123f67);box-shadow:0 8px 24px rgba(11,47,77,.16)}
 .quickview-btn{background:linear-gradient(180deg,#163d63,#20537f)}
 .snapshot-btn:hover{filter:brightness(1.04)}
+.street-view-btn{background:linear-gradient(180deg,#1769c2,#1a73e8)}
+.street-view-btn.active{background:linear-gradient(180deg,#9a3412,#c2410c);box-shadow:0 8px 24px rgba(194,65,12,.22)}
+.street-view-sidebar-status{display:none;margin:-2px 0 10px;padding:8px 9px;border:1px solid #bfdbfe;border-radius:9px;background:#eff6ff;color:#1e3a5f;font-size:10.5px;font-weight:800;line-height:1.35}
+.street-view-sidebar-status.active{display:block}
+.street-view-sidebar-status.error{border-color:#fecaca;background:#fff1f2;color:#991b1b}
 .snapshot-radius-panel{display:none;margin-top:6px;padding:10px;border:1px solid #dbeafe;border-radius:10px;background:#f8fbff;font-size:12px;color:#0f2437}
 .snapshot-radius-panel.active{display:block}
 .snapshot-radius-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
@@ -221,19 +226,23 @@ body.snapshot-mode #map{cursor:crosshair}
 .new-deal-place-suggestion-main{display:block;font-size:11px;font-weight:800;line-height:1.25}
 .new-deal-place-suggestion-detail{display:block;margin-top:2px;font-size:9.5px;color:#667085;line-height:1.25}
 
-/* SCOPE authentication gate */
-#appShell[hidden],body:not(.scope-authenticated) #appShell{display:none!important;visibility:hidden!important;pointer-events:none!important}
-.scope-login-gate{position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f6f8fb;padding:24px}
-.scope-login-gate[aria-hidden="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important}
-.scope-login-card{width:min(380px,calc(100vw - 40px));margin:auto;background:#fff;border:1px solid #d9e0e8;border-radius:16px;box-shadow:0 18px 50px rgba(15,23,42,.16);padding:30px}
-.scope-login-logo{display:block;width:120px;height:120px;object-fit:contain;margin:0 auto 18px}
-.scope-login-card h1{margin:0 0 24px;text-align:center;color:#0f2437;font-size:26px;line-height:1.1}
-.scope-login-card label{display:block;margin:0 0 6px;color:#344054;font-size:13px;font-weight:800}
-.scope-login-card input{display:block;width:100%;box-sizing:border-box;margin:0 0 14px;padding:11px 12px;border:1px solid #cfd6df;border-radius:9px;background:#fff;color:#102033;font:inherit}
-.scope-login-card input:focus{outline:none;border-color:#17385f;box-shadow:0 0 0 3px rgba(23,56,95,.12)}
-.scope-login-card button{display:block;width:100%;margin-top:4px;padding:11px 14px;border:0;border-radius:9px;background:#17385f;color:#fff;font-weight:800;cursor:pointer}
-.scope-login-card button:hover,.scope-login-card button:focus{background:#103d61;outline:none}
-.scope-login-card button:disabled{opacity:.65;cursor:wait}
-.scope-login-error{min-height:18px;margin:2px 0 8px;color:#b42318;font-size:12px;font-weight:700;text-align:center}
-.brand-mark{overflow:hidden}
-.brand-mark img{display:block;width:100%;height:100%;object-fit:contain}
+/* Google Street View mode */
+.street-view-map{position:absolute;left:0;right:0;top:60px;bottom:0;z-index:640;display:none;background:#e5e7eb}
+.street-view-map.active{display:block}
+.street-view-map-notice{position:absolute;top:72px;left:50%;z-index:690;transform:translateX(-50%);max-width:min(520px,calc(100% - 32px));padding:10px 15px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(11,47,77,.94);box-shadow:0 5px 18px rgba(15,23,42,.24);color:#fff;font-size:12px;font-weight:900;text-align:center;pointer-events:none}
+.street-view-map-notice.error{background:rgba(153,27,27,.95)}
+.street-view-modal-overlay{position:fixed;inset:0;z-index:2400;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.68)}
+.street-view-modal-overlay.active{display:flex}
+.street-view-modal{width:min(1180px,96vw);height:min(780px,90vh);overflow:hidden;display:flex;flex-direction:column;border-radius:18px;background:#fff;box-shadow:0 22px 70px rgba(15,23,42,.42)}
+.street-view-modal-header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 16px;border-bottom:1px solid #e4e7ec;background:#f8fafc}
+.street-view-modal-header h3{margin:0;color:#0f2437;font-size:19px}
+.street-view-modal-header p{margin:3px 0 0;color:#667085;font-size:11px;font-weight:800}
+.street-view-close-btn{flex:0 0 auto;padding:9px 14px;background:#0b2f4d;color:#fff;border:none;border-radius:9px;font-size:12px;font-weight:900}
+.street-view-panorama{width:100%;flex:1;min-height:260px;background:#d1d5db}
+body.street-view-mode .leaflet-control-container{visibility:hidden}
+@media(max-width:900px){
+  .street-view-map{top:60px}
+  .street-view-map-notice{top:70px;font-size:11px;border-radius:12px}
+  .street-view-modal-overlay{padding:8px}
+  .street-view-modal{width:100%;height:94vh;border-radius:13px}
+}
