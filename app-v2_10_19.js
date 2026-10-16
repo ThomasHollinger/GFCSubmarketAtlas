@@ -8210,12 +8210,15 @@ function setStreetViewStatus(message = '', isError = false) {
 function updateStreetViewUI() {
   const button = document.getElementById('streetViewToggle');
   if (!button) return;
+  const label = document.getElementById('streetViewToggleLabel');
   button.disabled = !!state.streetView.loading;
   button.classList.toggle('active', !!state.streetView.active);
   button.setAttribute('aria-pressed', state.streetView.active ? 'true' : 'false');
-  button.textContent = state.streetView.loading
+  const text = state.streetView.loading
     ? 'Loading Street View…'
     : (state.streetView.active ? 'Exit Street View' : 'Street View');
+  if (label) label.textContent = text;
+  else button.textContent = text;
 }
 
 function closeStreetViewPanorama() {

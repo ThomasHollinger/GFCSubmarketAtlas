@@ -190,8 +190,8 @@
 <!-- Street View layout is kept inline so a stale GitHub Pages CSS cache cannot
      expose the hidden viewer or collapse the Google coverage map. -->
 <style id="scopeStreetViewCriticalStyles">
-.street-view-btn{background:linear-gradient(180deg,#1769c2,#1a73e8)}
-.street-view-btn.active{background:linear-gradient(180deg,#9a3412,#c2410c);box-shadow:0 8px 24px rgba(194,65,12,.22)}
+.street-view-btn,.street-view-btn.active{background:linear-gradient(180deg,#163d63,#20537f);box-shadow:0 8px 24px rgba(11,47,77,.16)}
+.street-view-btn .street-view-button-logo{display:block;width:34px;height:38px;object-fit:cover;object-position:center;flex:0 0 auto;margin:-8px 0}
 .street-view-sidebar-status{display:none;margin:-2px 0 10px;padding:8px 9px;border:1px solid #bfdbfe;border-radius:9px;background:#eff6ff;color:#1e3a5f;font-size:10.5px;font-weight:800;line-height:1.35}
 .street-view-sidebar-status.active{display:block}
 .street-view-sidebar-status.error{border-color:#fecaca;background:#fff1f2;color:#991b1b}
@@ -248,7 +248,10 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
       <section class="control-block">
         <h2>Market Preview</h2>
         <button id="marketSnapshotToggle" class="snapshot-btn quickview-btn" type="button">Market Preview</button>
-        <button id="streetViewToggle" class="snapshot-btn street-view-btn" type="button" aria-pressed="false">Street View</button>
+        <button id="streetViewToggle" class="snapshot-btn street-view-btn" type="button" aria-pressed="false">
+          <span id="streetViewToggleLabel">Street View</span>
+          <img class="street-view-button-logo" src="street-view-logo.png?v=1" alt="" aria-hidden="true">
+        </button>
         <div id="streetViewSidebarStatus" class="street-view-sidebar-status" aria-live="polite"></div>
         <div id="marketSnapshotRadiusPanel" class="snapshot-radius-panel">
           <div class="filter-title">Choose Radius</div>
@@ -642,7 +645,7 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
       const script = document.createElement('script');
       // The current SCOPE application file is deployed at the repository root.
       // Point directly to it so the updated NCES loader is used.
-      script.src = 'app-v2_10_19.js?v=google-street-view-1';
+      script.src = 'app-v2_10_19.js?v=google-street-view-logo-2';
       script.async = false;
       document.body.appendChild(script);
     };
