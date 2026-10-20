@@ -154,6 +154,11 @@
     .parcel-popup-owner{background:#fffaf0;border-color:#fed7aa}
     .parcel-popup-owner .parcel-popup-section-title{background:#c65d0e}
     .parcel-popup-section p{margin:4px 0;line-height:1.35}
+    .parcel-subfilters{margin:-5px 0 8px 26px;padding-left:10px;border-left:2px solid #dbe7f3}
+    .parcel-subfilters .check{margin:4px 0!important;font-size:11px!important;color:#475569!important}
+    .parcel-subfilters .check:has(input:disabled){opacity:.55}
+    .parcel-dimension-label{background:transparent!important;border:0!important;pointer-events:none!important}
+    .parcel-dimension-label-inner{position:absolute;left:0;top:0;padding:2px 4px;border:1px solid rgba(23,56,95,.28);border-radius:4px;background:rgba(255,255,255,.88);box-shadow:0 1px 3px rgba(15,23,42,.18);color:#17385f;font:900 10px/1 Arial,sans-serif;white-space:nowrap;transform-origin:center;pointer-events:none}
   </style>
 
 <style>
@@ -284,6 +289,9 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
         <label class="check"><input type="checkbox" id="toggleSubmarkets" checked> Gulf Coast Submarkets</label>
         <label class="check"><input type="checkbox" id="toggleAddresses"> Addresses <span id="addressCountBadge">Zoom</span></label>
         <label class="check"><input type="checkbox" id="toggleParcels"> Parcel View <span id="parcelCountBadge">Zoom</span></label>
+        <div class="parcel-subfilters" id="parcelSubfilters">
+          <label class="check"><input type="checkbox" id="toggleParcelDimensions" checked disabled> Dimensions</label>
+        </div>
         <label class="check"><input type="checkbox" id="toggleSchools"> Schools <span id="schoolCountBadge">Load Layer</span></label>
         <div id="schoolFilterPanel" class="school-filter-panel">
           <div class="filter-title">School Type</div>
@@ -645,7 +653,7 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
       const script = document.createElement('script');
       // The current SCOPE application file is deployed at the repository root.
       // Point directly to it so the updated NCES loader is used.
-      script.src = 'app-v2_10_19.js?v=google-street-view-logo-2';
+      script.src = 'app-v2_10_19.js?v=parcel-dimensions-1';
       script.async = false;
       document.body.appendChild(script);
     };

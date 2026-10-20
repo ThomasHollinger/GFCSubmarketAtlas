@@ -51,6 +51,8 @@ const state = {
   addressRequestId: 0,
   addressLastQueryKey: '',
   parcelLayer: null,
+  parcelDimensionLayer: null,
+  parcelDimensionsEnabled: true,
   parcelOverviewLayer: null,
   parcelOverviewSourceKey: '',
   parcelOverviewClickRequestId: 0,
@@ -225,6 +227,7 @@ const OVERTURE_ADDRESS_TILES_ROOT = 'https://overturemaps-extras-us-west-2.s3.us
 const PARCEL_MIN_ZOOM = 14;
 const PARCEL_DETAIL_ZOOM = 17;
 const PARCEL_MAX_FEATURES = 5000;
+const PARCEL_DIMENSION_MAX_LABELS = 1800;
 const PARCEL_CACHE_DB_NAME = 'scope-parcel-cache-v2';
 const PARCEL_CACHE_STORE_NAME = 'views';
 const PARCEL_CACHE_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
@@ -6261,6 +6264,103 @@ function parcelBaseStyle() {
   };
 }
 
+function ensureParcelDimensionLayer() {
+  if (!state.parcelDimensionLayer) state.parcelDimensionLayer = L.layerGroup();
+  return state.parcelDimensionLayer;
+}
+
+function parcelExteriorRings(geometry) {
+  if (!geometry || !Array.isArray(geometry.coordinates)) return [];
+  if (geometry.type === 'Polygon') return geometry.coordinates[0] ? [geometry.coordinates[0]] : [];
+  if (geometry.type === 'MultiPolygon') {
+    return geometry.coordinates.map(polygon => polygon?.[0]).filter(Array.isArray);
+  }
+  return [];
+}
+
+function parcelDimensionSegmentKey(a, b) {
+  const first = `${Number(a[0]).toFixed(6)},${Number(a[1]).toFixed(6)}`;
+  const second = `${Number(b[0]).toFixed(6)},${Number(b[1]).toFixed(6)}`;
+  return first < second ? `${first}|${second}` : `${second}|${first}`;
+}
+
+function parcelDimensionText(feet) {
+  if (!Number.isFinite(feet) || feet <= 0) return '';
+  return `${Math.round(feet).toLocaleString()}′`;
+}
+
+function clearParcelDimensionLabels(removeLayer = false) {
+  state.parcelDimensionLayer?.clearLayers();
+  if (removeLayer && state.parcelDimensionLayer && state.map?.hasLayer(state.parcelDimensionLayer)) {
+    state.map.removeLayer(state.parcelDimensionLayer);
+  }
+}
+
+function renderParcelDimensionLabels() {
+  const dimensionLayer = ensureParcelDimensionLayer();
+  dimensionLayer.clearLayers();
+  if (!state.parcelDimensionsEnabled || !state.parcelsEnabled || !state.map || state.map.getZoom() < PARCEL_DETAIL_ZOOM || !state.parcelLayer) {
+    if (state.map?.hasLayer(dimensionLayer)) state.map.removeLayer(dimensionLayer);
+    return;
+  }
+  if (!state.map.hasLayer(dimensionLayer)) dimensionLayer.addTo(state.map);
+
+  const seenSegments = new Set();
+  const mapBounds = state.map.getBounds().pad(0.05);
+  let labelCount = 0;
+  state.parcelLayer.eachLayer(parcelLayer => {
+    if (labelCount >= PARCEL_DIMENSION_MAX_LABELS) return;
+    parcelExteriorRings(parcelLayer.feature?.geometry).forEach(ring => {
+      if (!Array.isArray(ring)) return;
+      for (let i = 0; i < ring.length - 1 && labelCount < PARCEL_DIMENSION_MAX_LABELS; i += 1) {
+        const a = ring[i];
+        const b = ring[i + 1];
+        if (!Array.isArray(a) || !Array.isArray(b)) continue;
+        const aLatLng = L.latLng(Number(a[1]), Number(a[0]));
+        const bLatLng = L.latLng(Number(b[1]), Number(b[0]));
+        if (!Number.isFinite(aLatLng.lat) || !Number.isFinite(aLatLng.lng) || !Number.isFinite(bLatLng.lat) || !Number.isFinite(bLatLng.lng)) continue;
+        const key = parcelDimensionSegmentKey(a, b);
+        if (seenSegments.has(key)) continue;
+        seenSegments.add(key);
+
+        const aPoint = state.map.latLngToLayerPoint(aLatLng);
+        const bPoint = state.map.latLngToLayerPoint(bLatLng);
+        const pixelLength = aPoint.distanceTo(bPoint);
+        if (pixelLength < 28) continue;
+        const midpoint = L.latLng((aLatLng.lat + bLatLng.lat) / 2, (aLatLng.lng + bLatLng.lng) / 2);
+        if (!mapBounds.contains(midpoint)) continue;
+        const text = parcelDimensionText(aLatLng.distanceTo(bLatLng) * 3.28084);
+        if (!text) continue;
+        let angle = Math.atan2(bPoint.y - aPoint.y, bPoint.x - aPoint.x) * 180 / Math.PI;
+        if (angle > 90) angle -= 180;
+        if (angle < -90) angle += 180;
+        const icon = L.divIcon({
+          className: 'parcel-dimension-label',
+          html: `<span class="parcel-dimension-label-inner" style="transform:translate(-50%,-50%) rotate(${angle.toFixed(1)}deg)">${text}</span>`,
+          iconSize: [0, 0],
+          iconAnchor: [0, 0]
+        });
+        L.marker(midpoint, { icon, pane: 'parcelDimensionPane', interactive: false, keyboard: false }).addTo(dimensionLayer);
+        labelCount += 1;
+      }
+    });
+  });
+}
+
+function updateParcelDimensionUI() {
+  const toggle = document.getElementById('toggleParcelDimensions');
+  if (!toggle) return;
+  toggle.checked = !!state.parcelDimensionsEnabled;
+  toggle.disabled = !state.parcelsEnabled;
+}
+
+function setParcelDimensionsEnabled(enabled) {
+  state.parcelDimensionsEnabled = !!enabled;
+  updateParcelDimensionUI();
+  if (state.parcelDimensionsEnabled) renderParcelDimensionLabels();
+  else clearParcelDimensionLabels(true);
+}
+
 function parcelCleanValue(value) {
   const text = String(value ?? '').trim();
   return !text || /^(null|undefined|n\/a)$/i.test(text) ? '' : text;
@@ -6831,6 +6931,7 @@ function renderParcelFeatures(result) {
   const layer = ensureParcelLayer();
   clearParcelSelection(true);
   layer.clearLayers();
+  clearParcelDimensionLabels(false);
   const features = result?.features || [];
   if (!features.length) {
     setParcelBadge('No parcels');
@@ -6841,6 +6942,7 @@ function renderParcelFeatures(result) {
     return;
   }
   layer.addData({ type: 'FeatureCollection', features });
+  renderParcelDimensionLabels();
   setParcelBadge(result.exceeded ? `${features.length.toLocaleString()}+ shown` : `${features.length.toLocaleString()} shown`);
 }
 
@@ -6855,6 +6957,7 @@ async function refreshParcelLayer() {
     state.parcelOverviewClickRequestId += 1;
     hideParcelOverview();
     layer.clearLayers();
+    clearParcelDimensionLabels(true);
     clearParcelSelection(true);
     setParcelBadge('Zoom');
     return;
@@ -6865,6 +6968,7 @@ async function refreshParcelLayer() {
     state.parcelLastQueryKey = '';
     state.parcelAbortController?.abort();
     layer.clearLayers();
+    clearParcelDimensionLabels(true);
     clearParcelSelection(true);
     showParcelOverview(parcelSourcesForBounds(bounds)[0]);
     setParcelBadge('Overview');
@@ -6921,6 +7025,7 @@ function setParcelsEnabled(enabled) {
     state.parcelLastQueryKey = '';
     state.parcelAbortController?.abort();
     clearParcelSelection(true);
+    clearParcelDimensionLabels(true);
     hideParcelOverview();
     if (state.parcelLayer && state.map.hasLayer(state.parcelLayer)) state.map.removeLayer(state.parcelLayer);
     setParcelBadge('Zoom');
@@ -6931,6 +7036,7 @@ function setParcelsEnabled(enabled) {
       if (themeSelect) themeSelect.value = restoreTheme;
       setMapTheme(restoreTheme);
     }
+    updateParcelDimensionUI();
     return;
   }
   state.parcelReturnTheme = state.mapTheme || 'hub';
@@ -6938,6 +7044,7 @@ function setParcelsEnabled(enabled) {
   if (themeSelect) themeSelect.value = 'clear';
   setMapTheme('clear', { preserveReturn: true });
   ensureParcelLayer().addTo(state.map);
+  updateParcelDimensionUI();
   scheduleParcelRefresh();
 }
 
@@ -7396,6 +7503,9 @@ function initMap() {
   state.map.createPane('parcelPane');
   state.map.getPane('parcelPane').style.zIndex = 430;
   state.map.getPane('parcelPane').style.pointerEvents = 'auto';
+  state.map.createPane('parcelDimensionPane');
+  state.map.getPane('parcelDimensionPane').style.zIndex = 440;
+  state.map.getPane('parcelDimensionPane').style.pointerEvents = 'none';
 
   state.referenceOverlays.floodZones = createArcGisExportGridLayer(
     'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer',
@@ -8433,10 +8543,14 @@ function bindUI() {
   document.getElementById('toggleParcels')?.addEventListener('change', e => {
     setParcelsEnabled(e.target.checked);
   });
+  document.getElementById('toggleParcelDimensions')?.addEventListener('change', e => {
+    setParcelDimensionsEnabled(e.target.checked);
+  });
   state.map.on('moveend zoomend', scheduleAddressRefresh);
   state.map.on('moveend zoomend', scheduleParcelRefresh);
   state.map.on('movestart', () => {
     if (state.parcelSelectedLayer) clearParcelSelection(true);
+    if (state.parcelDimensionsEnabled) clearParcelDimensionLabels(false);
   });
   document.getElementById('toggleSchools').addEventListener('change', async e => {
     try {
