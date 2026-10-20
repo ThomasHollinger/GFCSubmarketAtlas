@@ -84,9 +84,11 @@
     .new-deal-filter-swatch{width:11px;height:11px;border-radius:50%;border:2px solid rgba(15,23,42,.28);flex:0 0 auto}
     .new-deal-filter-swatch.new-deal{background:#ff7a00}
     .new-deal-filter-swatch.cold-lead{background:#2563eb}
+    .new-deal-filter-swatch.dead-deal{background:#dc2626}
     .new-deal-category-heading{padding:8px 10px;background:#17365d;color:#fff;font-size:12px;font-weight:900;letter-spacing:.02em}
     .new-deal-marker{background:#ff7a00 !important;border-color:#b45309 !important;color:#fff !important}
     .new-deal-marker.cold-lead-marker{background:#2563eb !important;border-color:#1e3a8a !important;color:#fff !important}
+    .new-deal-marker.dead-deal-marker{background:#dc2626 !important;border-color:#7f1d1d !important;color:#fff !important}
 
     .retail-search-row{display:grid;grid-template-columns:1fr auto;gap:6px;margin:6px 0 5px}
     .retail-search-row input{min-width:0;width:100%;padding:8px 9px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#24364b;font:inherit}
@@ -116,10 +118,11 @@
     .new-deal-add-category-choice{margin:7px 0;padding:9px;border:1px solid #cbd5e1;border-radius:9px;background:#f8fafc}
     .new-deal-add-category-choice[hidden]{display:none}
     .new-deal-add-category-prompt{margin-bottom:7px;color:#17365d;font-size:12px;font-weight:800}
-    .new-deal-add-category-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+    .new-deal-add-category-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
     .new-deal-add-category-actions button{padding:9px 8px;border:0;border-radius:8px;color:#fff;font-weight:900;cursor:pointer}
     .new-deal-add-new-btn{background:#ff7a00}
     .new-deal-add-cold-btn{background:#2563eb}
+    .new-deal-add-dead-btn{background:#dc2626}
 
     .address-number-label{background:transparent;border:0;display:flex;align-items:center;justify-content:center;white-space:nowrap}
     .address-number-label span{color:#fff;font:800 11px/1 Arial,sans-serif;letter-spacing:-.1px;text-align:center;text-shadow:-1px -1px 0 #111,1px -1px 0 #111,-1px 1px 0 #111,1px 1px 0 #111,0 0 3px #111;cursor:default}
@@ -361,7 +364,8 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
         <div class="new-deals-panel">
           <div class="new-deal-category-filters">
             <label class="check"><input type="checkbox" id="toggleNewDeals"><span class="new-deal-filter-swatch new-deal" aria-hidden="true"></span> New Deals <span id="newDealsCountBadge">Private</span></label>
-            <label class="check"><input type="checkbox" id="toggleColdLeads"><span class="new-deal-filter-swatch cold-lead" aria-hidden="true"></span> Cold Leads <span id="coldLeadsCountBadge">Private</span></label>
+            <label class="check"><input type="checkbox" id="toggleColdDeals"><span class="new-deal-filter-swatch cold-lead" aria-hidden="true"></span> Cold Deals <span id="coldDealsCountBadge">Private</span></label>
+            <label class="check"><input type="checkbox" id="toggleDeadDeals"><span class="new-deal-filter-swatch dead-deal" aria-hidden="true"></span> Dead Deals <span id="deadDealsCountBadge">Private</span></label>
           </div>
           <button id="toggleNewDealsList" class="new-deals-list-toggle" type="button" aria-expanded="false" hidden disabled>Show Deals</button>
           <div id="newDealsSidebarList" class="new-deals-sidebar-list" hidden></div>
@@ -381,16 +385,17 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
             </div>
             <div id="newDealCoordinateSearchStatus" class="new-deal-coordinate-search-status"></div>
           </div>
-          <div id="newDealsAuthStatus" class="new-deals-auth-status">Private • enter the team password to view Deals &amp; Leads</div>
+          <div id="newDealsAuthStatus" class="new-deals-auth-status">Private • enter the team password to view Deals</div>
           <button id="addNewDealPin" class="new-deal-add-btn" type="button">Add Pin to Map</button>
           <div id="newDealAddCategoryChoice" class="new-deal-add-category-choice" hidden>
             <div class="new-deal-add-category-prompt">What type of pin are you adding?</div>
             <div class="new-deal-add-category-actions">
               <button type="button" class="new-deal-add-new-btn" data-deal-add-category="newDeal">New Deal</button>
-              <button type="button" class="new-deal-add-cold-btn" data-deal-add-category="coldLead">Cold Lead</button>
+              <button type="button" class="new-deal-add-cold-btn" data-deal-add-category="coldLead">Cold Deal</button>
+              <button type="button" class="new-deal-add-dead-btn" data-deal-add-category="deadDeal">Dead Deal</button>
             </div>
           </div>
-          <div id="newDealsHint" class="new-deals-hint">Deals and leads are private. Enter the team password to view the pins.</div>
+          <div id="newDealsHint" class="new-deals-hint">Deals are private. Enter the team password to view the pins.</div>
         </div>
         <label class="check"><input type="checkbox" id="toggleDemographics"> Demographics <span id="demographicsCountBadge">Loaded</span></label>
 
@@ -417,7 +422,8 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
           <button id="downloadSubmarketNumbersKml" class="download-layer-btn secondary" type="button">Submarket Numbers (.kml)</button>
           <button id="downloadBuildersKml" class="download-layer-btn secondary" type="button">Builder Subdivisions (.kml)</button>
           <button id="downloadNewDealsKml" class="download-layer-btn secondary" type="button">New Deals (.kml)</button>
-          <button id="downloadColdLeadsKml" class="download-layer-btn secondary" type="button">Cold Leads (.kml)</button>
+          <button id="downloadColdDealsKml" class="download-layer-btn secondary" type="button">Cold Deals (.kml)</button>
+          <button id="downloadDeadDealsKml" class="download-layer-btn secondary" type="button">Dead Deals (.kml)</button>
                   </div>
       </section>
     </aside>
@@ -653,7 +659,7 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
       const script = document.createElement('script');
       // The current SCOPE application file is deployed at the repository root.
       // Point directly to it so the updated NCES loader is used.
-      script.src = 'app-v2_10_19.js?v=parcel-dimensions-1';
+      script.src = 'app-v2_10_19.js?v=dead-deals-1';
       script.async = false;
       document.body.appendChild(script);
     };
