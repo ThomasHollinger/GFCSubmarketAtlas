@@ -7459,7 +7459,7 @@ function fitAtlasPopupToMap(event) {
   const map = state.map;
   if (!popup || !map) return;
 
-  const place = () => {
+  requestAnimationFrame(() => requestAnimationFrame(() => {
     if (!map.hasLayer(popup)) return;
     const popupEl = popup.getElement && popup.getElement();
     const mapEl = map.getContainer && map.getContainer();
@@ -7469,69 +7469,59 @@ function fitAtlasPopupToMap(event) {
     const pad = 12;
     const gap = 18;
     const source = popup._source;
-    let pinLatLng = source && source.getLatLng ? source.getLatLng() : null;
-    if (!pinLatLng && source && source.getBounds) pinLatLng = source.getBounds().getCenter();
-    if (!pinLatLng && popup.getLatLng) pinLatLng = popup.getLatLng();
-    if (!pinLatLng) return;
-    const pin = map.latLngToContainerPoint(pinLatLng);
+    let anchorLatLng = source && source.getLatLng ? source.getLatLng() : null;
+    if (!anchorLatLng && source && source.getBounds) anchorLatLng = source.getBounds().getCenter();
+    if (!anchorLatLng && popup.getLatLng) anchorLatLng = popup.getLatLng();
+    if (!anchorLatLng) return;
+    const anchor = map.latLngToContainerPoint(anchorLatLng);
 
-    // Choose the opposite diagonal quadrant from the pin so the card never
-    // covers its own pin. Near edges, available space is made scrollable.
-    const right = pin.x < size.x / 2;
-    const below = pin.y < size.y / 2;
-    const availableWidth = Math.max(120, (right ? size.x - pin.x : pin.x) - gap - pad);
-    const availableHeight = Math.max(90, (below ? size.y - pin.y : pin.y) - gap - pad);
+    // Pick the diagonal opposite quadrant from the pin: upper-left pin ->
+    // lower-right card; upper-right -> lower-left; lower-left -> upper-right;
+    // lower-right -> upper-left. Never center the card over the pin.
+    const placeRight = anchor.x < size.x / 2;
+    const placeBelow = anchor.y < size.y / 2;
+    const roomX = placeRight ? size.x - anchor.x - gap - pad : anchor.x - gap - pad;
+    const roomY = placeBelow ? size.y - anchor.y - gap - pad : anchor.y - gap - pad;
+    const maxWidth = Math.max(96, Math.min(size.x - pad * 2, roomX));
+    const maxHeight = Math.max(80, Math.min(size.y - pad * 2, roomY));
+
     const wrapper = popupEl.querySelector('.leaflet-popup-content-wrapper');
     const content = popupEl.querySelector('.leaflet-popup-content');
-
-    popupEl.style.maxWidth = `${availableWidth}px`;
-    popupEl.style.maxHeight = `${availableHeight}px`;
+    popupEl.style.maxWidth = `${maxWidth}px`;
+    popupEl.style.maxHeight = `${maxHeight}px`;
     popupEl.style.boxSizing = 'border-box';
     if (wrapper) {
-      wrapper.style.maxWidth = `${availableWidth}px`;
-      wrapper.style.maxHeight = `${availableHeight}px`;
+      wrapper.style.maxWidth = `${maxWidth}px`;
+      wrapper.style.maxHeight = `${maxHeight}px`;
       wrapper.style.overflow = 'hidden';
       wrapper.style.boxSizing = 'border-box';
     }
     if (content) {
-      content.style.maxWidth = `${Math.max(96, availableWidth - 28)}px`;
-      content.style.maxHeight = `${Math.max(64, availableHeight - 34)}px`;
+      content.style.maxWidth = `${Math.max(72, maxWidth - 28)}px`;
+      content.style.maxHeight = `${Math.max(56, maxHeight - 34)}px`;
       content.style.overflowY = 'auto';
       content.style.overflowX = 'auto';
       content.style.boxSizing = 'border-box';
     }
 
-    // Use Leaflet's own popup offset/update mechanism. Leaflet otherwise resets
-    // direct CSS position/margin changes to its default above-pin placement.
-    popup.update();
-    const mapRect = mapEl.getBoundingClientRect();
-    const rect = popupEl.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    // Layout is now constrained to the chosen quadrant; position the Leaflet
+    // popup DOM container directly in layer-point coordinates. Leaflet's popup
+    // offset/layout defaults are not used, so it cannot snap back above the pin.
+    const width = popupEl.offsetWidth;
+    const height = popupEl.offsetHeight;
+    if (!width || !height) return;
+    const left = placeRight ? anchor.x + gap : anchor.x - gap - width;
+    const top = placeBelow ? anchor.y + gap : anchor.y - gap - height;
+    const targetContainerPoint = L.point(left, top);
+    const targetLayerPoint = map.containerPointToLayerPoint(targetContainerPoint);
+    L.DomUtil.setPosition(popupEl, targetLayerPoint);
 
-    let left = right ? pin.x + gap : pin.x - gap - rect.width;
-    let top = below ? pin.y + gap : pin.y - gap - rect.height;
-    left = Math.max(pad, Math.min(left, size.x - rect.width - pad));
-    top = Math.max(pad, Math.min(top, size.y - rect.height - pad));
-
-    const currentLeft = rect.left - mapRect.left;
-    const currentTop = rect.top - mapRect.top;
-    const dx = left - currentLeft;
-    const dy = top - currentTop;
-    if (!popup._atlasBaseOffset) {
-      const original = popup.options.offset || L.point(0, 0);
-      popup._atlasBaseOffset = L.point(original.x, original.y);
-    }
-    popup.options.offset = popup._atlasBaseOffset.add([dx, dy]);
-    popup.update();
-
-    // The card sits diagonally from its anchor; don't leave the default tip
-    // pointing through the pin/card area.
+    // A standard Leaflet popup tip points to the original anchor and would
+    // visually cross the gap; hide it for this quadrant-style card.
     const tip = popupEl.querySelector('.leaflet-popup-tip-container');
     if (tip) tip.style.display = 'none';
     popupEl.classList.add('builder-popup-side');
-  };
-
-  requestAnimationFrame(() => requestAnimationFrame(place));
+  }));
 }
 
 function initMap() {
@@ -7539,6 +7529,10 @@ function initMap() {
   // Popup visibility is handled inside the current viewport; never pan the map.
   L.Popup.prototype.options.autoPan = false;
   state.map.on('popupopen', fitAtlasPopupToMap);
+  state.map.on('moveend zoomend resize', () => {
+    const openPopup = state.map && state.map._popup;
+    if (openPopup && state.map.hasLayer(openPopup)) fitAtlasPopupToMap({ popup: openPopup });
+  });
   L.control.zoom({ position: 'bottomright' }).addTo(state.map);
 
   state.basemaps.light = L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_BASEMAP_API_KEY)}`, {
