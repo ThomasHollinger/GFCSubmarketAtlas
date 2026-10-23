@@ -5145,11 +5145,28 @@ function enableMarkerHoverPopup(marker) {
     if (!marker._atlasPopupPinned && marker.getPopup && marker.getPopup()) marker.openPopup();
   });
   marker.on('mouseout', () => {
-    if (!marker._atlasPopupPinned && marker.getPopup && marker.getPopup()) marker.closePopup();
+    if (marker._atlasPopupPinned || !marker.getPopup || !marker.getPopup()) return;
+    window.clearTimeout(marker._atlasPopupCloseTimer);
+    marker._atlasPopupCloseTimer = window.setTimeout(() => {
+      const popup = marker.getPopup && marker.getPopup();
+      const popupEl = popup && popup.getElement && popup.getElement();
+      if (!marker._atlasPopupPinned && !popupEl?.matches(':hover')) marker.closePopup();
+    }, 140);
   });
   marker.on('popupopen', () => {
+    window.clearTimeout(marker._atlasPopupCloseTimer);
     ensureDirectionsButton(marker);
-    requestAnimationFrame(() => requestAnimationFrame(() => ensureDirectionsButton(marker)));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      ensureDirectionsButton(marker);
+      const popup = marker.getPopup && marker.getPopup();
+      const popupEl = popup && popup.getElement && popup.getElement();
+      if (!popupEl || popupEl._atlasHoverTracking) return;
+      popupEl._atlasHoverTracking = true;
+      popupEl.addEventListener('mouseenter', () => window.clearTimeout(marker._atlasPopupCloseTimer));
+      popupEl.addEventListener('mouseleave', () => {
+        if (!marker._atlasPopupPinned) marker.closePopup();
+      });
+    }));
   });
   marker.on('click', (event) => {
     if (state.directions && state.directions.active) {
@@ -7446,18 +7463,25 @@ function fitAtlasPopupToMap(event) {
   const map = state.map;
   if (!popup || !map) return;
 
-  const fit = () => {
+  requestAnimationFrame(() => requestAnimationFrame(() => {
     if (!map.hasLayer(popup)) return;
     const popupEl = popup.getElement && popup.getElement();
     const mapEl = map.getContainer && map.getContainer();
     if (!popupEl || !mapEl) return;
 
+    // Reset only our previous offsets before measuring Leaflet's anchor layout.
+    popupEl.style.marginLeft = '0px';
+    popupEl.style.marginTop = '0px';
+    popupEl.classList.remove('builder-popup-side');
+
+    const mapRect = mapEl.getBoundingClientRect();
     const size = map.getSize();
     const pad = 12;
+    const gap = 16;
     const maxWidth = Math.max(160, size.x - pad * 2);
     const maxHeight = Math.max(100, size.y - pad * 2);
-    const content = popupEl.querySelector('.leaflet-popup-content');
     const wrapper = popupEl.querySelector('.leaflet-popup-content-wrapper');
+    const content = popupEl.querySelector('.leaflet-popup-content');
 
     popupEl.style.maxWidth = `${maxWidth}px`;
     popupEl.style.boxSizing = 'border-box';
@@ -7469,60 +7493,72 @@ function fitAtlasPopupToMap(event) {
     }
     if (content) {
       content.style.maxWidth = `${Math.max(140, maxWidth - 24)}px`;
-      content.style.maxHeight = `${Math.max(80, maxHeight - 34)}px`;
+      content.style.maxHeight = `${Math.max(80, maxHeight - 36)}px`;
       content.style.overflowY = 'auto';
       content.style.overflowX = 'hidden';
       content.style.boxSizing = 'border-box';
     }
 
-    const mapRect = mapEl.getBoundingClientRect();
+    // Read after applying the height limit so placement uses the final card size.
     const rect = popupEl.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    const width = rect.width;
+    const height = rect.height;
+    if (!width || !height) return;
 
-    // Work out only the amount the popup itself must move to fit. Applying the
-    // offset through setLatLng keeps it in Leaflet's layout system; the map
-    // center/zoom is never changed and no popup auto-pan is used.
-    let dx = 0;
-    let dy = 0;
-    if (rect.left < mapRect.left + pad) dx = mapRect.left + pad - rect.left;
-    else if (rect.right > mapRect.right - pad) dx = mapRect.right - pad - rect.right;
-    if (rect.top < mapRect.top + pad) dy = mapRect.top + pad - rect.top;
-    else if (rect.bottom > mapRect.bottom - pad) dy = mapRect.bottom - pad - rect.bottom;
+    const anchorLatLng = popup.getLatLng && popup.getLatLng();
+    const anchor = anchorLatLng ? map.latLngToContainerPoint(anchorLatLng) : null;
+    if (!anchor) return;
 
-    if ((Math.abs(dx) > 1 || Math.abs(dy) > 1) && popup.getLatLng && popup.setLatLng) {
-      const current = map.latLngToContainerPoint(popup.getLatLng());
-      popup.setLatLng(map.containerPointToLatLng(L.point(current.x + dx, current.y + dy)));
+    const minX = pad;
+    const minY = pad;
+    const maxX = size.x - width - pad;
+    const maxY = size.y - height - pad;
+    const centeredLeft = anchor.x - width / 2;
+    const centeredTop = anchor.y - height - gap;
+    const centeredBottom = anchor.y + gap;
+    const centeredSideTop = anchor.y - height / 2;
+
+    // Ensure every candidate leaves a clear gap around the marker/feature.
+    const candidates = [
+      { side: 'top', left: centeredLeft, top: centeredTop },
+      { side: 'right', left: anchor.x + gap, top: centeredSideTop },
+      { side: 'left', left: anchor.x - width - gap, top: centeredSideTop },
+      { side: 'bottom', left: centeredLeft, top: centeredBottom }
+    ];
+    const fits = c => c.left >= minX && c.top >= minY && c.left <= maxX && c.top <= maxY;
+    let placement = candidates.find(fits);
+
+    if (!placement) {
+      // If none of the clear-side placements fit, choose the side with the most
+      // room and clamp within the map, while preserving a gap from the anchor.
+      const sideOptions = [
+        { side: 'right', room: size.x - anchor.x, left: anchor.x + gap, top: centeredSideTop },
+        { side: 'left', room: anchor.x, left: anchor.x - width - gap, top: centeredSideTop },
+        { side: 'top', room: anchor.y, left: centeredLeft, top: centeredTop },
+        { side: 'bottom', room: size.y - anchor.y, left: centeredLeft, top: centeredBottom }
+      ].sort((a, b) => b.room - a.room);
+      placement = sideOptions[0];
+      placement.left = Math.max(minX, Math.min(placement.left, maxX));
+      placement.top = Math.max(minY, Math.min(placement.top, maxY));
+    }
+
+    const currentLeft = rect.left - mapRect.left;
+    const currentTop = rect.top - mapRect.top;
+    popupEl.style.marginLeft = `${placement.left - currentLeft}px`;
+    popupEl.style.marginTop = `${placement.top - currentTop}px`;
+    if (placement.side !== 'top') {
+      popupEl.classList.add('builder-popup-side');
       const tip = popupEl.querySelector('.leaflet-popup-tip-container');
-      if (tip && (Math.abs(dx) > 18 || Math.abs(dy) > 18)) tip.style.display = 'none';
+      if (tip) tip.style.display = 'none';
     }
-  };
-
-  // Wait for Leaflet and the browser to finish laying out popup content.
-  requestAnimationFrame(() => requestAnimationFrame(fit));
-  if (popup._atlasPopupFitObserver) popup._atlasPopupFitObserver.disconnect();
-  if (typeof ResizeObserver !== 'undefined') {
-    const popupEl = popup.getElement && popup.getElement();
-    if (popupEl) {
-      popup._atlasPopupFitObserver = new ResizeObserver(() => requestAnimationFrame(fit));
-      popup._atlasPopupFitObserver.observe(popupEl);
-      const content = popupEl.querySelector('.leaflet-popup-content');
-      if (content) popup._atlasPopupFitObserver.observe(content);
-    }
-  }
+  }));
 }
 
 function initMap() {
   state.map = L.map('map', { zoomControl: false, preferCanvas: true });
-  // Popups may reposition or scroll within the current viewport, but must not
-  // pan the map when opened.
+  // Popup visibility is handled inside the current viewport; never pan the map.
   L.Popup.prototype.options.autoPan = false;
   state.map.on('popupopen', fitAtlasPopupToMap);
-  state.map.on('popupclose', event => {
-    if (event && event.popup && event.popup._atlasPopupFitObserver) {
-      event.popup._atlasPopupFitObserver.disconnect();
-      event.popup._atlasPopupFitObserver = null;
-    }
-  });
   L.control.zoom({ position: 'bottomright' }).addTo(state.map);
 
   state.basemaps.light = L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_BASEMAP_API_KEY)}`, {
