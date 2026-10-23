@@ -5145,13 +5145,9 @@ function enableMarkerHoverPopup(marker) {
     if (!marker._atlasPopupPinned && marker.getPopup && marker.getPopup()) marker.openPopup();
   });
   marker.on('mouseout', () => {
-    if (marker._atlasPopupPinned || !marker.getPopup || !marker.getPopup()) return;
+    // Keep the hover card open while the pointer moves from the pin to the
+    // opposite quadrant. It closes on popup mouseleave unless click-pinned.
     window.clearTimeout(marker._atlasPopupCloseTimer);
-    marker._atlasPopupCloseTimer = window.setTimeout(() => {
-      const popup = marker.getPopup && marker.getPopup();
-      const popupEl = popup && popup.getElement && popup.getElement();
-      if (!marker._atlasPopupPinned && !popupEl?.matches(':hover')) marker.closePopup();
-    }, 140);
   });
   marker.on('popupopen', () => {
     window.clearTimeout(marker._atlasPopupCloseTimer);
@@ -7463,95 +7459,79 @@ function fitAtlasPopupToMap(event) {
   const map = state.map;
   if (!popup || !map) return;
 
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+  const place = () => {
     if (!map.hasLayer(popup)) return;
     const popupEl = popup.getElement && popup.getElement();
     const mapEl = map.getContainer && map.getContainer();
     if (!popupEl || !mapEl) return;
 
-    // Reset only our previous offsets before measuring Leaflet's anchor layout.
-    popupEl.style.marginLeft = '0px';
-    popupEl.style.marginTop = '0px';
-    popupEl.classList.remove('builder-popup-side');
-
-    const mapRect = mapEl.getBoundingClientRect();
     const size = map.getSize();
     const pad = 12;
-    const gap = 16;
-    const maxWidth = Math.max(160, size.x - pad * 2);
-    const maxHeight = Math.max(100, size.y - pad * 2);
+    const gap = 18;
+    const source = popup._source;
+    let pinLatLng = source && source.getLatLng ? source.getLatLng() : null;
+    if (!pinLatLng && source && source.getBounds) pinLatLng = source.getBounds().getCenter();
+    if (!pinLatLng && popup.getLatLng) pinLatLng = popup.getLatLng();
+    if (!pinLatLng) return;
+    const pin = map.latLngToContainerPoint(pinLatLng);
+
+    // Choose the opposite diagonal quadrant from the pin so the card never
+    // covers its own pin. Near edges, available space is made scrollable.
+    const right = pin.x < size.x / 2;
+    const below = pin.y < size.y / 2;
+    const availableWidth = Math.max(120, (right ? size.x - pin.x : pin.x) - gap - pad);
+    const availableHeight = Math.max(90, (below ? size.y - pin.y : pin.y) - gap - pad);
     const wrapper = popupEl.querySelector('.leaflet-popup-content-wrapper');
     const content = popupEl.querySelector('.leaflet-popup-content');
 
-    popupEl.style.maxWidth = `${maxWidth}px`;
+    popupEl.style.maxWidth = `${availableWidth}px`;
+    popupEl.style.maxHeight = `${availableHeight}px`;
     popupEl.style.boxSizing = 'border-box';
     if (wrapper) {
-      wrapper.style.maxWidth = `${maxWidth}px`;
-      wrapper.style.maxHeight = `${maxHeight}px`;
+      wrapper.style.maxWidth = `${availableWidth}px`;
+      wrapper.style.maxHeight = `${availableHeight}px`;
       wrapper.style.overflow = 'hidden';
       wrapper.style.boxSizing = 'border-box';
     }
     if (content) {
-      content.style.maxWidth = `${Math.max(140, maxWidth - 24)}px`;
-      content.style.maxHeight = `${Math.max(80, maxHeight - 36)}px`;
+      content.style.maxWidth = `${Math.max(96, availableWidth - 28)}px`;
+      content.style.maxHeight = `${Math.max(64, availableHeight - 34)}px`;
       content.style.overflowY = 'auto';
-      content.style.overflowX = 'hidden';
+      content.style.overflowX = 'auto';
       content.style.boxSizing = 'border-box';
     }
 
-    // Read after applying the height limit so placement uses the final card size.
+    // Use Leaflet's own popup offset/update mechanism. Leaflet otherwise resets
+    // direct CSS position/margin changes to its default above-pin placement.
+    popup.update();
+    const mapRect = mapEl.getBoundingClientRect();
     const rect = popupEl.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    if (!width || !height) return;
+    if (!rect.width || !rect.height) return;
 
-    const anchorLatLng = popup.getLatLng && popup.getLatLng();
-    const anchor = anchorLatLng ? map.latLngToContainerPoint(anchorLatLng) : null;
-    if (!anchor) return;
-
-    const minX = pad;
-    const minY = pad;
-    const maxX = size.x - width - pad;
-    const maxY = size.y - height - pad;
-    const centeredLeft = anchor.x - width / 2;
-    const centeredTop = anchor.y - height - gap;
-    const centeredBottom = anchor.y + gap;
-    const centeredSideTop = anchor.y - height / 2;
-
-    // Ensure every candidate leaves a clear gap around the marker/feature.
-    const candidates = [
-      { side: 'top', left: centeredLeft, top: centeredTop },
-      { side: 'right', left: anchor.x + gap, top: centeredSideTop },
-      { side: 'left', left: anchor.x - width - gap, top: centeredSideTop },
-      { side: 'bottom', left: centeredLeft, top: centeredBottom }
-    ];
-    const fits = c => c.left >= minX && c.top >= minY && c.left <= maxX && c.top <= maxY;
-    let placement = candidates.find(fits);
-
-    if (!placement) {
-      // If none of the clear-side placements fit, choose the side with the most
-      // room and clamp within the map, while preserving a gap from the anchor.
-      const sideOptions = [
-        { side: 'right', room: size.x - anchor.x, left: anchor.x + gap, top: centeredSideTop },
-        { side: 'left', room: anchor.x, left: anchor.x - width - gap, top: centeredSideTop },
-        { side: 'top', room: anchor.y, left: centeredLeft, top: centeredTop },
-        { side: 'bottom', room: size.y - anchor.y, left: centeredLeft, top: centeredBottom }
-      ].sort((a, b) => b.room - a.room);
-      placement = sideOptions[0];
-      placement.left = Math.max(minX, Math.min(placement.left, maxX));
-      placement.top = Math.max(minY, Math.min(placement.top, maxY));
-    }
+    let left = right ? pin.x + gap : pin.x - gap - rect.width;
+    let top = below ? pin.y + gap : pin.y - gap - rect.height;
+    left = Math.max(pad, Math.min(left, size.x - rect.width - pad));
+    top = Math.max(pad, Math.min(top, size.y - rect.height - pad));
 
     const currentLeft = rect.left - mapRect.left;
     const currentTop = rect.top - mapRect.top;
-    popupEl.style.marginLeft = `${placement.left - currentLeft}px`;
-    popupEl.style.marginTop = `${placement.top - currentTop}px`;
-    if (placement.side !== 'top') {
-      popupEl.classList.add('builder-popup-side');
-      const tip = popupEl.querySelector('.leaflet-popup-tip-container');
-      if (tip) tip.style.display = 'none';
+    const dx = left - currentLeft;
+    const dy = top - currentTop;
+    if (!popup._atlasBaseOffset) {
+      const original = popup.options.offset || L.point(0, 0);
+      popup._atlasBaseOffset = L.point(original.x, original.y);
     }
-  }));
+    popup.options.offset = popup._atlasBaseOffset.add([dx, dy]);
+    popup.update();
+
+    // The card sits diagonally from its anchor; don't leave the default tip
+    // pointing through the pin/card area.
+    const tip = popupEl.querySelector('.leaflet-popup-tip-container');
+    if (tip) tip.style.display = 'none';
+    popupEl.classList.add('builder-popup-side');
+  };
+
+  requestAnimationFrame(() => requestAnimationFrame(place));
 }
 
 function initMap() {
