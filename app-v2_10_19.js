@@ -7507,8 +7507,74 @@ function setReferenceOverlay(name, enabled) {
   updateReferenceOverlayToggleStyle(name === 'floodZones' ? 'toggleFloodZones' : 'toggleContours', enabled);
 }
 
+function keepAtlasPopupInView(event) {
+  const popup = event && event.popup;
+  const map = state.map;
+  if (!popup || !map) return;
+
+  // Let Leaflet finish creating and measuring the popup before applying a
+  // viewport fit. This only adjusts the popup; it never changes the map view.
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (!map.hasLayer(popup)) return;
+    const popupEl = popup.getElement && popup.getElement();
+    const mapEl = map.getContainer && map.getContainer();
+    if (!popupEl || !mapEl) return;
+
+    const mapSize = map.getSize();
+    const pad = 10;
+    const maxPopupHeight = Math.max(100, mapSize.y - pad * 2);
+    const maxPopupWidth = Math.max(160, mapSize.x - pad * 2);
+    const wrapper = popupEl.querySelector('.leaflet-popup-content-wrapper');
+    const content = popupEl.querySelector('.leaflet-popup-content');
+
+    // Keep long cards readable on short screens by making their contents scroll.
+    popupEl.style.maxWidth = `${maxPopupWidth}px`;
+    popupEl.style.maxHeight = `${maxPopupHeight}px`;
+    popupEl.style.boxSizing = 'border-box';
+    if (wrapper) {
+      wrapper.style.maxWidth = `${maxPopupWidth}px`;
+      wrapper.style.maxHeight = `${maxPopupHeight}px`;
+      wrapper.style.overflow = 'hidden';
+      wrapper.style.boxSizing = 'border-box';
+    }
+    if (content) {
+      content.style.maxWidth = `${Math.max(140, maxPopupWidth - 24)}px`;
+      content.style.maxHeight = `${Math.max(80, maxPopupHeight - 24)}px`;
+      content.style.overflowY = 'auto';
+      content.style.overflowX = 'hidden';
+      content.style.boxSizing = 'border-box';
+    }
+
+    const mapRect = mapEl.getBoundingClientRect();
+    const rect = popupEl.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    if (!width || !height) return;
+
+    const currentLeft = rect.left - mapRect.left;
+    const currentTop = rect.top - mapRect.top;
+    const left = Math.max(pad, Math.min(currentLeft, mapSize.x - width - pad));
+    const top = Math.max(pad, Math.min(currentTop, mapSize.y - height - pad));
+    const shiftX = left - currentLeft;
+    const shiftY = top - currentTop;
+    if (Math.abs(shiftX) > 1) popupEl.style.marginLeft = `${shiftX}px`;
+    if (Math.abs(shiftY) > 1) popupEl.style.marginTop = `${shiftY}px`;
+
+    // If the card had to move away from its anchor, hide the pointer so it
+    // doesn't imply a misleading position. The marker and map remain untouched.
+    if (Math.abs(shiftX) > 18 || Math.abs(shiftY) > 18) {
+      const tip = popupEl.querySelector('.leaflet-popup-tip-container');
+      if (tip) tip.style.display = 'none';
+    }
+  }));
+}
+
 function initMap() {
   state.map = L.map('map', { zoomControl: false, preferCanvas: true });
+  // Disable Leaflet's default popup auto-pan. Popup visibility is handled by
+  // keepAtlasPopupInView, so hovering or clicking never recenters the map.
+  L.Popup.prototype.options.autoPan = false;
+  state.map.on('popupopen', keepAtlasPopupInView);
   L.control.zoom({ position: 'bottomright' }).addTo(state.map);
 
   state.basemaps.light = L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_BASEMAP_API_KEY)}`, {
@@ -8290,7 +8356,7 @@ function selectSchool(school, shouldZoom = true) {
     return;
   }
   const p = school.properties || {};
-  L.popup({ closeButton: true, autoPan: true })
+  L.popup({ closeButton: true, autoPan: false })
     .setLatLng([coords[1], coords[0]])
     .setContent(schoolPopupHtml(p))
     .openOn(state.map);
