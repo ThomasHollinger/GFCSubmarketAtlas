@@ -5341,69 +5341,6 @@ function endDirections() {
   if (panel) { panel.classList.remove('active'); panel.hidden = true; }
 }
 
-function positionBuilderHoverPopup(marker) {
-  if (!marker || !state.map || !marker.getPopup || !marker.getPopup()) return;
-  const popup = marker.getPopup();
-  const el = popup.getElement && popup.getElement();
-  const mapEl = state.map.getContainer && state.map.getContainer();
-  if (!el || !mapEl) return;
-
-  // Let Leaflet establish its normal popup position first, then offset the
-  // popup inside the existing map viewport. This avoids auto-panning the map.
-  el.style.marginLeft = '0px';
-  el.style.marginTop = '0px';
-  el.classList.remove('builder-popup-side');
-
-  const mapRect = mapEl.getBoundingClientRect();
-  const rect = el.getBoundingClientRect();
-  const point = state.map.latLngToContainerPoint(marker.getLatLng());
-  const pad = 8;
-  const gap = 12;
-  const mapW = state.map.getSize().x;
-  const mapH = state.map.getSize().y;
-  const popupW = rect.width;
-  const popupH = rect.height;
-  const markerX = point.x;
-  const markerY = point.y;
-
-  let placement = 'top';
-  let left = markerX - (popupW / 2);
-  let top = markerY - popupH - gap;
-
-  const fitsTop = top >= pad;
-  const fitsRight = markerX + gap + popupW <= mapW - pad;
-  const fitsLeft = markerX - gap - popupW >= pad;
-  const fitsBottom = markerY + gap + popupH <= mapH - pad;
-
-  if (fitsTop) {
-    placement = 'top';
-  } else if (fitsRight) {
-    placement = 'right';
-    left = markerX + gap;
-    top = markerY - (popupH / 2);
-  } else if (fitsLeft) {
-    placement = 'left';
-    left = markerX - popupW - gap;
-    top = markerY - (popupH / 2);
-  } else if (fitsBottom) {
-    placement = 'bottom';
-    left = markerX - (popupW / 2);
-    top = markerY + gap;
-  } else {
-    // Nothing fits perfectly; clamp the preferred top position into view.
-    placement = 'top';
-  }
-
-  left = Math.max(pad, Math.min(left, mapW - popupW - pad));
-  top = Math.max(pad, Math.min(top, mapH - popupH - pad));
-
-  const currentLeft = rect.left - mapRect.left;
-  const currentTop = rect.top - mapRect.top;
-  el.style.marginLeft = `${left - currentLeft}px`;
-  el.style.marginTop = `${top - currentTop}px`;
-  if (placement !== 'top') el.classList.add('builder-popup-side');
-}
-
 function escapeHtml(text) {
   return String(text || '')
     .replace(/&/g, '&amp;')
@@ -5619,9 +5556,6 @@ function buildBuilderLayer() {
       offset: [0, -12]
     });
     enableMarkerHoverPopup(marker);
-    marker.on('popupopen', () => {
-      requestAnimationFrame(() => requestAnimationFrame(() => positionBuilderHoverPopup(marker)));
-    });
     marker.on('click', () => selectBuilderSubdivision(feature, false));
     marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
     state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
@@ -7507,39 +7441,35 @@ function setReferenceOverlay(name, enabled) {
   updateReferenceOverlayToggleStyle(name === 'floodZones' ? 'toggleFloodZones' : 'toggleContours', enabled);
 }
 
-function keepAtlasPopupInView(event) {
+function fitAtlasPopupToMap(event) {
   const popup = event && event.popup;
   const map = state.map;
   if (!popup || !map) return;
 
-  // Let Leaflet finish creating and measuring the popup before applying a
-  // viewport fit. This only adjusts the popup; it never changes the map view.
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+  const fit = () => {
     if (!map.hasLayer(popup)) return;
     const popupEl = popup.getElement && popup.getElement();
     const mapEl = map.getContainer && map.getContainer();
     if (!popupEl || !mapEl) return;
 
-    const mapSize = map.getSize();
-    const pad = 10;
-    const maxPopupHeight = Math.max(100, mapSize.y - pad * 2);
-    const maxPopupWidth = Math.max(160, mapSize.x - pad * 2);
-    const wrapper = popupEl.querySelector('.leaflet-popup-content-wrapper');
+    const size = map.getSize();
+    const pad = 12;
+    const maxWidth = Math.max(160, size.x - pad * 2);
+    const maxHeight = Math.max(100, size.y - pad * 2);
     const content = popupEl.querySelector('.leaflet-popup-content');
+    const wrapper = popupEl.querySelector('.leaflet-popup-content-wrapper');
 
-    // Keep long cards readable on short screens by making their contents scroll.
-    popupEl.style.maxWidth = `${maxPopupWidth}px`;
-    popupEl.style.maxHeight = `${maxPopupHeight}px`;
+    popupEl.style.maxWidth = `${maxWidth}px`;
     popupEl.style.boxSizing = 'border-box';
     if (wrapper) {
-      wrapper.style.maxWidth = `${maxPopupWidth}px`;
-      wrapper.style.maxHeight = `${maxPopupHeight}px`;
+      wrapper.style.maxWidth = `${maxWidth}px`;
+      wrapper.style.maxHeight = `${maxHeight}px`;
       wrapper.style.overflow = 'hidden';
       wrapper.style.boxSizing = 'border-box';
     }
     if (content) {
-      content.style.maxWidth = `${Math.max(140, maxPopupWidth - 24)}px`;
-      content.style.maxHeight = `${Math.max(80, maxPopupHeight - 24)}px`;
+      content.style.maxWidth = `${Math.max(140, maxWidth - 24)}px`;
+      content.style.maxHeight = `${Math.max(80, maxHeight - 34)}px`;
       content.style.overflowY = 'auto';
       content.style.overflowX = 'hidden';
       content.style.boxSizing = 'border-box';
@@ -7547,34 +7477,52 @@ function keepAtlasPopupInView(event) {
 
     const mapRect = mapEl.getBoundingClientRect();
     const rect = popupEl.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    if (!width || !height) return;
+    if (!rect.width || !rect.height) return;
 
-    const currentLeft = rect.left - mapRect.left;
-    const currentTop = rect.top - mapRect.top;
-    const left = Math.max(pad, Math.min(currentLeft, mapSize.x - width - pad));
-    const top = Math.max(pad, Math.min(currentTop, mapSize.y - height - pad));
-    const shiftX = left - currentLeft;
-    const shiftY = top - currentTop;
-    if (Math.abs(shiftX) > 1) popupEl.style.marginLeft = `${shiftX}px`;
-    if (Math.abs(shiftY) > 1) popupEl.style.marginTop = `${shiftY}px`;
+    // Work out only the amount the popup itself must move to fit. Applying the
+    // offset through setLatLng keeps it in Leaflet's layout system; the map
+    // center/zoom is never changed and no popup auto-pan is used.
+    let dx = 0;
+    let dy = 0;
+    if (rect.left < mapRect.left + pad) dx = mapRect.left + pad - rect.left;
+    else if (rect.right > mapRect.right - pad) dx = mapRect.right - pad - rect.right;
+    if (rect.top < mapRect.top + pad) dy = mapRect.top + pad - rect.top;
+    else if (rect.bottom > mapRect.bottom - pad) dy = mapRect.bottom - pad - rect.bottom;
 
-    // If the card had to move away from its anchor, hide the pointer so it
-    // doesn't imply a misleading position. The marker and map remain untouched.
-    if (Math.abs(shiftX) > 18 || Math.abs(shiftY) > 18) {
+    if ((Math.abs(dx) > 1 || Math.abs(dy) > 1) && popup.getLatLng && popup.setLatLng) {
+      const current = map.latLngToContainerPoint(popup.getLatLng());
+      popup.setLatLng(map.containerPointToLatLng(L.point(current.x + dx, current.y + dy)));
       const tip = popupEl.querySelector('.leaflet-popup-tip-container');
-      if (tip) tip.style.display = 'none';
+      if (tip && (Math.abs(dx) > 18 || Math.abs(dy) > 18)) tip.style.display = 'none';
     }
-  }));
+  };
+
+  // Wait for Leaflet and the browser to finish laying out popup content.
+  requestAnimationFrame(() => requestAnimationFrame(fit));
+  if (popup._atlasPopupFitObserver) popup._atlasPopupFitObserver.disconnect();
+  if (typeof ResizeObserver !== 'undefined') {
+    const popupEl = popup.getElement && popup.getElement();
+    if (popupEl) {
+      popup._atlasPopupFitObserver = new ResizeObserver(() => requestAnimationFrame(fit));
+      popup._atlasPopupFitObserver.observe(popupEl);
+      const content = popupEl.querySelector('.leaflet-popup-content');
+      if (content) popup._atlasPopupFitObserver.observe(content);
+    }
+  }
 }
 
 function initMap() {
   state.map = L.map('map', { zoomControl: false, preferCanvas: true });
-  // Disable Leaflet's default popup auto-pan. Popup visibility is handled by
-  // keepAtlasPopupInView, so hovering or clicking never recenters the map.
+  // Popups may reposition or scroll within the current viewport, but must not
+  // pan the map when opened.
   L.Popup.prototype.options.autoPan = false;
-  state.map.on('popupopen', keepAtlasPopupInView);
+  state.map.on('popupopen', fitAtlasPopupToMap);
+  state.map.on('popupclose', event => {
+    if (event && event.popup && event.popup._atlasPopupFitObserver) {
+      event.popup._atlasPopupFitObserver.disconnect();
+      event.popup._atlasPopupFitObserver = null;
+    }
+  });
   L.control.zoom({ position: 'bottomright' }).addTo(state.map);
 
   state.basemaps.light = L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_BASEMAP_API_KEY)}`, {
