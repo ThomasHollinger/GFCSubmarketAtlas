@@ -7418,11 +7418,16 @@ function legendHtml() {
 
 function updateLegend() {
   if (!state.map || !state.legend) return;
+
+  // Clear View intentionally has no legend. Remove the Leaflet control itself
+  // so the previous theme's legend cannot remain visible with stale content.
   if (state.mapTheme === 'clear') {
-    if (state.map.hasLayer(state.legend)) state.map.removeControl(state.legend);
+    if (state.legend._map === state.map) state.map.removeControl(state.legend);
     return;
   }
-  if (!state.map.hasLayer(state.legend)) state.legend.addTo(state.map);
+
+  // Re-add the legend when switching from Clear View to any themed view.
+  if (state.legend._map !== state.map) state.legend.addTo(state.map);
   const el = state.legend.getContainer();
   if (el) el.innerHTML = legendHtml();
 }
