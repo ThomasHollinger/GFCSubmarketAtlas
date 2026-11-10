@@ -5145,21 +5145,11 @@ function enableMarkerHoverPopup(marker) {
     if (!marker._atlasPopupPinned && marker.getPopup && marker.getPopup()) marker.openPopup();
   });
   marker.on('mouseout', () => {
-    // Keep the card open while the pointer travels from the pin to its quadrant.
-    window.clearTimeout(marker._atlasPopupCloseTimer);
+    if (!marker._atlasPopupPinned && marker.getPopup && marker.getPopup()) marker.closePopup();
   });
   marker.on('popupopen', () => {
     ensureDirectionsButton(marker);
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      ensureDirectionsButton(marker);
-      const popup = marker.getPopup && marker.getPopup();
-      const popupEl = popup && popup.getElement && popup.getElement();
-      if (!popupEl || popupEl._atlasHoverTracking) return;
-      popupEl._atlasHoverTracking = true;
-      popupEl.addEventListener('mouseleave', () => {
-        if (!marker._atlasPopupPinned) marker.closePopup();
-      });
-    }));
+    requestAnimationFrame(() => requestAnimationFrame(() => ensureDirectionsButton(marker)));
   });
   marker.on('click', (event) => {
     if (state.directions && state.directions.active) {
@@ -5349,6 +5339,69 @@ function endDirections() {
   setDirectionsCursor(false);
   const panel = document.getElementById('atlasDirectionsPanel');
   if (panel) { panel.classList.remove('active'); panel.hidden = true; }
+}
+
+function positionBuilderHoverPopup(marker) {
+  if (!marker || !state.map || !marker.getPopup || !marker.getPopup()) return;
+  const popup = marker.getPopup();
+  const el = popup.getElement && popup.getElement();
+  const mapEl = state.map.getContainer && state.map.getContainer();
+  if (!el || !mapEl) return;
+
+  // Let Leaflet establish its normal popup position first, then offset the
+  // popup inside the existing map viewport. This avoids auto-panning the map.
+  el.style.marginLeft = '0px';
+  el.style.marginTop = '0px';
+  el.classList.remove('builder-popup-side');
+
+  const mapRect = mapEl.getBoundingClientRect();
+  const rect = el.getBoundingClientRect();
+  const point = state.map.latLngToContainerPoint(marker.getLatLng());
+  const pad = 8;
+  const gap = 12;
+  const mapW = state.map.getSize().x;
+  const mapH = state.map.getSize().y;
+  const popupW = rect.width;
+  const popupH = rect.height;
+  const markerX = point.x;
+  const markerY = point.y;
+
+  let placement = 'top';
+  let left = markerX - (popupW / 2);
+  let top = markerY - popupH - gap;
+
+  const fitsTop = top >= pad;
+  const fitsRight = markerX + gap + popupW <= mapW - pad;
+  const fitsLeft = markerX - gap - popupW >= pad;
+  const fitsBottom = markerY + gap + popupH <= mapH - pad;
+
+  if (fitsTop) {
+    placement = 'top';
+  } else if (fitsRight) {
+    placement = 'right';
+    left = markerX + gap;
+    top = markerY - (popupH / 2);
+  } else if (fitsLeft) {
+    placement = 'left';
+    left = markerX - popupW - gap;
+    top = markerY - (popupH / 2);
+  } else if (fitsBottom) {
+    placement = 'bottom';
+    left = markerX - (popupW / 2);
+    top = markerY + gap;
+  } else {
+    // Nothing fits perfectly; clamp the preferred top position into view.
+    placement = 'top';
+  }
+
+  left = Math.max(pad, Math.min(left, mapW - popupW - pad));
+  top = Math.max(pad, Math.min(top, mapH - popupH - pad));
+
+  const currentLeft = rect.left - mapRect.left;
+  const currentTop = rect.top - mapRect.top;
+  el.style.marginLeft = `${left - currentLeft}px`;
+  el.style.marginTop = `${top - currentTop}px`;
+  if (placement !== 'top') el.classList.add('builder-popup-side');
 }
 
 function escapeHtml(text) {
@@ -5566,6 +5619,9 @@ function buildBuilderLayer() {
       offset: [0, -12]
     });
     enableMarkerHoverPopup(marker);
+    marker.on('popupopen', () => {
+      requestAnimationFrame(() => requestAnimationFrame(() => positionBuilderHoverPopup(marker)));
+    });
     marker.on('click', () => selectBuilderSubdivision(feature, false));
     marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
     state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
@@ -7361,8 +7417,13 @@ function legendHtml() {
 }
 
 function updateLegend() {
-
-  const el = document.querySelector('.legend');
+  if (!state.map || !state.legend) return;
+  if (state.mapTheme === 'clear') {
+    if (state.map.hasLayer(state.legend)) state.map.removeControl(state.legend);
+    return;
+  }
+  if (!state.map.hasLayer(state.legend)) state.legend.addTo(state.map);
+  const el = state.legend.getContainer();
   if (el) el.innerHTML = legendHtml();
 }
 
@@ -7451,93 +7512,8 @@ function setReferenceOverlay(name, enabled) {
   updateReferenceOverlayToggleStyle(name === 'floodZones' ? 'toggleFloodZones' : 'toggleContours', enabled);
 }
 
-function placeAtlasPopupInQuadrant(popup) {
-  const map = state.map;
-  const popupEl = popup && popup.getElement && popup.getElement();
-  const mapEl = map && map.getContainer && map.getContainer();
-  if (!map || !popupEl || !mapEl || !map.hasLayer(popup)) return;
-
-  const size = map.getSize();
-  const pad = 12;
-  const gap = 18;
-  const anchorLatLng = popup.getLatLng && popup.getLatLng();
-  if (!anchorLatLng) return;
-  const anchor = map.latLngToContainerPoint(anchorLatLng);
-
-  // Opposite diagonal quadrant: upper-left pin -> lower-right card, upper-right
-  // -> lower-left, lower-left -> upper-right, lower-right -> upper-left.
-  let right = anchor.x < size.x / 2;
-  let below = anchor.y < size.y / 2;
-  let roomRight = size.x - anchor.x - gap - pad;
-  let roomLeft = anchor.x - gap - pad;
-  let roomBelow = size.y - anchor.y - gap - pad;
-  let roomAbove = anchor.y - gap - pad;
-  if ((right ? roomRight : roomLeft) < 120) right = roomRight >= roomLeft;
-  if ((below ? roomBelow : roomAbove) < 90) below = roomBelow >= roomAbove;
-  const roomW = Math.max(120, right ? roomRight : roomLeft);
-  const roomH = Math.max(90, below ? roomBelow : roomAbove);
-
-  const wrapper = popupEl.querySelector('.leaflet-popup-content-wrapper');
-  const content = popupEl.querySelector('.leaflet-popup-content');
-  popupEl.style.translate = 'none';
-  popupEl.style.maxWidth = `${roomW}px`;
-  popupEl.style.maxHeight = `${roomH}px`;
-  popupEl.style.boxSizing = 'border-box';
-  if (wrapper) {
-    wrapper.style.maxWidth = `${roomW}px`;
-    wrapper.style.maxHeight = `${roomH}px`;
-    wrapper.style.overflow = 'hidden';
-    wrapper.style.boxSizing = 'border-box';
-  }
-  if (content) {
-    content.style.maxWidth = `${Math.max(80, roomW - 40)}px`;
-    content.style.maxHeight = `${Math.max(56, roomH - 36)}px`;
-    content.style.overflowY = 'auto';
-    content.style.overflowX = 'auto';
-    content.style.boxSizing = 'border-box';
-  }
-
-  const rect = popupEl.getBoundingClientRect();
-  const mapRect = mapEl.getBoundingClientRect();
-  if (!rect.width || !rect.height) return;
-  const targetLeft = right ? anchor.x + gap : anchor.x - gap - rect.width;
-  const targetTop = below ? anchor.y + gap : anchor.y - gap - rect.height;
-  const currentLeft = rect.left - mapRect.left;
-  const currentTop = rect.top - mapRect.top;
-  popupEl.style.translate = `${Math.round(targetLeft - currentLeft)}px ${Math.round(targetTop - currentTop)}px`;
-
-  const tip = popupEl.querySelector('.leaflet-popup-tip-container');
-  if (tip) tip.style.display = 'none';
-  popupEl.classList.add('builder-popup-side');
-}
-
-function fitAtlasPopupToMap(event) {
-  const popup = event && event.popup;
-  if (!popup) return;
-  popup.options.autoPan = false;
-
-  // Leaflet repositions its popup container on every update. Wrap that method
-  // once so the chosen quadrant is restored after each native Leaflet layout.
-  if (!popup._atlasQuadrantPositioning && typeof popup._updatePosition === 'function') {
-    popup._atlasQuadrantPositioning = true;
-    const leafletUpdatePosition = popup._updatePosition;
-    popup._updatePosition = function () {
-      leafletUpdatePosition.apply(this, arguments);
-      requestAnimationFrame(() => placeAtlasPopupInQuadrant(this));
-    };
-  }
-  requestAnimationFrame(() => requestAnimationFrame(() => placeAtlasPopupInQuadrant(popup)));
-  window.setTimeout(() => placeAtlasPopupInQuadrant(popup), 120);
-}
-
 function initMap() {
   state.map = L.map('map', { zoomControl: false, preferCanvas: true });
-  L.Popup.prototype.options.autoPan = false;
-  state.map.on('popupopen', fitAtlasPopupToMap);
-  state.map.on('moveend zoomend resize', () => {
-    const popup = state.map && state.map._popup;
-    if (popup && state.map.hasLayer(popup)) fitAtlasPopupToMap({ popup });
-  });
   L.control.zoom({ position: 'bottomright' }).addTo(state.map);
 
   state.basemaps.light = L.tileLayer(`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_BASEMAP_API_KEY)}`, {
@@ -7717,7 +7693,7 @@ async function loadData() {
   if (state.mapTheme === 'hub') state.submarketNumberLayer.addTo(state.map);
 
   state.map.fitBounds(state.submarketLayer.getBounds(), { padding: [24, 24] });
-  state.legend.addTo(state.map);
+  if (state.mapTheme !== 'clear') state.legend.addTo(state.map);
   state.newDeals = readLocalNewDeals();
   rebuildNewDealsLayer();
   await initializeFirebaseNewDeals();
@@ -8319,7 +8295,7 @@ function selectSchool(school, shouldZoom = true) {
     return;
   }
   const p = school.properties || {};
-  L.popup({ closeButton: true, autoPan: false })
+  L.popup({ closeButton: true, autoPan: true })
     .setLatLng([coords[1], coords[0]])
     .setContent(schoolPopupHtml(p))
     .openOn(state.map);
