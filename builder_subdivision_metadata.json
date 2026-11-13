@@ -1,5 +1,21 @@
 {
-  "records": 508,
-  "excluded": 161,
-  "rated": 347
+  "generatedAt": "2026-11-13T00:00:00-06:00",
+  "source": "Zonda subdivision table provided by user",
+  "sourceFile": "data/Subdivisions-Table-26.11.13.csv",
+  "reportDate": "2026-11-13",
+  "candidateCount": 824,
+  "geocodedCount": 824,
+  "assignedCount": 824,
+  "statusCounts": {
+    "Active": 488,
+    "Future": 336
+  },
+  "productStyleCounts": {
+    "Single-Family Detached": 690,
+    "Townhomes": 134
+  },
+  "submarketCount": 32,
+  "invalidCoordinateCount": 0,
+  "duplicateUniversalIdCount": 0,
+  "reviewNote": "All supplied records were spatially checked against the 32 current Atlas submarket polygons; none fell outside current boundaries."
 }
