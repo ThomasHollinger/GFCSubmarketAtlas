@@ -16,7 +16,7 @@ const state = {
   lifestyleLoadPromise: null,
   retailFilters: { Restaurant: true, Grocery: true, Retail: true, Convenience: true, NationalBrandsOnly: false },
   retailSearchQuery: '',
-  builderFilters: { SingleFamily: true, Townhomes: false, Active: true, Future: true, BuiltOut: false, SelectedCommunities: false, BuilderNames: {}, TierNames: {} },
+  builderFilters: { SingleFamily: true, Townhomes: true, Active: true, Future: true, BuiltOut: false, SelectedCommunities: false, BuilderNames: {}, TierNames: {} },
   builderTierConfig: {
     Tier0: { key: 'Tier0', label: 'Tier 0', min: 0, max: 220000 },
     Tier1: { key: 'Tier1', label: 'Tier 1', min: 220001, max: 270000 },
@@ -26,6 +26,7 @@ const state = {
   },
   builderLayer: null,
   builderMarkerIndex: new Map(),
+  builderViewportListenerAdded: false,
   builderSelectedCommunities: new Set(),
   builderLabelsVisible: false,
   newDeals: [],
@@ -5596,35 +5597,56 @@ function renderBuilderCard(summary) {
   </div>`;
 }
 
+function createBuilderMarker(feature) {
+  const coords = feature.geometry && feature.geometry.coordinates;
+  if (!coords || coords.length < 2) return null;
+  const p = feature.properties || {};
+  const displayBuilder = displayBuilderList(p.Builder);
+  const primaryBuilder = primaryBuilderForFeature(feature);
+  const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(primaryBuilder, p.Status) });
+  marker.feature = feature;
+  marker._atlasDirectionsLabel = p.Subdivision || 'Builder Subdivision';
+  applyScopePinLabel(marker, `${p.Subdivision || p.CommunityName || 'Builder Community'} - ${displayBuilder || '—'}`);
+  marker.bindPopup(builderSubdivisionPopupContent(feature), {
+    autoPan: false,
+    autoPanPadding: [8, 8],
+    closeButton: true,
+    className: 'builder-subdivision-popup-shell',
+    offset: [0, -12]
+  });
+  enableMarkerHoverPopup(marker);
+  marker.on('click', () => selectBuilderSubdivision(feature, false));
+  marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
+  return marker;
+}
+
 function buildBuilderLayer() {
   const wasVisible = state.builderLayer && state.map && state.map.hasLayer(state.builderLayer);
   if (state.builderLayer && state.map && state.map.hasLayer(state.builderLayer)) state.map.removeLayer(state.builderLayer);
   state.builderMarkerIndex = new Map();
   state.builderLayer = L.layerGroup();
+  if (!state.builderViewportListenerAdded && state.map) {
+    state.builderViewportListenerAdded = true;
+    state.map.on('moveend zoomend', () => {
+      if (state.buildersLoaded && state.builderLayer && state.map.hasLayer(state.builderLayer)) buildBuilderLayer();
+    });
+  }
+  // Do not instantiate tens of thousands of DOM markers at regional/national
+  // zoom. All records remain loaded/searchable; zooming in loads viewport pins.
+  if (!state.map || state.map.getZoom() < 5) {
+    if (wasVisible) state.builderLayer.addTo(state.map);
+    return;
+  }
+  const bounds = state.map.getBounds().pad(0.04);
   activeBuilderSubdivisions().forEach(feature => {
     const coords = feature.geometry && feature.geometry.coordinates;
     if (!coords || coords.length < 2) return;
-    const p = feature.properties || {};
-    const displayBuilder = displayBuilderList(p.Builder);
-    const primaryBuilder = primaryBuilderForFeature(feature);
-    const marker = L.marker([coords[1], coords[0]], { icon: builderIcon(primaryBuilder, p.Status) });
-    marker.feature = feature;
-    marker._atlasDirectionsLabel = p.Subdivision || 'Builder Subdivision';
-    applyScopePinLabel(marker, `${p.Subdivision || p.CommunityName || 'Builder Community'} - ${displayBuilder || '—'}`);
-    marker.bindPopup(builderSubdivisionPopupContent(feature), {
-      autoPan: false,
-      autoPanPadding: [8, 8],
-      closeButton: true,
-      className: 'builder-subdivision-popup-shell',
-      offset: [0, -12]
-    });
-    enableMarkerHoverPopup(marker);
-    marker.on('popupopen', () => {
-      requestAnimationFrame(() => requestAnimationFrame(() => positionBuilderHoverPopup(marker)));
-    });
-    marker.on('click', () => selectBuilderSubdivision(feature, false));
-    marker.on('dblclick', () => selectBuilderSubdivision(feature, true));
-    state.builderMarkerIndex.set(p.BuilderSubdivisionID, marker);
+    const lat = Number(coords[1]);
+    const lng = Number(coords[0]);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng) || !bounds.contains([lat, lng])) return;
+    const marker = createBuilderMarker(feature);
+    if (!marker) return;
+    state.builderMarkerIndex.set(String(feature.properties?.BuilderSubdivisionID || ''), marker);
     state.builderLayer.addLayer(marker);
   });
   if (wasVisible) state.builderLayer.addTo(state.map);
@@ -5840,14 +5862,42 @@ async function loadBuilders(showLayer = false) {
 }
 
 function selectBuilderSubdivision(builder, zoomTo = false) {
-  if (state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
+  const feature = builder && builder.properties ? builder : null;
+  if (!feature || !state.map) return;
   const toggle = document.getElementById('toggleBuilders');
   if (toggle) toggle.checked = true;
-  const target = state.builderMarkerIndex ? state.builderMarkerIndex.get(builder.properties.BuilderSubdivisionID) : null;
-  if (target) {
-    if (zoomTo) state.map.setView(target.getLatLng(), Math.max(state.map.getZoom(), 13));
-    target.openPopup();
+  if (!state.builderLayer) buildBuilderLayer();
+  if (state.builderLayer && !state.map.hasLayer(state.builderLayer)) state.builderLayer.addTo(state.map);
+  const id = String(feature.properties.BuilderSubdivisionID || '');
+  const openTarget = () => {
+    if (!state.builderMarkerIndex || !state.builderMarkerIndex.has(id)) {
+      // Search can select a nationwide record excluded by display filters or
+      // outside the current viewport; add that one selected marker on demand.
+      const marker = createBuilderMarker(feature);
+      if (marker) {
+        state.builderMarkerIndex.set(id, marker);
+        state.builderLayer.addLayer(marker);
+      }
+    }
+    const target = state.builderMarkerIndex && state.builderMarkerIndex.get(id);
+    if (target) target.openPopup();
+  };
+  const coords = feature.geometry && feature.geometry.coordinates;
+  const lat = Number(coords && coords[1]);
+  const lng = Number(coords && coords[0]);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+  if (zoomTo || !state.builderMarkerIndex?.has(id)) {
+    state.map.once('moveend', () => {
+      buildBuilderLayer();
+      openTarget();
+    });
+    state.map.setView([lat, lng], Math.max(state.map.getZoom(), 12));
+    // setView may not emit moveend if already at the target; this fallback is
+    // harmless because opening a Leaflet popup already open is idempotent.
+    window.setTimeout(() => { buildBuilderLayer(); openTarget(); }, 350);
+    return;
   }
+  openTarget();
 }
 
 function overpassQuery() {
@@ -7905,8 +7955,8 @@ function buildSearchIndex() {
       icon: p.ProductStyle === 'Townhomes' ? 'TH' : 'BD',
       id: p.BuilderSubdivisionID,
       title: p.Subdivision || 'Builder Community',
-      subtitle: `${p.Builder || 'Builder'} • ${p.SubmarketName || ''}`,
-      keywords: `${p.Subdivision || ''} ${p.Builder || ''} ${p.City || ''} ${p.County || ''} ${p.Status || ''} ${p.ProductStyle || ''} ${p.SubmarketName || ''}`.toLowerCase(),
+      subtitle: `${p.Builder || 'Builder'} • ${[p.City, p.State].filter(Boolean).join(', ')}${p.SubmarketID ? ` • ${p.SubmarketName || ''}` : ''}`,
+      keywords: `${p.Subdivision || ''} ${p.CommunityName || ''} ${p.Builder || ''} ${p.Developer || ''} ${p.City || ''} ${p.County || ''} ${p.State || ''} ${p.ZipCode || ''} ${p.CBSA || ''} ${p.Status || ''} ${p.ProductStyle || ''} ${p.SubmarketName || ''}`.toLowerCase(),
       builder
     };
   });
@@ -8734,7 +8784,7 @@ function bindUI() {
     try {
       if (e.target.checked) {
         state.builderFilters.SingleFamily = true;
-        state.builderFilters.Townhomes = false;
+        state.builderFilters.Townhomes = true;
         state.builderFilters.Active = true;
         state.builderFilters.Future = true;
         state.builderFilters.BuiltOut = false;
