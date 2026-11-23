@@ -108,6 +108,15 @@
     .retail-search-suggestion-meta{font-size:10px;color:#64748b;white-space:nowrap}
     .retail-search-suggestion-empty{padding:8px 10px;font-size:11px;color:#64748b}
 
+    .new-deal-popup .new-deal-title-row{display:flex;align-items:center;gap:6px;margin:0 22px 6px 0;min-width:0}
+    .new-deal-popup .new-deal-title{flex:1;min-width:0;margin:0;font-size:15px;color:#0f2437;line-height:1.25;overflow-wrap:anywhere}
+    .new-deal-popup .new-deal-rename-btn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:25px;height:25px;padding:4px;border:1px solid #d0d5dd;border-radius:6px;background:#fff;color:#18385f;cursor:pointer}
+    .new-deal-popup .new-deal-rename-btn:hover,.new-deal-popup .new-deal-rename-btn:focus{background:#eef4fa;outline:2px solid transparent}
+    .new-deal-popup .new-deal-rename-btn svg{width:15px;height:15px;fill:currentColor}
+    .new-deal-popup .new-deal-rename-input{flex:1;min-width:0;width:80px;padding:6px 7px;border:1px solid #8ba6c2;border-radius:6px;font:inherit;font-weight:800;color:#0f2437}
+    .new-deal-popup .new-deal-rename-save{padding:6px 9px;border-radius:6px;background:#18385f;color:#fff;font:inherit;font-size:11px;font-weight:800;cursor:pointer}
+    .new-deal-popup .new-deal-rename-save:disabled{opacity:.65;cursor:wait}
+    .new-deal-popup .new-deal-rename-cancel{flex:0 0 auto;padding:3px 7px;border:1px solid #d0d5dd;border-radius:6px;background:#fff;color:#475467;font-size:17px;line-height:1;cursor:pointer}
     .new-deal-popup-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .new-deal-popup-actions button{min-width:0;white-space:nowrap;font-size:14px;padding:9px 8px}
     .new-deal-popup-actions .new-deal-category-btn{grid-column:1/-1;font-weight:800}
@@ -659,7 +668,7 @@ body.street-view-mode .leaflet-control-container{visibility:hidden}
       const script = document.createElement('script');
       // The current SCOPE application file is deployed at the repository root.
       // Point directly to it so the updated NCES loader is used.
-      script.src = 'app-v2_10_19.js?v=gfc-subdivisions-2026-11-13-1';
+      script.src = 'app-v2_10_19.js?v=new-cold-dead-rename-1';
       script.async = false;
       document.body.appendChild(script);
     };

@@ -2876,12 +2876,24 @@ function subscribeToPrivateNewDeals() {
   if (!state.newDealsFirebaseReady || !newDealAuthorizedUser(state.newDealsUser)) return;
   const db = firebase.firestore();
   state.newDealsUnsubscribe = db.collection(NEW_DEALS_COLLECTION).onSnapshot(snapshot => {
+    const openPopup = state.map && state.map._popup;
+    const openMarker = openPopup && openPopup._source;
+    const openDealId = openMarker && openMarker.options && openMarker.options.newDealId;
+    const popupWasPinned = !!(openMarker && openMarker._atlasPopupPinned);
     state.newDeals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
       .filter(d => Number.isFinite(Number(d.lat)) && Number.isFinite(Number(d.lng)));
     state.newDeals.sort((a,b) => String(a.name||'').localeCompare(String(b.name||'')));
     state.newDealsCloudLoaded = true;
     saveLocalNewDealsBackup();
     rebuildNewDealsLayer();
+    if (openDealId) {
+      requestAnimationFrame(() => {
+        const updatedMarker = findNewDealMarker(openDealId);
+        if (!updatedMarker) return;
+        updatedMarker._atlasPopupPinned = popupWasPinned;
+        updatedMarker.openPopup();
+      });
+    }
     updateNewDealsUI();
   }, err => {
     console.error('Private New Deals Firestore listener failed', err);
@@ -3292,6 +3304,98 @@ async function changeNewDealCategory(deal, requestedCategory) {
   }
 }
 
+function renderNewDealPopupTitle(deal, wrap) {
+  const row = wrap.querySelector('.new-deal-title-row');
+  if (!row) return;
+  row.innerHTML = `
+    <h3 class="new-deal-title">${escapeHtml(deal.name || newDealCategoryLabel(deal))}</h3>
+    <button type="button" class="new-deal-rename-btn" title="Rename pin" aria-label="Rename pin">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 16.5V20h3.5L18.8 8.7l-3.5-3.5L4 16.5Zm17.3-9.8a.93.93 0 0 0 0-1.3l-2.7-2.7a.93.93 0 0 0-1.3 0l-1.7 1.7 3.5 3.5 2.2-1.2Z"/>
+      </svg>
+    </button>`;
+  row.querySelector('.new-deal-rename-btn')?.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof L !== 'undefined' && L.DomEvent) L.DomEvent.stop(event);
+    beginNewDealRename(deal, wrap);
+  });
+}
+
+function beginNewDealRename(deal, wrap) {
+  const row = wrap.querySelector('.new-deal-title-row');
+  if (!row || row.querySelector('.new-deal-rename-input')) return;
+  const originalName = String(deal.name || '').trim();
+  row.innerHTML = `
+    <input class="new-deal-rename-input" type="text" maxlength="120" aria-label="New pin name" value="${escapeHtml(originalName)}">
+    <button type="button" class="new-deal-rename-save">Save</button>
+    <button type="button" class="new-deal-rename-cancel" aria-label="Cancel rename" title="Cancel">×</button>`;
+  const input = row.querySelector('.new-deal-rename-input');
+  const saveButton = row.querySelector('.new-deal-rename-save');
+  const cancelButton = row.querySelector('.new-deal-rename-cancel');
+  const finish = () => renderNewDealPopupTitle(deal, wrap);
+  const cancel = event => {
+    event?.preventDefault();
+    event?.stopPropagation();
+    finish();
+  };
+  cancelButton?.addEventListener('click', cancel);
+  input?.addEventListener('keydown', event => {
+    if (event.key === 'Escape') cancel(event);
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      saveButton?.click();
+    }
+  });
+  saveButton?.addEventListener('click', async event => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof L !== 'undefined' && L.DomEvent) L.DomEvent.stop(event);
+    const nextName = String(input?.value || '').trim();
+    if (!nextName) {
+      input?.setCustomValidity('Enter a name for this pin.');
+      input?.reportValidity();
+      input?.focus();
+      return;
+    }
+    if (nextName === originalName) {
+      finish();
+      return;
+    }
+    if (!await authorizeNewDealEditing()) {
+      if (input?.isConnected) input.focus();
+      return;
+    }
+    saveButton.disabled = true;
+    saveButton.textContent = 'Saving…';
+    try {
+      const updatedAt = new Date().toISOString();
+      await firebase.firestore().collection(NEW_DEALS_COLLECTION).doc(deal.id).update({
+        name: nextName,
+        updatedAt
+      });
+      deal.name = nextName;
+      deal.updatedAt = updatedAt;
+      const marker = findNewDealMarker(deal.id);
+      if (marker) {
+        marker._atlasDirectionsLabel = nextName;
+        marker._scopePinLabelText = nextName;
+        if (marker.getTooltip && marker.getTooltip() && state.builderLabelsVisible) {
+          marker.setTooltipContent(scopePinLabelElement(nextName));
+        }
+      }
+      finish();
+    } catch (err) {
+      console.error('Private deal rename failed', err);
+      saveButton.disabled = false;
+      saveButton.textContent = 'Save';
+      alert(`Pin name could not be updated: ${err.message || err}`);
+    }
+  });
+  input?.focus();
+  input?.select();
+}
+
 function newDealPopupContent(deal) {
   const wrap = document.createElement('div');
   wrap.className = 'builder-popup new-deal-popup';
@@ -3312,7 +3416,7 @@ function newDealPopupContent(deal) {
     .map(target => `<button type="button" class="new-deal-category-btn" data-target-category="${target}">Change to ${newDealCategoryLabel(target)}</button>`)
     .join('');
   const isSelected = newDealIsSelected(deal);
-  wrap.innerHTML = `<h3>${escapeHtml(deal.name || categoryLabel)}</h3>
+  wrap.innerHTML = `<div class="new-deal-title-row"></div>
     <p><b>Category:</b> ${categoryLabel}</p>
     <p><b>Coordinates:</b> ${Number(deal.lat).toFixed(5)}, ${Number(deal.lng).toFixed(5)}</p>
     <p><b>City:</b> ${cityText}</p><p><b>Submarket:</b> ${submarketText}</p>
@@ -3324,6 +3428,7 @@ function newDealPopupContent(deal) {
       ${conversionButtons}
       <button type="button" class="new-deal-select-btn${isSelected ? ' selected' : ''}" aria-pressed="${isSelected ? 'true' : 'false'}">${isSelected ? 'Selected' : 'Select'}</button>
     </div>`;
+  renderNewDealPopupTitle(deal, wrap);
   wrap.querySelectorAll('.new-deal-preview-btn').forEach(btn => {
     btn.addEventListener('click', (event) => {
       event.preventDefault();
